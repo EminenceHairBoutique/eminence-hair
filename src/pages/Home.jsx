@@ -19,7 +19,7 @@ import db4 from "../assets/db4.png";
 import db5 from "../assets/db5.png";
 import db6 from "../assets/db6.png";
 
-import heroVideo from "../assets/videos/eminence_hero.mp4"; // <-- make sure this path/name matches your file
+import heroVideo from "../assets/videos/Eminence_hero.mp4"; // <-- make sure this path/name matches your file
 import PageTransition from "../components/PageTransition.jsx";
 
 

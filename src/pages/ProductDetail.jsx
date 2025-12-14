@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import {
   ChevronLeft,
   Minus,
   Plus,
   ChevronDown,
   Check,
+  QrCode,
 } from "lucide-react";
 import products from "../data/products";
 import { useCart } from "../context/CartContext";
@@ -17,6 +18,35 @@ const formatMoney = (n) =>
 
 const ratingValue = 4.8;
 const ratingCount = 182;
+
+/* ---------------- structured data ---------------- */
+function ProductStructuredData({ product }) {
+  if (!product) return null;
+
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    sku: product.verificationCode,
+    brand: {
+      "@type": "Brand",
+      name: "Eminence Hair",
+    },
+    additionalProperty: {
+      "@type": "PropertyValue",
+      name: "Third-Party Verified",
+      value: "Independently inspected by accredited laboratory",
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
 
 /* ---------------- accordion ---------------- */
 function Accordion({ title, children }) {
@@ -65,7 +95,6 @@ export default function ProductDetail() {
   const [lace, setLace] = useState(null);
   const [capSize, setCapSize] = useState(null);
 
-  /* ---- custom wig ---- */
   const [isCustom, setIsCustom] = useState(false);
   const [customNotes, setCustomNotes] = useState("");
 
@@ -110,8 +139,9 @@ export default function ProductDetail() {
 
   return (
     <div className="pt-28 pb-24 bg-[#FBF6ED]">
-      <div className="max-w-7xl mx-auto px-6">
+      <ProductStructuredData product={product} />
 
+      <div className="max-w-7xl mx-auto px-6">
         <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-xs text-neutral-600 mb-6"
@@ -139,22 +169,38 @@ export default function ProductDetail() {
               ))}
             </div>
 
-            <div className="flex-1 rounded-[2rem] overflow-hidden border bg-white">
+            {/* main image with QR */}
+            <div className="relative flex-1 rounded-[2rem] overflow-hidden border bg-white">
               <img
                 src={images[activeImage]}
                 className="w-full h-full object-cover"
               />
+
+              {product.verificationCode && (
+                <Link
+                  to={`/verify?code=${product.verificationCode}`}
+                  className="absolute bottom-4 right-4 rounded-full bg-white/90 backdrop-blur p-3 border hover:bg-white"
+                  aria-label="Scan to verify authenticity"
+                >
+                  <QrCode className="w-5 h-5 text-neutral-900" />
+                </Link>
+              )}
             </div>
           </div>
 
           {/* details */}
           <div className="lg:col-span-5 bg-white rounded-[2rem] border p-7">
-
             <p className="text-xs tracking-[0.25em] text-neutral-500 uppercase">
               {product.collection}
             </p>
 
             <h1 className="mt-2 text-3xl font-light">{product.name}</h1>
+
+            {product.verificationCode && (
+              <p className="mt-2 text-[11px] tracking-[0.26em] uppercase text-neutral-500">
+                Serial · {product.verificationCode}
+              </p>
+            )}
 
             <div className="mt-3 flex items-center gap-2 text-xs text-neutral-600">
               ★ ★ ★ ★ ★ {ratingValue} / 5 ({ratingCount})
@@ -172,8 +218,6 @@ export default function ProductDetail() {
 
             {/* options */}
             <div className="mt-8 space-y-6">
-
-              {/* length */}
               {product.lengths && (
                 <OptionGroup
                   label="Length"
@@ -184,7 +228,6 @@ export default function ProductDetail() {
                 />
               )}
 
-              {/* wig-only */}
               {isWig && (
                 <>
                   <OptionGroup
@@ -209,7 +252,6 @@ export default function ProductDetail() {
                     onChange={setCapSize}
                   />
 
-                  {/* custom wig */}
                   <div className="border rounded-xl p-4">
                     <label className="flex items-center gap-2 text-xs cursor-pointer">
                       <input
@@ -232,7 +274,6 @@ export default function ProductDetail() {
                 </>
               )}
 
-              {/* quantity + add */}
               <div className="flex items-center gap-3">
                 <div className="flex items-center border rounded-full">
                   <button
@@ -263,12 +304,10 @@ export default function ProductDetail() {
                 </button>
               </div>
 
-              {/* 🔐 Scan to Verify — ADDITIVE ONLY */}
+              {/* Scan to Verify */}
               <ScanToVerify code={product.verificationCode} />
-
             </div>
 
-            {/* accordions */}
             <div className="mt-10">
               <Accordion title="Product Description">
                 {product.description}
@@ -280,7 +319,6 @@ export default function ProductDetail() {
                 Ships within 2–3 business days. Custom wigs are final sale.
               </Accordion>
             </div>
-
           </div>
         </div>
       </div>
