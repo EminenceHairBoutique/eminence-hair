@@ -42,10 +42,14 @@ export function CartProvider({ children }) {
       cartKey: `${String(item.id)}::${variant}`,
 
       // normalize common option names (Checkout + drawer friendliness)
-      selectedLength: item.selectedLength ?? item.length ?? "",
-      selectedDensity: item.selectedDensity ?? item.density ?? "",
+      selectedLength:
+        item.selectedLength ?? item.length ?? null,
+      selectedDensity:
+        item.selectedDensity ?? item.density ?? null,
+
       image: item.image || item.img || item.photo || fallbackImage,
       name: item.name || item.title || "Item",
+      price: Number(item.price || 0),
     };
 
     setCartItems((prev) => {
@@ -55,7 +59,10 @@ export function CartProvider({ children }) {
 
       if (idx >= 0) {
         const copy = [...prev];
-        copy[idx] = { ...copy[idx], quantity: copy[idx].quantity + normalized.quantity };
+        copy[idx] = {
+          ...copy[idx],
+          quantity: copy[idx].quantity + normalized.quantity,
+        };
         return copy;
       }
 

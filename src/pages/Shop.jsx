@@ -5,10 +5,20 @@ import { useCart } from "../context/CartContext";
 
 import firstPage from "../assets/first_page.png";
 
-const getMinLength = (p) => Math.min(...p.lengths);
-const getMinDensity = (p) => Math.min(...p.densities);
-const getStartingPrice = (p) =>
-  p.price(getMinLength(p), getMinDensity(p));
+const safeMin = (arr, fallback = null) => {
+  if (!Array.isArray(arr) || arr.length === 0) return fallback;
+  return Math.min(...arr);
+};
+
+const getMinLength = (p) => safeMin(p.lengths, p.defaultLength ?? null);
+const getMinDensity = (p) => safeMin(p.densities, p.defaultDensity ?? null);
+
+const getStartingPrice = (p) => {
+  const L = getMinLength(p);
+  const D = getMinDensity(p);
+  if (typeof p.price === "function" && L != null && D != null) return Number(p.price(L, D) || 0);
+  return Number(p.basePrice ?? p.fromPrice ?? p.price ?? 0);
+};
 
 export default function Shop() {
   const { addToCart } = useCart();
@@ -96,9 +106,7 @@ export default function Shop() {
         <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500 mb-4">
           Eminence Hair
         </p>
-        <h1 className="text-4xl font-light mb-6">
-          Bundles & Extensions
-        </h1>
+        <h1 className="text-4xl font-light mb-6">Bundles & Extensions</h1>
         <p className="max-w-md mx-auto text-neutral-600 leading-relaxed">
           Our premium bundles and extensions are currently in development.
           Crafted to the same standards as our wigs — launching soon.
@@ -130,21 +138,32 @@ export default function Shop() {
       : "Raw Cambodian & SEA hair, Burmese deep waves, and signature color units built with 180–250% density.";
 
   /* ─────────────────────────────
-     QUICK ADD
+     QUICK ADD (FIXED: includes length/density)
   ───────────────────────────── */
   const handleQuickAdd = (product) => {
     const length = getMinLength(product);
     const density = getMinDensity(product);
-    const price = product.price(length, density);
+
+    const price =
+      typeof product.price === "function" && length != null && density != null
+        ? Number(product.price(length, density) || 0)
+        : Number(product.basePrice ?? product.fromPrice ?? product.price ?? 0);
 
     setAddingId(product.id);
 
     addToCart({
       id: product.id,
-      variant: `${length}-${density}`,
+      variant: length != null && density != null ? `${length}-${density}` : "standard",
       name: product.name,
       price,
-      image: product.images[0],
+      image: product.images?.[0],
+
+      // ✅ These prevent “-/-” or blank meta in bag/checkout:
+      length,
+      density,
+      selectedLength: length,
+      selectedDensity: density,
+
       quantity: 1,
     });
 
@@ -154,7 +173,6 @@ export default function Shop() {
   return (
     <div className="pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">
       <div className="max-w-7xl mx-auto px-6 space-y-10">
-
         {/* HERO */}
         <section className="grid md:grid-cols-[1.4fr,1fr] gap-8 items-center rounded-3xl border border-white/60 bg-gradient-to-r from-[#F6ECE1] via-[#F9F7F4] to-[#F4EBDF] shadow-[0_22px_50px_rgba(17,12,5,0.20)] px-6 md:px-10 py-8 md:py-10">
           <div className="space-y-4">
@@ -164,9 +182,7 @@ export default function Shop() {
             <h1 className="text-3xl md:text-4xl font-light tracking-wide max-w-xl">
               {heroTitle}
             </h1>
-            <p className="text-sm text-neutral-700 max-w-xl">
-              {heroSubtitle}
-            </p>
+            <p className="text-sm text-neutral-700 max-w-xl">{heroSubtitle}</p>
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
@@ -234,7 +250,8 @@ export default function Shop() {
                         {p.name}
                       </Link>
                       <p className="text-xs text-neutral-600">
-                        {p.texture} • from {minLength}" • {minDensity}%
+                        {p.texture} • from {minLength != null ? `${minLength}"` : "—"} •{" "}
+                        {minDensity != null ? `${minDensity}%` : "—"}
                       </p>
                     </div>
 
@@ -244,11 +261,12 @@ export default function Shop() {
                           From
                         </p>
                         <p className="text-sm font-medium text-neutral-900">
-                          ${startingPrice.toFixed(0)}
+                          ${Number(startingPrice || 0).toFixed(0)}
                         </p>
                       </div>
 
                       <button
+                        type="button"
                         onClick={() => handleQuickAdd(p)}
                         disabled={addingId === p.id}
                         className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900 disabled:bg-neutral-500"
