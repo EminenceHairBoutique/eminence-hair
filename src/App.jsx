@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 // Layout
 import Navbar from "./components/Navbar";
@@ -27,7 +27,7 @@ import Verify from "./pages/Verify";
 
 export default function App() {
   return (
-    <Router>
+    <>
       <Navbar />
       <CartDrawer />
 
@@ -74,6 +74,6 @@ export default function App() {
       </Routes>
 
       <Footer />
-    </Router>
+    </>
   );
 }
