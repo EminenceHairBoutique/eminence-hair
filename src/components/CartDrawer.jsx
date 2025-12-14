@@ -8,33 +8,26 @@ const money = (n) =>
 export default function CartDrawer() {
   const cart = useCart();
 
-const isOpen = cart.isOpen ?? cart.isCartOpen ?? false;
-const closeCart =
-  cart.closeCart ??
-  (() => cart.setIsOpen?.(false) ?? cart.setIsCartOpen?.(false));
-const items = cart.items ?? cart.cartItems ?? [];
-const total = cart.total ?? cart.cartTotal ?? 0;
-const removeItem =
-  cart.removeItem ?? cart.removeFromCart ?? (() => {});
-const updateQty =
-  cart.updateQty ?? cart.updateQuantity ?? (() => {});
+  const isOpen = cart.isOpen ?? false;
+  const closeCart = cart.closeCart ?? (() => {});
+  const items = cart.items ?? [];
+  const total = cart.total ?? 0;
+  const removeItem = cart.removeItem ?? (() => {});
+  const updateQty = cart.updateQuantity ?? (() => {});
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50">
-      {/* backdrop */}
       <div
         onClick={closeCart}
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
       />
 
-      {/* drawer */}
       <aside className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-[0_0_80px_rgba(0,0,0,0.35)] flex flex-col">
-
         {/* header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-200">
-          <p className="text-sm tracking-[0.22em] uppercase text-neutral-700">
+        <div className="flex items-center justify-between px-6 py-5 border-b">
+          <p className="text-sm tracking-[0.22em] uppercase">
             Shopping Bag
           </p>
           <button onClick={closeCart}>
@@ -58,19 +51,27 @@ const updateQty =
                 />
 
                 <div className="flex-1">
-                  <p className="text-sm text-neutral-900">
-                    {item.name}
-                  </p>
+                  <p className="text-sm">{item.name}</p>
 
                   <p className="text-xs text-neutral-500 mt-1">
-                    {item.selectedLength}" · {item.selectedDensity}% · Qty {item.quantity}
+                    {item.selectedLength && `${item.selectedLength}"`}
+                    {item.selectedDensity && ` · ${item.selectedDensity}%`}
+                    {item.laceType && ` · ${item.laceType}`}
+                    {item.capSize && ` · ${item.capSize}`}
+                    {` · Qty ${item.quantity}`}
                   </p>
+
+                  {item.isCustom && (
+                    <p className="mt-1 text-[11px] uppercase tracking-widest text-neutral-500">
+                      Crafted to Order · Final Sale
+                    </p>
+                  )}
 
                   <div className="mt-3 flex items-center gap-3">
                     <div className="flex items-center border rounded-full">
                       <button
                         onClick={() =>
-                          updateQty(item.cartKey, Math.max(1, item.quantity - 1))
+                          updateQty(item.id, item.variant, Math.max(1, item.quantity - 1))
                         }
                         className="px-3 py-1"
                       >
@@ -83,7 +84,7 @@ const updateQty =
 
                       <button
                         onClick={() =>
-                          updateQty(item.cartKey, item.quantity + 1)
+                          updateQty(item.id, item.variant, item.quantity + 1)
                         }
                         className="px-3 py-1"
                       >
@@ -92,7 +93,7 @@ const updateQty =
                     </div>
 
                     <button
-                      onClick={() => removeItem(item.cartKey)}
+                      onClick={() => removeItem(item.id, item.variant)}
                       className="text-xs text-neutral-500 hover:text-neutral-900"
                     >
                       Remove
@@ -100,7 +101,7 @@ const updateQty =
                   </div>
                 </div>
 
-                <p className="text-sm text-neutral-900">
+                <p className="text-sm">
                   {money(item.price * item.quantity)}
                 </p>
               </div>
@@ -109,8 +110,7 @@ const updateQty =
         </div>
 
         {/* footer */}
-        <div className="border-t border-neutral-200 px-6 py-6 space-y-5">
-
+        <div className="border-t px-6 py-6 space-y-5">
           <div className="flex justify-between text-sm">
             <span>Subtotal</span>
             <span>{money(total)}</span>

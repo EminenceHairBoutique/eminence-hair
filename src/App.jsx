@@ -1,77 +1,109 @@
-import { Routes, Route } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { useCart } from "./context/CartContext";
+import DiscountModal from "./components/DiscountModal";
 
-// Layout
+
+// Layout (unchanged)
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import CartDrawer from "./components/CartDrawer";
+import ScrollToTop from "./components/ScrollToTop";
 
-// Core pages
-import Home from "./pages/Home";
-import Shop from "./pages/Shop";
-import ProductDetail from "./pages/ProductDetail";
-import Gallery from "./pages/Gallery";
-import Collections from "./pages/Collections";
-import CollectionDetail from "./pages/CollectionDetail";
-import Checkout from "./pages/Checkout";
-import Account from "./pages/Account";
+// Safety + loading
+import ErrorBoundary from "./components/ErrorBoundary";
+import RouteSkeleton from "./components/RouteSkeleton";
 
-// Trust & content
-import Authenticity from "./pages/Authenticity";
-import Care from "./pages/Care";
-import About from "./pages/About";
-import Faqs from "./pages/Faqs";
-import Contact from "./pages/Contact";
-
-// Verification (QR)
-import Verify from "./pages/Verify";
+// 🔹 Lazy-loaded pages (same pages, no logic change)
+const Home = lazy(() => import("./pages/Home"));
+const Shop = lazy(() => import("./pages/Shop"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail"));
+const Gallery = lazy(() => import("./pages/Gallery"));
+const Collections = lazy(() => import("./pages/Collections"));
+const CollectionDetail = lazy(() => import("./pages/CollectionDetail"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const Account = lazy(() => import("./pages/Account"));
+const Authenticity = lazy(() => import("./pages/Authenticity"));
+const Care = lazy(() => import("./pages/Care"));
+const About = lazy(() => import("./pages/About"));
+const Faqs = lazy(() => import("./pages/Faqs"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Verify = lazy(() => import("./pages/Verify"));
+const OrderConfirmation = lazy(() => import("./pages/OrderConfirmation"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 export default function App() {
+  const location = useLocation();
+  const { isOpen: isCartOpen } = useCart();
+
   return (
     <>
       <Navbar />
       <CartDrawer />
+      <DiscountModal />
+      <ScrollToTop />
 
-      <Routes>
-        {/* Core */}
-        <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/shop/wigs" element={<Shop />} />
-        <Route path="/shop/bundles" element={<Shop />} />
-        <Route path="/products/:slug" element={<ProductDetail />} />
+      {/* GLOBAL PAGE BLUR WHEN CART OPEN */}
+      <div
+        className={`transition-all duration-300 ${
+          isCartOpen ? "blur-sm pointer-events-none select-none" : ""
+        }`}
+      >
+        <ErrorBoundary>
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              {[
+                ["/", <Home />],
+                ["/shop", <Shop />],
+                ["/shop/wigs", <Shop />],
+                ["/shop/bundles", <Shop />],
+                ["/products/:slug", <ProductDetail />],
+                ["/gallery", <Gallery />],
+                ["/collections", <Collections />],
+                ["/collections/:slug", <CollectionDetail />],
+                ["/checkout", <Checkout />],
+                ["/order-confirmation", <OrderConfirmation />],
+                ["/account", <Account />],
+                ["/authenticity", <Authenticity />],
+                ["/care", <Care />],
+                ["/about", <About />],
+                ["/faqs", <Faqs />],
+                ["/contact", <Contact />],
+                ["/verify", <Verify />],
+                ["*", <NotFound />],
+              ].map(([path, element]) => (
+                <Route
+                  key={path}
+                  path={path}
+                  element={
+                    <motion.div
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -12 }}
+                      transition={{ duration: 0.35, ease: "easeOut" }}
+                    >
+                      <Suspense fallback={<RouteSkeleton />}>
+                        {element}
+                      </Suspense>
+                    </motion.div>
+                  }
+                />
+              ))}
 
-        {/* Gallery */}
-        <Route path="/gallery" element={<Gallery />} />
-
-        {/* Collections */}
-        <Route path="/collections" element={<Collections />} />
-        <Route path="/collections/:slug" element={<CollectionDetail />} />
-
-        {/* Checkout */}
-        <Route path="/checkout" element={<Checkout />} />
-
-        {/* Account */}
-        <Route path="/account" element={<Account />} />
-
-        {/* Trust / Content */}
-        <Route path="/authenticity" element={<Authenticity />} />
-        <Route path="/care" element={<Care />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/faqs" element={<Faqs />} />
-        <Route path="/contact" element={<Contact />} />
-
-        {/* Verification */}
-        <Route path="/verify" element={<Verify />} />
-
-        {/* Fallback */}
-        <Route
-          path="*"
-          element={
-            <div className="pt-40 pb-40 text-center">
-              <h1 className="text-2xl font-light">Page not found</h1>
-            </div>
-          }
-        />
-      </Routes>
+              {/* Fallback */}
+              <Route
+                path="*"
+                element={
+                  <div className="pt-40 pb-40 text-center">
+                    <h1 className="text-2xl font-light">Page not found</h1>
+                  </div>
+                }
+              />
+            </Routes>
+          </AnimatePresence>
+        </ErrorBoundary>
+      </div>
 
       <Footer />
     </>

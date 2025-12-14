@@ -1,6 +1,6 @@
 // src/pages/Home.jsx — Extended Luxury Homepage
 
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import hero from "../assets/hero.jpg.png";
@@ -21,6 +21,8 @@ import db6 from "../assets/db6.png";
 
 import heroVideo from "../assets/videos/Eminence_hero.mp4"; // <-- make sure this path/name matches your file
 import PageTransition from "../components/PageTransition.jsx";
+import SEO from "../components/SEO.jsx";
+
 
 
 const Home = () => {
@@ -34,10 +36,13 @@ const Home = () => {
       // Ensure playback resumes on some browsers
       videoRef.current.play().catch(() => {});
     }
-  };
+};
 
-  return (
-    <PageTransition>
+return (
+  <PageTransition>
+      title="Luxury Raw Hair & HD Lace Wigs"
+      description="Eminence Hair Boutique — ethically sourced Cambodian & SEA hair crafted like couture."
+    
     <div className="bg-[#F9F7F4] text-[#111]">
       {/* SECTION A — IMAGE HERO */}
       <section className="relative h-[80vh] min-h-[520px] w-full overflow-hidden">
@@ -492,7 +497,7 @@ const Home = () => {
         </div>
       </section>
     </div>
-    </PageTransition>
+      </PageTransition>
   );
 };
 

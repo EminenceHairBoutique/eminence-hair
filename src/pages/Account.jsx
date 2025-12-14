@@ -1,6 +1,8 @@
-// src/pages/Account.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
+import { useUser } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import AccountDashboard from "../components/account/AccountDashboard";
 
 const TabButton = ({ active, children, onClick }) => (
   <Button
@@ -28,11 +30,70 @@ const Input = ({ label, ...props }) => (
 export default function Account() {
   const [tab, setTab] = useState("signin");
 
+  const { user, login, register, loginWithGoogle, logout } = useUser();
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  /* 🔁 redirect once authenticated */
+  useEffect(() => {
+    if (user) {
+      navigate("/account");
+    }
+  }, [user, navigate]);
+
+  const handleLogin = async () => {
+    setError("");
+    setLoading(true);
+    try {
+      await login({ email, password });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRegister = async () => {
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    setError("");
+    setLoading(true);
+    try {
+      await register({ email, password });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /* =========================
+     LOGGED-IN DASHBOARD
+  ========================= */
+
+  if (user) {
+  return <AccountDashboard />;
+  }
+
+  /* =========================
+     AUTH UI (UNCHANGED)
+  ========================= */
+
   return (
     <div className="pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">
       <div className="max-w-md mx-auto px-6">
         <div className="mb-8 text-center">
-          <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-600">Account</p>
+          <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-600">
+            Account
+          </p>
           <h1 className="text-3xl font-light tracking-wide">Welcome</h1>
         </div>
 
@@ -45,45 +106,65 @@ export default function Account() {
           </TabButton>
         </div>
 
-        <div className="rounded-3xl border border-white/70 bg-white/60 backdrop-blur-xl
-                        shadow-[0_18px_40px_rgba(15,10,5,0.18)] p-6 space-y-5">
+        <div className="rounded-3xl border border-white/70 bg-white/60 backdrop-blur-xl shadow-[0_18px_40px_rgba(15,10,5,0.18)] p-6 space-y-5">
           {tab === "signin" && (
             <>
-              <Input label="Email" type="email" placeholder="you@example.com" />
-              <Input label="Password" type="password" placeholder="••••••••" />
+              <Input
+                label="Email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Input
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
 
-              <Button
-                type="button"
-                className="w-full mt-2 py-3 h-auto rounded-full bg-neutral-900 text-[#F9F7F4]
-                           text-[11px] tracking-[0.26em] uppercase hover:bg-black transition"
-              >
+              <Button onClick={handleLogin} disabled={loading} className="w-full">
                 Sign In
               </Button>
 
-              <p className="text-xs text-neutral-600 text-center mt-2">
-                Secure access to your orders and preferences.
-              </p>
+              <Button variant="outline" onClick={loginWithGoogle} className="w-full">
+                Continue with Google
+              </Button>
             </>
           )}
 
           {tab === "create" && (
             <>
-              <Input label="Email" type="email" placeholder="you@example.com" />
-              <Input label="Password" type="password" placeholder="Create a password" />
-              <Input label="Confirm Password" type="password" placeholder="Repeat password" />
+              <Input
+                label="Email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Input
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Input
+                label="Confirm Password"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
 
-              <Button
-                type="button"
-                className="w-full mt-2 py-3 h-auto rounded-full bg-neutral-900 text-[#F9F7F4]
-                           text-[11px] tracking-[0.26em] uppercase hover:bg-black transition"
-              >
+              <Button onClick={handleRegister} disabled={loading} className="w-full">
                 Create Account
               </Button>
 
-              <p className="text-xs text-neutral-600 leading-relaxed text-center mt-2">
-                Account features are live. Order history and saved preferences will expand as we launch additional features.
-              </p>
+              <Button variant="outline" onClick={loginWithGoogle} className="w-full">
+                Continue with Google
+              </Button>
             </>
+          )}
+
+          {error && (
+            <p className="text-xs text-red-600 text-center pt-2">{error}</p>
           )}
         </div>
       </div>
