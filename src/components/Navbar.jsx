@@ -47,26 +47,31 @@ export default function Navbar() {
   /* ─────────────────────────────
      Outside click + ESC
   ───────────────────────────── */
-  useEffect(() => {
-    function handleClick(e) {
-      if (navRef.current && !navRef.current.contains(e.target)) {
-        setOpenMenu(null);
-        setMobileOpen(false);
+    useEffect(() => {
+      function handleClick(e) {
+        // On mobile, let the overlay + links handle closing
+        if (mobileOpen) return;
+
+        if (navRef.current && !navRef.current.contains(e.target)) {
+          setOpenMenu(null);
+        }
       }
-    }
-    function handleKey(e) {
-      if (e.key === "Escape") {
-        setOpenMenu(null);
-        setMobileOpen(false);
+
+      function handleKey(e) {
+        if (e.key === "Escape") {
+          setOpenMenu(null);
+          setMobileOpen(false);
+        }
       }
-    }
-    document.addEventListener("mousedown", handleClick);
-    document.addEventListener("keydown", handleKey);
-    return () => {
-      document.removeEventListener("mousedown", handleClick);
-      document.removeEventListener("keydown", handleKey);
-    };
-  }, []);
+
+      document.addEventListener("mousedown", handleClick);
+      document.addEventListener("keydown", handleKey);
+
+      return () => {
+        document.removeEventListener("mousedown", handleClick);
+        document.removeEventListener("keydown", handleKey);
+      };
+    }, [mobileOpen]);
 
   /* ─────────────────────────────
      Desktop hover helpers
