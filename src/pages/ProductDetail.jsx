@@ -1,12 +1,14 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { ChevronLeft, Minus, Plus, ChevronDown, Check, QrCode, X } from "lucide-react";
+import { motion } from "framer-motion";
 
 // ✅ FIX: match Shop’s named export pattern
 import { products } from "../data/products";
 
 import { useCart } from "../context/CartContext";
 import ScanToVerify from "../components/ScanToVerify";
+import ImageZoomModal from "../components/ImageZoomModal";
 import { applyCustomPricing } from "../utils/pricing";
 
 
@@ -215,18 +217,10 @@ const price = pricing.price;
 
                 {/* main image with QR + zoom */}
                 <div className="relative flex-1 rounded-[2rem] overflow-hidden border bg-white group">
-                  <button
-                    type="button"
-                    onClick={() => setZoomOpen(true)}
-                    className="absolute top-4 right-4 z-10 px-4 py-2 text-[10px] tracking-[0.22em] uppercase rounded-full bg-white/90 border backdrop-blur hover:bg-white transition"
-                  >
-                    Zoom
-                  </button>
-
-                  <img
+                  <motion.img
                     src={images[activeImage]}
-                    alt={product.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    onClick={() => setZoomOpen(true)}
+                    className="w-full h-full object-cover cursor-zoom-in transition-transform duration-500 group-hover:scale-[1.03]"
                   />
 
                   {product.verificationCode && (
@@ -368,30 +362,11 @@ const price = pricing.price;
       </div>
 
       {/* Zoom modal (no layout change) */}
-      {zoomOpen && (
-        <div
-          className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm flex items-center justify-center p-6"
-          onClick={() => setZoomOpen(false)}
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="relative max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
-            <button
-              type="button"
-              className="absolute -top-4 -right-4 bg-white rounded-full p-2 border shadow"
-              onClick={() => setZoomOpen(false)}
-              aria-label="Close"
-            >
-              <X className="w-4 h-4" />
-            </button>
-            <img
-              src={images[activeImage]}
-              alt={product.name}
-              className="w-full max-h-[80vh] object-contain rounded-3xl bg-white"
-            />
-          </div>
-        </div>
-      )}
+      <ImageZoomModal
+        src={images[activeImage]}
+        open={zoomOpen}
+        onClose={() => setZoomOpen(false)}
+      />
     </div>
   );
 }

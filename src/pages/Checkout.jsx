@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Lock } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import StripeProvider from "../components/StripeProvider";
+
 
 const money = (n) =>
   `$${Number(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
@@ -47,13 +49,15 @@ export default function Checkout() {
                 <div className="h-24 rounded-2xl bg-black/10 animate-pulse" />
               </div>
             ) : (
-              <div className="space-y-6">
-                <div className="border border-neutral-200 rounded-2xl bg-white p-6">
-                  <p className="text-sm text-neutral-500">
-                    Checkout form will be connected at payment-integration stage.
-                  </p>
+              <StripeProvider>
+                <div className="space-y-6">
+                  <div className="border border-neutral-200 rounded-2xl bg-white p-6">
+                    <p className="text-sm text-neutral-500">
+                      Checkout form will be connected at payment-integration stage.
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </StripeProvider>
             )}
           </div>
 

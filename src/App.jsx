@@ -3,12 +3,14 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCart } from "./context/CartContext";
 import DiscountModal from "./components/DiscountModal";
+import CookieBanner from "./components/legal/CookieBanner";
+const CartDrawer = lazy(() => import("./components/CartDrawer"));
+import useRouteAnalytics from "./hooks/useRouteAnalytics";
 
 
 // Layout (unchanged)
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import CartDrawer from "./components/CartDrawer";
 import ScrollToTop from "./components/ScrollToTop";
 
 // Safety + loading
@@ -32,15 +34,24 @@ const Contact = lazy(() => import("./pages/Contact"));
 const Verify = lazy(() => import("./pages/Verify"));
 const OrderConfirmation = lazy(() => import("./pages/OrderConfirmation"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/Terms"));
+
+const consent = JSON.parse(
+  localStorage.getItem("eminence_cookie_consent")
+);
 
 export default function App() {
+  useRouteAnalytics();
   const location = useLocation();
   const { isOpen: isCartOpen } = useCart();
 
   return (
     <>
       <Navbar />
-      <CartDrawer />
+      <Suspense fallback={null}>
+        <CartDrawer />
+      </Suspense>
       <DiscountModal />
       <ScrollToTop />
 
@@ -70,6 +81,8 @@ export default function App() {
                 ["/about", <About />],
                 ["/faqs", <Faqs />],
                 ["/contact", <Contact />],
+                ["/privacy", <Privacy />],
+                ["/terms", <Terms />],
                 ["/verify", <Verify />],
                 ["*", <NotFound />],
               ].map(([path, element]) => (
@@ -105,6 +118,7 @@ export default function App() {
         </ErrorBoundary>
       </div>
 
+      <CookieBanner />
       <Footer />
     </>
   );

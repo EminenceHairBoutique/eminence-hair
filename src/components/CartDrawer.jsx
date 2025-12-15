@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { X, Minus, Plus, Lock } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { motion } from "framer-motion";
 
 const money = (n) =>
   `$${Number(n).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
@@ -19,12 +20,20 @@ export default function CartDrawer() {
 
   return (
     <div className="fixed inset-0 z-50">
-      <div
-        onClick={closeCart}
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-      />
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+          onClick={closeCart}
+        />
+      )}
 
-      <aside className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-[0_0_80px_rgba(0,0,0,0.35)] flex flex-col">
+      <motion.aside
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ type: "spring", stiffness: 260, damping: 28 }}
+        className="fixed right-0 top-0 h-full w-[420px] z-50 bg-white"
+      >
         {/* header */}
         <div className="flex items-center justify-between px-6 py-5 border-b">
           <p className="text-sm tracking-[0.22em] uppercase">
@@ -137,7 +146,7 @@ export default function CartDrawer() {
             Secure & encrypted checkout
           </div>
         </div>
-      </aside>
+      </motion.aside>
     </div>
   );
 }

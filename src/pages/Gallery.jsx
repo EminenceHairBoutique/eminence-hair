@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { X } from "lucide-react";
 import gallerySections from "../data/gallerySections";
+import LazyImage from "../components/LazyImage";
 
 const FILTERS = {
   Texture: ["All", "BodyWave", "WaterWave", "DeepWave", "LooseWave", "Straight", "Curly"],
@@ -107,7 +108,7 @@ export default function Gallery() {
               className="group text-left"
             >
               <div className="aspect-[3/4] rounded-3xl overflow-hidden border border-neutral-200 bg-white shadow-[0_18px_40px_rgba(15,10,5,0.22)]">
-                <img
+                <LazyImage
                   src={item.src}
                   alt={item.caption}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -174,7 +175,7 @@ export default function Gallery() {
             >
               <X className="w-5 h-5" />
             </button>
-            <img
+            <LazyImage
               src={lightbox.src}
               alt=""
               className="w-full max-h-[80vh] object-contain bg-neutral-100"

@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect } from "react";
 import { Link, useSearchParams, useLocation } from "react-router-dom";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
+import { prefetchRoute } from "../utils/prefetch";
 
 import firstPage from "../assets/first_page.png";
 
@@ -19,6 +20,9 @@ const getStartingPrice = (p) => {
   if (typeof p.price === "function" && L != null && D != null) return Number(p.price(L, D) || 0);
   return Number(p.basePrice ?? p.fromPrice ?? p.price ?? 0);
 };
+
+const prefetchProduct = () => import("./ProductDetail");
+const prefetchCheckout = () => import("./Checkout");
 
 export default function Shop() {
   const { addToCart, isOpen } = useCart();
@@ -232,6 +236,7 @@ export default function Shop() {
                           </p>
                           <Link
                             to={`/products/${p.slug}`}
+                            onMouseEnter={() => prefetchRoute(prefetchProduct)}
                             className="block text-sm font-medium tracking-[0.02em] text-neutral-900"
                           >
                             {p.name}
@@ -266,6 +271,14 @@ export default function Shop() {
               </div>
             )}
           </section>
+
+          <Link
+            to="/checkout"
+            onMouseEnter={() => prefetchRoute(prefetchCheckout)}
+            className="inline-block px-8 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] border border-neutral-900 bg-neutral-900 text-[#F9F7F4] hover:bg-transparent hover:text-neutral-900 transition"
+          >
+            Checkout
+          </Link>
         </div>
       </div>
     </div>
