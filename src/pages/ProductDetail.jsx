@@ -3,13 +3,13 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { ChevronLeft, Minus, Plus, ChevronDown, Check, QrCode, X } from "lucide-react";
 import { motion } from "framer-motion";
 
-// ✅ FIX: match Shop’s named export pattern
+// ✅ FIX: match Shop's named export pattern
 import { products } from "../data/products";
 
 import { useCart } from "../context/CartContext";
 import ScanToVerify from "../components/ScanToVerify";
 import ImageZoomModal from "../components/ImageZoomModal";
-import { applyCustomPricing } from "../utils/pricing";
+import SEO from "../components/SEO";
 
 
 /* ---------------- helpers ---------------- */
@@ -26,7 +26,7 @@ function ProductStructuredData({ product }) {
   const data = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: product.name,
+    name: product.displayName || product.name,
     description: product.description,
     sku: product.verificationCode,
     brand: { "@type": "Brand", name: "Eminence Hair" },
@@ -113,23 +113,16 @@ export default function ProductDetail() {
   const [zoomOpen, setZoomOpen] = useState(false);
 
   const basePrice = useMemo(() => {
-  if (!product) return 0;
-  if (typeof product.price === "function") {
-    return Number(product.price(length, density) || 0);
-  }
-  return Number(product.basePrice || 0);
-}, [product, length, density]);
+    if (!product) return 0;
 
-const pricing = useMemo(() => {
-  return applyCustomPricing({
-    basePrice,
-    density,
-    isCustom,
-    customNotes,
-  });
-}, [basePrice, density, isCustom, customNotes]);
+    if (typeof product.price === "function") {
+      return Number(product.price(length, density, lace) || 0);
+    }
 
-const price = pricing.price;
+    return Number(product.basePrice || 0);
+  }, [product, length, density, lace]);
+
+  const price = basePrice;
 
 
   if (!product) {
@@ -174,200 +167,206 @@ const price = pricing.price;
 
 
   return (
-    <div className="pt-28 pb-24 bg-[#FBF6ED]">
-      <ProductStructuredData product={product} />
+    <>
+      <SEO 
+        title={product.displayName || product.name} 
+        description={product.description} 
+      />
+      <div className="pt-28 pb-24 bg-[#FBF6ED]">
+        <ProductStructuredData product={product} />
 
-      {/* ✅ global page blur when CartDrawer is open (page only; cart remains usable) */}
-      <div className={`${isOpen ? "blur-sm" : ""} transition`}>
-        <div className="max-w-7xl mx-auto px-6">
-          <button
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-xs text-neutral-600 mb-6"
-          >
-            <ChevronLeft className="w-4 h-4" /> Back
-          </button>
+        {/* ✅ global page blur when CartDrawer is open (page only; cart remains usable) */}
+        <div className={`${isOpen ? "blur-sm" : ""} transition`}>
+          <div className="max-w-7xl mx-auto px-6">
+            <button
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-2 text-xs text-neutral-600 mb-6"
+            >
+              <ChevronLeft className="w-4 h-4" /> Back
+            </button>
 
-          {/* lightweight skeleton */}
-          {pageLoading ? (
-            <div className="grid lg:grid-cols-12 gap-12">
-              <div className="lg:col-span-7">
-                <div className="h-[520px] rounded-[2rem] bg-black/10 animate-pulse" />
+            {/* lightweight skeleton */}
+            {pageLoading ? (
+              <div className="grid lg:grid-cols-12 gap-12">
+                <div className="lg:col-span-7">
+                  <div className="h-[520px] rounded-[2rem] bg-black/10 animate-pulse" />
+                </div>
+                <div className="lg:col-span-5">
+                  <div className="h-[520px] rounded-[2rem] bg-black/10 animate-pulse" />
+                </div>
               </div>
-              <div className="lg:col-span-5">
-                <div className="h-[520px] rounded-[2rem] bg-black/10 animate-pulse" />
-              </div>
-            </div>
-          ) : (
-            <div className="grid lg:grid-cols-12 gap-12">
-              {/* images */}
-              <div className="lg:col-span-7 flex gap-4">
-                <div className="hidden md:flex flex-col gap-3">
-                  {images.map((img, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setActiveImage(i)}
-                      className={`w-16 h-20 rounded-xl overflow-hidden border ${
-                        i === activeImage ? "border-neutral-900" : "border-neutral-200"
-                      }`}
-                    >
-                      <img src={img} alt="" className="w-full h-full object-cover" />
-                    </button>
-                  ))}
+            ) : (
+              <div className="grid lg:grid-cols-12 gap-12">
+                {/* images */}
+                <div className="lg:col-span-7 flex gap-4">
+                  <div className="hidden md:flex flex-col gap-3">
+                    {images.map((img, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setActiveImage(i)}
+                        className={`w-16 h-20 rounded-xl overflow-hidden border ${
+                          i === activeImage ? "border-neutral-900" : "border-neutral-200"
+                        }`}
+                      >
+                        <img src={img} alt="" className="w-full h-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* main image with QR + zoom */}
+                  <div className="relative flex-1 rounded-[2rem] overflow-hidden border bg-white group">
+                    <motion.img
+                      src={images[activeImage]}
+                      onClick={() => setZoomOpen(true)}
+                      className="w-full h-full object-cover cursor-zoom-in transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+
+                    {product.verificationCode && (
+                      <Link
+                        to={`/verify?code=${product.verificationCode}`}
+                        className="absolute bottom-4 right-4 rounded-full bg-white/90 backdrop-blur p-3 border hover:bg-white"
+                        aria-label="Scan to verify authenticity"
+                      >
+                        <QrCode className="w-5 h-5 text-neutral-900" />
+                      </Link>
+                    )}
+                  </div>
                 </div>
 
-                {/* main image with QR + zoom */}
-                <div className="relative flex-1 rounded-[2rem] overflow-hidden border bg-white group">
-                  <motion.img
-                    src={images[activeImage]}
-                    onClick={() => setZoomOpen(true)}
-                    className="w-full h-full object-cover cursor-zoom-in transition-transform duration-500 group-hover:scale-[1.03]"
-                  />
+                {/* details */}
+                <div className="lg:col-span-5 bg-white rounded-[2rem] border p-7">
+                  <p className="text-xs tracking-[0.25em] text-neutral-500 uppercase">
+                    {product.collection}
+                  </p>
+
+                  <h1 className="mt-2 text-3xl font-light">{product.displayName || product.name}</h1>
 
                   {product.verificationCode && (
-                    <Link
-                      to={`/verify?code=${product.verificationCode}`}
-                      className="absolute bottom-4 right-4 rounded-full bg-white/90 backdrop-blur p-3 border hover:bg-white"
-                      aria-label="Scan to verify authenticity"
-                    >
-                      <QrCode className="w-5 h-5 text-neutral-900" />
-                    </Link>
-                  )}
-                </div>
-              </div>
-
-              {/* details */}
-              <div className="lg:col-span-5 bg-white rounded-[2rem] border p-7">
-                <p className="text-xs tracking-[0.25em] text-neutral-500 uppercase">
-                  {product.collection}
-                </p>
-
-                <h1 className="mt-2 text-3xl font-light">{product.name}</h1>
-
-                {product.verificationCode && (
-                  <p className="mt-2 text-[11px] tracking-[0.26em] uppercase text-neutral-500">
-                    Serial · {product.verificationCode}
-                  </p>
-                )}
-
-                <div className="mt-3 flex items-center gap-2 text-xs text-neutral-600">
-                  ★ ★ ★ ★ ★ {ratingValue} / 5 ({ratingCount})
-                </div>
-
-                {/* price */}
-                <div className="mt-6">
-                  <p className="text-2xl font-light">{formatMoney(price)}</p>
-                  {isCustom && (
-                    <p className="mt-1 text-xs text-neutral-500 flex items-center gap-1">
-                      <Check className="w-3 h-3" /> Crafted to order
+                    <p className="mt-2 text-[11px] tracking-[0.26em] uppercase text-neutral-500">
+                      Serial · {product.verificationCode}
                     </p>
                   )}
-                </div>
 
-                {/* options */}
-                <div className="mt-8 space-y-6">
-                  {product.lengths && (
-                    <OptionGroup
-                      label="Length"
-                      values={product.lengths}
-                      value={length}
-                      onChange={setLength}
-                      suffix='"'
-                    />
-                  )}
+                  <div className="mt-3 flex items-center gap-2 text-xs text-neutral-600">
+                    ★ ★ ★ ★ ★ {ratingValue} / 5 ({ratingCount})
+                  </div>
 
-                  {isWig && (
-                    <>
+                  {/* price */}
+                  <div className="mt-6">
+                    <p className="text-2xl font-light">{formatMoney(price)}</p>
+                    {isCustom && (
+                      <p className="mt-1 text-xs text-neutral-500 flex items-center gap-1">
+                        <Check className="w-3 h-3" /> Crafted to order
+                      </p>
+                    )}
+                  </div>
+
+                  {/* options */}
+                  <div className="mt-8 space-y-6">
+                    {product.lengths && (
                       <OptionGroup
-                        label="Density"
-                        values={product.densities}
-                        value={density}
-                        onChange={setDensity}
-                        suffix="%"
+                        label="Length"
+                        values={product.lengths}
+                        value={length}
+                        onChange={setLength}
+                        suffix='"'
                       />
+                    )}
 
-                      <OptionGroup
-                        label="Lace Type"
-                        values={["HD Lace", "Transparent Lace"]}
-                        value={lace}
-                        onChange={setLace}
-                      />
+                    {isWig && (
+                      <>
+                        <OptionGroup
+                          label="Density"
+                          values={product.densities}
+                          value={density}
+                          onChange={setDensity}
+                          suffix="%"
+                        />
 
-                      <OptionGroup
-                        label="Cap Size"
-                        values={["Small", "Medium", "Large"]}
-                        value={capSize}
-                        onChange={setCapSize}
-                      />
+                        <OptionGroup
+                          label="Lace Type"
+                          values={["HD Lace", "Transparent Lace"]}
+                          value={lace}
+                          onChange={setLace}
+                        />
 
-                      <div className="border rounded-xl p-4">
-                        <label className="flex items-center gap-2 text-xs cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={isCustom}
-                            onChange={(e) => setIsCustom(e.target.checked)}
-                          />
-                          Request a custom wig
-                        </label>
+                        <OptionGroup
+                          label="Cap Size"
+                          values={["Small", "Medium", "Large"]}
+                          value={capSize}
+                          onChange={setCapSize}
+                        />
 
-                        {isCustom && (
-                          <textarea
-                            placeholder="Color requests, knots, fit, density above 250%, notes…"
-                            value={customNotes}
-                            onChange={(e) => setCustomNotes(e.target.value)}
-                            className="mt-3 w-full border rounded-lg p-2 text-xs"
-                          />
-                        )}
+                        <div className="border rounded-xl p-4">
+                          <label className="flex items-center gap-2 text-xs cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={isCustom}
+                              onChange={(e) => setIsCustom(e.target.checked)}
+                            />
+                            Request a custom wig
+                          </label>
+
+                          {isCustom && (
+                            <textarea
+                              placeholder="Color requests, knots, fit, density above 250%, notes…"
+                              value={customNotes}
+                              onChange={(e) => setCustomNotes(e.target.value)}
+                              className="mt-3 w-full border rounded-lg p-2 text-xs"
+                            />
+                          )}
+                        </div>
+                      </>
+                    )}
+
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center border rounded-full">
+                        <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-3">
+                          <Minus size={14} />
+                        </button>
+                        <span className="px-3 text-sm">{qty}</span>
+                        <button onClick={() => setQty(qty + 1)} className="px-3">
+                          <Plus size={14} />
+                        </button>
                       </div>
-                    </>
-                  )}
 
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center border rounded-full">
-                      <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-3">
-                        <Minus size={14} />
-                      </button>
-                      <span className="px-3 text-sm">{qty}</span>
-                      <button onClick={() => setQty(qty + 1)} className="px-3">
-                        <Plus size={14} />
+                      <button
+                        disabled={!canAdd}
+                        onClick={handleAdd}
+                        className={`flex-1 py-2.5 rounded-full text-[12px] tracking-[0.22em] ${
+                          canAdd
+                            ? "bg-black text-white"
+                            : "bg-neutral-300 text-neutral-500 cursor-not-allowed"
+                        }`}
+                      >
+                        Add to Bag
                       </button>
                     </div>
 
-                    <button
-                      disabled={!canAdd}
-                      onClick={handleAdd}
-                      className={`flex-1 py-2.5 rounded-full text-[12px] tracking-[0.22em] ${
-                        canAdd
-                          ? "bg-black text-white"
-                          : "bg-neutral-300 text-neutral-500 cursor-not-allowed"
-                      }`}
-                    >
-                      Add to Bag
-                    </button>
+                    <ScanToVerify code={product.verificationCode} />
                   </div>
 
-                  <ScanToVerify code={product.verificationCode} />
-                </div>
-
-                <div className="mt-10">
-                  <Accordion title="Product Description">{product.description}</Accordion>
-                  <Accordion title="Hair Care">Use sulfate-free products. Air-dry when possible.</Accordion>
-                  <Accordion title="Shipping & Returns">
-                    Ships within 2–3 business days. Custom wigs are final sale.
-                  </Accordion>
+                  <div className="mt-10">
+                    <Accordion title="Product Description">{product.description}</Accordion>
+                    <Accordion title="Hair Care">Use sulfate-free products. Air-dry when possible.</Accordion>
+                    <Accordion title="Shipping & Returns">
+                      Ships within 2–3 business days. Custom wigs are final sale.
+                    </Accordion>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
 
-      {/* Zoom modal (no layout change) */}
-      <ImageZoomModal
-        src={images[activeImage]}
-        open={zoomOpen}
-        onClose={() => setZoomOpen(false)}
-      />
-    </div>
+        {/* Zoom modal (no layout change) */}
+        <ImageZoomModal
+          src={images[activeImage]}
+          open={zoomOpen}
+          onClose={() => setZoomOpen(false)}
+        />
+      </div>
+    </>
   );
 }
 

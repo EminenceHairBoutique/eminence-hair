@@ -3,6 +3,7 @@ import { Link, useSearchParams, useLocation } from "react-router-dom";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
 import { prefetchRoute } from "../utils/prefetch";
+import SEO from "../components/SEO";
 
 import firstPage from "../assets/first_page.png";
 
@@ -152,7 +153,18 @@ export default function Shop() {
   };
 
   return (
-    <div className="pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">
+    <>
+      <SEO
+        title={
+          mode === "wig"
+            ? "Luxury HD Lace Wigs"
+            : mode === "bundle"
+            ? "Premium Hair Bundles"
+            : "Luxury Wigs & Hair Extensions"
+        }
+        description="Shop luxury wigs, bundles, and textures by Eminence Hair."
+      />
+      <div className="pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">
       <div className={`${isOpen ? "blur-sm" : ""} transition`}>
         <div className="max-w-7xl mx-auto px-6 space-y-10">
           {/* HERO */}
@@ -239,7 +251,7 @@ export default function Shop() {
                             onMouseEnter={() => prefetchRoute(prefetchProduct)}
                             className="block text-sm font-medium tracking-[0.02em] text-neutral-900"
                           >
-                            {p.name}
+                            {p.displayName || p.name}
                           </Link>
                           <p className="text-xs text-neutral-600">
                             {p.texture} • from {minLength != null ? `${minLength}"` : "—"} •{" "}
@@ -281,6 +293,7 @@ export default function Shop() {
           </Link>
         </div>
       </div>
-    </div>
+      </div>
+      </>
   );
 }

@@ -3,6 +3,7 @@ import { Button } from "../components/ui/button";
 import { useUser } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import AccountDashboard from "../components/account/AccountDashboard";
+import SEO from "../components/SEO";
 
 const TabButton = ({ active, children, onClick }) => (
   <Button
@@ -30,7 +31,8 @@ const Input = ({ label, ...props }) => (
 export default function Account() {
   const [tab, setTab] = useState("signin");
 
-  const { user, login, register, loginWithGoogle, logout } = useUser();
+  const { user, login, register, loginWithGoogle } = useUser();
+  useUser();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -80,7 +82,15 @@ export default function Account() {
   ========================= */
 
   if (user) {
-  return <AccountDashboard />;
+    return (
+      <>
+        <SEO
+          title="My Account"
+          description="Manage your Eminence Hair account, orders, and preferences."
+        />
+        <AccountDashboard />
+      </>
+    );
   }
 
   /* =========================
@@ -88,86 +98,92 @@ export default function Account() {
   ========================= */
 
   return (
-    <div className="pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">
-      <div className="max-w-md mx-auto px-6">
-        <div className="mb-8 text-center">
-          <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-600">
-            Account
-          </p>
-          <h1 className="text-3xl font-light tracking-wide">Welcome</h1>
-        </div>
+    <>
+      <SEO
+        title="Sign In / Create Account"
+        description="Access your Eminence Hair account."
+      />
+      <div className="pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">
+        <div className="max-w-md mx-auto px-6">
+          <div className="mb-8 text-center">
+            <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-600">
+              Account
+            </p>
+            <h1 className="text-3xl font-light tracking-wide">Welcome</h1>
+          </div>
 
-        <div className="flex justify-center gap-6 mb-6">
-          <TabButton active={tab === "signin"} onClick={() => setTab("signin")}>
-            Sign In
-          </TabButton>
-          <TabButton active={tab === "create"} onClick={() => setTab("create")}>
-            Create Account
-          </TabButton>
-        </div>
+          <div className="flex justify-center gap-6 mb-6">
+            <TabButton active={tab === "signin"} onClick={() => setTab("signin")}>
+              Sign In
+            </TabButton>
+            <TabButton active={tab === "create"} onClick={() => setTab("create")}>
+              Create Account
+            </TabButton>
+          </div>
 
-        <div className="rounded-3xl border border-white/70 bg-white/60 backdrop-blur-xl shadow-[0_18px_40px_rgba(15,10,5,0.18)] p-6 space-y-5">
-          {tab === "signin" && (
-            <>
-              <Input
-                label="Email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Input
-                label="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+          <div className="rounded-3xl border border-white/70 bg-white/60 backdrop-blur-xl shadow-[0_18px_40px_rgba(15,10,5,0.18)] p-6 space-y-5">
+            {tab === "signin" && (
+              <>
+                <Input
+                  label="Email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <Input
+                  label="Password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
 
-              <Button onClick={handleLogin} disabled={loading} className="w-full">
-                Sign In
-              </Button>
+                <Button onClick={handleLogin} disabled={loading} className="w-full">
+                  Sign In
+                </Button>
 
-              <Button variant="outline" onClick={loginWithGoogle} className="w-full">
-                Continue with Google
-              </Button>
-            </>
-          )}
+                <Button variant="outline" onClick={loginWithGoogle} className="w-full">
+                  Continue with Google
+                </Button>
+              </>
+            )}
 
-          {tab === "create" && (
-            <>
-              <Input
-                label="Email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Input
-                label="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Input
-                label="Confirm Password"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
+            {tab === "create" && (
+              <>
+                <Input
+                  label="Email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <Input
+                  label="Password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <Input
+                  label="Confirm Password"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
 
-              <Button onClick={handleRegister} disabled={loading} className="w-full">
-                Create Account
-              </Button>
+                <Button onClick={handleRegister} disabled={loading} className="w-full">
+                  Create Account
+                </Button>
 
-              <Button variant="outline" onClick={loginWithGoogle} className="w-full">
-                Continue with Google
-              </Button>
-            </>
-          )}
+                <Button variant="outline" onClick={loginWithGoogle} className="w-full">
+                  Continue with Google
+                </Button>
+              </>
+            )}
 
-          {error && (
-            <p className="text-xs text-red-600 text-center pt-2">{error}</p>
-          )}
+            {error && (
+              <p className="text-xs text-red-600 text-center pt-2">{error}</p>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -43,9 +43,9 @@ const Footer = () => {
               Collections
             </p>
             <Link to="/collections" className="hover:text-neutral-200 block">Seasonal</Link>
-            <Link to="/shop?collection=cambodian-raw" className="hover:text-neutral-200 block">Cambodian Raw</Link>
-            <Link to="/shop?collection=sea" className="hover:text-neutral-200 block">SEA Collection</Link>
-            <Link to="/shop?collection=613" className="hover:text-neutral-200 block">613 / Blonde</Link>
+            <Link to="/collections/eminence" className="hover:text-neutral-200 block">Eminence Collection</Link>
+            <Link to="/collections/sea" className="hover:text-neutral-200 block">SEA Collection</Link>
+            <Link to="/collections/613" className="hover:text-neutral-200 block">613 Blonde Collection</Link>
           </div>
 
           <div className="space-y-2">

@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion as Motion } from "framer-motion";
 import { useCart } from "./context/CartContext";
 import DiscountModal from "./components/DiscountModal";
 import CookieBanner from "./components/legal/CookieBanner";
@@ -37,9 +37,6 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 
-const consent = JSON.parse(
-  localStorage.getItem("eminence_cookie_consent")
-);
 
 export default function App() {
   useRouteAnalytics();
@@ -90,7 +87,7 @@ export default function App() {
                   key={path}
                   path={path}
                   element={
-                    <motion.div
+                    <Motion.div
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -12 }}
@@ -99,7 +96,7 @@ export default function App() {
                       <Suspense fallback={<RouteSkeleton />}>
                         {element}
                       </Suspense>
-                    </motion.div>
+                    </Motion.div>
                   }
                 />
               ))}

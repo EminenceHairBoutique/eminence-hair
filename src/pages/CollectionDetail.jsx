@@ -22,14 +22,36 @@ const COLLECTION_META = {
     description:
       "Ultra-sleek raw straight textures with natural sheen and flow.",
   },
+  natural: {
+    title: "Natural Colorway",
+    description: "Rich, natural 1B tones designed for seamless blending.",
+  },
+  "613": {
+    title: "613 Blonde Collection",
+    description: "Bright blonde colorways ideal for customization or wear as-is.",
+  },
+  textures: {
+    title: "Textures",
+    description: "Reference textures showcasing curl and wave patterns.",
+  },
+  "fw-2025": {
+    title: "F/W 2025 Collection",
+    description:
+      "Editorial silhouettes and couture textures curated for Fall/Winter 2025.",
+  },
+  eminence: {
+    title: "Eminence Collection",
+    description:
+      "Our core luxury line — timeless textures crafted in our partner atelier.",
+  },
 };
 
 export default function CollectionDetail() {
   const { slug } = useParams();
   const meta = COLLECTION_META[slug];
 
-  const collectionProducts = products.filter((p) =>
-    p.collection.toLowerCase().includes(meta?.title.split(" ")[0].toLowerCase())
+  const collectionProducts = products.filter(
+    (p) => p.collectionSlug === slug
   );
 
   if (!meta) {

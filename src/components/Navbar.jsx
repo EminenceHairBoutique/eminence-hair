@@ -208,11 +208,10 @@ export default function Navbar() {
             className="hidden md:block absolute left-0 right-0 top-full bg-white shadow-xl border-t border-black/5"
           >
             <div className="max-w-7xl mx-auto px-8 py-8 grid grid-cols-2 gap-10 text-sm">
-              {["SEA Collection","Burmese Collection","Lavish Collection","Straight Collection"].map(c => (
-                <Link key={c} to={`/collections/${c.toLowerCase().replace(/\s/g, "-")}`}>
-                  {c}
-                </Link>
-              ))}
+              <Link to="/collections/fw-2025">F/W 2025 Collection</Link>
+              <Link to="/collections/eminence">Eminence Collection</Link>
+              <Link to="/collections/sea">SEA Collection</Link>
+              <Link to="/collections/613">613 Blonde Collection</Link>
             </div>
           </div>
         )}
@@ -247,10 +246,10 @@ export default function Navbar() {
 
               <div>
                 <p className="text-[10px] uppercase tracking-[0.28em] text-neutral-500 mb-3">Explore</p>
-                <Link to="/collections/sea-collection" onClick={closeAll} className="block text-sm">SEA Collection</Link>
-                <Link to="/collections/burmese-collection" onClick={closeAll} className="block text-sm">Burmese Collection</Link>
-                <Link to="/collections/lavish-collection" onClick={closeAll} className="block text-sm">Lavish Collection</Link>
-                <Link to="/collections/straight-collection" onClick={closeAll} className="block text-sm">Straight Collection</Link>
+                <Link to="/collections/fw-2025" onClick={closeAll} className="block text-sm">F/W 2025 Collection</Link>
+                <Link to="/collections/eminence" onClick={closeAll} className="block text-sm">Eminence Collection</Link>
+                <Link to="/collections/sea" onClick={closeAll} className="block text-sm">SEA Collection</Link>
+                <Link to="/collections/613" onClick={closeAll} className="block text-sm">613 Blonde Collection</Link>
                 <Link to="/gallery" onClick={closeAll} className="block text-sm">Gallery</Link>
               </div>
 

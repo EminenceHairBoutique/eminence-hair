@@ -1,7 +1,9 @@
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { X, Minus, Plus, Lock } from "lucide-react";
-import { useCart } from "../context/CartContext";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { useCart } from "../context/CartContext";
 
 const money = (n) =>
   `$${Number(n).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
@@ -10,11 +12,37 @@ export default function CartDrawer() {
   const cart = useCart();
 
   const isOpen = cart.isOpen ?? false;
-  const closeCart = cart.closeCart ?? (() => {});
+  const { closeCart } = useCart();
   const items = cart.items ?? [];
   const total = cart.total ?? 0;
   const removeItem = cart.removeItem ?? (() => {});
   const updateQty = cart.updateQuantity ?? (() => {});
+
+  const closeCartRef = useRef(closeCart);
+
+  useEffect(() => {
+    closeCartRef.current = closeCart;
+  }, [closeCart]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        closeCart();
+      }
+    };
+
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => (document.body.style.overflow = "");
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -133,12 +161,14 @@ export default function CartDrawer() {
             with Klarna or Afterpay
           </div>
 
+          <div className="h-px bg-neutral-200 my-2" />
+
           <Link
             to="/checkout"
             onClick={closeCart}
             className="block w-full text-center bg-black text-white py-3 rounded-full text-[12px] tracking-[0.22em]"
           >
-            Checkout
+            Secure Checkout
           </Link>
 
           <div className="flex items-center justify-center gap-2 text-xs text-neutral-500">

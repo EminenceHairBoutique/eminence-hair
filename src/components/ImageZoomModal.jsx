@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function ImageZoomModal({ src, open, onClose }) {
   if (!open) return null;
