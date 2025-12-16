@@ -1,60 +1,84 @@
 // src/context/CartContext.jsx
 // Single source of truth for cart state + drawer controls.
 
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  useEffect,
+} from "react";
 import fallbackImage from "../assets/editorial.png";
 
 const CartContext = createContext(null);
 
-// Build a stable variant key from common option fields.
-// This prevents "same product, different options" collisions.
-function buildVariantKey(item = {}) {
-  const id = String(item.id ?? "");
-  const length = item.length != null ? String(item.length) : "";
-  const density = item.density != null ? String(item.density) : "";
-  const lace = item.lace != null ? String(item.lace) : "";
-  const color = item.color != null ? String(item.color) : "";
-  const size = item.size != null ? String(item.size) : "";
-  return [id, length, density, lace, color, size].join("::");
-}
-
 export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      const saved = localStorage.getItem("eminence_cart");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("eminence_cart", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
   const toggleCart = () => setIsOpen((v) => !v);
 
-  const addToCart = (item) => {
-    if (!item || !item.id) return;
+  const addToCart = (product, options = {}) => {
+    if (!product?.id) return;
 
-    const variant = item.variant || buildVariantKey(item);
+    const {
+      length,
+      density,
+      lace = "Transparent Lace",
+      color,
+      quantity = 1,
+    } = options;
+
+    const price =
+      typeof product.price === "function"
+        ? product.price(length, density, lace)
+        : Number(product.price || 0);
+
+    const image =
+      product.images?.[0] ||
+      product.image ||
+      product.img ||
+      fallbackImage;
 
     const normalized = {
-      ...item,
+      id: product.id,
+      slug: product.slug,
+      name: product.displayName || product.name,
+      image,
 
-      // quantity
-      quantity: Number(item.quantity ?? 1) || 1,
+      // 🔑 canonical option fields
+      length,
+      density,
+      lace,
+      color,
 
-      // stable identifiers used by UI
-      variant,
-      cartKey: `${String(item.id)}::${variant}`,
+      // 🔑 checkout-friendly aliases
+      selectedLength: length,
+      selectedDensity: density,
 
-      // normalize common option names (Checkout + drawer friendliness)
-      selectedLength:
-        item.selectedLength ?? item.length ?? null,
-      selectedDensity:
-        item.selectedDensity ?? item.density ?? null,
+      price,
+      quantity: Number(quantity) || 1,
 
-      image: item.image || item.img || item.photo || fallbackImage,
-      name: item.name || item.title || "Item",
-      price: Number(item.price || 0),
+      variant: `${product.id}::${length}::${density}::${lace}::${color || ""}`,
+      cartKey: `${product.id}::${length}::${density}::${lace}::${color || ""}`,
     };
 
     setCartItems((prev) => {
       const idx = prev.findIndex(
-        (p) => p.id === normalized.id && p.variant === normalized.variant
+        (p) => p.cartKey === normalized.cartKey
       );
 
       if (idx >= 0) {
@@ -69,7 +93,6 @@ export function CartProvider({ children }) {
       return [...prev, normalized];
     });
 
-    // UX: open drawer on add.
     setIsOpen(true);
   };
 
@@ -106,6 +129,11 @@ export function CartProvider({ children }) {
 
   const removeItem = (id) => removeFromCart(id, null);
 
+  const clearCart = () => {
+    setCartItems([]);
+    localStorage.removeItem("eminence_cart");
+  };
+
   const subtotal = useMemo(
     () =>
       cartItems.reduce(
@@ -134,6 +162,7 @@ export function CartProvider({ children }) {
     updateQuantity,
     removeFromCart,
     removeItem,
+    clearCart,
 
     // ✅ backwards-compatible aliases (fixes Checkout expecting these)
     items: cartItems,

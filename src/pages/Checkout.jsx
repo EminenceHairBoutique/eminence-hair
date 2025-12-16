@@ -16,18 +16,6 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 export default function Checkout() {
   const { items = [], total = 0 } = useCart();
 
-  // Order metadata with consent tracking
-  const consent = {
-    consent_version: CONSENT_VERSION,
-    consent_timestamp: new Date().toISOString(),
-    consent_source: "checkout",
-    policies: {
-      terms: CONSENT_VERSION,
-      privacy: CONSENT_VERSION,
-      returns: CONSENT_VERSION,
-    },
-  };
-
   // route-based "loading skeleton" feel
   const [pageLoading, setPageLoading] = useState(true);
   const rootRef = useRef(null);
@@ -44,16 +32,34 @@ export default function Checkout() {
   }, [pageLoading]);
 
   // When submitting order, include consent in metadata
-  const handleSubmitOrder = async (paymentDetails) => {
+  const handleCheckout = async (paymentIntentId) => {
+    const consent = {
+      consent_version: CONSENT_VERSION,
+      consent_timestamp: new Date().toISOString(),
+      consent_source: "checkout",
+      policies: {
+        terms: CONSENT_VERSION,
+        privacy: CONSENT_VERSION,
+        returns: CONSENT_VERSION,
+      },
+    };
+
     const orderData = {
       items,
       total,
-      payment: paymentDetails,
+      paymentIntentId,
+
+      // 🔐 Consent + evidence metadata
       metadata: {
         ...consent,
+        product_urls: items.map((i) =>
+          i.productUrl || `${window.location.origin}/product/${i.slug}`
+        ),
+        returns_url: `${window.location.origin}/returns`,
+        terms_url: `${window.location.origin}/terms`,
       },
     };
-    
+
     // Submit to your backend/API
     // await submitOrder(orderData);
   };
@@ -96,8 +102,8 @@ export default function Checkout() {
                 <StripeProvider>
                   <div className="space-y-6">
                     <div className="border border-neutral-200 rounded-2xl bg-white p-6">
-                      <p className="text-sm text-neutral-500">
-                        Checkout form will be connected at payment-integration stage.
+                      <p className="text-xs text-neutral-500">
+                        You will be securely redirected to Stripe to complete your purchase.
                       </p>
                     </div>
                   </div>
@@ -130,9 +136,7 @@ export default function Checkout() {
                         <div className="flex-1">
                           <p className="text-sm">{item.name}</p>
                           <p className="text-xs text-neutral-500 mt-1">
-                            {item.selectedLength ? `${item.selectedLength}"` : "—"} ·{" "}
-                            {item.selectedDensity ? `${item.selectedDensity}%` : "—"} · Qty{" "}
-                            {item.quantity}
+                            {item.length}" · {item.density}% · Qty {item.quantity}
                           </p>
                         </div>
 
@@ -183,7 +187,7 @@ export default function Checkout() {
                 </p>
 
                 <button
-                  disabled={items.length === 0}
+                  disabled={!items || items.length === 0}
                   onClick={async () => {
                     const stripe = await stripePromise;
 
@@ -205,7 +209,7 @@ export default function Checkout() {
                     }
                   }}
                   className={`mt-6 w-full py-3 rounded-full text-[12px] tracking-[0.22em] ${
-                    items.length === 0
+                    !items || items.length === 0
                       ? "bg-neutral-400 cursor-not-allowed"
                       : "bg-black text-white"
                   }`}

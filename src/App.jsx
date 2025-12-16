@@ -25,6 +25,7 @@ const Gallery = lazy(() => import("./pages/Gallery"));
 const Collections = lazy(() => import("./pages/Collections"));
 const CollectionDetail = lazy(() => import("./pages/CollectionDetail"));
 const Checkout = lazy(() => import("./pages/Checkout"));
+const CheckoutSuccess = lazy(() => import("./pages/CheckoutSuccess"));
 const Account = lazy(() => import("./pages/Account"));
 const Authenticity = lazy(() => import("./pages/Authenticity"));
 const Care = lazy(() => import("./pages/Care"));
@@ -72,6 +73,7 @@ export default function App() {
                 ["/collections", <Collections />],
                 ["/collections/:slug", <CollectionDetail />],
                 ["/checkout", <Checkout />],
+                ["/checkout/success", <CheckoutSuccess />],
                 ["/order-confirmation", <OrderConfirmation />],
                 ["/account", <Account />],
                 ["/authenticity", <Authenticity />],
