@@ -35,15 +35,15 @@ export function CartProvider({ children }) {
     if (!product?.id) return;
 
     const {
-      length,
-      density,
+      length = null,
+      density = null,
       lace = "Transparent Lace",
-      color,
+      color = null,
       quantity = 1,
     } = options;
 
     const price =
-      typeof product.price === "function"
+      typeof product.price === "function" && length && density
         ? product.price(length, density, lace)
         : Number(product.price || 0);
 

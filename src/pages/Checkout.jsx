@@ -11,7 +11,9 @@ const money = (n) =>
 
 const CONSENT_VERSION = "v1.0"; // bump to v1.1 when policies change
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(
+  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || ""
+);
 
 export default function Checkout() {
   const { items = [], total = 0 } = useCart();
@@ -136,7 +138,8 @@ export default function Checkout() {
                         <div className="flex-1">
                           <p className="text-sm">{item.name}</p>
                           <p className="text-xs text-neutral-500 mt-1">
-                            {item.length}" · {item.density}% · Qty {item.quantity}
+                            {item.length ? `${item.length}"` : "—"} ·{" "}
+                            {item.density ? `${item.density}%` : "—"} · Qty {item.quantity}
                           </p>
                         </div>
 
@@ -189,23 +192,31 @@ export default function Checkout() {
                 <button
                   disabled={!items || items.length === 0}
                   onClick={async () => {
-                    const stripe = await stripePromise;
+                    try {
+                      const stripe = await stripePromise;
+                      if (!stripe) throw new Error("Stripe failed to load");
 
-                    if (!stripe) {
-                      alert("Payment system not ready. Please try again.");
-                      return;
-                    }
+                      const res = await fetch("/api/create-checkout-session", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          items: items.map(i => ({
+                            name: i.name,
+                            price: i.price,
+                            quantity: i.quantity,
+                            image: i.image,
+                          })),
+                        }),
+                      });
 
-                    const res = await fetch("/api/create-checkout-session", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ items }),
-                    });
+                      const data = await res.json();
 
-                    const data = await res.json();
+                      if (!data.id) throw new Error("No session ID");
 
-                    if (data.id) {
                       await stripe.redirectToCheckout({ sessionId: data.id });
+                    } catch (err) {
+                      console.error(err);
+                      alert("Payment system error. Please try again.");
                     }
                   }}
                   className={`mt-6 w-full py-3 rounded-full text-[12px] tracking-[0.22em] ${
@@ -218,7 +229,7 @@ export default function Checkout() {
                 </button>
 
                 <p className="mt-2 text-xs text-neutral-500 text-center">
-                  Payment will be enabled once checkout is connected.
+                  SSL Encrypted Secure Checkout.
                 </p>
 
                 <div className="mt-6 text-xs text-neutral-500 space-y-1">
