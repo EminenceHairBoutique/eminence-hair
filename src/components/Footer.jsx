@@ -42,10 +42,10 @@ const Footer = () => {
             <p className="text-neutral-500 tracking-[0.22em] uppercase text-[11px] mb-2">
               Collections
             </p>
-            <Link to="/collections" className="hover:text-neutral-200 block">Seasonal</Link>
-            <Link to="/collections/eminence" className="hover:text-neutral-200 block">Eminence Collection</Link>
-            <Link to="/collections/sea" className="hover:text-neutral-200 block">SEA Collection</Link>
-            <Link to="/collections/613" className="hover:text-neutral-200 block">613 Blonde Collection</Link>
+            <Link to="/collections/fw-2025" className="hover:text-neutral-200 block">F/W 2025</Link>
+            <Link to="/collections/eminence" className="hover:text-neutral-200 block">Eminence</Link>
+            <Link to="/collections/sea" className="hover:text-neutral-200 block">SEA</Link>
+            <Link to="/collections/613" className="hover:text-neutral-200 block">613</Link>
           </div>
 
           <div className="space-y-2">

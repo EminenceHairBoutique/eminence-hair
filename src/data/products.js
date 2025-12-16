@@ -294,6 +294,37 @@ export const products = [
       "/gallery/textures/BodyWave/Eminence_Textures_BodyWave_Natural_03.webp",
     ],
   },
+
+  {
+    id: "wig-black-straight",
+    slug: "black-straight-hd-lace-wig",
+    name: "Black Straight HD Lace Wig",
+    displayName: "Black Straight HD Lace Wig",
+    type: "wig",
+    verificationCode: "EMH-EMI-2025-90231",
+    collection: "Eminence Collection",
+    collectionSlug: "eminence",
+    texture: "Straight",
+    color: "1B",
+    description:
+      "A sleek, jet-black straight wig from our core Eminence Collection. Timeless elegance with premium HD lace.",
+    lengths: [16, 18, 20, 22, 24, 26, 30, 32],
+    densities: [140, 180, 200, 250],
+    assetKey: "wig_straight_1b",
+    price(length, density, lace = "Transparent Lace") {
+      return (STRAIGHT_WIG_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
+    },
+    images: [
+      "/assets/wigs/wig_straight_1b/hero.jpg",
+      "/assets/wigs/wig_straight_1b/texture.jpg",
+      "/assets/wigs/wig_straight_1b/angle.jpg",
+      "/assets/wigs/wig_straight_1b/wear.jpg",
+    ],
+    videos: {
+      texture: "/assets/wigs/wig_straight_1b/texture.mp4",
+      wear: "/assets/wigs/wig_straight_1b/wear.mp4",
+    },
+  },
 ];
 
 export default products;

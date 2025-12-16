@@ -176,25 +176,63 @@ export default function Navbar() {
             onMouseLeave={closeWithDelay}
             className="hidden md:block absolute left-0 right-0 top-full bg-white shadow-xl border-t border-black/5"
           >
-            <div className="max-w-7xl mx-auto px-8 py-8 grid grid-cols-3 gap-10 text-sm">
+            <div className="max-w-7xl mx-auto px-8 py-8 grid grid-cols-4 gap-12 text-sm">
               <div>
-                <p className="mb-3 text-xs tracking-widest text-neutral-500">SHOP</p>
+                <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500 mb-3">
+                  Shop
+                </p>
                 <Link to="/shop" className="block mb-2">All Products</Link>
-                <Link to="/shop/wigs" className="block mb-2">Wigs</Link>
-                <Link to="/shop/bundles" className="block">Bundles & Extensions</Link>
+                <Link to="/shop?type=wig" className="block mb-2">Wigs</Link>
+                <Link to="/shop?type=weft" className="block mb-2">Weft Extensions</Link>
+                <Link to="/shop?type=bundle" className="block mb-2">Bundles</Link>
+                <Link to="/shop?type=closure" className="block mb-2">Closures</Link>
+                <Link to="/shop?type=frontal" className="block mb-2">Frontals</Link>
+                <Link to="/shop?type=clip-in" className="block mb-2">Clip-In Extensions</Link>
+                <Link to="/shop?type=tape-in" className="block mb-2">Tape-In Extensions</Link>
+                <Link to="/shop?type=ponytail" className="block mb-2">Ponytails</Link>
+                <Link to="/shop?type=braiding" className="block">Braiding Hair</Link>
               </div>
               <div>
-                <p className="mb-3 text-xs tracking-widest text-neutral-500">TEXTURES</p>
-                {["BodyWave","WaterWave","DeepWave","LooseWave","Straight"].map(t => (
-                  <Link key={t} to={`/gallery?texture=${t}`} className="block mb-2">
-                    {t}
+                <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500 mb-3">
+                  By Texture
+                </p>
+                <Link to="/gallery?texture=BodyWave" className="block mb-2">Body Wave</Link>
+                <Link to="/gallery?texture=LooseWave" className="block mb-2">Loose Wave</Link>
+                <Link to="/gallery?texture=DeepWave" className="block mb-2">Deep Wave</Link>
+                <Link to="/gallery?texture=WaterWave" className="block mb-2">Water Wave</Link>
+                <Link to="/gallery?texture=Straight" className="block mb-2">Silky Straight</Link>
+                <Link to="/gallery?texture=Curly" className="block mb-2">Defined Curly</Link>
+                <Link to="/gallery?texture=KinkyCurly" className="block">Kinky Curly</Link>
+              </div>
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500 mb-3">
+                  By Color
+                </p>
+                <Link to="/shop?color=natural" className="block mb-2">Natural Shades</Link>
+                <Link to="/shop?color=613" className="block mb-2">613 Blonde</Link>
+                <Link to="/shop?color=blended" className="block mb-2">Blended & Highlighted</Link>
+                <Link to="/shop?color=red" className="block mb-2">Rich Reds</Link>
+                <Link to="/custom" className="block">Custom Color Atelier</Link>
+              </div>
+              <div className="flex items-end">
+                <div className="w-full rounded-2xl bg-black text-white p-6">
+                  <p className="text-[11px] uppercase tracking-[0.32em] mb-3 opacity-80">
+                    The Eminence Color Atelier
+                  </p>
+
+                  <p className="text-sm leading-relaxed opacity-90 mb-5">
+                    Expertly blended tones, rare colorways, and custom dye services curated by
+                    our atelier.
+                  </p>
+
+                  <Link
+                    to="/gallery"
+                    className="inline-flex items-center gap-2 text-sm underline underline-offset-4"
+                  >
+                    Explore
+                    <span aria-hidden>→</span>
                   </Link>
-                ))}
-              </div>
-              <div>
-                <p className="mb-3 text-xs tracking-widest text-neutral-500">COLORWAYS</p>
-                <Link to="/gallery?colorway=Natural" className="block mb-2">Natural</Link>
-                <Link to="/gallery?colorway=613" className="block">613 Blonde</Link>
+                </div>
               </div>
             </div>
           </div>
@@ -208,10 +246,10 @@ export default function Navbar() {
             className="hidden md:block absolute left-0 right-0 top-full bg-white shadow-xl border-t border-black/5"
           >
             <div className="max-w-7xl mx-auto px-8 py-8 grid grid-cols-2 gap-10 text-sm">
-              <Link to="/collections/fw-2025">F/W 2025 Collection</Link>
-              <Link to="/collections/eminence">Eminence Collection</Link>
-              <Link to="/collections/sea">SEA Collection</Link>
-              <Link to="/collections/613">613 Blonde Collection</Link>
+              <Link to="/collections/fw-2025" className="text-sm tracking-[0.18em] uppercase font-medium">F/W 2025</Link>
+              <Link to="/collections/eminence" className="text-sm tracking-[0.18em] uppercase font-medium">Eminence</Link>
+              <Link to="/collections/sea" className="text-sm tracking-[0.18em] uppercase font-medium">SEA</Link>
+              <Link to="/collections/613" className="text-sm tracking-[0.18em] uppercase font-medium">613</Link>
             </div>
           </div>
         )}
@@ -240,17 +278,25 @@ export default function Navbar() {
               <div>
                 <p className="text-[10px] uppercase tracking-[0.28em] text-neutral-500 mb-3">Shop</p>
                 <Link to="/shop" onClick={closeAll} className="block text-sm">All Products</Link>
-                <Link to="/shop/wigs" onClick={closeAll} className="block text-sm">Wigs</Link>
-                <Link to="/shop/bundles" onClick={closeAll} className="block text-sm">Bundles & Extensions</Link>
+                <Link to="/shop?type=wig" onClick={closeAll} className="block text-sm">Wigs</Link>
+                <Link to="/shop?type=weft" onClick={closeAll} className="block text-sm">Weft Extensions</Link>
+                <Link to="/shop?type=bundle" onClick={closeAll} className="block text-sm">Bundles</Link>
+                <Link to="/shop?type=closure" onClick={closeAll} className="block text-sm">Closures</Link>
+                <Link to="/shop?type=frontal" onClick={closeAll} className="block text-sm">Frontals</Link>
+                <Link to="/shop?type=clip-in" onClick={closeAll} className="block text-sm">Clip-In Extensions</Link>
+                <Link to="/shop?type=tape-in" onClick={closeAll} className="block text-sm">Tape-In Extensions</Link>
+                <Link to="/shop?type=ponytail" onClick={closeAll} className="block text-sm">Ponytails</Link>
+                <Link to="/shop?type=braiding" onClick={closeAll} className="block text-sm">Braiding Hair</Link>
               </div>
 
+              {/* Mobile drawer - Explore section */}
               <div>
                 <p className="text-[10px] uppercase tracking-[0.28em] text-neutral-500 mb-3">Explore</p>
-                <Link to="/collections/fw-2025" onClick={closeAll} className="block text-sm">F/W 2025 Collection</Link>
-                <Link to="/collections/eminence" onClick={closeAll} className="block text-sm">Eminence Collection</Link>
-                <Link to="/collections/sea" onClick={closeAll} className="block text-sm">SEA Collection</Link>
-                <Link to="/collections/613" onClick={closeAll} className="block text-sm">613 Blonde Collection</Link>
-                <Link to="/gallery" onClick={closeAll} className="block text-sm">Gallery</Link>
+                <Link to="/collections/fw-2025" onClick={closeAll} className="block text-sm tracking-[0.18em] uppercase font-medium">F/W 2025</Link>
+                <Link to="/collections/eminence" onClick={closeAll} className="block text-sm tracking-[0.18em] uppercase font-medium">Eminence</Link>
+                <Link to="/collections/sea" onClick={closeAll} className="block text-sm tracking-[0.18em] uppercase font-medium">SEA</Link>
+                <Link to="/collections/613" onClick={closeAll} className="block text-sm tracking-[0.18em] uppercase font-medium">613</Link>
+                <Link to="/gallery" onClick={closeAll} className="block text-sm tracking-[0.18em] uppercase font-medium">Gallery</Link>
               </div>
 
               <div>
