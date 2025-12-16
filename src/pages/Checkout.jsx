@@ -8,8 +8,22 @@ import SEO from "../components/SEO";
 const money = (n) =>
   `$${Number(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 
+const CONSENT_VERSION = "v1.0"; // bump to v1.1 when policies change
+
 export default function Checkout() {
   const { items = [], total = 0 } = useCart();
+
+  // Order metadata with consent tracking
+  const consent = {
+    consent_version: CONSENT_VERSION,
+    consent_timestamp: new Date().toISOString(),
+    consent_source: "checkout",
+    policies: {
+      terms: CONSENT_VERSION,
+      privacy: CONSENT_VERSION,
+      returns: CONSENT_VERSION,
+    },
+  };
 
   // route-based "loading skeleton" feel
   const [pageLoading, setPageLoading] = useState(true);
@@ -25,6 +39,21 @@ export default function Checkout() {
   useEffect(() => {
     rootRef.current?.focus?.();
   }, [pageLoading]);
+
+  // When submitting order, include consent in metadata
+  const handleSubmitOrder = async (paymentDetails) => {
+    const orderData = {
+      items,
+      total,
+      payment: paymentDetails,
+      metadata: {
+        ...consent,
+      },
+    };
+    
+    // Submit to your backend/API
+    // await submitOrder(orderData);
+  };
 
   return (
     <>
