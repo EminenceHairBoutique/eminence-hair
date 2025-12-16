@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { X, Minus, Plus, Lock } from "lucide-react";
-// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { useCart } from "../context/CartContext";
 
@@ -9,17 +8,17 @@ const money = (n) =>
   `$${Number(n).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 
 export default function CartDrawer() {
-  const cart = useCart();
+  const {
+    isOpen = false,
+    closeCart,
+    items = [],
+    total = 0,
+    removeItem = () => {},
+    updateQuantity = () => {},
+  } = useCart();
 
-  const isOpen = cart.isOpen ?? false;
-  const { closeCart } = useCart();
-  const items = cart.items ?? [];
-  const total = cart.total ?? 0;
-  const removeItem = cart.removeItem ?? (() => {});
-  const updateQty = cart.updateQuantity ?? (() => {});
-
+  // Keep a stable reference for key listeners without fighting exhaustive-deps.
   const closeCartRef = useRef(closeCart);
-
   useEffect(() => {
     closeCartRef.current = closeCart;
   }, [closeCart]);
@@ -29,14 +28,12 @@ export default function CartDrawer() {
 
     const onKey = (e) => {
       if (e.key === "Escape") {
-        closeCart();
+        closeCartRef.current?.();
       }
     };
 
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   useEffect(() => {
@@ -108,7 +105,11 @@ export default function CartDrawer() {
                     <div className="flex items-center border rounded-full">
                       <button
                         onClick={() =>
-                          updateQty(item.id, item.variant, Math.max(1, item.quantity - 1))
+                          updateQuantity(
+                            item.id,
+                            item.variant,
+                            Math.max(1, item.quantity - 1)
+                          )
                         }
                         className="px-3 py-1"
                       >
@@ -121,7 +122,7 @@ export default function CartDrawer() {
 
                       <button
                         onClick={() =>
-                          updateQty(item.id, item.variant, item.quantity + 1)
+                          updateQuantity(item.id, item.variant, item.quantity + 1)
                         }
                         className="px-3 py-1"
                       >

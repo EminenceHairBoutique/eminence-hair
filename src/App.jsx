@@ -36,6 +36,7 @@ const OrderConfirmation = lazy(() => import("./pages/OrderConfirmation"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
+const Returns = lazy(() => import("./pages/Returns"));
 
 
 export default function App() {
@@ -45,19 +46,19 @@ export default function App() {
 
   return (
     <>
-      <Navbar />
       <Suspense fallback={null}>
         <CartDrawer />
       </Suspense>
-      <DiscountModal />
-      <ScrollToTop />
-
-      {/* GLOBAL PAGE BLUR WHEN CART OPEN */}
+      {/* Everything except the drawer blurs/locks while cart is open */}
       <div
         className={`transition-all duration-300 ${
           isCartOpen ? "blur-sm pointer-events-none select-none" : ""
         }`}
       >
+        <Navbar />
+        <DiscountModal />
+        <ScrollToTop />
+
         <ErrorBoundary>
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
@@ -80,6 +81,7 @@ export default function App() {
                 ["/contact", <Contact />],
                 ["/privacy", <Privacy />],
                 ["/terms", <Terms />],
+                ["/returns", <Returns />],
                 ["/verify", <Verify />],
                 ["*", <NotFound />],
               ].map(([path, element]) => (
@@ -100,23 +102,13 @@ export default function App() {
                   }
                 />
               ))}
-
-              {/* Fallback */}
-              <Route
-                path="*"
-                element={
-                  <div className="pt-40 pb-40 text-center">
-                    <h1 className="text-2xl font-light">Page not found</h1>
-                  </div>
-                }
-              />
             </Routes>
           </AnimatePresence>
         </ErrorBoundary>
-      </div>
 
-      <CookieBanner />
-      <Footer />
+        <CookieBanner />
+        <Footer />
+      </div>
     </>
   );
 }

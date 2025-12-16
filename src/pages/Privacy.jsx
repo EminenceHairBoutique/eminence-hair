@@ -126,8 +126,8 @@ export default function Privacy() {
         <section className="space-y-4">
           <h2 className="text-xl font-medium">Contact</h2>
           <p>
-            Eminence Hair LLC<br />
-            Email: support@eminencehair.com
+            Eminence Luxury Hair LLC<br />
+            Email: support@eminenceluxuryhair.com
           </p>
         </section>
       </div>

@@ -350,7 +350,22 @@ export default function ProductDetail() {
                     <Accordion title="Product Description">{product.description}</Accordion>
                     <Accordion title="Hair Care">Use sulfate-free products. Air-dry when possible.</Accordion>
                     <Accordion title="Shipping & Returns">
-                      Ships within 2–3 business days. Custom wigs are final sale.
+                      <p className="mb-2">
+                        Ships within 2–3 business days. Custom and worn items are final sale.
+                      </p>
+                      <p className="mb-2">
+                        Product appearance may vary due to natural hair characteristics.
+                      </p>
+                      <p>
+                        By purchasing, you agree to our{" "}
+                        <Link to="/returns" className="underline hover:text-neutral-900">
+                          Returns & Exchanges Policy
+                        </Link>{" "}
+                        and{" "}
+                        <Link to="/terms" className="underline hover:text-neutral-900">
+                          Terms & Conditions
+                        </Link>.
+                      </p>
                     </Accordion>
                   </div>
                 </div>

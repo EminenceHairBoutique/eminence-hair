@@ -15,7 +15,15 @@ export default function Terms() {
 
         <section className="space-y-4">
           <p>
-            These Terms and Conditions (“Terms”) govern your use of the Eminence
+            By accessing, browsing, or using this website, you acknowledge that you have
+            read, understood, and agree to be bound by these Terms & Conditions, our
+            Privacy Policy, and our Returns & Exchanges Policy.
+          </p>
+        </section>
+
+        <section className="space-y-4">
+          <p>
+            These Terms and Conditions ("Terms") govern your use of the Eminence
             Hair website and services. By accessing or purchasing from our Site,
             you agree to be bound by these Terms and our Privacy Policy.
           </p>
@@ -33,10 +41,11 @@ export default function Terms() {
         <section className="space-y-4">
           <h2 className="text-xl font-medium">Products & Natural Variance</h2>
           <p>
-            Our products are made from natural human hair. Variations in color,
-            texture, density, and pattern are inherent and not considered
-            defects. Product images are illustrative and may differ slightly
-            from the final product.
+            Our products are crafted from natural human hair. Variations in color,
+            texture, density, pattern, and finish are inherent and not considered
+            defects. Product images are provided for reference only and may differ
+            due to lighting, packaging, handling, shipping, maintenance, or
+            individual care methods.
           </p>
         </section>
 
@@ -115,6 +124,23 @@ export default function Terms() {
         </section>
 
         <section className="space-y-4">
+          <h2 className="text-xl font-medium">International Users</h2>
+          <p>
+            Where applicable, we process personal data in accordance with applicable
+            data protection laws, including the GDPR and UK GDPR.
+          </p>
+        </section>
+
+        <section className="space-y-4">
+          <h2 className="text-xl font-medium">Agreement to Terms</h2>
+          <p>
+            By purchasing any product from Eminence Hair, you acknowledge that you have read,
+            understood, and agreed to these Terms & Conditions, including our Returns &
+            Exchanges Policy and Privacy Policy.
+          </p>
+        </section>
+
+        <section className="space-y-4">
           <h2 className="text-xl font-medium">Changes to Terms</h2>
           <p>
             We may update these Terms at any time. Continued use of the Site
@@ -124,7 +150,7 @@ export default function Terms() {
 
         <section className="space-y-4">
           <h2 className="text-xl font-medium">Contact</h2>
-          <p>Email: support@eminencehair.com</p>
+          <p>Email: support@eminenceluxuryhair.com</p>
         </section>
       </div>
     </div>

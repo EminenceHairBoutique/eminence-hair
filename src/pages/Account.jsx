@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import { useUser } from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import AccountDashboard from "../components/account/AccountDashboard";
 import SEO from "../components/SEO";
 
@@ -30,9 +30,9 @@ const Input = ({ label, ...props }) => (
 
 export default function Account() {
   const [tab, setTab] = useState("signin");
+  const [showOAuthConsent, setShowOAuthConsent] = useState(false);
 
   const { user, login, register, loginWithGoogle } = useUser();
-  useUser();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -43,10 +43,10 @@ export default function Account() {
 
   /* 🔁 redirect once authenticated */
   useEffect(() => {
-    if (user) {
+    if (user && !showOAuthConsent) {
       navigate("/account");
     }
-  }, [user, navigate]);
+  }, [user, showOAuthConsent, navigate]);
 
   const handleLogin = async () => {
     setError("");
@@ -81,7 +81,7 @@ export default function Account() {
      LOGGED-IN DASHBOARD
   ========================= */
 
-  if (user) {
+  if (user && !showOAuthConsent) {
     return (
       <>
         <SEO
@@ -141,9 +141,23 @@ export default function Account() {
                   Sign In
                 </Button>
 
-                <Button variant="outline" onClick={loginWithGoogle} className="w-full">
+                <Button
+                  variant="outline"
+                  onClick={async () => {
+                    await loginWithGoogle();
+                    setShowOAuthConsent(true);
+                  }}
+                  className="w-full"
+                >
                   Continue with Google
                 </Button>
+
+                <p className="mt-4 text-[11px] text-neutral-600 text-center">
+                  By continuing, you agree to our{" "}
+                  <Link to="/terms" className="underline">Terms & Conditions</Link>,{" "}
+                  <Link to="/privacy" className="underline">Privacy Policy</Link>, and{" "}
+                  <Link to="/returns" className="underline">Returns & Exchanges Policy</Link>.
+                </p>
               </>
             )}
 
@@ -168,13 +182,40 @@ export default function Account() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
 
+                <p className="mt-3 text-[11px] text-neutral-600 leading-relaxed">
+                  By creating an account, you agree to our{" "}
+                  <Link to="/terms" className="underline hover:text-neutral-900">
+                    Terms & Conditions
+                  </Link>,{" "}
+                  <Link to="/privacy" className="underline hover:text-neutral-900">
+                    Privacy Policy
+                  </Link>, and{" "}
+                  <Link to="/returns" className="underline hover:text-neutral-900">
+                    Returns & Exchanges Policy
+                  </Link>.
+                </p>
+
                 <Button onClick={handleRegister} disabled={loading} className="w-full">
                   Create Account
                 </Button>
 
-                <Button variant="outline" onClick={loginWithGoogle} className="w-full">
+                <Button
+                  variant="outline"
+                  onClick={async () => {
+                    await loginWithGoogle();
+                    setShowOAuthConsent(true);
+                  }}
+                  className="w-full"
+                >
                   Continue with Google
                 </Button>
+
+                <p className="mt-4 text-[11px] text-neutral-600 text-center">
+                  By continuing, you agree to our{" "}
+                  <Link to="/terms" className="underline">Terms & Conditions</Link>,{" "}
+                  <Link to="/privacy" className="underline">Privacy Policy</Link>, and{" "}
+                  <Link to="/returns" className="underline">Returns & Exchanges Policy</Link>.
+                </p>
               </>
             )}
 
@@ -182,6 +223,30 @@ export default function Account() {
               <p className="text-xs text-red-600 text-center pt-2">{error}</p>
             )}
           </div>
+
+          {showOAuthConsent && (
+            <div className="mt-6 text-center text-[11px] text-neutral-600 space-y-3">
+              <p>
+                By continuing, you agree to our{" "}
+                <Link to="/terms" className="underline hover:text-neutral-900">
+                  Terms & Conditions
+                </Link>,{" "}
+                <Link to="/privacy" className="underline hover:text-neutral-900">
+                  Privacy Policy
+                </Link>, and{" "}
+                <Link to="/returns" className="underline hover:text-neutral-900">
+                  Returns & Exchanges Policy
+                </Link>.
+              </p>
+
+              <Button
+                className="mt-2"
+                onClick={() => navigate("/account")}
+              >
+                Continue
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </>

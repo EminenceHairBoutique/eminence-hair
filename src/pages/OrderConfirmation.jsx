@@ -27,6 +27,19 @@ const OrderConfirmation = () => {
           be sent with your order details.
         </p>
 
+        <p className="mt-4 text-xs text-neutral-600">
+          Your purchase is subject to our{" "}
+          <Link to="/terms" className="underline hover:text-neutral-900">
+            Terms & Conditions
+          </Link>,{" "}
+          <Link to="/privacy" className="underline hover:text-neutral-900">
+            Privacy Policy
+          </Link>, and{" "}
+          <Link to="/returns" className="underline hover:text-neutral-900">
+            Returns & Exchanges Policy
+          </Link>.
+        </p>
+
         {/* EXISTING SUMMARY LOGIC — UNCHANGED */}
         {summary && (
           <div className="bg-white border border-neutral-200 rounded-2xl p-6 text-left text-sm text-neutral-700 mb-8">

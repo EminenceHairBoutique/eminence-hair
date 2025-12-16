@@ -9,7 +9,7 @@ const money = (n) =>
   `$${Number(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 
 export default function Checkout() {
-  const { items = [], total = 0, isOpen } = useCart();
+  const { items = [], total = 0 } = useCart();
 
   // route-based "loading skeleton" feel
   const [pageLoading, setPageLoading] = useState(true);
@@ -33,12 +33,11 @@ export default function Checkout() {
         description="Encrypted checkout with discreet packaging and verified luxury hair."
       />
       <div className="pt-28 pb-24 bg-[#FBF6ED]">
-        <div className={`${isOpen ? "blur-sm" : ""} transition`}>
-          <div
-            ref={rootRef}
-            tabIndex={-1}
-            className="max-w-6xl mx-auto px-6 grid lg:grid-cols-12 gap-12 outline-none"
-          >
+        <div
+          ref={rootRef}
+          tabIndex={-1}
+          className="max-w-6xl mx-auto px-6 grid lg:grid-cols-12 gap-12 outline-none"
+        >
             {/* LEFT — DETAILS */}
             <div className="lg:col-span-7">
               <div className="flex items-center gap-2 text-xs text-neutral-500 mb-4">
@@ -133,10 +132,23 @@ export default function Checkout() {
                   </div>
                 </div>
 
-                <div className="mt-5 text-xs text-neutral-500">
+                <div className="mt-7 text-sm text-neutral-500">
                   or 4 interest-free payments of{" "}
                   <span className="font-medium">{money(total / 4)}</span> with Klarna or Afterpay
                 </div>
+
+                <p className="mt-4 text-xs text-neutral-350 text-center">
+                  By completing your purchase, you agree to our{" "}
+                  <Link to="/terms" className="underline hover:text-neutral-900">
+                    Terms & Conditions
+                  </Link>,{" "}
+                  <Link to="/privacy" className="underline hover:text-neutral-900">
+                    Privacy Policy
+                  </Link>, and{" "}
+                  <Link to="/returns" className="underline hover:text-neutral-900">
+                    Returns & Exchanges Policy
+                  </Link>.
+                </p>
 
                 <button
                   disabled
@@ -163,7 +175,6 @@ export default function Checkout() {
                 </Link>
               </div>
             </div>
-          </div>
         </div>
       </div>
     </>

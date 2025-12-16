@@ -81,6 +81,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-4 text-sm text-neutral-600 flex gap-4 justify-center">
+          <Link to="/returns">Returns & Exchanges</Link>
           <Link to="/privacy">Privacy Policy</Link>
           <Link to="/terms">Terms & Conditions</Link>
         </div>
