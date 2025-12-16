@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Lock } from "lucide-react";
+import { loadStripe } from "@stripe/stripe-js";
 import { useCart } from "../context/CartContext";
 import StripeProvider from "../components/StripeProvider";
 import SEO from "../components/SEO";
@@ -9,6 +10,8 @@ const money = (n) =>
   `$${Number(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 
 const CONSENT_VERSION = "v1.0"; // bump to v1.1 when policies change
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 export default function Checkout() {
   const { items = [], total = 0 } = useCart();
@@ -180,8 +183,32 @@ export default function Checkout() {
                 </p>
 
                 <button
-                  disabled
-                  className="mt-6 w-full bg-black text-white py-3 rounded-full text-[12px] tracking-[0.22em] opacity-70 cursor-not-allowed"
+                  disabled={items.length === 0}
+                  onClick={async () => {
+                    const stripe = await stripePromise;
+
+                    if (!stripe) {
+                      alert("Payment system not ready. Please try again.");
+                      return;
+                    }
+
+                    const res = await fetch("/api/create-checkout-session", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ items }),
+                    });
+
+                    const data = await res.json();
+
+                    if (data.id) {
+                      await stripe.redirectToCheckout({ sessionId: data.id });
+                    }
+                  }}
+                  className={`mt-6 w-full py-3 rounded-full text-[12px] tracking-[0.22em] ${
+                    items.length === 0
+                      ? "bg-neutral-400 cursor-not-allowed"
+                      : "bg-black text-white"
+                  }`}
                 >
                   Continue to Payment
                 </button>

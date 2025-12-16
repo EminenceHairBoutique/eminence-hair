@@ -1,4 +1,5 @@
 /* eslint-env node */
+/* global process */
 // api/create-checkout-session.js
 import Stripe from "stripe";
 
@@ -16,24 +17,38 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "No items provided" });
     }
 
-    const line_items = items.map((item) => ({
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: item.name,
-          images: item.image ? [item.image] : [],
+    const line_items = items.map((item) => {
+      if (item.price <= 0 || item.quantity <= 0) {
+        throw new Error("Invalid item data");
+      }
+
+      return {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: item.name,
+            images: item.image ? [item.image] : [],
+          },
+          unit_amount: Math.round(item.price * 100),
         },
-        unit_amount: Math.round(item.price * 100),
-      },
-      quantity: item.quantity,
-    }));
+        quantity: item.quantity,
+      };
+    });
+
+    const origin =
+      req.headers.origin?.startsWith("http")
+        ? req.headers.origin
+        : `https://${req.headers.host}`;
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
       line_items,
-      success_url: `${req.headers.origin}/checkout/success`,
-      cancel_url: `${req.headers.origin}/checkout`,
+      success_url: `${origin}/checkout/success`,
+      cancel_url: `${origin}/checkout`,
+      metadata: {
+        order_source: "eminence_web",
+      },
     });
 
     res.status(200).json({ id: session.id });
