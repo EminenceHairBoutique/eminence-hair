@@ -229,7 +229,7 @@ export default function Checkout() {
                 </button>
 
                 <p className="mt-2 text-xs text-neutral-500 text-center">
-                  SSL Encrypted Secure Checkout.
+                  SSL Encrypted Secure Payment Portal - Stripe.
                 </p>
 
                 <div className="mt-6 text-xs text-neutral-500 space-y-1">
