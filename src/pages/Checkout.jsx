@@ -198,29 +198,27 @@ export default function Checkout() {
                   disabled={!items || items.length === 0}
                   onClick={async () => {
                     try {
-                      const stripe = await stripePromise;
-                      if (!stripe) throw new Error("Stripe failed to load");
-
                       const res = await fetch("/api/create-checkout-session", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                           items: items.map(i => ({
                             name: i.name,
-                            price: i.price,
-                            quantity: i.quantity,
-                            image: i.image,
+                            price: Number(i.price),
+                            quantity: Number(i.quantity),
                           })),
                         }),
                       });
 
-                      const data = await res.json();
+                      const text = await res.text();
+                      console.log("FRONTEND RAW RESPONSE:", text);
+                      const data = JSON.parse(text);
 
-                      if (!data.id) throw new Error("No session ID");
+                      if (!data.url) throw new Error("No checkout URL");
 
-                      await stripe.redirectToCheckout({ sessionId: data.id });
+                      window.location.href = data.url;
                     } catch (err) {
-                      console.error(err);
+                      console.error("Checkout error:", err);
                       alert("Payment system error. Please try again.");
                     }
                   }}

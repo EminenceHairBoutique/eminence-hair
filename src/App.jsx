@@ -26,6 +26,8 @@ const Collections = lazy(() => import("./pages/Collections"));
 const CollectionDetail = lazy(() => import("./pages/CollectionDetail"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 const CheckoutSuccess = lazy(() => import("./pages/CheckoutSuccess"));
+const Success = lazy(() => import("./pages/Success"));
+const Cancel = lazy(() => import("./pages/Cancel"));
 const Account = lazy(() => import("./pages/Account"));
 const Authenticity = lazy(() => import("./pages/Authenticity"));
 const Care = lazy(() => import("./pages/Care"));
@@ -74,6 +76,8 @@ export default function App() {
                 ["/collections/:slug", <CollectionDetail />],
                 ["/checkout", <Checkout />],
                 ["/checkout/success", <CheckoutSuccess />],
+                ["/success", <Success />],
+                ["/cancel", <Cancel />],
                 ["/order-confirmation", <OrderConfirmation />],
                 ["/account", <Account />],
                 ["/authenticity", <Authenticity />],

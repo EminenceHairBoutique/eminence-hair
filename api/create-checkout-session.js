@@ -44,11 +44,11 @@ export default async function handler(req, res) {
       payment_method_types: ["card"],
       line_items,
       mode: "payment",
-      success_url: `${origin}/checkout/success`,
-      cancel_url: `${origin}/checkout`,
+      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/cancel`,
     });
 
-    res.json({ id: session.id });
+    res.json({ url: session.url });
   } catch (err) {
     console.error("Stripe error:", err.message);
     res.status(500).json({ error: err.message });
