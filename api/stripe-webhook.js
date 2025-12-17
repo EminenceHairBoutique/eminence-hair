@@ -2,6 +2,7 @@
 import Stripe from "stripe";
 import { supabaseServer } from "../lib/supabaseServer.js";
 import { generateOrderNumber } from "../lib/orderNumber.js";
+import { sendOrderConfirmationEmail } from "../lib/email.js";
 
 export const config = {
   api: {
@@ -75,6 +76,19 @@ export default async function handler(req, res) {
         }
 
         console.log("✅ Order saved:", orderNumber);
+
+        // Send confirmation email
+        try {
+          await sendOrderConfirmationEmail({
+            to: session.customer_details?.email,
+            orderNumber,
+            amount: session.amount_total,
+          });
+          console.log("✅ Confirmation email sent to:", session.customer_details?.email);
+        } catch (emailError) {
+          console.error("❌ Failed to send confirmation email:", emailError);
+        }
+
         break;
       }
 
