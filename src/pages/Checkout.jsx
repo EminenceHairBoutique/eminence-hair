@@ -202,7 +202,7 @@ export default function Checkout() {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
-                          items: items.map(i => ({
+                          items: items.map((i) => ({
                             name: i.name,
                             price: Number(i.price),
                             quantity: Number(i.quantity),
@@ -210,16 +210,24 @@ export default function Checkout() {
                         }),
                       });
 
-                      const text = await res.text();
-                      console.log("FRONTEND RAW RESPONSE:", text);
-                      const data = JSON.parse(text);
+                      if (!res.ok) {
+                        const errText = await res.text();
+                        throw new Error(errText || "Checkout API error");
+                      }
 
-                      if (!data.url) throw new Error("No checkout URL");
+                      const data = await res.json();
 
-                      window.location.href = data.url;
+                      if (!data?.url) {
+                        throw new Error("Stripe checkout URL missing");
+                      }
+
+                      // 🔐 Redirect to Stripe Checkout
+                      window.location.assign(data.url);
                     } catch (err) {
                       console.error("Checkout error:", err);
-                      alert("Payment system error. Please try again.");
+                      alert(
+                        "Payment system is temporarily unavailable. Please refresh and try again."
+                      );
                     }
                   }}
                   className={`mt-6 w-full py-3 rounded-full text-[12px] tracking-[0.22em] ${
