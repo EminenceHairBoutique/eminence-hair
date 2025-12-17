@@ -14,40 +14,25 @@ export default async function handler(req, res) {
   try {
     const { items } = req.body;
 
-    if (!Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({ error: "No items provided" });
+    if (!items || !Array.isArray(items)) {
+      return res.status(400).json({ error: "Invalid cart items" });
     }
 
     const line_items = items.map((item) => {
-      if (
-        !item.name ||
-        !item.price ||
-        !item.quantity ||
-        !item.id ||
-        !item.cartKey
-      ) {
-        throw new Error("Invalid cart item shape");
+      if (!item.name || !item.price || !item.quantity) {
+        throw new Error("Missing item fields");
       }
 
       return {
-        quantity: item.quantity,
         price_data: {
           currency: "usd",
-          unit_amount: Math.round(item.price * 100),
           product_data: {
             name: item.name,
             images: item.image ? [item.image] : [],
-            metadata: {
-              product_id: item.id,
-              slug: item.slug,
-              length: item.length,
-              density: item.density,
-              lace: item.lace,
-              color: item.color || "",
-              cartKey: item.cartKey,
-            },
           },
+          unit_amount: Math.round(Number(item.price) * 100),
         },
+        quantity: item.quantity,
       };
     });
 
@@ -56,29 +41,16 @@ export default async function handler(req, res) {
       `https://${req.headers["x-forwarded-host"] || req.headers.host}`;
 
     const session = await stripe.checkout.sessions.create({
-      mode: "payment",
       payment_method_types: ["card"],
-
       line_items,
-
+      mode: "payment",
       success_url: `${origin}/checkout/success`,
       cancel_url: `${origin}/checkout`,
-
-      billing_address_collection: "required",
-      shipping_address_collection: {
-        allowed_countries: ["US", "CA"],
-      },
-
-      automatic_tax: { enabled: true },
-
-      metadata: {
-        order_source: "eminence_web",
-      },
     });
 
-    return res.status(200).json({ id: session.id });
+    res.json({ id: session.id });
   } catch (err) {
-    console.error("Stripe checkout error:", err);
-    return res.status(500).json({ error: "Checkout session failed" });
+    console.error("Stripe error:", err.message);
+    res.status(500).json({ error: err.message });
   }
 }

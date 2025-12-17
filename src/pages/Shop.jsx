@@ -124,31 +124,8 @@ export default function Shop() {
       : "Raw Cambodian & SEA hair, Burmese deep waves, and signature color units built with 180–250% density.";
 
   const handleQuickAdd = (product) => {
-    const length = getMinLength(product);
-    const density = getMinDensity(product);
-
-    const price =
-      typeof product.price === "function" && length != null && density != null
-        ? Number(product.price(length, density) || 0)
-        : Number(product.basePrice ?? product.fromPrice ?? product.price ?? 0);
-
     setAddingId(product.id);
-
-    addToCart({
-      id: product.id,
-      variant: length != null && density != null ? `${length}-${density}` : "standard",
-      name: product.name,
-      price,
-      image: product.images?.[0],
-
-      length,
-      density,
-      selectedLength: length,
-      selectedDensity: density,
-
-      quantity: 1,
-    });
-
+    addToCart(product); // CartContext applies defaults
     setTimeout(() => setAddingId(null), 350);
   };
 

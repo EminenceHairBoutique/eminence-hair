@@ -138,9 +138,14 @@ export default function Checkout() {
                         <div className="flex-1">
                           <p className="text-sm">{item.name}</p>
                           <p className="text-xs text-neutral-500 mt-1">
-                            {item.length ? `${item.length}"` : "—"} ·{" "}
-                            {item.density ? `${item.density}%` : "—"} · Qty {item.quantity}
+                            {(item.length ?? item.selectedLength) ? `${item.length ?? item.selectedLength}"` : "—"} ·{" "}
+                            {(item.density ?? item.selectedDensity) ? `${item.density ?? item.selectedDensity}%` : "—"} · Qty {item.quantity}
                           </p>
+                          {item.autoDefaultsApplied && (
+                            <p className="mt-1 text-[11px] tracking-[0.18em] uppercase text-neutral-400">
+                              Base configuration applied
+                            </p>
+                          )}
                         </div>
 
                         <p className="text-sm">{money(item.price * item.quantity)}</p>
