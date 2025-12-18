@@ -55,7 +55,7 @@ export default function Checkout() {
       metadata: {
         ...consent,
         product_urls: items.map((i) =>
-          i.productUrl || `${window.location.origin}/product/${i.slug}`
+          i.productUrl || `${window.location.origin}/products/${i.slug}`
         ),
         returns_url: `${window.location.origin}/returns`,
         terms_url: `${window.location.origin}/terms`,

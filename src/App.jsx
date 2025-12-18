@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence, motion as Motion } from "framer-motion";
 import { useCart } from "./context/CartContext";
 import DiscountModal from "./components/DiscountModal";
@@ -25,7 +25,6 @@ const Gallery = lazy(() => import("./pages/Gallery"));
 const Collections = lazy(() => import("./pages/Collections"));
 const CollectionDetail = lazy(() => import("./pages/CollectionDetail"));
 const Checkout = lazy(() => import("./pages/Checkout"));
-const CheckoutSuccess = lazy(() => import("./pages/CheckoutSuccess"));
 const Success = lazy(() => import("./pages/Success"));
 const Cancel = lazy(() => import("./pages/Cancel"));
 const Account = lazy(() => import("./pages/Account"));
@@ -35,7 +34,6 @@ const About = lazy(() => import("./pages/About"));
 const Faqs = lazy(() => import("./pages/Faqs"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Verify = lazy(() => import("./pages/Verify"));
-const OrderConfirmation = lazy(() => import("./pages/OrderConfirmation"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
@@ -75,10 +73,8 @@ export default function App() {
                 ["/collections", <Collections />],
                 ["/collections/:slug", <CollectionDetail />],
                 ["/checkout", <Checkout />],
-                ["/checkout/success", <CheckoutSuccess />],
                 ["/success", <Success />],
                 ["/cancel", <Cancel />],
-                ["/order-confirmation", <OrderConfirmation />],
                 ["/account", <Account />],
                 ["/authenticity", <Authenticity />],
                 ["/care", <Care />],
@@ -108,6 +104,8 @@ export default function App() {
                   }
                 />
               ))}
+              <Route path="/checkout/success" element={<Navigate to="/success" replace />} />
+              <Route path="/order-confirmation" element={<Navigate to="/success" replace />} />
             </Routes>
           </AnimatePresence>
         </ErrorBoundary>

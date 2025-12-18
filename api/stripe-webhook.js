@@ -10,9 +10,9 @@ export const config = {
   },
 };
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2025-11-17"
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+console.log("🔑 RESEND_API_KEY present?", !!process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -53,6 +53,8 @@ export default async function handler(req, res) {
 
         const orderNumber = await generateOrderNumber(supabaseServer);
 
+        const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+
         const order = {
           order_number: orderNumber,
           stripe_session_id: session.id,
@@ -61,7 +63,10 @@ export default async function handler(req, res) {
           customer_name: session.customer_details?.name || null,
           amount_total: session.amount_total,
           currency: session.currency,
-          items: session.line_items || [], // fallback; we can expand later
+
+          // ✅ FIXED: real purchased items
+          items: lineItems.data,
+
           consent: session.metadata || {},
           status: "paid",
         };
@@ -79,14 +84,17 @@ export default async function handler(req, res) {
 
         // Send confirmation email
         try {
+          console.log("📧 Attempting to send confirmation email to:", session.customer_details?.email);
+
           await sendOrderConfirmationEmail({
             to: session.customer_details?.email,
             orderNumber,
             amount: session.amount_total,
           });
-          console.log("✅ Confirmation email sent to:", session.customer_details?.email);
-        } catch (emailError) {
-          console.error("❌ Failed to send confirmation email:", emailError);
+
+          console.log("📧 Email send call completed");
+        } catch (err) {
+          console.error("❌ Email send failed:", err);
         }
 
         break;
