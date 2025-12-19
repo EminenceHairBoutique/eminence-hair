@@ -19,6 +19,111 @@ const formatMoney = (n) =>
 const ratingValue = 4.8;
 const ratingCount = 182;
 
+/* ---------------- collection PDP copy ---------------- */
+function EssentialLaceCopy({ product }) {
+  // Adjust this string to match exactly what you're using in products.js
+  const isEssential =
+    (product?.collection || "").toLowerCase().includes("essential") ||
+    (product?.displayName || "").toLowerCase().includes("essential lace") ||
+    (product?.name || "").toLowerCase().includes("essential lace");
+
+  if (!isEssential) return null;
+
+  return (
+    <div className="space-y-6 text-sm leading-relaxed text-neutral-600">
+      <div>
+        <p className="text-neutral-900 font-medium mb-2">A refined introduction to realism.</p>
+        <p>
+          Confidence begins with feeling natural. The Eminence Essential Lace Wig is thoughtfully
+          designed for women seeking discreet, realistic hair without unnecessary complexity.
+          Whether you're new to wigs, navigating hair thinning or medical hair loss, or simply
+          prefer a clean, polished look — Essential Lace offers balance, comfort, and confidence
+          you can trust.
+        </p>
+        <p className="mt-3">This is where realism starts.</p>
+      </div>
+
+      <div>
+        <p className="text-neutral-900 font-medium mb-2">Key Benefits</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Soft Swiss lace for a natural hairline</li>
+          <li>Lightweight, breathable cap construction</li>
+          <li>Refined density for everyday wear</li>
+          <li>Designed for first-time wig wearers and sensitive scalps</li>
+          <li>Premium human hair with natural movement</li>
+        </ul>
+      </div>
+
+      <div>
+        <p className="text-neutral-900 font-medium mb-2">Construction Details</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Swiss lace front for a seamless hairline</li>
+          <li>Carefully balanced density to avoid bulk or heaviness</li>
+          <li>Adjustable cap designed for comfort and secure wear</li>
+          <li>Breathable structure suitable for extended daily use</li>
+        </ul>
+        <p className="mt-3">
+          Every element is chosen to feel light, natural, and intuitive — never overwhelming.
+        </p>
+      </div>
+
+      <div>
+        <p className="text-neutral-900 font-medium mb-2">Hair Quality</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Cuticle-aligned strands for reduced tangling</li>
+          <li>No heavy silicone coatings</li>
+          <li>Minimal processing to preserve natural texture</li>
+          <li>Can be heat styled within care guidelines</li>
+        </ul>
+        <p className="mt-3">
+          The result is hair that blends naturally — and behaves the way you expect.
+        </p>
+      </div>
+
+      <div>
+        <p className="text-neutral-900 font-medium mb-2">Who This Wig Is For</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>First-time wig wearers</li>
+          <li>Women experiencing hair thinning or mild hair loss</li>
+          <li>Medical hair loss clients seeking comfort and discretion</li>
+          <li>Everyday professionals who prefer understated realism</li>
+        </ul>
+      </div>
+
+      <div>
+        <p className="text-neutral-900 font-medium mb-2">Confidence &amp; Support</p>
+        <p>
+          For clients experiencing medical hair loss, we can provide documentation suitable for
+          cranial prosthesis reimbursement upon request.
+        </p>
+        <p className="mt-3">
+          If you're unsure where to begin, our team offers private virtual consultations to help you
+          choose the right length, density, and lace option — without pressure or confusion.
+        </p>
+      </div>
+
+      <div>
+        <p className="text-neutral-900 font-medium mb-2">Care &amp; Longevity</p>
+        <p>
+          With proper care, your Essential Lace wig is designed for consistent, reliable wear.
+          We include gentle care guidelines, washing &amp; styling instructions, and long-term
+          maintenance tips.
+        </p>
+      </div>
+
+      <div className="pt-1">
+        <p className="text-neutral-900 font-medium">
+          There is nothing "basic" about feeling secure in your appearance.
+        </p>
+        <p className="mt-2">
+          Eminence Essential Lace is designed to look natural, feel comfortable, and restore
+          confidence — quietly.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 /* ---------------- structured data ---------------- */
 function ProductStructuredData({ product }) {
   if (!product) return null;
@@ -347,8 +452,22 @@ export default function ProductDetail() {
                   </div>
 
                   <div className="mt-10">
+                    {/* Collection-specific PDP copy (Essential Lace only) */}
+                    {((product?.collection || "").toLowerCase().includes("essential") ||
+                      (product?.displayName || "").toLowerCase().includes("essential lace") ||
+                      (product?.name || "").toLowerCase().includes("essential lace")) && (
+                      <Accordion title="Essential Lace Details">
+                        <EssentialLaceCopy product={product} />
+                      </Accordion>
+                    )}
+
+                    {/* Your existing generic description stays (works for all products) */}
                     <Accordion title="Product Description">{product.description}</Accordion>
-                    <Accordion title="Hair Care">Use sulfate-free products. Air-dry when possible.</Accordion>
+
+                    <Accordion title="Hair Care">
+                      Use sulfate-free products. Air-dry when possible.
+                    </Accordion>
+
                     <Accordion title="Shipping & Returns">
                       <p className="mb-2">
                         Ships within 2–3 business days. Custom and worn items are final sale.

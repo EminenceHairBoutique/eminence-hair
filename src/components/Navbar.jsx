@@ -42,7 +42,7 @@ export default function Navbar() {
   useEffect(() => {
     setOpenMenu(null);
     setMobileOpen(false);
-  }, [location.pathname]);
+  }, [location.pathname, location.search]);
 
   /* ─────────────────────────────
      Outside click + ESC
@@ -182,9 +182,9 @@ export default function Navbar() {
                   Shop
                 </p>
                 <Link to="/shop" className="block mb-2">All Products</Link>
-                <Link to="/shop?type=wig" className="block mb-2">Wigs</Link>
+                <Link to="/shop/wigs" className="block mb-2">Wigs</Link>
                 <Link to="/shop?type=weft" className="block mb-2">Weft Extensions</Link>
-                <Link to="/shop?type=bundle" className="block mb-2">Bundles</Link>
+                <Link to="/shop/bundles" className="block mb-2">Bundles</Link>
                 <Link to="/shop?type=closure" className="block mb-2">Closures</Link>
                 <Link to="/shop?type=frontal" className="block mb-2">Frontals</Link>
                 <Link to="/shop?type=clip-in" className="block mb-2">Clip-In Extensions</Link>
@@ -278,9 +278,9 @@ export default function Navbar() {
               <div>
                 <p className="text-[10px] uppercase tracking-[0.28em] text-neutral-500 mb-3">Shop</p>
                 <Link to="/shop" onClick={closeAll} className="block text-sm">All Products</Link>
-                <Link to="/shop?type=wig" onClick={closeAll} className="block text-sm">Wigs</Link>
+                <Link to="/shop/wigs" onClick={closeAll} className="block text-sm">Wigs</Link>
                 <Link to="/shop?type=weft" onClick={closeAll} className="block text-sm">Weft Extensions</Link>
-                <Link to="/shop?type=bundle" onClick={closeAll} className="block text-sm">Bundles</Link>
+                <Link to="/shop/bundles" onClick={closeAll} className="block text-sm">Bundles</Link>
                 <Link to="/shop?type=closure" onClick={closeAll} className="block text-sm">Closures</Link>
                 <Link to="/shop?type=frontal" onClick={closeAll} className="block text-sm">Frontals</Link>
                 <Link to="/shop?type=clip-in" onClick={closeAll} className="block text-sm">Clip-In Extensions</Link>

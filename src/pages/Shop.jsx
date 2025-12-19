@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { Link, useSearchParams, useLocation } from "react-router-dom";
-import { products } from "../data/products";
+import { products, eminenceEssentials } from "../data/products";
 import { useCart } from "../context/CartContext";
 import { prefetchRoute } from "../utils/prefetch";
 import SEO from "../components/SEO";
@@ -22,6 +22,31 @@ const getStartingPrice = (p) => {
   return Number(p.basePrice ?? p.fromPrice ?? p.price ?? 0);
 };
 
+const matchesColor = (p, color) => {
+  const c = String(color || "").toLowerCase();
+
+  // Work with what exists TODAY in your products.js:
+  // - natural is collectionSlug "natural"
+  // - 613 is collectionSlug "613"
+  const slug = String(p.collectionSlug || "").toLowerCase();
+  const collection = String(p.collection || "").toLowerCase();
+  const name = String(p.name || "").toLowerCase();
+  const displayName = String(p.displayName || "").toLowerCase();
+
+  if (c === "natural") return slug === "natural" || collection.includes("colorway natural");
+  if (c === "613") return slug === "613" || collection.includes("colorway 613") || name.includes("613") || displayName.includes("613");
+
+  // Future categories (safe now, will just return false until you add products)
+  if (c === "blended") return collection.includes("ombre") || name.includes("ombre") || displayName.includes("ombre");
+  if (c === "red") return collection.includes("red") || name.includes("red") || displayName.includes("red");
+
+  // If someone passes "1b" later and you add p.color fields, it will work if you want:
+  const productColor = String(p.color || "").toLowerCase();
+  if (productColor && productColor === c) return true;
+
+  return false;
+};
+
 const prefetchProduct = () => import("./ProductDetail");
 const prefetchCheckout = () => import("./Checkout");
 
@@ -39,12 +64,30 @@ export default function Shop() {
   }, [location.key]);
 
   /* MODE FROM URL */
-  const mode =
+  const modeFromPath =
     location.pathname === "/shop/wigs"
       ? "wig"
       : location.pathname === "/shop/bundles"
       ? "bundle"
       : "all";
+
+  // Support Navbar links like /shop?type=wig
+  const typeParam = (searchParams.get("type") || "").toLowerCase();
+  const mode =
+    modeFromPath !== "all"
+      ? modeFromPath
+      : ["wig", "bundle", "closure"].includes(typeParam)
+      ? typeParam
+      : "all";
+
+  // ✅ IMPORTANT: do NOT store these in state (it causes "sticky filters")
+  const collectionFilter = searchParams.get("collection") || "All";
+  const textureFilter = searchParams.get("texture") || "All";
+  const colorFilter = searchParams.get("color") || "All";
+
+  // Essentials view is only when explicitly requested
+  const isEssentialsView =
+    collectionFilter === "eminence-essentials" || collectionFilter === "Eminence Essentials";
 
   /* SEO */
   useEffect(() => {
@@ -70,11 +113,6 @@ export default function Shop() {
         : "Shop luxury wigs, bundles, and textures by Eminence Hair.";
   }, [mode]);
 
-  const initialCollection = searchParams.get("collection") || "All";
-  const initialTexture = searchParams.get("texture") || "All";
-
-  const [collectionFilter] = useState(initialCollection);
-  const [textureFilter] = useState(initialTexture);
   const [addingId, setAddingId] = useState(null);
 
   const filteredByType = useMemo(() => {
@@ -85,11 +123,30 @@ export default function Shop() {
   const visibleProducts = useMemo(() => {
     let list = [...filteredByType];
 
-    if (collectionFilter !== "All") list = list.filter((p) => p.collection === collectionFilter);
-    if (textureFilter !== "All") list = list.filter((p) => p.texture === textureFilter);
+    // ✅ If user is explicitly on Essentials view, show ONLY essentials
+    if (isEssentialsView) {
+      return list
+        .filter((p) => p.isEssential || p.collections?.includes("Eminence Essentials"))
+        .sort((a, b) => (a.essentialOrder ?? 99) - (b.essentialOrder ?? 99));
+    }
+
+    // Otherwise show full catalog (with optional filters)
+    if (collectionFilter !== "All") {
+      list = list.filter(
+        (p) => p.collectionSlug === collectionFilter || p.collection === collectionFilter
+      );
+    }
+
+    if (textureFilter !== "All") {
+      list = list.filter((p) => p.texture === textureFilter);
+    }
+
+    if (colorFilter !== "All") {
+      list = list.filter((p) => matchesColor(p, colorFilter));
+    }
 
     return list;
-  }, [filteredByType, collectionFilter, textureFilter]);
+  }, [filteredByType, isEssentialsView, collectionFilter, textureFilter, colorFilter]);
 
   if (mode === "bundle" && visibleProducts.length === 0) {
     return (
@@ -109,6 +166,35 @@ export default function Shop() {
             className="inline-block px-8 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] border border-neutral-900 bg-neutral-900 text-[#F9F7F4] hover:bg-transparent hover:text-neutral-900 transition"
           >
             Join the Waitlist
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (!pageLoading && visibleProducts.length === 0) {
+    return (
+      <div className="pt-32 pb-32 bg-[#FBF6ED] text-center">
+        <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500 mb-4">
+          Eminence Hair
+        </p>
+        <h1 className="text-4xl font-light mb-6">No results yet</h1>
+        <p className="max-w-md mx-auto text-neutral-600 leading-relaxed">
+          That edit is currently being curated. Explore the full collection or join the list for restocks.
+        </p>
+
+        <div className="mt-10 flex gap-3 justify-center">
+          <Link
+            to="/shop"
+            className="inline-block px-8 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] border border-neutral-900 bg-neutral-900 text-[#F9F7F4] hover:bg-transparent hover:text-neutral-900 transition"
+          >
+            Shop All
+          </Link>
+          <Link
+            to="/contact"
+            className="inline-block px-8 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] border border-neutral-900 hover:bg-neutral-900 hover:text-[#F9F7F4] transition"
+          >
+            Join the List
           </Link>
         </div>
       </div>
@@ -183,6 +269,71 @@ export default function Shop() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/15 to-transparent" />
             </div>
           </section>
+
+          {/* SECTION 1 — EMINENCE ESSENTIALS */}
+          {mode === "all" && !isEssentialsView && eminenceEssentials?.length > 0 && (
+            <section className="space-y-6">
+              <div className="flex items-end justify-between">
+                <div>
+                  <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-500">
+                    Eminence Essentials
+                  </p>
+                  <h2 className="text-xl font-light">
+                    A focused edit — wigs & bundles our clients choose most.
+                  </h2>
+                </div>
+
+                <Link
+                  to="/shop?collection=eminence-essentials"
+                  className="text-[11px] uppercase tracking-[0.22em] underline underline-offset-4 text-neutral-700"
+                >
+                  View All Essentials
+                </Link>
+              </div>
+
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+                {eminenceEssentials.slice(0, 6).map((p) => {
+                  const startingPrice = getStartingPrice(p);
+
+                  return (
+                    <div
+                      key={p.id}
+                      className="group flex flex-col rounded-3xl bg-[#F7EFE2] border border-white/40 shadow-[0_18px_40px_rgba(15,10,5,0.22)] overflow-hidden"
+                    >
+                      <Link
+                        to={`/products/${p.slug}`}
+                        className="relative block aspect-[3/4] overflow-hidden"
+                      >
+                        <img
+                          src={p.images?.[0]}
+                          alt={p.displayName || p.name}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+
+                        <span className="absolute top-3 left-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
+                          Essential
+                        </span>
+                      </Link>
+
+                      <div className="px-4 pt-4 pb-5">
+                        <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
+                          {p.type === "bundle" ? "Hair Bundle" : "HD Lace Wig"}
+                        </p>
+
+                        <p className="mt-1 text-sm font-medium text-neutral-900">
+                          {p.displayName || p.name}
+                        </p>
+
+                        <p className="mt-1 text-xs text-neutral-600">
+                          From ${Number(startingPrice || 0).toFixed(0)}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          )}
 
           {/* PRODUCT GRID */}
           <section>

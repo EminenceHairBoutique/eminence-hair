@@ -3,6 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { eminenceEssentials } from "../data/products";
 
 import hero from "../assets/hero.jpg.png";
 import firstPage from "../assets/first_page.png";
@@ -19,7 +20,7 @@ import db3 from "../assets/db3.png";
 import db4 from "../assets/db4.png";
 import db5 from "../assets/db5.png";
 
-import heroVideo from "../assets/videos/Eminence_hero.mp4";
+import heroVideo from "../assets/videos/eminence_hero.mp4";
 import PageTransition from "../components/PageTransition.jsx";
 import SEO from "../components/SEO";
 
@@ -83,10 +84,10 @@ const Home = () => {
 
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link
-                  to="/shop"
+                  to="/shop?collection=eminence-essentials"
                   className="px-10 py-3 text-xs tracking-[0.26em] uppercase border border-[#F9F7F4] bg-[#F9F7F4] text-[#111] rounded-full hover:bg-transparent hover:text-[#F9F7F4] transition"
                 >
-                  Shop Wigs
+                  Shop Eminence Essentials
                 </Link>
                 <Link
                   to="/collections"
@@ -94,6 +95,71 @@ const Home = () => {
                 >
                   View Collections
                 </Link>
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION B.5 — EMINENCE ESSENTIALS */}
+          <section className="py-16 border-t border-neutral-200 bg-[#F9F7F4]">
+            <div className="max-w-6xl mx-auto px-6">
+              <div className="text-center mb-10">
+                <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-500 mb-2">
+                  Eminence Essentials
+                </p>
+                <h2 className="text-2xl font-light font-display mb-3">
+                  Our most requested pieces — edited for everyday luxury.
+                </h2>
+                <p className="text-sm text-neutral-700 max-w-xl mx-auto">
+                  A focused selection of wigs and bundles chosen for versatility, longevity, and natural wear.
+                  Designed to simplify your choice without limiting your options.
+                </p>
+              </div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {eminenceEssentials.slice(0, 3).map((p) => (
+                  <div
+                    key={p.id}
+                    className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm"
+                  >
+                    <img
+                      src={p.images?.[0]}
+                      alt={p.displayName || p.name}
+                      className="h-64 w-full object-cover"
+                    />
+                    <div className="p-5">
+                      <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-500 mb-1">
+                        Eminence Essential
+                      </p>
+
+                      <p className="text-sm text-neutral-800 mb-2">
+                        {p.displayName || p.name}
+                      </p>
+
+                      <Link
+                        to={`/products/${p.slug}`}
+                        className="text-[11px] uppercase tracking-[0.22em] underline underline-offset-4"
+                      >
+                        Shop Now
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+
+                {/* Explore All */}
+                <div className="bg-[#F3EFE8] border border-neutral-200 rounded-3xl flex flex-col justify-center items-center text-center p-8">
+                  <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-600 mb-2">
+                    Full Edit
+                  </p>
+                  <p className="text-sm text-neutral-700 mb-4">
+                    Explore all wigs, bundles, textures, and custom options.
+                  </p>
+                  <Link
+                    to="/shop"
+                    className="px-6 py-2.5 text-[11px] uppercase tracking-[0.26em] border border-neutral-900 rounded-full hover:bg-neutral-900 hover:text-[#F9F7F4] transition"
+                  >
+                    Shop All
+                  </Link>
+                </div>
               </div>
             </div>
           </section>

@@ -7,6 +7,14 @@ const LACE_UPCHARGE = {
 };
 
 // ======================
+// EMINENCE ESSENTIALS
+// ======================
+const ESSENTIALS_COLLECTION = {
+  name: "Eminence Essentials",
+  slug: "eminence-essentials",
+};
+
+// ======================
 // PRICING MATRICES
 // ======================
 
@@ -209,6 +217,12 @@ export const products = [
     name: "Natural Colorway — BodyWave",
     displayName: "Natural 1B Body Wave HD Lace Wig",
     type: "wig",
+
+    // 🔹 Eminence Essentials
+    isEssential: true,
+    essentialOrder: 2,
+    collections: ["Eminence Essentials"],
+
     verificationCode: "EMH-NAT-2025-90227",
     collection: "Colorway Natural",
     collectionSlug: "natural",
@@ -254,6 +268,12 @@ export const products = [
     name: "613 Blonde Colorway",
     displayName: "613 Blonde HD Lace Wig",
     type: "wig",
+
+    // 🔹 Eminence Essentials
+    isEssential: true,
+    essentialOrder: 3,
+    collections: ["Eminence Essentials"],
+
     verificationCode: "EMH-613-2025-90229",
     collection: "Colorway 613",
     collectionSlug: "613",
@@ -301,6 +321,12 @@ export const products = [
     name: "Black Straight HD Lace Wig",
     displayName: "Black Straight HD Lace Wig",
     type: "wig",
+
+    // 🔹 Eminence Essentials
+    isEssential: true,
+    essentialOrder: 1,
+    collections: ["Eminence Essentials"],
+
     verificationCode: "EMH-EMI-2025-90231",
     collection: "Eminence Collection",
     collectionSlug: "eminence",
@@ -326,5 +352,12 @@ export const products = [
     },
   },
 ];
+
+// ======================
+// DERIVED COLLECTIONS
+// ======================
+export const eminenceEssentials = products
+  .filter((p) => p.isEssential)
+  .sort((a, b) => (a.essentialOrder ?? 99) - (b.essentialOrder ?? 99));
 
 export default products;
