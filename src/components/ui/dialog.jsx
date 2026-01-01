@@ -4,7 +4,7 @@ export function Dialog({ children }) {
   return <div>{children}</div>;
 }
 
-export function DialogTrigger({ asChild, children }) {
+export function DialogTrigger({ asChild: _asChild, children }) {
   return children;
 }
 

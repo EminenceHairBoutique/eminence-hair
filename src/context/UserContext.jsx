@@ -98,7 +98,7 @@ export const UserProvider = ({ children }) => {
         } else {
           setUser(null);
         }
-      } catch (err) {
+      } catch (_err) {
         // ignore - keep user null
       } finally {
         if (mounted) setLoading(false);

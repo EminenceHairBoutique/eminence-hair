@@ -6,11 +6,11 @@ export default function Authenticity() {
   const [lightbox, setLightbox] = useState(null);
 
   return (
-    <div className="pt-28 pb-32 bg-[#FBF6ED]">
+    <div className="pt-20 pb-20 bg-[#FBF6ED]">
       <div className="max-w-5xl mx-auto px-6">
 
         {/* HEADER */}
-        <div className="mb-20">
+        <div className="mb-14">
           <p className="text-xs uppercase tracking-[0.32em] text-neutral-500 mb-4">
             Authenticity & Certification
           </p>

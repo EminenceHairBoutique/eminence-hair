@@ -5,10 +5,62 @@ import logoWordmark from "../assets/logo_wordmark.svg";
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    orderNumber: "",
+    reason: "",
+    message: "",
+    website: "", // honeypot
+  });
+
+  const [status, setStatus] = useState({ state: "idle", message: "" });
+
+  const update = (key) => (e) => {
+    setForm((p) => ({ ...p, [key]: e.target.value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // For now we just show a success state – backend can be wired later.
-    setSubmitted(true);
+    setStatus({ state: "loading", message: "" });
+
+    try {
+      const fullName = `${form.firstName} ${form.lastName}`.trim();
+      if (!fullName || !form.email || !form.reason || !form.message) {
+        throw new Error("Please fill in all required fields.");
+      }
+
+      const payload = {
+        fullName,
+        email: form.email,
+        phone: form.phone,
+        orderNumber: form.orderNumber,
+        reason: form.reason,
+        message: form.message,
+        website: form.website,
+      };
+
+      const res = await fetch("/api/concierge", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "contact", payload }),
+      });
+
+      if (!res.ok) {
+        const txt = await res.text();
+        throw new Error(txt || "Unable to send message.");
+      }
+
+      setStatus({ state: "success", message: "Message sent." });
+      setSubmitted(true);
+    } catch (err) {
+      setStatus({
+        state: "error",
+        message: err?.message || "Something went wrong. Please try again.",
+      });
+    }
   };
 
   return (
@@ -54,7 +106,7 @@ export default function Contact() {
                   <p className="uppercase tracking-[0.22em] text-[10px] text-softGray">
                     Email
                   </p>
-                  <p className="text-ivory">support@eminencehair.com</p>
+                  <p className="text-ivory">support@eminenceluxuryhair.com</p>
                 </div>
               </div>
 
@@ -92,6 +144,16 @@ export default function Contact() {
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-4 text-sm font-body">
+                  {/* honeypot */}
+                  <input
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={form.website}
+                    onChange={update("website")}
+                    className="hidden"
+                    aria-hidden="true"
+                  />
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1">
@@ -100,6 +162,8 @@ export default function Contact() {
                       <input
                         type="text"
                         required
+                        value={form.firstName}
+                        onChange={update("firstName")}
                         className="w-full bg-transparent border-b border-neutral-300 focus:outline-none focus:border-gold/80 py-1.5 text-sm"
                       />
                     </div>
@@ -110,6 +174,8 @@ export default function Contact() {
                       <input
                         type="text"
                         required
+                        value={form.lastName}
+                        onChange={update("lastName")}
                         className="w-full bg-transparent border-b border-neutral-300 focus:outline-none focus:border-gold/80 py-1.5 text-sm"
                       />
                     </div>
@@ -122,6 +188,8 @@ export default function Contact() {
                     <input
                       type="email"
                       required
+                      value={form.email}
+                      onChange={update("email")}
                       className="w-full bg-transparent border-b border-neutral-300 focus:outline-none focus:border-gold/80 py-1.5 text-sm"
                     />
                   </div>
@@ -133,6 +201,8 @@ export default function Contact() {
                       </label>
                       <input
                         type="tel"
+                        value={form.phone}
+                        onChange={update("phone")}
                         className="w-full bg-transparent border-b border-neutral-300 focus:outline-none focus:border-gold/80 py-1.5 text-sm"
                       />
                     </div>
@@ -142,6 +212,8 @@ export default function Contact() {
                       </label>
                       <input
                         type="text"
+                        value={form.orderNumber}
+                        onChange={update("orderNumber")}
                         className="w-full bg-transparent border-b border-neutral-300 focus:outline-none focus:border-gold/80 py-1.5 text-sm"
                       />
                     </div>
@@ -153,7 +225,8 @@ export default function Contact() {
                     </label>
                     <select
                       className="w-full bg-transparent border-b border-neutral-300 focus:outline-none focus:border-gold/80 py-1.5 text-sm"
-                      defaultValue=""
+                      value={form.reason}
+                      onChange={update("reason")}
                       required
                     >
                       <option value="" disabled>
@@ -174,16 +247,34 @@ export default function Contact() {
                     <textarea
                       rows={4}
                       required
+                      value={form.message}
+                      onChange={update("message")}
                       className="w-full bg-transparent border border-neutral-300 rounded-xl focus:outline-none focus:border-gold/80 px-3 py-2 text-sm resize-none"
                       placeholder="Share as much detail as you&apos;d like about your request."
                     />
                   </div>
 
+                  {status.state !== "idle" && !submitted && (
+                    <div
+                      className={
+                        "rounded-xl px-3 py-2 text-sm border " +
+                        (status.state === "success"
+                          ? "bg-emerald-50 border-emerald-200 text-emerald-900"
+                          : status.state === "error"
+                          ? "bg-red-50 border-red-200 text-red-900"
+                          : "bg-neutral-50 border-neutral-200 text-neutral-700")
+                      }
+                    >
+                      {status.message || (status.state === "loading" ? "Sending…" : "")}
+                    </div>
+                  )}
+
                   <button
                     type="submit"
+                    disabled={status.state === "loading"}
                     className="mt-2 w-full md:w-auto inline-flex items-center justify-center px-7 py-2.5 rounded-full bg-gold text-charcoal text-xs md:text-sm font-medium tracking-[0.18em] uppercase hover:bg-gold/90 transition"
                   >
-                    Send message
+                    {status.state === "loading" ? "Sending…" : "Send message"}
                   </button>
                 </form>
               </>

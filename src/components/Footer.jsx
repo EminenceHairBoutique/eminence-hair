@@ -33,9 +33,10 @@ const Footer = () => {
               Shop
             </p>
             <Link to="/shop" className="hover:text-neutral-200 block">All Products</Link>
-            <Link to="/shop?category=luxury-wigs" className="hover:text-neutral-200 block">Wigs</Link>
-            <Link to="/shop?category=raw-bundles" className="hover:text-neutral-200 block">Bundles</Link>
-            <Link to="/shop?category=closures" className="hover:text-neutral-200 block">Closures</Link>
+            <Link to="/shop/wigs" className="hover:text-neutral-200 block">Wigs</Link>
+            <Link to="/shop/bundles" className="hover:text-neutral-200 block">Bundles</Link>
+            <Link to="/shop/closures" className="hover:text-neutral-200 block">Closures</Link>
+            <Link to="/shop?collection=eminence-essentials" className="hover:text-neutral-200 block">Eminence Essentials</Link>
           </div>
 
           <div className="space-y-2">
@@ -45,7 +46,11 @@ const Footer = () => {
             <Link to="/collections/fw-2025" className="hover:text-neutral-200 block">F/W 2025</Link>
             <Link to="/collections/eminence" className="hover:text-neutral-200 block">Eminence</Link>
             <Link to="/collections/sea" className="hover:text-neutral-200 block">SEA</Link>
+            <Link to="/collections/burmese" className="hover:text-neutral-200 block">Burmese</Link>
+            <Link to="/collections/lavish" className="hover:text-neutral-200 block">Lavish</Link>
+            <Link to="/collections/straight" className="hover:text-neutral-200 block">Straight</Link>
             <Link to="/collections/613" className="hover:text-neutral-200 block">613</Link>
+            <Link to="/collections/eminence-essentials" className="hover:text-neutral-200 block">Essentials</Link>
           </div>
 
           <div className="space-y-2">
@@ -56,6 +61,9 @@ const Footer = () => {
             <Link to="/authenticity" className="hover:text-neutral-200 block">Authenticity</Link>
             <Link to="/care" className="hover:text-neutral-200 block">Care Guide</Link>
             <Link to="/faqs" className="hover:text-neutral-200 block">FAQs</Link>
+            <Link to="/medical-hair" className="hover:text-neutral-200 block">Medical Hair Concierge</Link>
+            <Link to="/private-consult" className="hover:text-neutral-200 block">Private Consult</Link>
+            <Link to="/custom-orders" className="hover:text-neutral-200 block">Custom Orders</Link>
           </div>
 
           <div className="space-y-2">
@@ -80,9 +88,10 @@ const Footer = () => {
           </p>
         </div>
 
-        <div className="mt-4 text-sm text-neutral-600 flex gap-4 justify-center">
+        <div className="mt-4 text-sm text-neutral-600 flex flex-wrap gap-4 justify-center">
           <Link to="/returns">Returns & Exchanges</Link>
           <Link to="/privacy">Privacy Policy</Link>
+          <Link to="/privacy-choices">Your Privacy Choices</Link>
           <Link to="/terms">Terms & Conditions</Link>
         </div>
 

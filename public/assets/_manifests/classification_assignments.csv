@@ -1,0 +1,383 @@
+src,source_kind,product_kind,assetKey,texture,color,role_hint,is_wear,confidence
+/mnt/data/processing/photos_wigs/Wigs/1b and burg mannequin.png,wig,wig,wig_loosewave_1b,loosewave,1b,mannequin,False,0.785
+/mnt/data/processing/photos_wigs/Wigs/Body Wave Wig Hero.png,wig,wig,wig_bodywave_orange,bodywave,orange,hero,False,0.955
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 15, 2025, 09_42_19 AM.png",wig,wig,wig_loosewave_1b,loosewave,1b,gallery,False,0.381
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_09_37 PM.png",wig,wig,wig_bodywave_1,bodywave,1,gallery,False,0.387
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_09_57 PM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.297
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_13_46 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.354
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_13_49 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.368
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_39_05 AM.png",wig,wig,wig_bodywave_burgundy,bodywave,burgundy,gallery,False,0.344
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_40_22 AM.png",wig,wig,wig_straight_brown,straight,brown,gallery,False,0.748
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_41_41 AM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.367
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_43_08 AM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.382
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_43_41 AM.png",wig,wig,wig_loosewave_613,loosewave,613,gallery,False,0.311
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_44_22 AM.png",wig,wig,wig_deepwave_brown,deepwave,brown,gallery,False,0.678
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_44_47 AM.png",wig,wig,wig_straight_613,straight,613,gallery,False,0.343
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_45_31 AM.png",wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.325
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_52_24 PM.png",wig,wig,wig_deepwave_brown,deepwave,brown,gallery,False,0.675
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_52_42 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.373
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_55_29 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.373
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_57_14 PM.png",wig,wig,wig_bodywave_1,bodywave,1,gallery,False,0.389
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_58_42 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.396
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 01_59_34 PM.png",wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.316
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_01_07 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.395
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_02_55 PM.png",wig,wig,wig_bodywave_brown,bodywave,brown,gallery,False,0.303
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_02_57 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.37
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_03_59 AM.png",wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.332
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_07_23 PM.png",wig,wig,wig_deepwave_brown,deepwave,brown,gallery,False,0.294
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_24_31 AM.png",wig,wig,wig_straight_brown,straight,brown,gallery,False,0.731
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_25_55 AM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.343
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_26_43 AM.png",wig,wig,wig_straight_613,straight,613,gallery,False,0.355
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_27_28 AM.png",wig,wig,wig_deepwave_brown,deepwave,brown,gallery,False,0.685
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_28_16 AM.png",wig,wig,wig_straight_613,straight,613,gallery,False,0.341
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_29_35 AM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.288
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_30_44 AM.png",wig,wig,wig_straight_1b,straight,1b,gallery,False,0.449
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_31_18 AM.png",wig,wig,wig_bodywave_burgundy,bodywave,burgundy,gallery,False,0.342
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_37_16 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.372
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_38_05 PM.png",wig,wig,wig_bodywave_brown,bodywave,brown,gallery,False,0.309
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_40_32 PM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.306
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_40_44 PM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.308
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_41_17 PM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.322
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_44_01 PM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.312
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_44_03 PM.png",wig,wig,wig_bodywave_burgundy,bodywave,burgundy,gallery,False,0.333
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_45_33 AM.png",wig,wig,wig_straight_brown,straight,brown,gallery,False,0.364
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_46_10 AM.png",wig,wig,wig_straight_burgundy,straight,burgundy,gallery,False,0.376
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_46_45 AM.png",wig,wig,wig_bodywave_orange,bodywave,orange,gallery,False,0.316
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_47_19 AM.png",wig,wig,wig_straight_burgundy,straight,burgundy,gallery,False,0.406
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_47_58 AM.png",wig,wig,wig_straight_brown,straight,brown,gallery,False,0.351
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_48_30 AM.png",wig,wig,wig_straight_burgundy,straight,burgundy,gallery,False,0.405
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_49_48 AM.png",wig,wig,wig_loosewave_orange,loosewave,orange,gallery,False,0.34
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_50_37 AM.png",wig,wig,wig_loosewave_1,loosewave,1,gallery,False,0.406
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_51_03 PM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.312
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_51_07 PM.png",wig,wig,wig_bodywave_orange,bodywave,orange,gallery,False,0.316
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_51_35 AM.png",wig,wig,wig_straight_orange,straight,orange,gallery,False,0.374
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_51_38 AM.png",wig,wig,wig_straight_1,straight,1,gallery,False,0.452
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_52_52 AM.png",wig,wig,wig_straight_1,straight,1,gallery,False,0.442
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_52_53 PM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.301
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_53_22 AM.png",wig,wig,wig_loosewave_brown,loosewave,brown,gallery,False,0.712
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_54_02 PM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.324
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_54_04 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.382
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_54_21 AM.png",wig,wig,wig_loosewave_1b,loosewave,1b,gallery,False,0.377
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_54_59 AM.png",wig,wig,wig_loosewave_orange,loosewave,orange,gallery,False,0.353
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_55_40 AM.png",wig,wig,wig_loosewave_1b,loosewave,1b,gallery,False,0.386
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_56_17 PM.png",wig,wig,wig_deepwave_silver,deepwave,silver,gallery,False,0.34
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_56_19 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.405
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_57_40 AM.png",wig,wig,wig_straight_orange,straight,orange,gallery,False,0.399
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_57_49 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.371
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_57_53 PM.png",wig,wig,wig_bodywave_silver,bodywave,silver,gallery,False,0.354
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_58_24 AM.png",wig,wig,wig_straight_brown,straight,brown,gallery,False,0.757
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_58_55 AM.png",wig,wig,wig_bodywave_orange,bodywave,orange,gallery,False,0.327
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_59_06 PM.png",wig,wig,wig_deepwave_silver,deepwave,silver,gallery,False,0.341
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_59_17 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.355
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 02_59_18 AM.png",wig,wig,wig_straight_1b,straight,1b,gallery,False,0.422
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 03_00_16 PM.png",wig,wig,wig_deepwave_silver,deepwave,silver,gallery,False,0.357
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 03_00_39 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.384
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 03_01_50 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.395
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 03_03_33 PM.png",wig,wig,wig_deepwave_silver,deepwave,silver,gallery,False,0.356
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 03_04_07 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.387
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 03_04_26 PM.png",wig,wig,wig_deepwave_silver,deepwave,silver,gallery,False,0.359
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 03_04_29 PM.png",wig,wig,wig_deepwave_silver,deepwave,silver,gallery,False,0.357
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 03_12_51 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.228
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 03_13_37 PM.png",wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.338
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 03_14_51 PM.png",wig,wig,wig_bodywave_1b,bodywave,1b,gallery,False,0.247
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 03_23_30 PM.png",wig,wig,wig_bodywave_1b,bodywave,1b,gallery,False,0.247
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 03_27_19 PM.png",wig,wig,wig_deepwave_brown,deepwave,brown,gallery,False,0.679
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 03_27_44 PM.png",wig,wig,wig_deepwave_brown,deepwave,brown,gallery,False,0.723
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 05_45_06 AM.png",wig,wig,wig_bodywave_burgundy,bodywave,burgundy,gallery,False,0.344
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 05_45_14 AM.png",wig,wig,wig_loosewave_orange,loosewave,orange,gallery,False,0.343
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 05_46_34 AM.png",wig,wig,wig_loosewave_silver,loosewave,silver,gallery,False,0.377
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 05_46_49 AM.png",wig,wig,wig_bodywave_burgundy,bodywave,burgundy,gallery,False,0.345
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 05_47_41 AM.png",wig,wig,wig_loosewave_silver,loosewave,silver,gallery,False,0.371
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 05_48_26 AM.png",wig,wig,wig_loosewave_orange,loosewave,orange,gallery,False,0.341
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 05_48_44 AM.png",wig,wig,wig_loosewave_silver,loosewave,silver,gallery,False,0.373
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 05_50_47 AM.png",wig,wig,wig_straight_orange,straight,orange,gallery,False,0.364
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_09_02 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.237
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_10_19 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.273
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_11_34 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.229
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_12_05 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.273
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_17_21 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.241
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_20_48 PM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.327
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_21_45 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.276
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_35_06 PM.png",wig,wig,wig_bodywave_1,bodywave,1,gallery,False,0.38
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_35_09 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.277
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_38_01 PM.png",wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.361
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_44_32 PM.png",wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.361
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_52_12 PM.png",wig,wig,wig_loosewave_1,loosewave,1,gallery,False,0.403
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_53_21 PM.png",wig,wig,wig_bodywave_1,bodywave,1,gallery,False,0.375
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_53_33 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.27
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_58_58 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.282
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 06_59_13 PM.png",wig,wig,wig_bodywave_1,bodywave,1,gallery,False,0.377
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 07_02_02 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.357
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 07_08_34 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.35
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 07_25_07 PM.png",wig,wig,wig_bodywave_1,bodywave,1,gallery,False,0.383
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 07_26_17 PM.png",wig,wig,wig_loosewave_1,loosewave,1,gallery,False,0.393
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 07_26_39 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.271
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 07_30_20 PM.png",wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.363
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 07_32_47 PM.png",wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.358
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 07_33_00 PM.png",wig,wig,wig_loosewave_1,loosewave,1,gallery,False,0.396
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 07_40_04 PM.png",wig,wig,wig_bodywave_1,bodywave,1,gallery,False,0.391
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 07_40_06 PM.png",wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.356
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 07_58_22 PM.png",wig,wig,wig_deepwave_brown,deepwave,brown,gallery,False,0.721
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 08_22_38 PM.png",wig,wig,wig_bodywave_brown,bodywave,brown,gallery,False,0.689
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 08_30_05 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.375
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 08_57_16 PM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.273
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 08_57_18 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.394
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 09_37_45 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.386
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 11_17_49 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.386
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 11_20_43 PM.png",wig,wig,wig_bodywave_613,bodywave,613,gallery,False,0.287
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 11_23_07 PM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.278
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 11_25_11 PM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.296
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 11_25_51 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.398
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 11_38_06 AM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.276
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 11_39_10 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.347
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 11_39_16 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.394
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 11_41_06 AM.png",wig,wig,wig_straight_orange,straight,orange,gallery,False,0.371
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 11_41_27 AM.png",wig,wig,wig_loosewave_brown,loosewave,brown,gallery,False,0.714
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 11_43_23 AM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.232
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 11_43_29 AM.png",wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.321
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 11_44_15 AM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.232
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_13_25 PM.png",wig,wig,wig_straight_1b,straight,1b,gallery,False,0.319
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_13_49 PM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.307
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_14_37 PM.png",wig,wig,wig_bodywave_1b,bodywave,1b,gallery,False,0.255
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_24_42 PM.png",wig,wig,wig_loosewave_brown,loosewave,brown,gallery,False,0.712
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_28_23 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.365
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_29_23 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.375
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_29_38 PM.png",wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.343
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_30_25 PM.png",wig,wig,wig_bodywave_1,bodywave,1,gallery,False,0.385
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_31_43 PM.png",wig,wig,wig_bodywave_burgundy,bodywave,burgundy,gallery,False,0.333
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_32_29 PM.png",wig,wig,wig_loosewave_silver,loosewave,silver,gallery,False,0.384
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_33_17 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.368
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_36_17 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.368
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_38_17 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.376
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_41_17 PM.png",wig,wig,wig_loosewave_silver,loosewave,silver,gallery,False,0.38
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_42_51 PM.png",wig,wig,wig_bodywave_1,bodywave,1,gallery,False,0.389
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_42_54 PM.png",wig,wig,wig_loosewave_silver,loosewave,silver,gallery,False,0.382
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_44_31 PM.png",wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.315
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_44_35 PM.png",wig,wig,wig_loosewave_silver,loosewave,silver,gallery,False,0.365
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_47_44 PM.png",wig,wig,wig_bodywave_613,bodywave,613,gallery,False,0.29
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_47_48 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.242
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_52_21 PM.png",wig,wig,wig_bodywave_613,bodywave,613,gallery,False,0.3
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 16, 2025, 12_53_34 PM.png",wig,wig,wig_loosewave_613,loosewave,613,gallery,False,0.324
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 01_57_08 PM.png",wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.329
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 08_54_33 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.383
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 08_56_51 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.369
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 08_59_17 PM.png",wig,wig,wig_deepwave_silver,deepwave,silver,gallery,False,0.361
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 08_59_40 PM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.356
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 09_00_13 PM.png",wig,wig,wig_deepwave_silver,deepwave,silver,gallery,False,0.333
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 09_08_35 PM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.321
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 09_08_41 PM.png",wig,wig,wig_deepwave_silver,deepwave,silver,gallery,False,0.344
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 09_13_01 PM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.288
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 10_48_27 AM.png",wig,wig,wig_bodywave_brown,bodywave,brown,gallery,False,0.702
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 10_52_18 AM.png",wig,wig,wig_bodywave_1b,bodywave,1b,gallery,False,0.369
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 11_09_07 AM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.349
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 11_34_08 AM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.35
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 11_35_35 PM.png",wig,wig,wig_deepwave_silver,deepwave,silver,gallery,False,0.354
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 17, 2025, 11_40_18 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.233
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 18, 2025, 03_18_42 AM.png",wig,wig,wig_deepwave_silver,deepwave,silver,gallery,False,0.341
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 18, 2025, 03_20_38 AM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.243
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 18, 2025, 11_51_46 AM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.308
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 18, 2025, 11_55_06 AM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.32
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 18, 2025, 12_00_11 PM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.321
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 18, 2025, 12_03_34 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.407
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 18, 2025, 12_03_54 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.394
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 18, 2025, 12_04_01 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.398
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 18, 2025, 12_04_03 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.398
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 18, 2025, 12_04_05 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.394
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 18, 2025, 12_04_12 PM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.369
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 18, 2025, 12_54_36 PM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.321
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 19, 2025, 01_42_19 AM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.291
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 19, 2025, 01_45_31 AM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.342
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 19, 2025, 01_50_03 AM.png",wig,wig,wig_deepwave_1b,deepwave,1b,gallery,False,0.243
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 19, 2025, 01_55_45 AM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.332
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 19, 2025, 02_07_19 AM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.306
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 19, 2025, 04_58_54 AM.png",wig,wig,wig_straight_1b,straight,1b,gallery,False,0.424
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 19, 2025, 05_47_29 AM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.305
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 19, 2025, 05_51_14 AM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.342
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Dec 19, 2025, 05_52_16 AM.png",wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.323
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Nov 28, 2025, 01_50_33 AM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.325
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Nov 28, 2025, 06_07_42 PM.png",wig,wig,wig_loosewave_orange,loosewave,orange,gallery,False,0.337
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Nov 28, 2025, 08_49_25 PM.png",wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.327
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Nov 4, 2025, 01_58_37 PM.png",wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.369
+"/mnt/data/processing/photos_wigs/Wigs/ChatGPT Image Nov 4, 2025, 01_58_51 PM.png",wig,wig,wig_deepwave_613,deepwave,613,gallery,False,0.273
+/mnt/data/processing/photos_wigs/Wigs/db3.png,wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.414
+/mnt/data/processing/photos_wigs/Wigs/db4.png,wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.418
+/mnt/data/processing/photos_wigs/Wigs/db5.png,wig,wig,wig_deepwave_1,deepwave,1,gallery,False,0.414
+/mnt/data/processing/photos_wigs/Wigs/first_page_2.png,wig,wig,wig_deepwave_orange,deepwave,orange,gallery,False,0.344
+/mnt/data/processing/photos_wigs/Wigs/yummyy.png,wig,wig,wig_deepwave_burgundy,deepwave,burgundy,gallery,False,0.362
+/mnt/data/processing/photos_wigs/Wigs/Loose Wave/Burg Lace Closeup.png,wig,wig,wig_loosewave_burgundy,loosewave,burgundy,texture,False,0.99
+/mnt/data/processing/photos_wigs/Wigs/Loose Wave/Burg Mannequin Alternate Angle.png,wig,wig,wig_loosewave_burgundy,loosewave,burgundy,angle,False,0.99
+/mnt/data/processing/photos_wigs/Wigs/Loose Wave/Burg Mannequin.png,wig,wig,wig_loosewave_burgundy,loosewave,burgundy,mannequin,False,0.99
+/mnt/data/processing/photos_wigs/Wigs/Loose Wave/Burg Model Wear Shot.png,wig,wig,wig_loosewave_burgundy,loosewave,burgundy,wear,True,0.99
+"/mnt/data/processing/photos_wigs/Wigs/Loose Wave/ChatGPT Image Nov 28, 2025, 04_17_46 AM.png",wig,wig,wig_loosewave_1,loosewave,1,gallery,False,0.94
+"/mnt/data/processing/photos_wigs/Wigs/Loose Wave/ChatGPT Image Nov 4, 2025, 01_58_20 PM.png",wig,wig,wig_loosewave_1b,loosewave,1b,gallery,False,0.925
+/mnt/data/processing/photos_wigs/Wigs/Straight Wigs/#1 Front Beige Hero Shot.png,wig,wig,wig_straight_1,straight,1,hero,False,0.99
+/mnt/data/processing/photos_wigs/Wigs/Straight Wigs/#1 Hero Flat.png,wig,wig,wig_straight_1,straight,1,hero,False,0.99
+/mnt/data/processing/photos_wigs/Wigs/Straight Wigs/#1 Model Wear Shot Model 1.png,wig,wig,wig_straight_1,straight,1,wear,True,0.99
+/mnt/data/processing/photos_wigs/Wigs/Straight Wigs/#1 Model Wear.png,wig,wig,wig_straight_1,straight,1,wear,True,0.99
+/mnt/data/processing/photos_wigs/Wigs/Straight Wigs/#1 Straight Angle Flat.png,wig,wig,wig_straight_1,straight,1,angle,False,0.99
+/mnt/data/processing/photos_wigs/Wigs/Straight Wigs/#1 Straight Flat Closeup.png,wig,wig,wig_straight_1,straight,1,texture,False,0.99
+/mnt/data/processing/photos_wigs/Wigs/Straight Wigs/#1 Straight Mannequin.png,wig,wig,wig_straight_1,straight,1,mannequin,False,0.99
+/mnt/data/processing/photos_wigs/Wigs/Straight Wigs/#1 Straight Model Wear Different.png,wig,wig,wig_straight_1,straight,1,wear,True,0.99
+/mnt/data/processing/photos_wigs/Wigs/Straight Wigs/#1 Straight Side Angle Mannequin.png,wig,wig,wig_straight_1,straight,1,angle,False,0.99
+/mnt/data/processing/photos_wigs/Wigs/Straight Wigs/#1b Lace Closeup.png,wig,wig,wig_straight_1b,straight,1b,texture,False,0.99
+/mnt/data/processing/photos_wigs/Wigs/Straight Wigs/#1b Straight Mannequin Alternate Angle.png,wig,wig,wig_straight_1b,straight,1b,angle,False,0.99
+/mnt/data/processing/photos_wigs/Wigs/Straight Wigs/#1b Straight Mannequin Hero.png,wig,wig,wig_straight_1b,straight,1b,hero,False,0.99
+/mnt/data/processing/photos_wigs/Wigs/Straight Wigs/Mannequin Straight Black.png,wig,wig,wig_straight_1b,straight,1b,mannequin,False,0.99
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 14, 2025, 02_04_25 AM.png",bundle,bundle,bundle_bodywave_1,bodywave,1,gallery,False,0.385
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 01_00_30 AM.png",bundle,bundle,bundle_loosewave_orange,loosewave,orange,gallery,False,0.342
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 01_25_08 AM.png",bundle,bundle,bundle_loosewave_orange,loosewave,orange,gallery,False,0.33
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 01_27_00 AM.png",bundle,bundle,bundle_loosewave_brown,loosewave,brown,gallery,False,0.709
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 01_39_23 AM.png",bundle,bundle,bundle_straight_1,straight,1,gallery,False,0.441
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 01_41_08 AM.png",bundle,bundle,bundle_straight_1,straight,1,gallery,False,0.433
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 01_44_17 AM.png",bundle,bundle,bundle_bodywave_1,bodywave,1,gallery,False,0.381
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 01_59_25 AM.png",bundle,bundle,bundle_deepwave_1,deepwave,1,gallery,False,0.376
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 02_01_27 AM.png",bundle,bundle,bundle_deepwave_brown,deepwave,brown,gallery,False,0.684
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 02_05_55 AM.png",bundle,bundle,bundle_deepwave_1,deepwave,1,gallery,False,0.385
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 02_11_46 AM.png",bundle,bundle,bundle_deepwave_1,deepwave,1,gallery,False,0.38
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 02_20_20 AM.png",bundle,bundle,bundle_deepwave_1,deepwave,1,gallery,False,0.36
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 02_23_28 AM.png",bundle,bundle,bundle_deepwave_1,deepwave,1,gallery,False,0.408
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 02_34_38 AM.png",bundle,bundle,bundle_deepwave_1,deepwave,1,gallery,False,0.399
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 02_49_19 AM.png",bundle,bundle,bundle_deepwave_1,deepwave,1,gallery,False,0.408
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 02_57_40 AM.png",bundle,bundle,bundle_deepwave_613,deepwave,613,gallery,False,0.293
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 03_12_37 AM.png",bundle,bundle,bundle_deepwave_1,deepwave,1,gallery,False,0.372
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 03_20_50 AM.png",bundle,bundle,bundle_deepwave_1,deepwave,1,gallery,False,0.371
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 03_22_49 AM.png",bundle,bundle,bundle_bodywave_brown,bodywave,brown,gallery,False,0.702
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 03_24_52 AM.png",bundle,bundle,bundle_deepwave_brown,deepwave,brown,gallery,False,0.697
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 12_28_02 AM.png",bundle,bundle,bundle_deepwave_1,deepwave,1,gallery,False,0.407
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 12_39_17 AM.png",bundle,bundle,bundle_deepwave_1,deepwave,1,gallery,False,0.373
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 12_41_45 AM.png",bundle,bundle,bundle_bodywave_1,bodywave,1,gallery,False,0.386
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 12_44_28 AM.png",bundle,bundle,bundle_deepwave_1,deepwave,1,gallery,False,0.375
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 12_48_17 AM.png",bundle,bundle,bundle_deepwave_1,deepwave,1,gallery,False,0.383
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 12_50_11 AM.png",bundle,bundle,bundle_deepwave_orange,deepwave,orange,gallery,False,0.301
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Dec 15, 2025, 12_54_19 AM.png",bundle,bundle,bundle_loosewave_1,loosewave,1,gallery,False,0.398
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Nov 11, 2025, 09_56_59 AM.png",bundle,bundle,bundle_deepwave_1b,deepwave,1b,gallery,False,0.389
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Nov 4, 2025, 01_58_22 PM.png",bundle,bundle,bundle_straight_brown,straight,brown,gallery,False,0.753
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Nov 4, 2025, 09_22_36 AM.png",bundle,bundle,bundle_straight_brown,straight,brown,gallery,False,0.753
+"/mnt/data/processing/photos_bundles/Bundles/ChatGPT Image Nov 4, 2025, 09_25_10 AM.png",bundle,bundle,bundle_deepwave_1b,deepwave,1b,gallery,False,0.361
+/mnt/data/processing/photos_bundles/Bundles/db10.png,bundle,bundle,bundle_straight_orange,straight,orange,gallery,False,0.383
+/mnt/data/processing/photos_bundles/Bundles/Deep Body Alternate Angle.png,bundle,bundle,bundle_bodywave_1,bodywave,1,angle,False,0.925
+/mnt/data/processing/photos_bundles/Bundles/Deep Body Closeup.png,bundle,bundle,bundle_bodywave_1,bodywave,1,texture,False,0.925
+/mnt/data/processing/photos_bundles/Bundles/Deep Body Hero.png,bundle,bundle,bundle_bodywave_1,bodywave,1,hero,False,0.925
+/mnt/data/processing/photos_bundles/Bundles/Deep Body Model Wear.png,bundle,bundle,bundle_bodywave_1,bodywave,1,wear,True,0.925
+/mnt/data/processing/photos_bundles/Bundles/Deep Curly Alternate Angle.png,bundle,bundle,bundle_deepcurly_1,deepcurly,1,angle,False,0.99
+/mnt/data/processing/photos_bundles/Bundles/Deep Curly Close Up.png,bundle,bundle,bundle_deepcurly_1,deepcurly,1,texture,False,0.99
+/mnt/data/processing/photos_bundles/Bundles/Deep Curly Hero.png,bundle,bundle,bundle_deepcurly_1b,deepcurly,1b,hero,False,0.925
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/613 curly 2.png,modelwear,wig,wig_deepwave_613,deepwave,613,wear,True,0.99
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/613 curly.png,modelwear,wig,wig_deepwave_613,deepwave,613,wear,True,0.99
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/cambodian wavy 2.png,modelwear,wig,wig_bodywave_orange,bodywave,orange,wear,True,0.955
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/cambodian wavy 3.png,modelwear,wig,wig_bodywave_1b,bodywave,1b,wear,True,0.99
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/cambodian wavy.png,modelwear,wig,wig_bodywave_orange,bodywave,orange,wear,True,0.955
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 03_02_41 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.402
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 03_04_20 AM.png",modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.402
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 03_06_27 AM.png",modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.768
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 03_07_42 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.426
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 03_11_55 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.48
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 03_12_43 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.426
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 03_15_21 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.467
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 03_17_06 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.409
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 03_18_53 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.472
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 03_57_15 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.48
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 03_57_17 AM.png",modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.413
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 03_57_39 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.449
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 04_32_16 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.439
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 04_32_18 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.377
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 04_32_20 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.453
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 04_38_44 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.439
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 04_38_47 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.453
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 04_38_48 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.43
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 04_38_50 AM.png",modelwear,wig,wig_loosewave_orange,loosewave,orange,wear,True,0.409
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 04_52_53 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.47
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 04_52_55 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.451
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 04_53_11 AM.png",modelwear,wig,wig_loosewave_brown,loosewave,brown,wear,True,0.391
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 04_57_58 AM.png",modelwear,wig,wig_bodywave_orange,bodywave,orange,wear,True,0.4
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_02_40 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.435
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_06_56 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.444
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_08_10 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.459
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_21_36 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.421
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_21_37 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.463
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_21_38 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.47
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_21_43 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.47
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_23_52 AM.png",modelwear,wig,wig_bodywave_brown,bodywave,brown,wear,True,0.378
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_33_50 AM.png",modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.371
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_33_51 AM.png",modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.369
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_33_53 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.438
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_33_56 AM.png",modelwear,wig,wig_bodywave_brown,bodywave,brown,wear,True,0.378
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_34_18 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.454
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_43_53 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.481
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_43_55 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.387
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_43_57 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.43
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_43_58 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.453
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_45_02 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.423
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_46_51 AM.png",modelwear,wig,wig_bodywave_brown,bodywave,brown,wear,True,0.376
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_55_23 PM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.389
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_58_35 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.442
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_58_37 AM.png",modelwear,wig,wig_bodywave_1b,bodywave,1b,wear,True,0.443
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_58_38 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.377
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_58_41 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.454
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 05_58_42 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.443
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 06_02_27 AM.png",modelwear,wig,wig_bodywave_brown,bodywave,brown,wear,True,0.76
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 06_08_19 AM.png",modelwear,wig,wig_bodywave_orange,bodywave,orange,wear,True,0.392
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 06_13_00 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.404
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 06_13_01 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.466
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 06_13_56 PM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.393
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 06_16_31 PM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.471
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 06_19_56 AM.png",modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.367
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 06_19_58 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.405
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 06_22_19 AM.png",modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.752
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 06_24_41 AM.png",modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.773
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_46_30 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.398
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_46_34 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.394
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_46_35 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.401
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_46_40 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.384
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_46_43 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.396
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_46_44 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.401
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_46_46 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.407
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_46_47 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.415
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_46_51 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.489
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_48_32 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.422
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_48_36 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.44
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_48_38 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.442
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_48_40 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.451
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_48_51 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.462
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_48_53 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.452
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_48_54 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.447
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_48_55 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.445
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_48_57 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.455
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_48_58 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.448
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_48_59 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.407
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_49_10 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.474
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_49_11 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.446
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_49_13 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.394
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_49_14 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.424
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_49_15 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.394
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_49_17 AM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.398
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 14, 2025, 08_51_59 AM.png",modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.38
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 03_13_58 PM.png",modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.415
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 11_47_59 AM.png",modelwear,wig,wig_straight_1b,straight,1b,wear,True,0.504
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 12_17_57 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.46
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 12_19_04 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.455
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 12_19_54 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.455
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 12_20_44 AM.png",modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.385
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 12_21_37 AM.png",modelwear,wig,wig_bodywave_1b,bodywave,1b,wear,True,0.447
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 12_22_36 AM.png",modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.765
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 12_23_23 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.443
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 12_24_19 AM.png",modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.787
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 12_25_29 AM.png",modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.475
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 12_27_26 AM.png",modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.781
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 12_28_13 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.456
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 12_29_14 AM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.479
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 12_52_50 PM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.466
+"/mnt/data/processing/photos_model/Eminence Model Wear Shots/ChatGPT Image Nov 15, 2025, 12_54_41 PM.png",modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.48
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/Eminence .png,modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.362
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/Eminence Burmese .png,modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.412
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/Eminence Burmese Collection.png,modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.443
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/Eminence Collection Lavish.png,modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.36
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/Eminence Collection SEA 2.png,modelwear,wig,wig_deepwave_brown,deepwave,brown,wear,True,0.386
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/Eminence Collection SEA.png,modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.461
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/Eminence Collection Straight.png,modelwear,wig,wig_straight_orange,straight,orange,wear,True,0.955
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/Eminence Collection Water Wave.png,modelwear,wig,wig_waterwave_1,waterwave,1,wear,True,0.99
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/Eminence Extensions.png,modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.413
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/models.png,modelwear,wig,wig_deepwave_orange,deepwave,orange,wear,True,0.415
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/natural black.png,modelwear,wig,wig_deepwave_1b,deepwave,1b,wear,True,0.786
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/silky black.png,modelwear,wig,wig_deepwave_1,deepwave,1,wear,True,0.469
+/mnt/data/processing/photos_model/Eminence Model Wear Shots/wavy black.png,modelwear,wig,wig_bodywave_1,bodywave,1,wear,True,0.99

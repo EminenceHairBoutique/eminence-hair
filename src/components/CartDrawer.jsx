@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { X, Minus, Plus, Lock } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { useCart } from "../context/CartContext";
 
 const money = (n) =>
@@ -52,7 +52,7 @@ export default function CartDrawer() {
         />
       )}
 
-      <motion.aside
+      <Motion.aside
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
@@ -155,11 +155,7 @@ export default function CartDrawer() {
           </div>
 
           <div className="text-xs text-neutral-500">
-            or 4 interest-free payments of{" "}
-            <span className="font-medium">
-              {money(total / 4)}
-            </span>{" "}
-            with Klarna or Afterpay
+            Payment methods are displayed during secure Stripe Checkout.
           </div>
 
           <div className="h-px bg-neutral-200 my-2" />
@@ -177,7 +173,7 @@ export default function CartDrawer() {
             Secure & encrypted checkout
           </div>
         </div>
-      </motion.aside>
+      </Motion.aside>
     </div>
   );
 }

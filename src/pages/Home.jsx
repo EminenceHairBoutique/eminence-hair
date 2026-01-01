@@ -23,10 +23,15 @@ import db5 from "../assets/db5.png";
 import heroVideo from "../assets/videos/eminence_hero.mp4";
 import PageTransition from "../components/PageTransition.jsx";
 import SEO from "../components/SEO";
+import { subscribeEmail } from "../utils/subscribe";
 
 const Home = () => {
   const videoRef = useRef(null);
   const [isMuted, setIsMuted] = useState(true);
+
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterStatus, setNewsletterStatus] = useState("idle");
+  const [newsletterError, setNewsletterError] = useState("");
 
   const { isOpen } = useCart();
   const location = useLocation();
@@ -46,6 +51,28 @@ const Home = () => {
       videoRef.current.play().catch(() => {});
     }
   };
+
+  const handleNewsletterSignup = async () => {
+    if (newsletterStatus === "loading") return;
+    setNewsletterError("");
+
+    const email = String(newsletterEmail || "").trim();
+    if (!email) {
+      setNewsletterStatus("error");
+      setNewsletterError("Please enter your email.");
+      return;
+    }
+
+    try {
+      setNewsletterStatus("loading");
+      await subscribeEmail({ email, source: "home_newsletter" });
+      setNewsletterStatus("success");
+    } catch (e) {
+      setNewsletterStatus("error");
+      setNewsletterError(e?.message || "Something went wrong. Please try again.");
+    }
+  };
+
 
   return (
     <>
@@ -532,15 +559,25 @@ const Home = () => {
                 <input
                   type="email"
                   placeholder="Email address"
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
                   className="flex-1 min-w-0 bg-white border border-neutral-300 rounded-full px-4 py-2 text-sm outline-none focus:border-[#111]"
                 />
-                <button className="px-8 py-2.5 text-xs tracking-[0.26em] uppercase border border-[#111] bg-[#111] text-[#F9F7F4] rounded-full hover:bg-transparent hover:text-[#111] transition">
-                  Join Eminence
+                <button
+                  onClick={handleNewsletterSignup}
+                  disabled={newsletterStatus === "loading"}
+                  className="px-8 py-2.5 text-xs tracking-[0.26em] uppercase border border-[#111] bg-[#111] text-[#F9F7F4] rounded-full hover:bg-transparent hover:text-[#111] transition disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {newsletterStatus === "loading" ? "Joining..." : newsletterStatus === "success" ? "You’re in" : "Join Eminence"}
                 </button>
               </div>
 
               <p className="mt-3 text-[11px] text-neutral-500">
-                No spam — just launches, drops, and things worth knowing.
+                {newsletterStatus === "success"
+                  ? "You’re on the list — watch your inbox for early access."
+                  : newsletterStatus === "error"
+                  ? newsletterError
+                  : "No spam — just launches, drops, and things worth knowing."}
               </p>
             </div>
           </section>

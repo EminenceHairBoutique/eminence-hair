@@ -1,18 +1,18 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion as Motion } from "framer-motion";
 
 export default function ImageZoomModal({ src, open, onClose }) {
   if (!open) return null;
 
   return (
     <AnimatePresence>
-      <motion.div
+      <Motion.div
         className="fixed inset-0 z-[100] bg-black/80 backdrop-blur flex items-center justify-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
       >
-        <motion.img
+        <Motion.img
           src={src}
           className="max-h-[90vh] max-w-[90vw] object-contain cursor-zoom-out"
           initial={{ scale: 0.95 }}
@@ -20,7 +20,7 @@ export default function ImageZoomModal({ src, open, onClose }) {
           exit={{ scale: 0.95 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
         />
-      </motion.div>
+      </Motion.div>
     </AnimatePresence>
   );
 }

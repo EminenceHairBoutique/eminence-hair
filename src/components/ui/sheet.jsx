@@ -6,7 +6,7 @@ export function Sheet({ open, onOpenChange, children }) {
   );
 }
 
-export function SheetTrigger({ asChild, children }) {
+export function SheetTrigger({ asChild: _asChild, children }) {
   return children;
 }
 

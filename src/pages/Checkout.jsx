@@ -4,6 +4,7 @@ import { Lock } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import StripeProvider from "../components/StripeProvider";
 import SEO from "../components/SEO";
+import { trackBeginCheckout } from "../utils/track";
 
 const money = (n) =>
   `$${Number(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
@@ -138,10 +139,7 @@ export default function Checkout() {
                   </div>
                 </div>
 
-                <div className="mt-7 text-sm text-neutral-500">
-                  or 4 interest-free payments of{" "}
-                  <span className="font-medium">{money(total / 4)}</span> with Klarna or Afterpay
-                </div>
+                {/* Payment methods are shown during the secure Stripe Checkout flow. */}
 
                 <p className="mt-4 text-xs text-neutral-350 text-center">
                   By completing your purchase, you agree to our{" "}
@@ -160,6 +158,17 @@ export default function Checkout() {
                   disabled={!items || items.length === 0}
                   onClick={async () => {
                     try {
+                      // Save a lightweight snapshot so we can fire a Purchase event after Stripe redirects back.
+                      try {
+                        window.localStorage.setItem(
+                          "eminence_checkout_snapshot",
+                          JSON.stringify({ items, total, currency: "USD", timestamp: Date.now() })
+                        );
+                      } catch {}
+
+                      // Track begin checkout (GA4 + Meta Pixel) — only fires after consent.
+                      trackBeginCheckout({ items, value: total });
+
                       const res = await fetch("/api/create-checkout-session", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
@@ -208,7 +217,9 @@ export default function Checkout() {
                 <div className="mt-6 text-xs text-neutral-500 space-y-1">
                   <p>• Complimentary QC inspection</p>
                   <p>• Discreet, secure packaging</p>
-                  <p>• Ships within 2–3 business days</p>
+                  <p>• Ships within 2–3 business days (in-stock items)</p>
+                  <p>• Custom pieces: lead times vary</p>
+                  <p>• All sales final (see Returns Policy)</p>
                 </div>
 
                 <Link

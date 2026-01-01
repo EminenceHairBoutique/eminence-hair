@@ -4,6 +4,7 @@ import { AnimatePresence, motion as Motion } from "framer-motion";
 import { useCart } from "./context/CartContext";
 import DiscountModal from "./components/DiscountModal";
 import CookieBanner from "./components/legal/CookieBanner";
+import TrackingScripts from "./components/TrackingScripts";
 const CartDrawer = lazy(() => import("./components/CartDrawer"));
 import useRouteAnalytics from "./hooks/useRouteAnalytics";
 
@@ -24,6 +25,7 @@ const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const Gallery = lazy(() => import("./pages/Gallery"));
 const Collections = lazy(() => import("./pages/Collections"));
 const CollectionDetail = lazy(() => import("./pages/CollectionDetail"));
+const MedicalHair = lazy(() => import("./pages/MedicalHair"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 const Success = lazy(() => import("./pages/Success"));
 const Cancel = lazy(() => import("./pages/Cancel"));
@@ -33,9 +35,12 @@ const Care = lazy(() => import("./pages/Care"));
 const About = lazy(() => import("./pages/About"));
 const Faqs = lazy(() => import("./pages/Faqs"));
 const Contact = lazy(() => import("./pages/Contact"));
+const CustomOrders = lazy(() => import("./pages/CustomOrders"));
+const PrivateConsult = lazy(() => import("./pages/PrivateConsult"));
 const Verify = lazy(() => import("./pages/Verify"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Privacy = lazy(() => import("./pages/Privacy"));
+const PrivacyChoices = lazy(() => import("./pages/PrivacyChoices"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Returns = lazy(() => import("./pages/Returns"));
 
@@ -47,6 +52,7 @@ export default function App() {
 
   return (
     <>
+      <TrackingScripts />
       <Suspense fallback={null}>
         <CartDrawer />
       </Suspense>
@@ -68,6 +74,7 @@ export default function App() {
                 ["/shop", <Shop />],
                 ["/shop/wigs", <Shop />],
                 ["/shop/bundles", <Shop />],
+                ["/shop/closures", <Shop />],
                 ["/products/:slug", <ProductDetail />],
                 ["/gallery", <Gallery />],
                 ["/collections", <Collections />],
@@ -79,9 +86,15 @@ export default function App() {
                 ["/authenticity", <Authenticity />],
                 ["/care", <Care />],
                 ["/about", <About />],
+                ["/medical-hair", <MedicalHair />],
                 ["/faqs", <Faqs />],
                 ["/contact", <Contact />],
+                ["/custom-orders", <CustomOrders />],
+                // Backwards compatibility for older /custom links
+                ["/custom", <CustomOrders />],
+                ["/private-consult", <PrivateConsult />],
                 ["/privacy", <Privacy />],
+                ["/privacy-choices", <PrivacyChoices />],
                 ["/terms", <Terms />],
                 ["/returns", <Returns />],
                 ["/verify", <Verify />],
@@ -106,6 +119,7 @@ export default function App() {
               ))}
               <Route path="/checkout/success" element={<Navigate to="/success" replace />} />
               <Route path="/order-confirmation" element={<Navigate to="/success" replace />} />
+              <Route path="/medical" element={<Navigate to="/medical-hair" replace />} />
             </Routes>
           </AnimatePresence>
         </ErrorBoundary>

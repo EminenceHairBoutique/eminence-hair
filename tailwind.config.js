@@ -12,11 +12,14 @@ export default {
         charcoal: "#1B1B1B",
         softGray: "#EAE8E3",
       },
-  fontFamily: {
-  header: ["Playfair Display", "serif"],
-  body: ["Poppins", "system-ui", "sans-serif"],
-  cursive: ["Allura", "cursive"],
-},
+      fontFamily: {
+        // Primary brand typography
+        header: ["Playfair Display", "serif"],
+        // Some pages already reference `font-display`; keep it as an alias.
+        display: ["Playfair Display", "serif"],
+        body: ["Poppins", "system-ui", "sans-serif"],
+        cursive: ["Allura", "cursive"],
+      },
 
       boxShadow: {
         goldGlow: "0 0 25px rgba(212,175,55,0.25)",

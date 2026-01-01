@@ -1,0 +1,423 @@
+{
+  "wigs": {
+    "wig_bodywave_1": [
+      "wig_bodywave_1/gallery_001.webp",
+      "wig_bodywave_1/gallery_002.webp",
+      "wig_bodywave_1/gallery_003.webp",
+      "wig_bodywave_1/gallery_004.webp",
+      "wig_bodywave_1/gallery_005.webp",
+      "wig_bodywave_1/gallery_006.webp",
+      "wig_bodywave_1/gallery_007.webp",
+      "wig_bodywave_1/gallery_008.webp",
+      "wig_bodywave_1/hero.webp",
+      "wig_bodywave_1/wear_01.webp"
+    ],
+    "wig_bodywave_1b": [
+      "wig_bodywave_1b/gallery_001.webp",
+      "wig_bodywave_1b/gallery_002.webp",
+      "wig_bodywave_1b/gallery_003.webp",
+      "wig_bodywave_1b/hero.webp",
+      "wig_bodywave_1b/wear_01.webp",
+      "wig_bodywave_1b/wear_02.webp",
+      "wig_bodywave_1b/wear_03.webp"
+    ],
+    "wig_bodywave_613": [
+      "wig_bodywave_613/gallery_001.webp",
+      "wig_bodywave_613/gallery_002.webp",
+      "wig_bodywave_613/hero.webp"
+    ],
+    "wig_bodywave_brown": [
+      "wig_bodywave_brown/gallery_001.webp",
+      "wig_bodywave_brown/gallery_002.webp",
+      "wig_bodywave_brown/gallery_003.webp",
+      "wig_bodywave_brown/hero.webp",
+      "wig_bodywave_brown/wear_01.webp",
+      "wig_bodywave_brown/wear_02.webp",
+      "wig_bodywave_brown/wear_03.webp",
+      "wig_bodywave_brown/wear_04.webp"
+    ],
+    "wig_bodywave_burgundy": [
+      "wig_bodywave_burgundy/gallery_001.webp",
+      "wig_bodywave_burgundy/gallery_002.webp",
+      "wig_bodywave_burgundy/gallery_003.webp",
+      "wig_bodywave_burgundy/gallery_004.webp",
+      "wig_bodywave_burgundy/gallery_005.webp",
+      "wig_bodywave_burgundy/hero.webp"
+    ],
+    "wig_bodywave_orange": [
+      "wig_bodywave_orange/gallery_001.webp",
+      "wig_bodywave_orange/gallery_002.webp",
+      "wig_bodywave_orange/gallery_003.webp",
+      "wig_bodywave_orange/hero.webp",
+      "wig_bodywave_orange/wear_01.webp",
+      "wig_bodywave_orange/wear_02.webp",
+      "wig_bodywave_orange/wear_03.webp",
+      "wig_bodywave_orange/wear_04.webp"
+    ],
+    "wig_bodywave_silver": [
+      "wig_bodywave_silver/hero.webp"
+    ],
+    "wig_deepwave_1": [
+      "wig_deepwave_1/gallery_001.webp",
+      "wig_deepwave_1/gallery_002.webp",
+      "wig_deepwave_1/gallery_003.webp",
+      "wig_deepwave_1/gallery_004.webp",
+      "wig_deepwave_1/gallery_005.webp",
+      "wig_deepwave_1/gallery_006.webp",
+      "wig_deepwave_1/gallery_007.webp",
+      "wig_deepwave_1/gallery_008.webp",
+      "wig_deepwave_1/gallery_009.webp",
+      "wig_deepwave_1/gallery_010.webp",
+      "wig_deepwave_1/gallery_011.webp",
+      "wig_deepwave_1/gallery_012.webp",
+      "wig_deepwave_1/gallery_013.webp",
+      "wig_deepwave_1/gallery_014.webp",
+      "wig_deepwave_1/gallery_015.webp",
+      "wig_deepwave_1/gallery_016.webp",
+      "wig_deepwave_1/gallery_017.webp",
+      "wig_deepwave_1/gallery_018.webp",
+      "wig_deepwave_1/gallery_019.webp",
+      "wig_deepwave_1/gallery_020.webp",
+      "wig_deepwave_1/gallery_021.webp",
+      "wig_deepwave_1/gallery_022.webp",
+      "wig_deepwave_1/gallery_023.webp",
+      "wig_deepwave_1/gallery_024.webp",
+      "wig_deepwave_1/gallery_025.webp",
+      "wig_deepwave_1/gallery_026.webp",
+      "wig_deepwave_1/gallery_027.webp",
+      "wig_deepwave_1/gallery_028.webp",
+      "wig_deepwave_1/gallery_029.webp",
+      "wig_deepwave_1/gallery_030.webp",
+      "wig_deepwave_1/gallery_031.webp",
+      "wig_deepwave_1/gallery_032.webp",
+      "wig_deepwave_1/gallery_033.webp",
+      "wig_deepwave_1/gallery_034.webp",
+      "wig_deepwave_1/gallery_035.webp",
+      "wig_deepwave_1/gallery_036.webp",
+      "wig_deepwave_1/gallery_037.webp",
+      "wig_deepwave_1/gallery_038.webp",
+      "wig_deepwave_1/gallery_039.webp",
+      "wig_deepwave_1/gallery_040.webp",
+      "wig_deepwave_1/gallery_041.webp",
+      "wig_deepwave_1/gallery_042.webp",
+      "wig_deepwave_1/gallery_043.webp",
+      "wig_deepwave_1/gallery_044.webp",
+      "wig_deepwave_1/gallery_045.webp",
+      "wig_deepwave_1/gallery_046.webp",
+      "wig_deepwave_1/gallery_047.webp",
+      "wig_deepwave_1/gallery_048.webp",
+      "wig_deepwave_1/gallery_049.webp",
+      "wig_deepwave_1/gallery_050.webp",
+      "wig_deepwave_1/gallery_051.webp",
+      "wig_deepwave_1/gallery_052.webp",
+      "wig_deepwave_1/gallery_053.webp",
+      "wig_deepwave_1/gallery_054.webp",
+      "wig_deepwave_1/gallery_055.webp",
+      "wig_deepwave_1/gallery_056.webp",
+      "wig_deepwave_1/gallery_057.webp",
+      "wig_deepwave_1/gallery_058.webp",
+      "wig_deepwave_1/gallery_059.webp",
+      "wig_deepwave_1/hero.webp",
+      "wig_deepwave_1/wear_01.webp",
+      "wig_deepwave_1/wear_02.webp",
+      "wig_deepwave_1/wear_03.webp",
+      "wig_deepwave_1/wear_04.webp",
+      "wig_deepwave_1/wear_05.webp",
+      "wig_deepwave_1/wear_06.webp"
+    ],
+    "wig_deepwave_1b": [
+      "wig_deepwave_1b/hero.webp"
+    ],
+    "wig_deepwave_613": [
+      "wig_deepwave_613/extras_original/extra_011.png",
+      "wig_deepwave_613/extras_original/extra_012.png",
+      "wig_deepwave_613/extras_original/extra_013.png",
+      "wig_deepwave_613/extras_original/extra_014.png",
+      "wig_deepwave_613/extras_original/extra_015.png",
+      "wig_deepwave_613/gallery_001.webp",
+      "wig_deepwave_613/gallery_002.webp",
+      "wig_deepwave_613/gallery_003.webp",
+      "wig_deepwave_613/gallery_004.webp",
+      "wig_deepwave_613/gallery_005.webp",
+      "wig_deepwave_613/gallery_006.webp",
+      "wig_deepwave_613/gallery_007.webp",
+      "wig_deepwave_613/gallery_008.webp",
+      "wig_deepwave_613/gallery_009.webp",
+      "wig_deepwave_613/gallery_010.webp",
+      "wig_deepwave_613/hero.webp",
+      "wig_deepwave_613/wear_01.webp",
+      "wig_deepwave_613/wear_02.webp"
+    ],
+    "wig_deepwave_brown": [
+      "wig_deepwave_brown/extras_original/extra_011.png",
+      "wig_deepwave_brown/extras_original/extra_012.png",
+      "wig_deepwave_brown/extras_original/extra_013.png",
+      "wig_deepwave_brown/extras_original/extra_014.png",
+      "wig_deepwave_brown/extras_original/extra_015.png",
+      "wig_deepwave_brown/extras_original/extra_016.png",
+      "wig_deepwave_brown/gallery_001.webp",
+      "wig_deepwave_brown/gallery_002.webp",
+      "wig_deepwave_brown/gallery_003.webp",
+      "wig_deepwave_brown/gallery_004.webp",
+      "wig_deepwave_brown/gallery_005.webp",
+      "wig_deepwave_brown/gallery_006.webp",
+      "wig_deepwave_brown/gallery_007.webp",
+      "wig_deepwave_brown/gallery_008.webp",
+      "wig_deepwave_brown/gallery_009.webp",
+      "wig_deepwave_brown/gallery_010.webp",
+      "wig_deepwave_brown/hero.webp",
+      "wig_deepwave_brown/wear_01.webp",
+      "wig_deepwave_brown/wear_02.webp",
+      "wig_deepwave_brown/wear_03.webp",
+      "wig_deepwave_brown/wear_04.webp",
+      "wig_deepwave_brown/wear_05.webp",
+      "wig_deepwave_brown/wear_06.webp"
+    ],
+    "wig_deepwave_burgundy": [
+      "wig_deepwave_burgundy/gallery_001.webp",
+      "wig_deepwave_burgundy/gallery_002.webp",
+      "wig_deepwave_burgundy/gallery_003.webp",
+      "wig_deepwave_burgundy/gallery_004.webp",
+      "wig_deepwave_burgundy/gallery_005.webp",
+      "wig_deepwave_burgundy/gallery_006.webp",
+      "wig_deepwave_burgundy/gallery_007.webp",
+      "wig_deepwave_burgundy/gallery_008.webp",
+      "wig_deepwave_burgundy/gallery_009.webp",
+      "wig_deepwave_burgundy/gallery_010.webp",
+      "wig_deepwave_burgundy/gallery_011.webp",
+      "wig_deepwave_burgundy/gallery_012.webp",
+      "wig_deepwave_burgundy/gallery_013.webp",
+      "wig_deepwave_burgundy/gallery_014.webp",
+      "wig_deepwave_burgundy/hero.webp"
+    ],
+    "wig_deepwave_orange": [
+      "wig_deepwave_orange/extras_original/extra_013.png",
+      "wig_deepwave_orange/extras_original/extra_014.png",
+      "wig_deepwave_orange/extras_original/extra_015.png",
+      "wig_deepwave_orange/extras_original/extra_016.png",
+      "wig_deepwave_orange/extras_original/extra_017.png",
+      "wig_deepwave_orange/extras_original/extra_018.png",
+      "wig_deepwave_orange/extras_original/extra_019.png",
+      "wig_deepwave_orange/extras_original/extra_020.png",
+      "wig_deepwave_orange/extras_original/extra_021.png",
+      "wig_deepwave_orange/extras_original/extra_022.png",
+      "wig_deepwave_orange/extras_original/extra_023.png",
+      "wig_deepwave_orange/extras_original/extra_024.png",
+      "wig_deepwave_orange/extras_original/extra_025.png",
+      "wig_deepwave_orange/extras_original/extra_026.png",
+      "wig_deepwave_orange/extras_original/extra_027.png",
+      "wig_deepwave_orange/extras_original/extra_028.png",
+      "wig_deepwave_orange/extras_original/extra_029.png",
+      "wig_deepwave_orange/extras_original/extra_030.png",
+      "wig_deepwave_orange/extras_original/extra_031.png",
+      "wig_deepwave_orange/extras_original/extra_032.png",
+      "wig_deepwave_orange/extras_original/extra_033.png",
+      "wig_deepwave_orange/extras_original/extra_034.png",
+      "wig_deepwave_orange/extras_original/extra_035.png",
+      "wig_deepwave_orange/extras_original/extra_036.png",
+      "wig_deepwave_orange/extras_original/extra_037.png",
+      "wig_deepwave_orange/extras_original/extra_038.png",
+      "wig_deepwave_orange/gallery_001.webp",
+      "wig_deepwave_orange/gallery_002.webp",
+      "wig_deepwave_orange/gallery_003.webp",
+      "wig_deepwave_orange/gallery_004.webp",
+      "wig_deepwave_orange/gallery_005.webp",
+      "wig_deepwave_orange/gallery_006.webp",
+      "wig_deepwave_orange/gallery_007.webp",
+      "wig_deepwave_orange/gallery_008.webp",
+      "wig_deepwave_orange/gallery_009.webp",
+      "wig_deepwave_orange/gallery_010.webp",
+      "wig_deepwave_orange/gallery_011.webp",
+      "wig_deepwave_orange/gallery_012.webp",
+      "wig_deepwave_orange/hero.webp",
+      "wig_deepwave_orange/wear_01.webp",
+      "wig_deepwave_orange/wear_02.webp",
+      "wig_deepwave_orange/wear_03.webp",
+      "wig_deepwave_orange/wear_04.webp",
+      "wig_deepwave_orange/wear_05.webp",
+      "wig_deepwave_orange/wear_06.webp"
+    ],
+    "wig_deepwave_silver": [
+      "wig_deepwave_silver/gallery_001.webp",
+      "wig_deepwave_silver/gallery_002.webp",
+      "wig_deepwave_silver/gallery_003.webp",
+      "wig_deepwave_silver/gallery_004.webp",
+      "wig_deepwave_silver/gallery_005.webp",
+      "wig_deepwave_silver/gallery_006.webp",
+      "wig_deepwave_silver/gallery_007.webp",
+      "wig_deepwave_silver/gallery_008.webp",
+      "wig_deepwave_silver/gallery_009.webp",
+      "wig_deepwave_silver/gallery_010.webp",
+      "wig_deepwave_silver/hero.webp"
+    ],
+    "wig_loosewave_1": [
+      "wig_loosewave_1/gallery_001.webp",
+      "wig_loosewave_1/gallery_002.webp",
+      "wig_loosewave_1/gallery_003.webp",
+      "wig_loosewave_1/gallery_004.webp",
+      "wig_loosewave_1/hero.webp"
+    ],
+    "wig_loosewave_1b": [
+      "wig_loosewave_1b/gallery_001.webp",
+      "wig_loosewave_1b/gallery_002.webp",
+      "wig_loosewave_1b/gallery_003.webp",
+      "wig_loosewave_1b/gallery_004.webp",
+      "wig_loosewave_1b/hero.webp"
+    ],
+    "wig_loosewave_613": [
+      "wig_loosewave_613/gallery_001.webp",
+      "wig_loosewave_613/hero.webp"
+    ],
+    "wig_loosewave_brown": [
+      "wig_loosewave_brown/gallery_001.webp",
+      "wig_loosewave_brown/gallery_002.webp",
+      "wig_loosewave_brown/hero.webp",
+      "wig_loosewave_brown/wear_01.webp"
+    ],
+    "wig_loosewave_burgundy": [
+      "wig_loosewave_burgundy/angle.webp",
+      "wig_loosewave_burgundy/hero.webp",
+      "wig_loosewave_burgundy/texture.webp",
+      "wig_loosewave_burgundy/wear_01.webp"
+    ],
+    "wig_loosewave_orange": [
+      "wig_loosewave_orange/gallery_001.webp",
+      "wig_loosewave_orange/gallery_002.webp",
+      "wig_loosewave_orange/gallery_003.webp",
+      "wig_loosewave_orange/gallery_004.webp",
+      "wig_loosewave_orange/hero.webp",
+      "wig_loosewave_orange/wear_01.webp"
+    ],
+    "wig_loosewave_silver": [
+      "wig_loosewave_silver/gallery_001.webp",
+      "wig_loosewave_silver/gallery_002.webp",
+      "wig_loosewave_silver/gallery_003.webp",
+      "wig_loosewave_silver/gallery_004.webp",
+      "wig_loosewave_silver/gallery_005.webp",
+      "wig_loosewave_silver/gallery_006.webp",
+      "wig_loosewave_silver/hero.webp"
+    ],
+    "wig_straight_1": [
+      "wig_straight_1/angle.webp",
+      "wig_straight_1/gallery_001.webp",
+      "wig_straight_1/gallery_002.webp",
+      "wig_straight_1/gallery_003.webp",
+      "wig_straight_1/gallery_004.webp",
+      "wig_straight_1/hero.webp",
+      "wig_straight_1/mannequin.webp",
+      "wig_straight_1/texture.webp",
+      "wig_straight_1/wear_01.webp",
+      "wig_straight_1/wear_02.webp",
+      "wig_straight_1/wear_03.webp"
+    ],
+    "wig_straight_1b": [
+      "wig_straight_1b/angle.webp",
+      "wig_straight_1b/gallery_001.webp",
+      "wig_straight_1b/gallery_002.webp",
+      "wig_straight_1b/gallery_003.webp",
+      "wig_straight_1b/gallery_004.webp",
+      "wig_straight_1b/hero.webp",
+      "wig_straight_1b/mannequin.webp",
+      "wig_straight_1b/texture.webp",
+      "wig_straight_1b/wear_01.webp"
+    ],
+    "wig_straight_613": [
+      "wig_straight_613/gallery_001.webp",
+      "wig_straight_613/gallery_002.webp",
+      "wig_straight_613/hero.webp"
+    ],
+    "wig_straight_brown": [
+      "wig_straight_brown/gallery_001.webp",
+      "wig_straight_brown/gallery_002.webp",
+      "wig_straight_brown/gallery_003.webp",
+      "wig_straight_brown/gallery_004.webp",
+      "wig_straight_brown/hero.webp"
+    ],
+    "wig_straight_burgundy": [
+      "wig_straight_burgundy/gallery_001.webp",
+      "wig_straight_burgundy/gallery_002.webp",
+      "wig_straight_burgundy/hero.webp"
+    ],
+    "wig_straight_orange": [
+      "wig_straight_orange/gallery_001.webp",
+      "wig_straight_orange/gallery_002.webp",
+      "wig_straight_orange/gallery_003.webp",
+      "wig_straight_orange/hero.webp",
+      "wig_straight_orange/wear_01.webp"
+    ],
+    "wig_waterwave_1": [
+      "wig_waterwave_1/hero.webp"
+    ]
+  },
+  "bundles": {
+    "bundle_bodywave_1": [
+      "bundle_bodywave_1/angle.webp",
+      "bundle_bodywave_1/gallery_001.webp",
+      "bundle_bodywave_1/gallery_002.webp",
+      "bundle_bodywave_1/gallery_003.webp",
+      "bundle_bodywave_1/hero.webp",
+      "bundle_bodywave_1/texture.webp",
+      "bundle_bodywave_1/wear_01.webp"
+    ],
+    "bundle_bodywave_brown": [
+      "bundle_bodywave_brown/hero.webp"
+    ],
+    "bundle_deepcurly_1": [
+      "bundle_deepcurly_1/hero.webp",
+      "bundle_deepcurly_1/texture.webp"
+    ],
+    "bundle_deepcurly_1b": [
+      "bundle_deepcurly_1b/hero.webp"
+    ],
+    "bundle_deepwave_1": [
+      "bundle_deepwave_1/gallery_001.webp",
+      "bundle_deepwave_1/gallery_002.webp",
+      "bundle_deepwave_1/gallery_003.webp",
+      "bundle_deepwave_1/gallery_004.webp",
+      "bundle_deepwave_1/gallery_005.webp",
+      "bundle_deepwave_1/gallery_006.webp",
+      "bundle_deepwave_1/gallery_007.webp",
+      "bundle_deepwave_1/gallery_008.webp",
+      "bundle_deepwave_1/gallery_009.webp",
+      "bundle_deepwave_1/gallery_010.webp",
+      "bundle_deepwave_1/gallery_011.webp",
+      "bundle_deepwave_1/gallery_012.webp",
+      "bundle_deepwave_1/hero.webp"
+    ],
+    "bundle_deepwave_1b": [
+      "bundle_deepwave_1b/gallery_001.webp",
+      "bundle_deepwave_1b/hero.webp"
+    ],
+    "bundle_deepwave_613": [
+      "bundle_deepwave_613/hero.webp"
+    ],
+    "bundle_deepwave_brown": [
+      "bundle_deepwave_brown/gallery_001.webp",
+      "bundle_deepwave_brown/hero.webp"
+    ],
+    "bundle_deepwave_orange": [
+      "bundle_deepwave_orange/hero.webp"
+    ],
+    "bundle_loosewave_1": [
+      "bundle_loosewave_1/hero.webp"
+    ],
+    "bundle_loosewave_brown": [
+      "bundle_loosewave_brown/hero.webp"
+    ],
+    "bundle_loosewave_orange": [
+      "bundle_loosewave_orange/gallery_001.webp",
+      "bundle_loosewave_orange/hero.webp"
+    ],
+    "bundle_straight_1": [
+      "bundle_straight_1/gallery_001.webp",
+      "bundle_straight_1/hero.webp"
+    ],
+    "bundle_straight_brown": [
+      "bundle_straight_brown/gallery_001.webp",
+      "bundle_straight_brown/hero.webp"
+    ],
+    "bundle_straight_orange": [
+      "bundle_straight_orange/hero.webp"
+    ]
+  }
+}

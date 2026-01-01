@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import SEO from "../components/SEO";
 import { useCart } from "../context/CartContext";
+import { trackPurchase } from "../utils/track";
 
 export default function Success() {
   const { clearCart } = useCart();
@@ -9,10 +10,34 @@ export default function Success() {
   const sessionId = searchParams.get("session_id");
 
   useEffect(() => {
-    // Only clear cart if Stripe session exists
-    if (sessionId) {
-      clearCart();
+    if (!sessionId) return;
+
+    // Purchase tracking (GA4 + Meta Pixel) — only fires after cookie consent.
+    try {
+      const lastTracked = window.localStorage.getItem("eminence_purchase_tracked_session");
+      if (lastTracked !== sessionId) {
+        const snapRaw = window.localStorage.getItem("eminence_checkout_snapshot");
+        const snap = snapRaw ? JSON.parse(snapRaw) : null;
+
+        const value =
+          snap && typeof snap.total !== "undefined" ? Number(snap.total) : undefined;
+        const items = Array.isArray(snap?.items) ? snap.items : [];
+
+        trackPurchase({
+          transaction_id: sessionId,
+          value,
+          items,
+        });
+
+        window.localStorage.setItem("eminence_purchase_tracked_session", sessionId);
+        window.localStorage.removeItem("eminence_checkout_snapshot");
+      }
+    } catch {
+      // ignore
     }
+
+    // Only clear cart if Stripe session exists
+    clearCart();
   }, [sessionId, clearCart]);
 
   return (

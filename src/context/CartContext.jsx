@@ -9,6 +9,7 @@ import React, {
   useEffect,
 } from "react";
 import fallbackImage from "../assets/editorial.png";
+import { trackAddToCart } from "../utils/track";
 import { products } from "../data/products";
 
 const CartContext = createContext(null);
@@ -38,7 +39,6 @@ export function CartProvider({ children }) {
         selectedDensity: item.density ?? item.selectedDensity ?? 140,
       }))
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const openCart = () => setIsOpen(true);
@@ -103,6 +103,7 @@ export function CartProvider({ children }) {
       cartKey: `${product.id}::${length}::${density}::${lace}::${color || ""}`,
     };
 
+    // Analytics / pixels (only if consented)
     setCartItems((prev) => {
       const idx = prev.findIndex((p) => p.cartKey === normalized.cartKey);
 
@@ -138,6 +139,7 @@ export function CartProvider({ children }) {
   const updateItemOptions = (id, cartKey, next = {}) => {
     const product = products.find((p) => p.id === id);
 
+    // Analytics / pixels (only if consented)
     setCartItems((prev) => {
       const current = prev.find((x) => (x.cartKey || x.variant) === cartKey);
       if (!current) return prev;

@@ -227,6 +227,8 @@ export const products = [
     collection: "Colorway Natural",
     collectionSlug: "natural",
     texture: "BodyWave",
+    color: "1B",
+    assetKey: "wig_bodywave_1b",
     description:
       "Rich, natural 1B tone with soft depth and dimension. Designed to blend seamlessly with natural dark hair.",
     lengths: [16, 18, 20, 22, 24, 26],
@@ -235,7 +237,13 @@ export const products = [
       return (NATURAL_BODYWAVE_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
     },
     images: [
-      "/gallery/colorways/Natural/Eminence_Colorways_BodyWave_Natural_01.webp",
+      "/assets/wigs/wig_bodywave_1b/hero.webp",
+      "/assets/wigs/wig_bodywave_1b/wear_01.webp",
+      "/assets/wigs/wig_bodywave_1b/wear_02.webp",
+      "/assets/wigs/wig_bodywave_1b/wear_03.webp",
+      "/assets/wigs/wig_bodywave_1b/gallery_001.webp",
+      "/assets/wigs/wig_bodywave_1b/gallery_002.webp",
+      "/assets/wigs/wig_bodywave_1b/gallery_003.webp",
     ],
   },
 
@@ -278,6 +286,8 @@ export const products = [
     collection: "Colorway 613",
     collectionSlug: "613",
     texture: "Curly / BodyWave / Straight compatible",
+    color: "613",
+    assetKey: "wig_deepwave_613",
     description:
       "Our luminous 613 blonde colorway offers a bright, even lift with ultra-soft texture — perfect for dyeing, toning, or wearing as-is.",
     lengths: [16, 18, 20, 22, 24, 26, 28],
@@ -286,8 +296,15 @@ export const products = [
       return (BLONDE_613_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
     },
     images: [
-      "/gallery/colorways/613/Eminence_Colorways_Curly_613_01.webp",
-      "/gallery/colorways/613/Eminence_Colorways_Curly_613_02.webp",
+      "/assets/wigs/wig_deepwave_613/hero.webp",
+      "/assets/wigs/wig_deepwave_613/wear_01.webp",
+      "/assets/wigs/wig_deepwave_613/wear_02.webp",
+      "/assets/wigs/wig_deepwave_613/gallery_001.webp",
+      "/assets/wigs/wig_deepwave_613/gallery_002.webp",
+      "/assets/wigs/wig_deepwave_613/gallery_003.webp",
+      "/assets/wigs/wig_deepwave_613/gallery_004.webp",
+      "/assets/wigs/wig_deepwave_613/gallery_005.webp",
+      "/assets/wigs/wig_deepwave_613/gallery_006.webp",
     ],
   },
 
@@ -341,16 +358,156 @@ export const products = [
       return (STRAIGHT_WIG_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
     },
     images: [
-      "/assets/wigs/wig_straight_1b/hero.jpg",
-      "/assets/wigs/wig_straight_1b/texture.jpg",
-      "/assets/wigs/wig_straight_1b/angle.jpg",
-      "/assets/wigs/wig_straight_1b/wear.jpg",
+      "/assets/wigs/wig_straight_1b/hero.webp",
+      "/assets/wigs/wig_straight_1b/mannequin.webp",
+      "/assets/wigs/wig_straight_1b/texture.webp",
+      "/assets/wigs/wig_straight_1b/angle.webp",
+      "/assets/wigs/wig_straight_1b/wear_01.webp",
+      "/assets/wigs/wig_straight_1b/gallery_001.webp",
+      "/assets/wigs/wig_straight_1b/gallery_002.webp",
+      "/assets/wigs/wig_straight_1b/gallery_003.webp",
+      "/assets/wigs/wig_straight_1b/gallery_004.webp",
     ],
     videos: {
       texture: "/assets/wigs/wig_straight_1b/texture.mp4",
       wear: "/assets/wigs/wig_straight_1b/wear.mp4",
     },
   },
+  {
+    id: "wig-jet-black-straight",
+    slug: "jet-black-straight-hd-lace-wig",
+    name: "Jet Black Straight HD Lace Wig",
+    displayName: "Jet Black Straight HD Lace Wig",
+    type: "wig",
+
+    collection: "Eminence Collection",
+    collectionSlug: "eminence",
+    texture: "Straight",
+    color: "1",
+    assetKey: "wig_straight_1",
+    description:
+      "True jet black, bone-straight finish with premium HD lace. Designed for a seamless melt and high-shine movement.",
+    lengths: [16, 18, 20, 22, 24, 26, 30, 32],
+    densities: [140, 180, 200, 250],
+    price(length, density, lace = "Transparent Lace") {
+      return (STRAIGHT_WIG_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
+    },
+    images: [
+      "/assets/wigs/wig_straight_1/hero.webp",
+      "/assets/wigs/wig_straight_1/mannequin.webp",
+      "/assets/wigs/wig_straight_1/texture.webp",
+      "/assets/wigs/wig_straight_1/angle.webp",
+      "/assets/wigs/wig_straight_1/wear_01.webp",
+      "/assets/wigs/wig_straight_1/wear_02.webp",
+      "/assets/wigs/wig_straight_1/wear_03.webp",
+      "/assets/wigs/wig_straight_1/gallery_001.webp",
+      "/assets/wigs/wig_straight_1/gallery_002.webp",
+      "/assets/wigs/wig_straight_1/gallery_003.webp",
+      "/assets/wigs/wig_straight_1/gallery_004.webp",
+    ],
+  },
+  {
+    id: "wig-burgundy-loose-wave",
+    slug: "burgundy-loose-wave-hd-lace-wig",
+    name: "Burgundy Loose Wave HD Lace Wig",
+    displayName: "Burgundy Loose Wave HD Lace Wig",
+    type: "wig",
+
+    collection: "Eminence Collection",
+    collectionSlug: "eminence",
+    texture: "LooseWave",
+    color: "Burgundy",
+    assetKey: "wig_loosewave_burgundy",
+    description:
+      "A rich burgundy tone with soft, polished loose waves. HD lace crafted to melt cleanly with natural movement.",
+    lengths: [16, 18, 20, 22, 24, 26, 28, 30],
+    densities: [140, 180, 200],
+    price(length, density, lace = "Transparent Lace") {
+      return (LAVISH_WIG_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
+    },
+    images: [
+      "/assets/wigs/wig_loosewave_burgundy/hero.webp",
+      "/assets/wigs/wig_loosewave_burgundy/texture.webp",
+      "/assets/wigs/wig_loosewave_burgundy/angle.webp",
+      "/assets/wigs/wig_loosewave_burgundy/wear_01.webp",
+    ],
+  },
+  {
+    id: "bundles-natural-body-wave",
+    slug: "natural-body-wave-bundles",
+    name: "Natural Body Wave Bundles",
+    displayName: "Natural Body Wave Bundles",
+    type: "bundle",
+    collection: "Eminence Collection",
+    collectionSlug: "eminence",
+    texture: "BodyWave",
+    color: "1B",
+    assetKey: "bundle_bodywave_1",
+    description:
+      "Soft, bouncy body-wave bundles in a natural 1B tone. Ideal for sew-ins, custom units, and versatile styling.",
+    lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    // Bundles are priced by length (density not applicable)
+    price(length) {
+      const PRICE = {
+      12: 95,
+      14: 105,
+      16: 115,
+      18: 125,
+      20: 135,
+      22: 145,
+      24: 155,
+      26: 165,
+      28: 175,
+      30: 185
+    };
+      return PRICE[length] ?? 0;
+    },
+    images: [
+      "/assets/bundles/bundle_bodywave_1/hero.webp",
+      "/assets/bundles/bundle_bodywave_1/texture.webp",
+      "/assets/bundles/bundle_bodywave_1/angle.webp",
+      "/assets/bundles/bundle_bodywave_1/wear_01.webp",
+      "/assets/bundles/bundle_bodywave_1/gallery_001.webp",
+      "/assets/bundles/bundle_bodywave_1/gallery_002.webp",
+      "/assets/bundles/bundle_bodywave_1/gallery_003.webp",
+    ],
+  },
+  {
+    id: "bundles-natural-deep-curly",
+    slug: "natural-deep-curly-bundles",
+    name: "Natural Deep Curly Bundles",
+    displayName: "Natural Deep Curly Bundles",
+    type: "bundle",
+    collection: "Eminence Collection",
+    collectionSlug: "eminence",
+    texture: "DeepCurly",
+    color: "1B",
+    assetKey: "bundle_deepcurly_1",
+    description:
+      "Defined deep-curl bundles with high texture definition and a natural finish. Designed for volume and curl retention.",
+    lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    // Bundles are priced by length (density not applicable)
+    price(length) {
+      const PRICE = {
+      12: 95,
+      14: 105,
+      16: 115,
+      18: 125,
+      20: 135,
+      22: 145,
+      24: 155,
+      26: 165,
+      28: 175,
+      30: 185
+    };
+      return PRICE[length] ?? 0;
+    },
+    images: [
+      "/assets/bundles/bundle_deepcurly_1/hero.webp",
+      "/assets/bundles/bundle_deepcurly_1/texture.webp",
+    ],
+  },
+
 ];
 
 // ======================

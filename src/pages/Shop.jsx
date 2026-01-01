@@ -25,34 +25,66 @@ const getStartingPrice = (p) => {
 const matchesColor = (p, color) => {
   const c = String(color || "").toLowerCase();
 
-  // Work with what exists TODAY in your products.js:
-  // - natural is collectionSlug "natural"
-  // - 613 is collectionSlug "613"
+  // Backwards compatible: many older products are tagged via collectionSlug / collection name
   const slug = String(p.collectionSlug || "").toLowerCase();
   const collection = String(p.collection || "").toLowerCase();
   const name = String(p.name || "").toLowerCase();
   const displayName = String(p.displayName || "").toLowerCase();
-
-  if (c === "natural") return slug === "natural" || collection.includes("colorway natural");
-  if (c === "613") return slug === "613" || collection.includes("colorway 613") || name.includes("613") || displayName.includes("613");
-
-  // Future categories (safe now, will just return false until you add products)
-  if (c === "blended") return collection.includes("ombre") || name.includes("ombre") || displayName.includes("ombre");
-  if (c === "red") return collection.includes("red") || name.includes("red") || displayName.includes("red");
-
-  // If someone passes "1b" later and you add p.color fields, it will work if you want:
   const productColor = String(p.color || "").toLowerCase();
-  if (productColor && productColor === c) return true;
 
+  const haystack = `${productColor} ${slug} ${collection} ${name} ${displayName}`.toLowerCase();
+  const has = (needle) => haystack.includes(needle);
+
+  // Your current color families
+  if (c === "1") return productColor === "1" || has("jet black") || has("#1");
+  if (c === "1b") return productColor === "1b" || has("1b") || has("natural black") || has("natural");
+  if (c === "613") return productColor === "613" || has("613") || has("blonde") || slug === "613" || collection.includes("colorway 613");
+  if (c === "burgundy") return productColor === "burgundy" || has("burgundy") || has("burg") || has("h-red") || has("red");
+  if (c === "brown") return productColor === "brown" || has("brown") || has("22") || has("24") || has("27");
+  if (c === "silver") return productColor === "silver" || has("silver") || has("gray") || has("grey");
+  if (c === "orange") return productColor === "orange" || has("orange");
+
+  // Legacy option
+  if (c === "natural") return has("natural") || has("1b") || slug === "natural" || collection.includes("colorway natural");
+
+  // If you later add more, this will safely default false
   return false;
 };
 
 const prefetchProduct = () => import("./ProductDetail");
 const prefetchCheckout = () => import("./Checkout");
 
+function Pill({ active, children }) {
+  return (
+    <span
+      className={`px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border transition ${
+        active
+          ? "border-neutral-900 bg-neutral-900 text-[#F9F7F4]"
+          : "border-neutral-300 bg-white/40 hover:bg-white/60 text-neutral-800"
+      }`}
+    >
+      {children}
+    </span>
+  );
+}
+
+function ActiveChip({ label, onRemove }) {
+  return (
+    <button
+      type="button"
+      onClick={onRemove}
+      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/50 hover:bg-white"
+      aria-label={`Remove filter ${label}`}
+    >
+      {label}
+      <span className="text-neutral-500">×</span>
+    </button>
+  );
+}
+
 export default function Shop() {
-  const { addToCart, isOpen } = useCart();
-  const [searchParams] = useSearchParams();
+  const { addToCart } = useCart();
+  const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
 
   // route-based "loading skeleton" feel
@@ -69,6 +101,8 @@ export default function Shop() {
       ? "wig"
       : location.pathname === "/shop/bundles"
       ? "bundle"
+      : location.pathname === "/shop/closures"
+      ? "closure"
       : "all";
 
   // Support Navbar links like /shop?type=wig
@@ -84,80 +118,149 @@ export default function Shop() {
   const collectionFilter = searchParams.get("collection") || "All";
   const textureFilter = searchParams.get("texture") || "All";
   const colorFilter = searchParams.get("color") || "All";
+  const sortKey = (searchParams.get("sort") || "featured").toLowerCase();
 
   // Essentials view is only when explicitly requested
   const isEssentialsView =
     collectionFilter === "eminence-essentials" || collectionFilter === "Eminence Essentials";
 
-  /* SEO */
-  useEffect(() => {
-    document.title =
-      mode === "wig"
-        ? "Luxury HD Lace Wigs | Eminence Hair"
-        : mode === "bundle"
-        ? "Premium Hair Bundles & Extensions | Eminence Hair"
-        : "Luxury Wigs & Hair Extensions | Eminence Hair";
-
-    let meta = document.querySelector('meta[name="description"]');
-    if (!meta) {
-      meta = document.createElement("meta");
-      meta.name = "description";
-      document.head.appendChild(meta);
-    }
-
-    meta.content =
-      mode === "wig"
-        ? "Shop luxury HD lace wigs crafted from raw SEA and Cambodian hair."
-        : mode === "bundle"
-        ? "Premium hair bundles and extensions by Eminence Hair. Launching soon."
-        : "Shop luxury wigs, bundles, and textures by Eminence Hair.";
-  }, [mode]);
-
   const [addingId, setAddingId] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const filteredByType = useMemo(() => {
     if (mode === "all") return products;
     return products.filter((p) => p.type === mode);
   }, [mode]);
 
+  const collectionOptions = useMemo(() => {
+    const map = new Map();
+
+    // Add Essentials (special view)
+    map.set("eminence-essentials", "Eminence Essentials");
+
+    filteredByType.forEach((p) => {
+      const value = p.collectionSlug || p.collection;
+      const label = p.collection || p.collectionSlug;
+      if (!value || !label) return;
+      if (!map.has(value)) map.set(value, label);
+    });
+
+    return Array.from(map.entries()).map(([value, label]) => ({ value, label }));
+  }, [filteredByType]);
+
+  const textureOptions = useMemo(() => {
+    const set = new Set();
+    filteredByType.forEach((p) => {
+      if (p.texture) set.add(p.texture);
+    });
+    return ["All", ...Array.from(set)];
+  }, [filteredByType]);
+
+  const colorOptions = useMemo(() => ["All", "1", "1B", "Brown", "Burgundy", "613", "Silver", "Orange"], []);
+
+  const setParam = (key, value) => {
+    const next = new URLSearchParams(searchParams);
+
+    // Keep it clean: "All" removes the param
+    if (!value || value === "All") next.delete(key);
+    else next.set(key, value);
+
+    // Also remove legacy `type` param if user is using path-mode
+    if (modeFromPath !== "all") next.delete("type");
+
+    setSearchParams(next, { replace: true });
+  };
+
+  const clearAllFilters = () => {
+    const next = new URLSearchParams(searchParams);
+    ["collection", "texture", "color", "sort"].forEach((k) => next.delete(k));
+    if (modeFromPath !== "all") next.delete("type");
+    setSearchParams(next, { replace: true });
+  };
+
   const visibleProducts = useMemo(() => {
     let list = [...filteredByType];
 
     // ✅ If user is explicitly on Essentials view, show ONLY essentials
     if (isEssentialsView) {
-      return list
+      list = list
         .filter((p) => p.isEssential || p.collections?.includes("Eminence Essentials"))
         .sort((a, b) => (a.essentialOrder ?? 99) - (b.essentialOrder ?? 99));
+    } else {
+      // Otherwise show full catalog (with optional filters)
+      if (collectionFilter !== "All") {
+        list = list.filter(
+          (p) => p.collectionSlug === collectionFilter || p.collection === collectionFilter
+        );
+      }
+
+      if (textureFilter !== "All") {
+        list = list.filter((p) => p.texture === textureFilter);
+      }
+
+      if (colorFilter !== "All") {
+        list = list.filter((p) => matchesColor(p, colorFilter));
+      }
     }
 
-    // Otherwise show full catalog (with optional filters)
-    if (collectionFilter !== "All") {
-      list = list.filter(
-        (p) => p.collectionSlug === collectionFilter || p.collection === collectionFilter
-      );
-    }
+    // Sorting
+    const byPriceAsc = (a, b) => getStartingPrice(a) - getStartingPrice(b);
+    const byPriceDesc = (a, b) => getStartingPrice(b) - getStartingPrice(a);
+    const byName = (a, b) =>
+      String(a.displayName || a.name || "").localeCompare(String(b.displayName || b.name || ""));
 
-    if (textureFilter !== "All") {
-      list = list.filter((p) => p.texture === textureFilter);
-    }
-
-    if (colorFilter !== "All") {
-      list = list.filter((p) => matchesColor(p, colorFilter));
-    }
+    if (sortKey === "price-asc") list.sort(byPriceAsc);
+    if (sortKey === "price-desc") list.sort(byPriceDesc);
+    if (sortKey === "alpha") list.sort(byName);
 
     return list;
-  }, [filteredByType, isEssentialsView, collectionFilter, textureFilter, colorFilter]);
+  }, [filteredByType, isEssentialsView, collectionFilter, textureFilter, colorFilter, sortKey]);
 
-  if (mode === "bundle" && visibleProducts.length === 0) {
+  const activeChips = useMemo(() => {
+    const collectionLabel =
+      collectionOptions.find((o) => o.value === collectionFilter)?.label || collectionFilter;
+
+    const chips = [];
+    if (collectionFilter !== "All") chips.push({ key: "collection", label: collectionLabel });
+    if (textureFilter !== "All") chips.push({ key: "texture", label: textureFilter });
+    if (colorFilter !== "All") chips.push({ key: "color", label: colorFilter });
+    if (sortKey !== "featured") {
+      const label =
+        sortKey === "price-asc"
+          ? "Price: Low → High"
+          : sortKey === "price-desc"
+          ? "Price: High → Low"
+          : sortKey === "alpha"
+          ? "A → Z"
+          : sortKey;
+      chips.push({ key: "sort", label });
+    }
+    return chips;
+  }, [collectionFilter, textureFilter, colorFilter, sortKey, collectionOptions]);
+
+  // Category-specific empty states (kept, upgraded)
+  if ((mode === "bundle" || mode === "closure") && visibleProducts.length === 0) {
+    const isBundles = mode === "bundle";
     return (
       <div className="pt-32 pb-32 bg-[#FBF6ED] text-center">
         <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500 mb-4">
           Eminence Hair
         </p>
-        <h1 className="text-4xl font-light mb-6">Bundles & Extensions</h1>
+        <h1 className="text-4xl font-light mb-6">
+          {isBundles ? "Bundles & Extensions" : "Closures & Lace Pieces"}
+        </h1>
         <p className="max-w-md mx-auto text-neutral-600 leading-relaxed">
-          Our premium bundles and extensions are currently in development. Crafted to the same
-          standards as our wigs — launching soon.
+          {isBundles ? (
+            <>
+              Our premium bundles and extensions are currently in development. Crafted to the same
+              standards as our wigs — launching soon.
+            </>
+          ) : (
+            <>
+              Our closures are currently being curated — premium lace pieces designed to blend, melt,
+              and wear like the real thing.
+            </>
+          )}
         </p>
 
         <div className="mt-10">
@@ -202,16 +305,46 @@ export default function Shop() {
   }
 
   const heroTitle =
-    mode === "wig" ? "Luxury wigs, perfected." : "Shop all luxury wigs, bundles, and textures in one edit.";
+    mode === "wig"
+      ? "Luxury wigs, perfected."
+      : mode === "bundle"
+      ? "Bundles, crafted to Eminence standards."
+      : mode === "closure"
+      ? "Closures, designed to disappear."
+      : "Shop all luxury wigs, bundles, and textures in one edit.";
 
   const heroSubtitle =
     mode === "wig"
       ? "HD lace wigs crafted from raw SEA & Cambodian hair."
-      : "Raw Cambodian & SEA hair, Burmese deep waves, and signature color units built with 180–250% density.";
+      : mode === "bundle"
+      ? "Premium hair bundles and extensions — launching soon."
+      : mode === "closure"
+      ? "Natural-looking closures built for seamless blends."
+      : "Raw Cambodian & SEA hair, Burmese deep waves, and signature color units built with editorial density.";
+
+  const buildModeTo = (path) => {
+    const next = new URLSearchParams(searchParams);
+    next.delete("type"); // prefer path-based mode
+    const qs = next.toString();
+    return qs ? `${path}?${qs}` : path;
+  };
 
   const handleQuickAdd = (product) => {
+    // Premium UX: wigs require true option selection → send to PDP
+    if (product?.type === "wig") return;
+
     setAddingId(product.id);
-    addToCart(product); // CartContext applies defaults
+
+    const payload = { ...product };
+
+    // Provide safe defaults (CartContext can still override if it wants)
+    const L = getMinLength(product);
+    if (L != null) {
+      payload.length = payload.length ?? L;
+      payload.selectedLength = payload.selectedLength ?? L;
+    }
+
+    addToCart(payload);
     setTimeout(() => setAddingId(null), 350);
   };
 
@@ -223,12 +356,14 @@ export default function Shop() {
             ? "Luxury HD Lace Wigs"
             : mode === "bundle"
             ? "Premium Hair Bundles"
+            : mode === "closure"
+            ? "Luxury Closures"
             : "Luxury Wigs & Hair Extensions"
         }
         description="Shop luxury wigs, bundles, and textures by Eminence Hair."
       />
+
       <div className="pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">
-      <div className={`${isOpen ? "blur-sm" : ""} transition`}>
         <div className="max-w-7xl mx-auto px-6 space-y-10">
           {/* HERO */}
           <section className="grid md:grid-cols-[1.4fr,1fr] gap-8 items-center rounded-3xl border border-white/60 bg-gradient-to-r from-[#F6ECE1] via-[#F9F7F4] to-[#F4EBDF] shadow-[0_22px_50px_rgba(17,12,5,0.20)] px-6 md:px-10 py-8 md:py-10">
@@ -258,8 +393,9 @@ export default function Shop() {
                 >
                   F/W 2025 Edit
                 </Link>
+
                 <p className="text-xs text-neutral-600">
-                  {visibleProducts.length} styles • HD lace, editorial densities.
+                  {visibleProducts.length} styles • HD lace, editorial density.
                 </p>
               </div>
             </div>
@@ -270,6 +406,237 @@ export default function Shop() {
             </div>
           </section>
 
+          {/* MODE + FILTERS */}
+          <section className="space-y-4">
+            {/* mode pills */}
+            <div className="flex flex-wrap items-center gap-2">
+              <Link to={buildModeTo("/shop")} aria-label="Shop all">
+                <Pill active={mode === "all"}>All</Pill>
+              </Link>
+              <Link to={buildModeTo("/shop/wigs")} aria-label="Shop wigs">
+                <Pill active={mode === "wig"}>Wigs</Pill>
+              </Link>
+              <Link to={buildModeTo("/shop/bundles")} aria-label="Shop bundles">
+                <Pill active={mode === "bundle"}>Bundles</Pill>
+              </Link>
+              <Link to={buildModeTo("/shop/closures")} aria-label="Shop closures">
+                <Pill active={mode === "closure"}>Closures</Pill>
+              </Link>
+
+              <div className="ml-auto flex items-center gap-2">
+                {/* Mobile: open drawer */}
+                <button
+                  type="button"
+                  onClick={() => setDrawerOpen(true)}
+                  className="md:hidden px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/40 hover:bg-white/60"
+                >
+                  Filters
+                </button>
+
+                {/* Desktop sort */}
+                <div className="hidden md:flex items-center gap-2">
+                  <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                    Sort
+                  </label>
+                  <select
+                    value={sortKey}
+                    onChange={(e) => setParam("sort", e.target.value)}
+                    className="px-4 py-2 rounded-full border border-neutral-300 bg-white/60 text-xs"
+                  >
+                    <option value="featured">Featured</option>
+                    <option value="price-asc">Price: Low → High</option>
+                    <option value="price-desc">Price: High → Low</option>
+                    <option value="alpha">A → Z</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Desktop filters row */}
+            <div className="hidden md:flex flex-wrap items-center gap-3 rounded-3xl border border-white/60 bg-white/40 backdrop-blur px-4 py-3">
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                  Collection
+                </label>
+                <select
+                  value={collectionFilter}
+                  onChange={(e) => setParam("collection", e.target.value)}
+                  className="px-4 py-2 rounded-full border border-neutral-300 bg-white/60 text-xs"
+                >
+                  <option value="All">All</option>
+                  {collectionOptions.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                  Texture
+                </label>
+                <select
+                  value={textureFilter}
+                  onChange={(e) => setParam("texture", e.target.value)}
+                  className="px-4 py-2 rounded-full border border-neutral-300 bg-white/60 text-xs"
+                >
+                  {textureOptions.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                  Color
+                </label>
+                <select
+                  value={colorFilter}
+                  onChange={(e) => setParam("color", e.target.value)}
+                  className="px-4 py-2 rounded-full border border-neutral-300 bg-white/60 text-xs"
+                >
+                  {colorOptions.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                type="button"
+                onClick={clearAllFilters}
+                className="ml-auto px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/40 hover:bg-white/60"
+              >
+                Clear
+              </button>
+            </div>
+
+            {/* Active filter chips */}
+            {activeChips.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2">
+                {activeChips.map((c) => (
+                  <ActiveChip key={c.key} label={c.label} onRemove={() => setParam(c.key, "All")} />
+                ))}
+              </div>
+            )}
+          </section>
+
+          {/* Mobile filter drawer */}
+          {drawerOpen && (
+            <div className="fixed inset-0 z-50">
+              <button
+                className="absolute inset-0 bg-black/40"
+                aria-label="Close filters"
+                onClick={() => setDrawerOpen(false)}
+              />
+              <div className="absolute bottom-0 left-0 right-0 rounded-t-[2rem] border border-white/40 bg-[#FBF6ED] p-6 max-h-[85vh] overflow-auto shadow-[0_-24px_60px_rgba(0,0,0,0.35)]">
+                <div className="flex items-center justify-between">
+                  <p className="text-[11px] uppercase tracking-[0.26em] text-neutral-600">
+                    Filters
+                  </p>
+                  <button
+                    type="button"
+                    className="px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/50"
+                    onClick={() => setDrawerOpen(false)}
+                  >
+                    Done
+                  </button>
+                </div>
+
+                <div className="mt-6 space-y-5">
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                      Collection
+                    </label>
+                    <select
+                      value={collectionFilter}
+                      onChange={(e) => setParam("collection", e.target.value)}
+                      className="w-full px-4 py-3 rounded-2xl border border-neutral-300 bg-white/70 text-sm"
+                    >
+                      <option value="All">All</option>
+                      {collectionOptions.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                      Texture
+                    </label>
+                    <select
+                      value={textureFilter}
+                      onChange={(e) => setParam("texture", e.target.value)}
+                      className="w-full px-4 py-3 rounded-2xl border border-neutral-300 bg-white/70 text-sm"
+                    >
+                      {textureOptions.map((t) => (
+                        <option key={t} value={t}>
+                          {t}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                      Color
+                    </label>
+                    <select
+                      value={colorFilter}
+                      onChange={(e) => setParam("color", e.target.value)}
+                      className="w-full px-4 py-3 rounded-2xl border border-neutral-300 bg-white/70 text-sm"
+                    >
+                      {colorOptions.map((c) => (
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                      Sort
+                    </label>
+                    <select
+                      value={sortKey}
+                      onChange={(e) => setParam("sort", e.target.value)}
+                      className="w-full px-4 py-3 rounded-2xl border border-neutral-300 bg-white/70 text-sm"
+                    >
+                      <option value="featured">Featured</option>
+                      <option value="price-asc">Price: Low → High</option>
+                      <option value="price-desc">Price: High → Low</option>
+                      <option value="alpha">A → Z</option>
+                    </select>
+                  </div>
+
+                  <div className="flex items-center gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={clearAllFilters}
+                      className="flex-1 px-6 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] border border-neutral-900 hover:bg-neutral-900 hover:text-[#F9F7F4] transition"
+                    >
+                      Clear
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setDrawerOpen(false)}
+                      className="flex-1 px-6 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] border border-neutral-900 bg-neutral-900 text-[#F9F7F4] hover:bg-transparent hover:text-neutral-900 transition"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* SECTION 1 — EMINENCE ESSENTIALS */}
           {mode === "all" && !isEssentialsView && eminenceEssentials?.length > 0 && (
             <section className="space-y-6">
@@ -279,16 +646,17 @@ export default function Shop() {
                     Eminence Essentials
                   </p>
                   <h2 className="text-xl font-light">
-                    A focused edit — wigs & bundles our clients choose most.
+                    A focused edit — styles our clients choose most.
                   </h2>
                 </div>
 
-                <Link
-                  to="/shop?collection=eminence-essentials"
+                <button
+                  type="button"
+                  onClick={() => setParam("collection", "eminence-essentials")}
                   className="text-[11px] uppercase tracking-[0.22em] underline underline-offset-4 text-neutral-700"
                 >
                   View All Essentials
-                </Link>
+                </button>
               </div>
 
               <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
@@ -317,7 +685,7 @@ export default function Shop() {
 
                       <div className="px-4 pt-4 pb-5">
                         <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
-                          {p.type === "bundle" ? "Hair Bundle" : "HD Lace Wig"}
+                          {p.type === "bundle" ? "Hair Bundle" : p.type === "closure" ? "Closure" : "HD Lace Wig"}
                         </p>
 
                         <p className="mt-1 text-sm font-medium text-neutral-900">
@@ -355,18 +723,20 @@ export default function Shop() {
                       key={p.id}
                       className="group flex flex-col h-full rounded-3xl bg-[#F7EFE2] border border-white/40 shadow-[0_18px_40px_rgba(15,10,5,0.22)] overflow-hidden"
                     >
-                      <Link to={`/products/${p.slug}`} className="relative block aspect-[3/4] overflow-hidden">
+                      <Link
+                        to={`/products/${p.slug}`}
+                        onMouseEnter={() => prefetchRoute(prefetchProduct)}
+                        className="relative block aspect-[3/4] overflow-hidden"
+                      >
                         <img
                           src={p.images?.[0]}
-                          alt={p.name}
+                          alt={p.displayName || p.name}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
 
-                        {p.type === "wig" && (
-                          <span className="absolute top-3 left-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
-                            Wig
-                          </span>
-                        )}
+                        <span className="absolute top-3 left-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
+                          {p.type === "wig" ? "Wig" : p.type === "bundle" ? "Bundle" : "Closure"}
+                        </span>
                       </Link>
 
                       <div className="flex flex-col flex-1 px-4 pt-4 pb-4">
@@ -376,14 +746,15 @@ export default function Shop() {
                           </p>
                           <Link
                             to={`/products/${p.slug}`}
-                            onMouseEnter={() => prefetchRoute(prefetchProduct)}
                             className="block text-sm font-medium tracking-[0.02em] text-neutral-900"
                           >
                             {p.displayName || p.name}
                           </Link>
+
                           <p className="text-xs text-neutral-600">
-                            {p.texture} • from {minLength != null ? `${minLength}"` : "—"} •{" "}
-                            {minDensity != null ? `${minDensity}%` : "—"}
+                            {p.texture}
+                            {minLength != null ? ` • from ${minLength}"` : ""}{" "}
+                            {p.type === "wig" && minDensity != null ? ` • ${minDensity}%+` : ""}
                           </p>
                         </div>
 
@@ -395,14 +766,23 @@ export default function Shop() {
                             </p>
                           </div>
 
-                          <button
-                            type="button"
-                            onClick={() => handleQuickAdd(p)}
-                            disabled={addingId === p.id}
-                            className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900 disabled:bg-neutral-500"
-                          >
-                            {addingId === p.id ? "Added" : "Add"}
-                          </button>
+                          {p.type === "wig" ? (
+                            <Link
+                              to={`/products/${p.slug}`}
+                              className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
+                            >
+                              Select
+                            </Link>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => handleQuickAdd(p)}
+                              disabled={addingId === p.id}
+                              className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900 disabled:bg-neutral-500"
+                            >
+                              {addingId === p.id ? "Added" : "Add"}
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -421,7 +801,6 @@ export default function Shop() {
           </Link>
         </div>
       </div>
-      </div>
-      </>
+    </>
   );
 }

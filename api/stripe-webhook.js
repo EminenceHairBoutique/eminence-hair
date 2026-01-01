@@ -12,7 +12,16 @@ export const config = {
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-console.log("🔑 RESEND_API_KEY present?", !!process.env.RESEND_API_KEY);
+async function getRawBody(req) {
+  // Local dev (express.raw) provides a Buffer on req.body
+  if (Buffer.isBuffer(req.body)) return req.body;
+  if (typeof req.body === "string") return Buffer.from(req.body);
+
+  // Vercel/Node fallback: read the request stream
+  const chunks = [];
+  for await (const chunk of req) chunks.push(chunk);
+  return Buffer.concat(chunks);
+}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -24,7 +33,7 @@ export default async function handler(req, res) {
 
   try {
     event = stripe.webhooks.constructEvent(
-      req.body, // ✅ already a Buffer from express.raw()
+      await getRawBody(req),
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );

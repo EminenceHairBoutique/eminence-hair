@@ -1,14 +1,14 @@
 // src/components/MegaMenu.jsx
 import React from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion as Motion, AnimatePresence } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 
 const MegaMenu = ({ open, onClose, sections, image }) => {
   return (
     <AnimatePresence>
       {open && (
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -12 }}
@@ -68,7 +68,7 @@ const MegaMenu = ({ open, onClose, sections, image }) => {
               </div>
             )}
           </div>
-        </motion.div>
+        </Motion.div>
       )}
     </AnimatePresence>
   );

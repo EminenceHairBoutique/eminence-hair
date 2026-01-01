@@ -4,6 +4,7 @@ import cors from "cors";
 
 import createCheckoutSession from "./api/create-checkout-session.js";
 import stripeWebhook from "./api/stripe-webhook.js";
+import concierge from "./api/concierge.js";
 
 const app = express();
 
@@ -23,6 +24,13 @@ app.post(
   "/api/create-checkout-session",
   express.json(),
   createCheckoutSession
+);
+
+// ✅ Concierge requests — JSON body
+app.post(
+  "/api/concierge",
+  express.json(),
+  concierge
 );
 
 app.listen(3000, () => {

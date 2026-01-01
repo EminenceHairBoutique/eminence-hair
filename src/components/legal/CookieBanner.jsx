@@ -12,6 +12,31 @@ export default function CookieBanner() {
     if (!stored) setVisible(true);
   }, []);
 
+  // If the browser sends Global Privacy Control, default to essential-only unless
+  // the user has already saved a preference.
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      const gpc = typeof navigator !== "undefined" && Boolean(navigator.globalPrivacyControl);
+      if (!stored && gpc) {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            necessary: true,
+            analytics: false,
+            marketing: false,
+            timestamp: Date.now(),
+            source: "gpc",
+          })
+        );
+        setVisible(false);
+    try { window.dispatchEvent(new Event("eminence_consent_updated")); } catch {}
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
   const acceptAll = () => {
     localStorage.setItem(
       STORAGE_KEY,
@@ -23,6 +48,7 @@ export default function CookieBanner() {
       })
     );
     setVisible(false);
+    try { window.dispatchEvent(new Event("eminence_consent_updated")); } catch {}
   };
 
   const acceptEssential = () => {
@@ -36,6 +62,7 @@ export default function CookieBanner() {
       })
     );
     setVisible(false);
+    try { window.dispatchEvent(new Event("eminence_consent_updated")); } catch {}
   };
 
   if (!visible) return null;
@@ -54,6 +81,10 @@ export default function CookieBanner() {
             Learn more in our{" "}
             <Link to="/privacy" className="underline hover:text-neutral-900">
               Privacy Policy
+            </Link>
+            {" "}or manage preferences in{" "}
+            <Link to="/privacy-choices" className="underline hover:text-neutral-900">
+              Your Privacy Choices
             </Link>
             .
           </p>

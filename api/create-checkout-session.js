@@ -1,6 +1,7 @@
 /* eslint-env node */
-/* global process */
 import Stripe from "stripe";
+import { products } from "../src/data/products.js";
+import { applyCustomPricing } from "../src/utils/pricing.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -20,27 +21,60 @@ export async function createHandler(req, res) {
       return res.status(400).json({ error: "Invalid cart items" });
     }
 
+    const origin =
+      req.headers.origin ||
+      `https://${req.headers["x-forwarded-host"] || req.headers.host}`;
+
     const line_items = items.map((item) => {
-      if (!item.name || !item.price || !item.quantity) {
+      if (!item?.id || !item.quantity) {
         throw new Error("Missing item fields");
       }
+
+      const product = products.find((p) => p.id === item.id || p.slug === item.slug);
+      if (!product) {
+        throw new Error(`Unknown product: ${item.id}`);
+      }
+
+      const length = Number(item.length ?? Math.min(...(product.lengths || [0])));
+      const density = Number(item.density ?? Math.min(...(product.densities || [0])));
+      const lace = item.lace ?? "Transparent Lace";
+
+      const basePrice =
+        typeof product.price === "function" && length && density
+          ? Number(product.price(length, density, lace) || 0)
+          : Number(product.basePrice ?? product.fromPrice ?? product.price ?? 0);
+
+      const computed = applyCustomPricing({
+        basePrice,
+        density,
+        isCustom: Boolean(item.isCustom),
+        customNotes: String(item.customNotes ?? ""),
+      });
+
+      const unitAmount = Math.round(Number(computed.price || basePrice) * 100);
+      if (!Number.isFinite(unitAmount) || unitAmount <= 0) {
+        throw new Error(`Invalid price for ${product.id}`);
+      }
+
+      const imgPath = item.image || product.images?.[0] || null;
+      const image = imgPath
+        ? String(imgPath).startsWith("http")
+          ? imgPath
+          : `${origin}${imgPath}`
+        : null;
 
       return {
         price_data: {
           currency: "usd",
           product_data: {
-            name: item.name,
-            images: item.image ? [item.image] : [],
+            name: item.name || product.displayName || product.name,
+            images: image ? [image] : [],
           },
-          unit_amount: Math.round(Number(item.price) * 100),
+          unit_amount: unitAmount,
         },
-        quantity: item.quantity,
+        quantity: Number(item.quantity),
       };
     });
-
-    const origin =
-      req.headers.origin ||
-      `https://${req.headers["x-forwarded-host"] || req.headers.host}`;
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],

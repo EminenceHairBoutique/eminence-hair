@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { Button } from "./ui/button";
+import { subscribeEmail } from "../utils/subscribe";
 
 export default function DiscountModal() {
   const { user } = useUser();
@@ -10,6 +11,8 @@ export default function DiscountModal() {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (user) return;
@@ -59,15 +62,31 @@ export default function DiscountModal() {
             />
 
             <Button
+              disabled={loading}
               className="w-full rounded-full text-xs tracking-[0.25em] uppercase"
-              onClick={() => {
-                if (!email) return;
-                localStorage.setItem("eminence_discount_email", email);
-                setSubmitted(true);
+              onClick={async () => {
+                const next = String(email || "").trim();
+                if (!next) return;
+
+                setError("");
+                try {
+                  setLoading(true);
+                  await subscribeEmail({ email: next, source: "discount_modal" });
+                  localStorage.setItem("eminence_discount_email", next);
+                  setSubmitted(true);
+                } catch (e) {
+                  setError(e?.message || "Something went wrong. Please try again.");
+                } finally {
+                  setLoading(false);
+                }
               }}
             >
-              Unlock My Gift
+              {loading ? "Unlocking..." : "Unlock My Gift"}
             </Button>
+
+            {error && (
+              <p className="mt-3 text-xs text-red-600">{error}</p>
+            )}
 
             <p className="text-xs text-neutral-400 mt-4">
               By continuing, you agree to receive occasional updates. Unsubscribe anytime.
