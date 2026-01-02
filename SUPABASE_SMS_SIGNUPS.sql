@@ -16,3 +16,14 @@ create table if not exists public.sms_signups (
 alter table public.sms_signups enable row level security;
 
 -- No select policies by default.
+
+-- Migration: add utm column
+begin;
+
+alter table public.sms_signups
+  add column if not exists utm jsonb;
+
+alter table public.sms_signups
+  add column if not exists verified_at timestamptz;
+
+commit;
