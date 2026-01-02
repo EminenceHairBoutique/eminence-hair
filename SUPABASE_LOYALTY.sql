@@ -67,10 +67,6 @@ drop policy if exists "Profiles: insert own" on public.profiles;
 create policy "Profiles: insert own" on public.profiles
 for insert with check (auth.uid() = id);
 
-drop policy if exists "Profiles: update own" on public.profiles;
-create policy "Profiles: update own" on public.profiles
-for update using (auth.uid() = id);
-
 -- Orders (lets a signed-in user read their own orders)
 alter table public.orders enable row level security;
 
