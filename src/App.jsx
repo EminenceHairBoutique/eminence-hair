@@ -20,6 +20,7 @@ import RouteSkeleton from "./components/RouteSkeleton";
 
 // 🔹 Lazy-loaded pages (same pages, no logic change)
 const Home = lazy(() => import("./pages/Home"));
+const StartHere = lazy(() => import("./pages/StartHere"));
 const Shop = lazy(() => import("./pages/Shop"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const Gallery = lazy(() => import("./pages/Gallery"));
@@ -37,6 +38,7 @@ const Faqs = lazy(() => import("./pages/Faqs"));
 const Contact = lazy(() => import("./pages/Contact"));
 const CustomOrders = lazy(() => import("./pages/CustomOrders"));
 const PrivateConsult = lazy(() => import("./pages/PrivateConsult"));
+const CustomAtelier = lazy(() => import("./pages/CustomAtelier"));
 const Verify = lazy(() => import("./pages/Verify"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Privacy = lazy(() => import("./pages/Privacy"));
@@ -71,6 +73,7 @@ export default function App() {
             <Routes location={location} key={location.pathname}>
               {[
                 ["/", <Home />],
+                ["/start-here", <StartHere />],
                 ["/shop", <Shop />],
                 ["/shop/wigs", <Shop />],
                 ["/shop/bundles", <Shop />],
@@ -90,6 +93,8 @@ export default function App() {
                 ["/faqs", <Faqs />],
                 ["/contact", <Contact />],
                 ["/custom-orders", <CustomOrders />],
+                ["/custom-atelier", <CustomAtelier />],
+                ["/custom-wig", <CustomAtelier />],
                 // Backwards compatibility for older /custom links
                 ["/custom", <CustomOrders />],
                 ["/private-consult", <PrivateConsult />],

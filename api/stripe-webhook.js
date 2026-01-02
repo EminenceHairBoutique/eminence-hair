@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { supabaseServer } from "../lib/supabaseServer.js";
 import { generateOrderNumber } from "../lib/orderNumber.js";
 import { sendOrderConfirmationEmail } from "../lib/email.js";
+import { LOYALTY, pointsForPurchaseCents } from "../src/utils/loyalty.js";
 
 export const config = {
   api: {
@@ -21,6 +22,126 @@ async function getRawBody(req) {
   const chunks = [];
   for await (const chunk of req) chunks.push(chunk);
   return Buffer.concat(chunks);
+}
+
+async function safeInsertOrder(order) {
+  // Some deployments may not have newer columns yet.
+  // Try full insert; if it fails due to unknown columns, retry with a reduced payload.
+  const { error: firstErr } = await supabaseServer.from("orders").insert(order);
+  if (!firstErr) return { ok: true };
+
+  const msg = String(firstErr.message || "");
+
+  // Fallback: remove user_id if column doesn't exist
+  if (msg.includes('column "user_id"') && msg.includes("does not exist")) {
+    const { user_id, ...rest } = order;
+    const { error: secondErr } = await supabaseServer.from("orders").insert(rest);
+    if (!secondErr) return { ok: true, warned: "orders.user_id missing" };
+    return { ok: false, error: secondErr };
+  }
+
+  return { ok: false, error: firstErr };
+}
+
+async function awardLoyalty({ userId, email, amountTotalCents, orderNumber, stripeSessionId }) {
+  if (!userId) return;
+
+  try {
+    // Ensure a profile row exists
+    const { data: existingProfile, error: profErr } = await supabaseServer
+      .from("profiles")
+      .select("id, email, loyalty_points, lifetime_spend_cents, first_purchase_bonus_awarded")
+      .eq("id", userId)
+      .maybeSingle();
+
+    if (profErr) {
+      // Table might not exist yet, or RLS is misconfigured.
+      console.warn("Loyalty: could not read profile", profErr);
+      return;
+    }
+
+    if (!existingProfile) {
+      const { error: insErr } = await supabaseServer.from("profiles").insert({
+        id: userId,
+        email: email || null,
+        loyalty_points: 0,
+        lifetime_spend_cents: 0,
+        first_purchase_bonus_awarded: false,
+      });
+
+      if (insErr) {
+        console.warn("Loyalty: could not create profile", insErr);
+        return;
+      }
+    }
+
+    // Re-fetch after insert (or reuse existing)
+    const profile =
+      existingProfile ||
+      (
+        await supabaseServer
+          .from("profiles")
+          .select("id, email, loyalty_points, lifetime_spend_cents, first_purchase_bonus_awarded")
+          .eq("id", userId)
+          .maybeSingle()
+      ).data;
+
+    const currentPoints = Number(profile?.loyalty_points || 0);
+    const currentSpend = Number(profile?.lifetime_spend_cents || 0);
+
+    const earned = pointsForPurchaseCents(amountTotalCents);
+    const bonus = profile?.first_purchase_bonus_awarded ? 0 : LOYALTY.firstPurchaseBonusPoints;
+
+    const nextPoints = currentPoints + earned + bonus;
+    const nextSpend = currentSpend + Number(amountTotalCents || 0);
+
+    const { error: updErr } = await supabaseServer
+      .from("profiles")
+      .update({
+        loyalty_points: nextPoints,
+        lifetime_spend_cents: nextSpend,
+        first_purchase_bonus_awarded: profile?.first_purchase_bonus_awarded || bonus > 0,
+      })
+      .eq("id", userId);
+
+    if (updErr) {
+      console.warn("Loyalty: profile update failed", updErr);
+      return;
+    }
+
+    // Optional: write a ledger entry (if table exists)
+    try {
+      const entries = [];
+      if (earned > 0)
+        entries.push({
+          user_id: userId,
+          delta: earned,
+          reason: "purchase",
+          order_number: orderNumber,
+          stripe_session_id: stripeSessionId,
+        });
+      if (bonus > 0)
+        entries.push({
+          user_id: userId,
+          delta: bonus,
+          reason: "first_purchase_bonus",
+          order_number: orderNumber,
+          stripe_session_id: stripeSessionId,
+        });
+
+      if (entries.length) {
+        const { error: ledgerErr } = await supabaseServer.from("loyalty_ledger").insert(entries);
+        if (ledgerErr) {
+          // Table may not exist; do not fail webhook.
+          console.warn("Loyalty: ledger insert skipped", ledgerErr.message || ledgerErr);
+        }
+      }
+    } catch (e) {
+      console.warn("Loyalty: ledger insert exception", e?.message || e);
+    }
+  } catch (err) {
+    console.warn("Loyalty: award exception", err?.message || err);
+  }
 }
 
 export default async function handler(req, res) {
@@ -64,39 +185,55 @@ export default async function handler(req, res) {
 
         const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
 
+        const email =
+          session.customer_details?.email ||
+          session.customer_email ||
+          session.metadata?.customer_email ||
+          null;
+
+        const userId = session.client_reference_id || session.metadata?.user_id || null;
+
         const order = {
           order_number: orderNumber,
           stripe_session_id: session.id,
           stripe_payment_intent: session.payment_intent,
-          email: session.customer_details?.email,
+          user_id: userId,
+          email,
           customer_name: session.customer_details?.name || null,
           amount_total: session.amount_total,
           currency: session.currency,
 
-          // ✅ FIXED: real purchased items
+          // Purchased items
           items: lineItems.data,
 
           consent: session.metadata || {},
           status: "paid",
         };
 
-        const { error } = await supabaseServer
-          .from("orders")
-          .insert(order);
+        const inserted = await safeInsertOrder(order);
 
-        if (error) {
-          console.error("❌ Failed to save order:", error);
-          throw error;
+        if (!inserted.ok) {
+          console.error("❌ Failed to save order:", inserted.error);
+          throw inserted.error;
         }
 
         console.log("✅ Order saved:", orderNumber);
 
+        // Loyalty award (safe: never blocks webhook)
+        await awardLoyalty({
+          userId,
+          email,
+          amountTotalCents: session.amount_total,
+          orderNumber,
+          stripeSessionId: session.id,
+        });
+
         // Send confirmation email
         try {
-          console.log("📧 Attempting to send confirmation email to:", session.customer_details?.email);
+          console.log("📧 Attempting to send confirmation email to:", email);
 
           await sendOrderConfirmationEmail({
-            to: session.customer_details?.email,
+            to: email,
             orderNumber,
             amount: session.amount_total,
           });

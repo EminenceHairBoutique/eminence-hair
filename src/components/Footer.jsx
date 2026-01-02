@@ -3,6 +3,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Sparkles } from "lucide-react";
+import { BRAND, SOCIAL } from "../config/brand";
 
 const Footer = () => {
   return (
@@ -15,12 +16,12 @@ const Footer = () => {
           <div className="flex items-center gap-3 mb-4">
             <Sparkles className="w-5 h-5 text-[#D4AF37]" />
             <span className="tracking-[0.35em] text-sm font-light uppercase">
-              Eminence Hair
+              {BRAND.fullName}
             </span>
           </div>
 
           <p className="max-w-lg text-xs text-neutral-400 leading-relaxed">
-            Luxury Raw Cambodian & SEA hair, crafted in our partner atelier.  
+            Luxury human hair, crafted in our partner atelier.
             Designed for women who expect their hair to perform like couture.
           </p>
         </div>
@@ -37,6 +38,7 @@ const Footer = () => {
             <Link to="/shop/bundles" className="hover:text-neutral-200 block">Bundles</Link>
             <Link to="/shop/closures" className="hover:text-neutral-200 block">Closures</Link>
             <Link to="/shop?collection=eminence-essentials" className="hover:text-neutral-200 block">Eminence Essentials</Link>
+            <Link to="/start-here" className="hover:text-neutral-200 block">Start Here</Link>
           </div>
 
           <div className="space-y-2">
@@ -63,6 +65,7 @@ const Footer = () => {
             <Link to="/faqs" className="hover:text-neutral-200 block">FAQs</Link>
             <Link to="/medical-hair" className="hover:text-neutral-200 block">Medical Hair Concierge</Link>
             <Link to="/private-consult" className="hover:text-neutral-200 block">Private Consult</Link>
+            <Link to="/custom-atelier" className="hover:text-neutral-200 block">Custom Atelier</Link>
             <Link to="/custom-orders" className="hover:text-neutral-200 block">Custom Orders</Link>
           </div>
 
@@ -70,8 +73,32 @@ const Footer = () => {
             <p className="text-neutral-500 tracking-[0.22em] uppercase text-[11px] mb-2">
               Connect
             </p>
-            <a href="#" className="hover:text-neutral-200 block">Instagram</a>
-            <a href="#" className="hover:text-neutral-200 block">TikTok</a>
+            {SOCIAL.instagram && (
+              <a
+                href={SOCIAL.instagram}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-neutral-200 block"
+              >
+                Instagram
+              </a>
+            )}
+            {SOCIAL.tiktok && (
+              <a
+                href={SOCIAL.tiktok}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-neutral-200 block"
+              >
+                TikTok
+              </a>
+            )}
+            <a
+              href={`mailto:${BRAND.supportEmail}`}
+              className="hover:text-neutral-200 block"
+            >
+              {BRAND.supportEmail}
+            </a>
             <Link to="/contact" className="hover:text-neutral-200 block">Contact</Link>
             <Link to="/account" className="hover:text-neutral-200 block">My Account</Link>
           </div>
@@ -81,10 +108,10 @@ const Footer = () => {
         {/* DIVIDER */}
         <div className="border-t border-neutral-800 mt-14 pt-8 text-center">
           <p className="text-xs tracking-wide text-neutral-400">
-            © 2025 Eminence Hair Boutique. All Rights Reserved.
+            © {new Date().getFullYear()} {BRAND.fullName}. All Rights Reserved.
           </p>
           <p className="text-[11px] mt-1 text-neutral-500">
-            Luxury Human Hair | HD Lace | Raw Cambodian & SEA Wigs
+            Luxury Human Hair | HD Lace | Crafted to last
           </p>
         </div>
 

@@ -22,6 +22,15 @@ const getStartingPrice = (p) => {
   return Number(p.basePrice ?? p.fromPrice ?? p.price ?? 0);
 };
 
+// Normalizes strings so older links like `texture=body-wave` keep working.
+const norm = (s) =>
+  String(s || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "")
+    .trim();
+
+const isSame = (a, b) => norm(a) === norm(b);
+
 const matchesColor = (p, color) => {
   const c = String(color || "").toLowerCase();
 
@@ -190,12 +199,14 @@ export default function Shop() {
       // Otherwise show full catalog (with optional filters)
       if (collectionFilter !== "All") {
         list = list.filter(
-          (p) => p.collectionSlug === collectionFilter || p.collection === collectionFilter
+          (p) =>
+            isSame(p.collectionSlug, collectionFilter) ||
+            isSame(p.collection, collectionFilter)
         );
       }
 
       if (textureFilter !== "All") {
-        list = list.filter((p) => p.texture === textureFilter);
+        list = list.filter((p) => isSame(p.texture, textureFilter));
       }
 
       if (colorFilter !== "All") {
@@ -218,11 +229,15 @@ export default function Shop() {
 
   const activeChips = useMemo(() => {
     const collectionLabel =
-      collectionOptions.find((o) => o.value === collectionFilter)?.label || collectionFilter;
+      collectionOptions.find((o) => isSame(o.value, collectionFilter) || isSame(o.label, collectionFilter))
+        ?.label || collectionFilter;
+
+    const textureLabel =
+      textureOptions.find((t) => isSame(t, textureFilter)) || textureFilter;
 
     const chips = [];
     if (collectionFilter !== "All") chips.push({ key: "collection", label: collectionLabel });
-    if (textureFilter !== "All") chips.push({ key: "texture", label: textureFilter });
+    if (textureFilter !== "All") chips.push({ key: "texture", label: textureLabel });
     if (colorFilter !== "All") chips.push({ key: "color", label: colorFilter });
     if (sortKey !== "featured") {
       const label =
@@ -236,7 +251,7 @@ export default function Shop() {
       chips.push({ key: "sort", label });
     }
     return chips;
-  }, [collectionFilter, textureFilter, colorFilter, sortKey, collectionOptions]);
+  }, [collectionFilter, textureFilter, colorFilter, sortKey, collectionOptions, textureOptions]);
 
   // Category-specific empty states (kept, upgraded)
   if ((mode === "bundle" || mode === "closure") && visibleProducts.length === 0) {

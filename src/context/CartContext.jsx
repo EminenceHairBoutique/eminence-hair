@@ -206,6 +206,8 @@ export function CartProvider({ children }) {
   const clearCart = () => {
     setCartItems([]);
     localStorage.removeItem("eminence_cart");
+    // ✅ Ensure any cart overlay/drawer state is closed so the UI doesn't feel "locked"
+    setIsOpen(false);
   };
 
   const subtotal = useMemo(

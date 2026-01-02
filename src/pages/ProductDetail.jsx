@@ -21,14 +21,14 @@ import { useCart } from "../context/CartContext";
 import ScanToVerify from "../components/ScanToVerify";
 import ImageZoomModal from "../components/ImageZoomModal";
 import SEO from "../components/SEO";
+import CurrencyHint from "../components/CurrencyHint";
+import ShippingRegions from "../components/ShippingRegions";
+import VirtualPreviewModal from "../components/VirtualPreviewModal";
 import { trackViewItem } from "../utils/track";
 
 /* ---------------- helpers ---------------- */
 const formatMoney = (n) =>
   `$${Number(n).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
-
-const ratingValue = 4.8;
-const ratingCount = 182;
 
 /* ---------------- collection PDP copy ---------------- */
 function EssentialLaceCopy({ product }) {
@@ -196,6 +196,133 @@ function TrustItem({ icon: Icon, title, detail }) {
   );
 }
 
+function SpecTable({ product, selectedLength, selectedDensity, lace, capSize }) {
+  if (!product) return null;
+
+  const rows = [
+    { label: "Category", value: product.type === "bundle" ? "Hair Bundle" : product.type === "closure" ? "Closure" : "HD Lace Wig" },
+    { label: "Texture", value: product.texture || "—" },
+    { label: "Color", value: product.color || "—" },
+    { label: "Collection", value: product.collection || "—" },
+    { label: "Length", value: selectedLength ? `${selectedLength}\"` : "—" },
+  ];
+
+  if (product.type === "wig") {
+    rows.push({ label: "Density", value: selectedDensity ? `${selectedDensity}%` : "—" });
+    rows.push({ label: "Lace", value: lace || "—" });
+    rows.push({ label: "Cap Size", value: capSize || "—" });
+  }
+
+  if (product.verificationCode) {
+    rows.push({ label: "Verification", value: `Serial ${product.verificationCode}` });
+  }
+
+  return (
+    <div className="rounded-2xl border border-neutral-200 overflow-hidden bg-white">
+      <div className="divide-y divide-neutral-200">
+        {rows.map((r) => (
+          <div key={r.label} className="grid grid-cols-[0.9fr,1.1fr] gap-4 px-4 py-3">
+            <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">{r.label}</p>
+            <p className="text-sm text-neutral-800">{r.value}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="px-4 py-3 bg-[#FBF6ED]/60">
+        <p className="text-xs text-neutral-700">
+          Need help selecting density, lace, or cap size? Book a{" "}
+          <Link to="/private-consult" className="underline hover:text-neutral-900">
+            private consult
+          </Link>
+          .
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function RecommendedGrid({ current }) {
+  const recs = useMemo(() => {
+    if (!current) return [];
+
+    const others = products.filter((p) => p.id !== current.id);
+
+    const score = (p) => {
+      let s = 0;
+      // Prefer essentials (safe first choice)
+      if (p.isEssential) s += 3;
+      // Prefer same texture + same collection
+      if (current.texture && p.texture && String(p.texture) === String(current.texture)) s += 2;
+      if (current.collection && p.collection && String(p.collection) === String(current.collection)) s += 1;
+      // Mix: if you're on a wig, show a few bundles; if on a bundle, show a few wigs
+      if (current.type === "wig" && p.type === "bundle") s += 2;
+      if (current.type === "bundle" && p.type === "wig") s += 2;
+      // Same type gets a smaller boost
+      if (p.type === current.type) s += 1;
+      return s;
+    };
+
+    return others
+      .slice()
+      .sort((a, b) => score(b) - score(a))
+      .slice(0, 6);
+  }, [current]);
+
+  if (!current || recs.length === 0) return null;
+
+  return (
+    <section className="mt-14">
+      <div className="flex items-end justify-between">
+        <div>
+          <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">
+            Complete the look
+          </p>
+          <h2 className="mt-2 text-2xl font-light font-display">
+            Recommended pieces
+          </h2>
+        </div>
+        <Link
+          to="/shop"
+          className="text-[11px] uppercase tracking-[0.22em] underline underline-offset-4 text-neutral-700"
+        >
+          Shop all
+        </Link>
+      </div>
+
+      <div className="mt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+        {recs.map((p) => (
+          <Link
+            key={p.id}
+            to={`/products/${p.slug}`}
+            className="group rounded-3xl overflow-hidden border border-neutral-200 bg-white shadow-sm hover:shadow-md transition"
+          >
+            <div className="aspect-[4/5] overflow-hidden bg-white">
+              <img
+                src={p.images?.[0]}
+                alt={p.displayName || p.name}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                loading="lazy"
+              />
+            </div>
+            <div className="p-5">
+              <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                {p.type === "bundle" ? "Bundle" : p.type === "closure" ? "Closure" : "Wig"}
+                {p.texture ? ` • ${p.texture}` : ""}
+              </p>
+              <p className="mt-2 text-sm text-neutral-900">
+                {p.displayName || p.name}
+              </p>
+              {p.collection && (
+                <p className="mt-1 text-xs text-neutral-600">{p.collection}</p>
+              )}
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function ProductDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -214,6 +341,14 @@ export default function ProductDetail() {
   const isWig = product?.type === "wig";
   const isBundle = product?.type === "bundle";
   const isClosure = product?.type === "closure";
+
+  // Luxury-safe: Only advertise customization where it makes sense.
+  // Texture/reference items should not feel like bespoke orderables.
+  const isCustomizable =
+    isWig &&
+    String(product?.collectionSlug || "")
+      .toLowerCase()
+      .trim() !== "textures";
 
   const images = product?.images || [];
 
@@ -242,6 +377,7 @@ export default function ProductDetail() {
   const [customNotes, setCustomNotes] = useState("");
 
   const [zoomOpen, setZoomOpen] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   // Sticky mobile add-to-bag bar
   const [sticky, setSticky] = useState(false);
@@ -348,7 +484,8 @@ export default function ProductDetail() {
               </div>
             </div>
           ) : (
-            <div className="grid lg:grid-cols-12 gap-12">
+            <div className="space-y-14">
+              <div className="grid lg:grid-cols-12 gap-12">
               {/* images */}
               <div className="lg:col-span-7 flex flex-col md:flex-row gap-4">
                 {/* thumbnails (desktop) */}
@@ -422,19 +559,35 @@ export default function ProductDetail() {
 
                 <h1 className="mt-2 text-3xl font-light">{product.displayName || product.name}</h1>
 
+                {isCustomizable && (
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <span className="inline-flex items-center rounded-full border border-neutral-200 bg-white px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-neutral-700">
+                      Customizable
+                    </span>
+                    <span className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                      Atelier support available
+                    </span>
+                  </div>
+                )}
+
                 {product.verificationCode && (
                   <p className="mt-2 text-[11px] tracking-[0.26em] uppercase text-neutral-500">
                     Serial · {product.verificationCode}
                   </p>
                 )}
 
-                <div className="mt-3 flex items-center gap-2 text-xs text-neutral-600">
-                  ★ ★ ★ ★ ★ {ratingValue} / 5 ({ratingCount})
+                <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] uppercase tracking-[0.22em] text-neutral-500">
+                  <span>Hand‑inspected</span>
+                  <span className="text-neutral-300">•</span>
+                  <span>Verified origin</span>
+                  <span className="text-neutral-300">•</span>
+                  <span>Concierge support</span>
                 </div>
 
                 {/* price */}
                 <div className="mt-6">
                   <p className="text-2xl font-light">{formatMoney(price)}</p>
+                  <CurrencyHint amountUSD={price} />
                   {isCustom && (
                     <p className="mt-1 text-xs text-neutral-500 flex items-center gap-1">
                       <Check className="w-3 h-3" /> Crafted to order
@@ -548,6 +701,33 @@ export default function ProductDetail() {
                     </button>
                   </div>
 
+                  {isCustomizable && (
+                    <p className="-mt-2 text-xs text-neutral-500 leading-relaxed">
+                      Custom available (fit, lace, knots, density).{" "}
+                      <Link to="/custom-atelier" className="underline hover:text-neutral-900">
+                        Build in Custom Atelier
+                      </Link>
+                      .
+                    </p>
+                  )}
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setPreviewOpen(true)}
+                      className="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/50 hover:bg-white transition"
+                    >
+                      Preview on You (Beta)
+                    </button>
+
+                    <Link
+                      to="/custom-atelier"
+                      className="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-900 hover:bg-neutral-900 hover:text-[#F9F7F4] transition"
+                    >
+                      Custom Atelier
+                    </Link>
+                  </div>
+
                   <div className="flex flex-wrap items-center gap-3">
                     <Link
                       to="/private-consult"
@@ -601,6 +781,16 @@ export default function ProductDetail() {
                     </ul>
                   </Accordion>
 
+                  <Accordion title="Specifications">
+                    <SpecTable
+                      product={product}
+                      selectedLength={length}
+                      selectedDensity={density}
+                      lace={lace}
+                      capSize={capSize}
+                    />
+                  </Accordion>
+
                   {/* Generic description */}
                   <Accordion title="Product Description">{product.description}</Accordion>
 
@@ -616,6 +806,9 @@ export default function ProductDetail() {
                   </Accordion>
 
                   <Accordion title="Shipping & Returns">
+                    <div className="mb-4">
+                      <ShippingRegions compact />
+                    </div>
                     <p className="mb-2">
                       In-stock pieces typically ship within 2–3 business days. Custom pieces have
                       varying lead times. Due to the hygienic nature of hair products, all sales are
@@ -642,6 +835,9 @@ export default function ProductDetail() {
                   </Accordion>
                 </div>
               </div>
+              </div>
+
+              <RecommendedGrid current={product} />
             </div>
           )}
         </div>
@@ -677,6 +873,14 @@ export default function ProductDetail() {
           src={images[activeImage]}
           open={zoomOpen}
           onClose={() => setZoomOpen(false)}
+        />
+
+        <VirtualPreviewModal
+          open={previewOpen}
+          onClose={() => setPreviewOpen(false)}
+          product={product}
+          initialColor={product?.color}
+          initialTexture={product?.texture}
         />
       </div>
     </>

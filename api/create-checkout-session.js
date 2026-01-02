@@ -15,7 +15,7 @@ export async function createHandler(req, res) {
   }
 
   try {
-    const { items } = req.body;
+    const { items, userId, customerEmail } = req.body || {};
 
     if (!items || !Array.isArray(items)) {
       return res.status(400).json({ error: "Invalid cart items" });
@@ -26,32 +26,49 @@ export async function createHandler(req, res) {
       `https://${req.headers["x-forwarded-host"] || req.headers.host}`;
 
     const line_items = items.map((item) => {
-      if (!item?.id || !item.quantity) {
+      // Accept either an id or a slug. Quantity is required.
+      if ((!item?.id && !item?.slug) || !item.quantity) {
         throw new Error("Missing item fields");
       }
 
       const product = products.find((p) => p.id === item.id || p.slug === item.slug);
       if (!product) {
-        throw new Error(`Unknown product: ${item.id}`);
+        throw new Error(`Unknown product: ${item.id || item.slug}`);
       }
 
+      // Variant selections (null => server applies safe defaults)
       const length = Number(item.length ?? Math.min(...(product.lengths || [0])));
       const density = Number(item.density ?? Math.min(...(product.densities || [0])));
       const lace = item.lace ?? "Transparent Lace";
 
-      const basePrice =
-        typeof product.price === "function" && length && density
-          ? Number(product.price(length, density, lace) || 0)
-          : Number(product.basePrice ?? product.fromPrice ?? product.price ?? 0);
+      // Compute base price on the server.
+      // - Wigs: priced by (length, density, lace)
+      // - Bundles: priced by (length)
+      let basePrice = 0;
+      if (typeof product.price === "function") {
+        if (product.type === "bundle") {
+          basePrice = Number(product.price(length) || 0);
+        } else {
+          basePrice = Number(product.price(length, density, lace) || 0);
+        }
+      } else {
+        basePrice = Number(product.basePrice ?? product.fromPrice ?? product.price ?? 0);
+      }
 
-      const computed = applyCustomPricing({
-        basePrice,
-        density,
-        isCustom: Boolean(item.isCustom),
-        customNotes: String(item.customNotes ?? ""),
-      });
+      // Custom pricing only applies to wigs.
+      const finalPrice =
+        product.type === "wig"
+          ? Number(
+              applyCustomPricing({
+                basePrice,
+                density,
+                isCustom: Boolean(item.isCustom),
+                customNotes: String(item.customNotes ?? ""),
+              }).price || basePrice
+            )
+          : basePrice;
 
-      const unitAmount = Math.round(Number(computed.price || basePrice) * 100);
+      const unitAmount = Math.round(Number(finalPrice) * 100);
       if (!Number.isFinite(unitAmount) || unitAmount <= 0) {
         throw new Error(`Invalid price for ${product.id}`);
       }
@@ -82,14 +99,24 @@ export async function createHandler(req, res) {
       mode: "payment",
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cancel`,
+
+      // Allows standard Stripe promotion codes (optional but recommended).
+      allow_promotion_codes: true,
+
+      // Supabase user mapping for loyalty + order history.
+      client_reference_id: userId ? String(userId) : undefined,
+      customer_email: customerEmail ? String(customerEmail) : undefined,
+
       metadata: {
         source: "eminence_checkout",
+        user_id: userId ? String(userId) : "",
+        customer_email: customerEmail ? String(customerEmail) : "",
       },
     });
 
     res.json({ url: session.url });
   } catch (err) {
-    console.error("Stripe error:", err.message);
-    res.status(500).json({ error: err.message });
+    console.error("Stripe error:", err?.message || err);
+    res.status(500).json({ error: err?.message || "Stripe error" });
   }
 }

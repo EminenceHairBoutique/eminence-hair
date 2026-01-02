@@ -361,6 +361,13 @@ async function main() {
       ogType: "website",
     },
     {
+      pathname: "/custom-atelier",
+      title: "Custom Atelier",
+      description:
+        "Build a guided custom request (texture, color, length, lace, and fit) with concierge confirmation.",
+      ogType: "website",
+    },
+    {
       pathname: "/about",
       title: "About",
       description: "The story behind Eminence Hair Boutique and our quality standards.",

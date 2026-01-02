@@ -205,6 +205,113 @@ export default function Collections() {
             ))}
           </div>
 
+          {/* Shop by Texture + Colorways (fast luxury browsing) */}
+          <div className="mt-14 grid lg:grid-cols-2 gap-8">
+            <div className="rounded-3xl border border-black/5 bg-white/60 p-8">
+              <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">
+                Shop by texture
+              </p>
+              <h3 className="mt-2 text-2xl font-light font-display">
+                Signature patterns
+              </h3>
+              <p className="mt-3 text-sm text-neutral-700 leading-relaxed">
+                Choose the movement that matches your lifestyle — sleek, soft wave, full wave, or
+                defined.
+              </p>
+
+              <div className="mt-7 grid sm:grid-cols-2 gap-5">
+                {[
+                  {
+                    label: "Straight",
+                    href: "/shop?texture=Straight",
+                    image: "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_01.webp",
+                  },
+                  {
+                    label: "Loose Wave",
+                    href: "/shop?texture=LooseWave",
+                    image: "/gallery/collections/Lavish/Eminence_Lavish_LooseWave_Natural_01.webp",
+                  },
+                  {
+                    label: "Body Wave",
+                    href: "/shop?texture=BodyWave",
+                    image: "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_01.webp",
+                  },
+                  {
+                    label: "Deep Wave",
+                    href: "/shop?texture=DeepWave",
+                    image: "/gallery/collections/Burmese/Eminence_Burmese_DeepWave_Natural_01.webp",
+                  },
+                ].map((t) => (
+                  <Link
+                    key={t.label}
+                    to={t.href}
+                    className="group rounded-2xl overflow-hidden border border-black/10 bg-white hover:bg-white transition"
+                  >
+                    <div className="aspect-[3/2] overflow-hidden bg-white">
+                      <LazyImage src={t.image} alt={t.label} className="w-full h-full" />
+                    </div>
+                    <div className="p-4">
+                      <p className="text-[11px] uppercase tracking-[0.26em] text-neutral-700">
+                        {t.label}
+                      </p>
+                      <p className="mt-2 text-[11px] uppercase tracking-[0.22em] underline underline-offset-4 text-neutral-500 group-hover:text-neutral-700">
+                        Shop
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-black/5 bg-[#F3EFE8] p-8">
+              <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-600">
+                Shop by colorway
+              </p>
+              <h3 className="mt-2 text-2xl font-light font-display">
+                Signature shades
+              </h3>
+              <p className="mt-3 text-sm text-neutral-800 leading-relaxed">
+                From natural blacks to luminous blonde — shop the color family, then refine by
+                texture and length.
+              </p>
+
+              <div className="mt-7 flex flex-wrap gap-2">
+                {[
+                  { label: "1", href: "/shop?color=1" },
+                  { label: "1B", href: "/shop?color=1B" },
+                  { label: "Brown", href: "/shop?color=Brown" },
+                  { label: "Burgundy", href: "/shop?color=Burgundy" },
+                  { label: "613", href: "/shop?color=613" },
+                  { label: "Silver", href: "/shop?color=Silver" },
+                  { label: "Orange", href: "/shop?color=Orange" },
+                ].map((c) => (
+                  <Link
+                    key={c.label}
+                    to={c.href}
+                    className="px-5 py-2.5 rounded-full text-[11px] uppercase tracking-[0.26em] border border-black/15 bg-white/50 hover:bg-white hover:border-black/30 transition"
+                  >
+                    {c.label}
+                  </Link>
+                ))}
+              </div>
+
+              <div className="mt-8 rounded-2xl border border-black/10 bg-white/60 p-6">
+                <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-600">
+                  New to wigs?
+                </p>
+                <p className="mt-2 text-sm text-neutral-900">
+                  Take the guided Matchmaker to find your first purchase.
+                </p>
+                <Link
+                  to="/start-here"
+                  className="mt-4 inline-block text-[11px] uppercase tracking-[0.22em] underline underline-offset-4 text-neutral-700"
+                >
+                  Start Here
+                </Link>
+              </div>
+            </div>
+          </div>
+
           {/* Concierge CTA */}
           <div className="mt-14 rounded-3xl border border-black/5 bg-[#F3EFE8] p-8 md:p-10">
             <div className="grid md:grid-cols-[1.2fr,0.8fr] gap-8 items-center">

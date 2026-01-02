@@ -116,6 +116,14 @@ const Home = () => {
                 >
                   Shop Eminence Essentials
                 </Link>
+
+                <Link
+                  to="/start-here"
+                  className="px-8 py-3 text-xs tracking-[0.26em] uppercase border border-[#F9F7F4]/70 rounded-full hover:border-[#F9F7F4] hover:bg-white/10 transition"
+                >
+                  Start Here
+                </Link>
+
                 <Link
                   to="/collections"
                   className="px-8 py-3 text-xs tracking-[0.26em] uppercase border border-[#F9F7F4]/70 rounded-full hover:border-[#F9F7F4] transition"
@@ -355,7 +363,7 @@ const Home = () => {
                       looks.
                     </p>
                     <Link
-                      to="/shop?texture=silky-straight"
+                      to="/shop?texture=Straight"
                       className="mt-3 text-[11px] uppercase tracking-[0.22em] underline underline-offset-4"
                     >
                       Shop Straight
@@ -373,7 +381,7 @@ const Home = () => {
                       Off-duty glamour waves with 200–250% density for soft, expensive movement.
                     </p>
                     <Link
-                      to="/shop?texture=body-wave"
+                      to="/shop?texture=BodyWave"
                       className="mt-3 text-[11px] uppercase tracking-[0.22em] underline underline-offset-4"
                     >
                       Shop Body Wave
@@ -392,7 +400,7 @@ const Home = () => {
                       cared for.
                     </p>
                     <Link
-                      to="/shop?texture=deep-wave"
+                      to="/shop?texture=DeepWave"
                       className="mt-3 text-[11px] uppercase tracking-[0.22em] underline underline-offset-4"
                     >
                       Shop Textures
