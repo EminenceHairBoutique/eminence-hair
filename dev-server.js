@@ -1,4 +1,9 @@
-import "dotenv/config";
+import dotenv from "dotenv";
+
+// Load .env.local first, then .env (so .env.local wins)
+dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env" });
+
 import express from "express";
 import cors from "cors";
 
