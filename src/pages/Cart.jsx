@@ -30,6 +30,8 @@ export default function Cart() {
             const product = products.find((p) => p.id === item.id);
             const lengths = product?.lengths || [];
             const densities = product?.densities || [];
+            const hasLengths = Array.isArray(lengths) && lengths.length > 0;
+            const hasDensities = Array.isArray(densities) && densities.length > 0;
 
             return (
               <div
@@ -46,33 +48,46 @@ export default function Cart() {
                   <h2 className="text-lg font-light">{item.name}</h2>
                   
                   <p className="mt-2 text-sm text-neutral-600">
-                    {item.length}&quot; · {item.density}% Density
+                    {item.length ? `${item.length}\"` : ""}
+                    {hasDensities && item.density ? ` · ${item.density}% Density` : ""}
                   </p>
 
                   <div className="mt-3 flex flex-wrap gap-3 items-center">
-                    <select
-                      value={item.length ?? ""}
-                      onChange={(e) => updateItemOptions(item.id, item.cartKey || item.variant, { length: Number(e.target.value) })}
-                      className="border rounded-full px-3 py-1 text-sm"
-                    >
-                      {lengths.map((L) => (
-                        <option key={L} value={L}>
-                          {L}&quot;
-                        </option>
-                      ))}
-                    </select>
+                    {hasLengths && (
+                      <select
+                        value={item.length ?? ""}
+                        onChange={(e) =>
+                          updateItemOptions(item.id, item.cartKey || item.variant, {
+                            length: Number(e.target.value),
+                          })
+                        }
+                        className="border rounded-full px-3 py-1 text-sm"
+                      >
+                        {lengths.map((L) => (
+                          <option key={L} value={L}>
+                            {L}&quot;
+                          </option>
+                        ))}
+                      </select>
+                    )}
 
-                    <select
-                      value={item.density ?? ""}
-                      onChange={(e) => updateItemOptions(item.id, item.cartKey || item.variant, { density: Number(e.target.value) })}
-                      className="border rounded-full px-3 py-1 text-sm"
-                    >
-                      {densities.map((D) => (
-                        <option key={D} value={D}>
-                          {D}%
-                        </option>
-                      ))}
-                    </select>
+                    {hasDensities && (
+                      <select
+                        value={item.density ?? ""}
+                        onChange={(e) =>
+                          updateItemOptions(item.id, item.cartKey || item.variant, {
+                            density: Number(e.target.value),
+                          })
+                        }
+                        className="border rounded-full px-3 py-1 text-sm"
+                      >
+                        {densities.map((D) => (
+                          <option key={D} value={D}>
+                            {D}%
+                          </option>
+                        ))}
+                      </select>
+                    )}
                   </div>
 
                   {item.autoDefaultsApplied && (

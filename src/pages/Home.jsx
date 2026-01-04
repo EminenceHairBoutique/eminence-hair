@@ -134,6 +134,85 @@ const Home = () => {
             </div>
           </section>
 
+          {/* SECTION A.5 — READY-TO-SHIP */}
+          <section className="py-14 border-t border-neutral-200 bg-[#F9F7F4]">
+            <div className="max-w-6xl mx-auto px-6">
+              <div className="rounded-[2.25rem] overflow-hidden border border-neutral-200 shadow-[0_24px_70px_rgba(17,12,5,0.18)]">
+                <div className="grid md:grid-cols-[1.1fr_0.9fr]">
+                  <div className="relative p-8 md:p-10 bg-[#0B0B0C] text-white">
+                    <p className="text-[11px] uppercase tracking-[0.32em] text-white/60">
+                      Ready‑to‑Ship Edit
+                    </p>
+
+                    <h2 className="mt-4 text-2xl md:text-3xl font-light font-display leading-tight">
+                      Fast dispatch. Zero compromise.
+                    </h2>
+
+                    <p className="mt-4 text-sm text-white/75 leading-relaxed max-w-md">
+                      A rotating capsule of bundles, closures &amp; select HD lace units prepared in
+                      advance for clients who want Eminence quality on a tighter timeline.
+                    </p>
+
+                    <div className="mt-6 flex flex-wrap gap-3">
+                      <Link
+                        to="/ready-to-ship"
+                        className="rounded-full bg-white text-black px-6 py-2.5 text-[11px] uppercase tracking-[0.26em] hover:bg-white/90 transition"
+                      >
+                        Shop Ready‑to‑Ship
+                      </Link>
+                      <Link
+                        to="/custom-atelier"
+                        className="rounded-full border border-white/25 px-6 py-2.5 text-[11px] uppercase tracking-[0.26em] text-white hover:border-white/50 hover:bg-white/5 transition"
+                      >
+                        Build a Custom
+                      </Link>
+                    </div>
+
+                    <div className="mt-8 grid grid-cols-3 gap-3">
+                      {[
+                        { t: "2–3 day dispatch", d: "Domestic (U.S.)" },
+                        { t: "Install‑ready", d: "Soft, refined, dense" },
+                        { t: "Concierge", d: "Help choosing pieces" },
+                      ].map((x) => (
+                        <div key={x.t} className="rounded-2xl border border-white/10 bg-white/5 p-3">
+                          <p className="text-xs font-medium">{x.t}</p>
+                          <p className="mt-1 text-[11px] text-white/60">{x.d}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <p className="mt-6 text-[11px] text-white/50">
+                      Inventory rotates weekly. For guaranteed specs (density, knots, color), use
+                      Custom Atelier.
+                    </p>
+                  </div>
+
+                  <div className="relative min-h-[260px]">
+                    <img
+                      src={firstPage2}
+                      alt="Ready to ship Eminence hair"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
+                    <div className="absolute bottom-6 left-6 right-6">
+                      <div className="flex items-center justify-between gap-4">
+                        <p className="text-[11px] uppercase tracking-[0.26em] text-white/75">
+                          Quick‑ship capsule
+                        </p>
+                        <Link
+                          to="/ready-to-ship"
+                          className="text-[11px] uppercase tracking-[0.26em] text-white underline underline-offset-4"
+                        >
+                          View edit
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* SECTION B.5 — EMINENCE ESSENTIALS */}
           <section className="py-16 border-t border-neutral-200 bg-[#F9F7F4]">
             <div className="max-w-6xl mx-auto px-6">

@@ -22,6 +22,10 @@ import RouteSkeleton from "./components/RouteSkeleton";
 const Home = lazy(() => import("./pages/Home"));
 const StartHere = lazy(() => import("./pages/StartHere"));
 const Shop = lazy(() => import("./pages/Shop"));
+const ReadyToShip = lazy(() => import("./pages/ReadyToShip"));
+const PartnerProgram = lazy(() => import("./pages/PartnerProgram"));
+const PartnerPortal = lazy(() => import("./pages/PartnerPortal"));
+const Consultation = lazy(() => import("./pages/Consultation"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const Gallery = lazy(() => import("./pages/Gallery"));
 const Collections = lazy(() => import("./pages/Collections"));
@@ -74,10 +78,15 @@ export default function App() {
               {[
                 ["/", <Home />],
                 ["/start-here", <StartHere />],
+                ["/ready-to-ship", <ReadyToShip />],
+                ["/partners", <PartnerProgram />],
+                ["/partner-portal", <PartnerPortal />],
+                ["/consultation", <Consultation />],
                 ["/shop", <Shop />],
                 ["/shop/wigs", <Shop />],
                 ["/shop/bundles", <Shop />],
                 ["/shop/closures", <Shop />],
+                ["/shop/medical", <Shop />],
                 ["/products/:slug", <ProductDetail />],
                 ["/gallery", <Gallery />],
                 ["/collections", <Collections />],

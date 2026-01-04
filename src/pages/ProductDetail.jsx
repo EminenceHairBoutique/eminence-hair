@@ -340,7 +340,7 @@ export default function ProductDetail() {
 
   const isWig = product?.type === "wig";
   const isBundle = product?.type === "bundle";
-  const isClosure = product?.type === "closure";
+  const isClosure = product?.type === "closure" || product?.type === "frontal";
 
   // Luxury-safe: Only advertise customization where it makes sense.
   // Texture/reference items should not feel like bespoke orderables.
@@ -351,6 +351,7 @@ export default function ProductDetail() {
       .trim() !== "textures";
 
   const images = product?.images || [];
+  const isVideo = (src) => /\.(mp4|webm|mov|m4v)$/i.test(String(src || ""));
 
   const [activeImage, setActiveImage] = useState(0);
   const [qty, setQty] = useState(1);
@@ -375,6 +376,14 @@ export default function ProductDetail() {
 
   const [isCustom, setIsCustom] = useState(false);
   const [customNotes, setCustomNotes] = useState("");
+  const [customColorTier, setCustomColorTier] = useState("AS_LISTED");
+
+  // Reset custom-request fields when navigating between products
+  useEffect(() => {
+    setIsCustom(false);
+    setCustomNotes("");
+    setCustomColorTier("AS_LISTED");
+  }, [product?.id]);
 
   const [zoomOpen, setZoomOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -402,7 +411,21 @@ export default function ProductDetail() {
     return Number(product.basePrice || 0);
   }, [product, length, density, lace]);
 
-  const price = basePrice;
+  const customColorSurcharge = useMemo(() => {
+    if (!isCustom) return 0;
+    const tier = customColorTier;
+    if (!tier || tier === "AS_LISTED") return 0;
+    const base = String(product?.color ?? "");
+    // If the base product already matches the requested tier, no upcharge
+    if (tier === base) return 0;
+    if (tier === "1") return 20; // Jet Black premium
+    if (tier === "613") return 120; // Blonde premium
+    if (tier === "CUSTOM") return 160; // Custom color (burgundy/copper/ombre)
+    if (tier === "1B") return base === "1B" ? 0 : 0;
+    return 0;
+  }, [isCustom, customColorTier, product?.color]);
+
+  const price = basePrice + customColorSurcharge;
 
   // ViewItem tracking (GA4 + Meta Pixel) — only fires after consent.
   useEffect(() => {
@@ -444,6 +467,7 @@ export default function ProductDetail() {
       laceType: lace,
       isCustom,
       customNotes,
+      customColorTier,
       price,
       image: images[0],
       quantity: qty,
@@ -499,23 +523,42 @@ export default function ProductDetail() {
                       }`}
                       aria-label={`View image ${i + 1}`}
                     >
-                      <img
-                        src={img}
-                        alt={`${product.displayName || product.name} image ${i + 1}`}
-                        className="w-full h-full object-cover"
-                      />
+                      {isVideo(img) ? (
+                        <video
+                          src={img}
+                          className="w-full h-full object-cover"
+                          muted
+                          playsInline
+                          loop
+                        />
+                      ) : (
+                        <img
+                          src={img}
+                          alt={`${product.displayName || product.name} image ${i + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
                     </button>
                   ))}
                 </div>
 
                 {/* main image with QR + zoom */}
                 <div className="relative flex-1 rounded-[2rem] overflow-hidden border bg-white group">
-                  <Motion.img
-                    src={images[activeImage]}
-                    alt={`${product.displayName || product.name} main image`}
-                    onClick={() => setZoomOpen(true)}
-                    className="w-full h-full object-cover cursor-zoom-in transition-transform duration-500 group-hover:scale-[1.03]"
-                  />
+                  {isVideo(images[activeImage]) ? (
+                    <video
+                      src={images[activeImage]}
+                      className="w-full h-full object-cover"
+                      controls
+                      playsInline
+                    />
+                  ) : (
+                    <Motion.img
+                      src={images[activeImage]}
+                      alt={`${product.displayName || product.name} main image`}
+                      onClick={() => setZoomOpen(true)}
+                      className="w-full h-full object-cover cursor-zoom-in transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                  )}
 
                   {product.verificationCode && (
                     <Link
@@ -540,11 +583,21 @@ export default function ProductDetail() {
                         }`}
                         aria-label={`View image ${i + 1}`}
                       >
-                        <img
-                          src={img}
-                          alt={`${product.displayName || product.name} thumbnail ${i + 1}`}
-                          className="w-full h-full object-cover"
-                        />
+                        {isVideo(img) ? (
+                          <video
+                            src={img}
+                            className="w-full h-full object-cover"
+                            muted
+                            playsInline
+                            loop
+                          />
+                        ) : (
+                          <img
+                            src={img}
+                            alt={`${product.displayName || product.name} thumbnail ${i + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        )}
                       </button>
                     ))}
                   </div>
@@ -641,6 +694,31 @@ export default function ProductDetail() {
                         suffix="%"
                       />
 
+                      {isCustom && (
+                        <div className="rounded-2xl border border-neutral-200 bg-white p-4">
+                          <div className="flex items-center justify-between">
+                            <label className="text-[11px] uppercase tracking-[0.14em] text-neutral-500">Custom density (%)</label>
+                            <span className="text-[11px] text-neutral-500">e.g., 280</span>
+                          </div>
+                          <input
+                            type="number"
+                            min={130}
+                            max={350}
+                            step={10}
+                            value={Number.isFinite(Number(density)) ? Number(density) : ""}
+                            onChange={(e) => {
+                              const v = e.target.value;
+                              if (v === "") return;
+                              const n = Number(v);
+                              if (Number.isFinite(n)) setDensity(n);
+                            }}
+                            className="mt-2 w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm outline-none focus:border-neutral-300"
+                            placeholder="280"
+                          />
+                          <p className="mt-2 text-[12px] text-neutral-500">Your price estimate updates automatically.</p>
+                        </div>
+                      )}
+
                       <OptionGroup
                         label="Lace Type"
                         values={["HD Lace", "Transparent Lace"]}
@@ -666,12 +744,41 @@ export default function ProductDetail() {
                         </label>
 
                         {isCustom && (
-                          <textarea
-                            placeholder="Color requests, knots, fit, density above 250%, notes…"
-                            value={customNotes}
-                            onChange={(e) => setCustomNotes(e.target.value)}
-                            className="mt-3 w-full border rounded-lg p-2 text-xs"
-                          />
+                          <div className="mt-3 space-y-3">
+                            <div>
+                              <label className="text-[11px] uppercase tracking-[0.14em] text-neutral-500">
+                                Desired color (optional)
+                              </label>
+                              <select
+                                value={customColorTier}
+                                onChange={(e) => setCustomColorTier(e.target.value)}
+                                className="mt-2 w-full rounded-lg border border-neutral-200 bg-white p-2 text-xs outline-none focus:border-neutral-300"
+                              >
+                                <option value="AS_LISTED">As listed ({String(product?.color ?? "") || "—"})</option>
+                                <option value="1B">Natural 1B</option>
+                                <option value="1">Jet Black #1</option>
+                                <option value="613">613 Blonde</option>
+                                <option value="CUSTOM">Custom Color (Burgundy / Copper / Ombre)</option>
+                              </select>
+
+                              {customColorSurcharge > 0 && (
+                                <p className="mt-2 text-[12px] text-neutral-500">
+                                  Includes a color premium of +{formatMoney(customColorSurcharge)}.
+                                </p>
+                              )}
+                            </div>
+
+                            <textarea
+                              placeholder="Color requests, knots, fit, density above 250%, notes…"
+                              value={customNotes}
+                              onChange={(e) => setCustomNotes(e.target.value)}
+                              className="w-full border rounded-lg p-2 text-xs"
+                            />
+
+                            <p className="text-[11px] text-neutral-500 leading-relaxed">
+                              Our atelier will confirm feasibility and any final adjustments before production.
+                            </p>
+                          </div>
                         )}
                       </div>
                     </>

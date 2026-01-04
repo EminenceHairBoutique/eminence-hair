@@ -81,6 +81,19 @@ export default function Collections() {
         type: "color",
       },
       {
+        slug: "medical-grade",
+        title: "Medical Grade",
+        eyebrow: "Hair Solutions",
+        description:
+          "Cranial prosthesis options designed for sensitive scalps — refined realism and ultra-soft construction.",
+        image: "/gallery/editorial/brand/Eminence_Editorial_BrandHero_Neutral_02.webp",
+        tag: "Medical",
+        type: "edit",
+        shopLink: "/shop/medical",
+        shopCta: "Shop medical grade",
+        shopOnly: true,
+      },
+      {
         slug: "eminence-essentials",
         title: "Eminence Essentials",
         eyebrow: "Edit",

@@ -1,12 +1,112 @@
 // src/pages/CustomOrders.jsx — Custom Orders (New, Upgraded)
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import PageTransition from "../components/PageTransition";
 import PageHero from "../components/PageHero";
 
 const inputBase =
   "w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:border-black/25";
+
+const MAX_REFERENCE_IMAGES = 4;
+const MAX_ORIGINAL_MB = 12;
+const MAX_DIMENSION = 1600;
+const JPEG_QUALITY = 0.82;
+
+const formatBytes = (bytes = 0) => {
+  const n = Number(bytes || 0);
+  if (n <= 0) return "0 KB";
+  const kb = n / 1024;
+  if (kb < 1024) return `${Math.round(kb)} KB`;
+  return `${(kb / 1024).toFixed(1)} MB`;
+};
+
+const safeFilename = (name = "reference") => {
+  const base = String(name || "reference")
+    .replace(/\.[^/.]+$/, "")
+    .replace(/[^a-z0-9_-]+/gi, "-")
+    .replace(/-+/g, "-")
+    .replace(/^[-_]+|[-_]+$/g, "")
+    .slice(0, 40);
+  return `${base || "reference"}.jpg`;
+};
+
+const blobToBase64 = (blob) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = String(reader.result || "");
+      const base64 = result.split(",")[1] || "";
+      resolve(base64);
+    };
+    reader.onerror = () => reject(new Error("Unable to read image"));
+    reader.readAsDataURL(blob);
+  });
+
+const fileToImage = async (file) => {
+  if (typeof createImageBitmap === "function") {
+    const bitmap = await createImageBitmap(file);
+    return bitmap;
+  }
+
+  const dataUrl = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(new Error("Unable to read image"));
+    reader.readAsDataURL(file);
+  });
+
+  const img = await new Promise((resolve, reject) => {
+    const el = new Image();
+    el.onload = () => resolve(el);
+    el.onerror = () => reject(new Error("Unable to load image"));
+    el.src = dataUrl;
+  });
+  return img;
+};
+
+const compressImageFile = async (file) => {
+  const bitmap = await fileToImage(file);
+  const width = bitmap.width || bitmap.naturalWidth || 1;
+  const height = bitmap.height || bitmap.naturalHeight || 1;
+  const scale = Math.min(1, MAX_DIMENSION / Math.max(width, height));
+  const targetW = Math.max(1, Math.round(width * scale));
+  const targetH = Math.max(1, Math.round(height * scale));
+
+  const canvas = document.createElement("canvas");
+  canvas.width = targetW;
+  canvas.height = targetH;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Unable to process image");
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, targetW, targetH);
+  ctx.drawImage(bitmap, 0, 0, targetW, targetH);
+  if (typeof bitmap.close === "function") bitmap.close();
+
+  const blob = await new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (b) => (b ? resolve(b) : reject(new Error("Unable to compress image"))),
+      "image/jpeg",
+      JPEG_QUALITY
+    );
+  });
+
+  const base64 = await blobToBase64(blob);
+  const previewUrl = URL.createObjectURL(blob);
+  const id =
+    (typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID()) ||
+    `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+  return {
+    id,
+    filename: safeFilename(file?.name),
+    label: "Inspiration",
+    content: base64,
+    contentType: blob.type,
+    bytes: blob.size,
+    previewUrl,
+  };
+};
 
 export default function CustomOrders() {
   const productTypes = useMemo(
@@ -26,6 +126,29 @@ export default function CustomOrders() {
     []
   );
 
+  const referenceLabelOptions = useMemo(
+    () => ["Inspiration", "Hairline", "Color", "Cut/Shape", "Texture", "Other"],
+    []
+  );
+
+  const fileInputRef = useRef(null);
+  const uploadsRef = useRef([]);
+  const [referenceUploads, setReferenceUploads] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+
+  useEffect(() => {
+    uploadsRef.current = referenceUploads;
+  }, [referenceUploads]);
+
+  useEffect(() => {
+    return () => {
+      uploadsRef.current?.forEach((u) => {
+        if (u?.previewUrl) URL.revokeObjectURL(u.previewUrl);
+      });
+    };
+  }, []);
+
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -38,6 +161,9 @@ export default function CustomOrders() {
     density: "",
     lace: "HD Lace",
     capSize: "Medium",
+    capCircumference: "",
+    earToEar: "",
+    frontToNape: "",
     parting: "Middle",
     color: "Natural (1B)",
     deadline: "",
@@ -52,6 +178,90 @@ export default function CustomOrders() {
     setForm((p) => ({ ...p, [key]: e.target.value }));
   };
 
+  const measurementLine = useMemo(() => {
+    const parts = [];
+    if (String(form.capCircumference || "").trim()) parts.push(`Circ ${form.capCircumference}in`);
+    if (String(form.earToEar || "").trim()) parts.push(`Ear ${form.earToEar}in`);
+    if (String(form.frontToNape || "").trim()) parts.push(`Nape ${form.frontToNape}in`);
+    return parts.join(" • ");
+  }, [form.capCircumference, form.earToEar, form.frontToNape]);
+
+  const SummaryRow = ({ label, value }) => (
+    <div className="flex items-start justify-between gap-3 text-xs">
+      <span className="text-neutral-500">{label}</span>
+      <span className="text-neutral-900 font-medium text-right">
+        {value ? value : "—"}
+      </span>
+    </div>
+  );
+
+  const addReferenceFiles = async (filesLike) => {
+    const files = Array.from(filesLike || []);
+    if (!files.length) return;
+
+    setUploadError("");
+    if (referenceUploads.length >= MAX_REFERENCE_IMAGES) {
+      setUploadError(`You can upload up to ${MAX_REFERENCE_IMAGES} images.`);
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const remaining = MAX_REFERENCE_IMAGES - referenceUploads.length;
+      const slice = files.slice(0, remaining);
+
+      for (const f of slice) {
+        if (!String(f?.type || "").startsWith("image/")) {
+          setUploadError("Please upload image files only (JPG/PNG/WebP)."
+          );
+          continue;
+        }
+        if (f.size > MAX_ORIGINAL_MB * 1024 * 1024) {
+          setUploadError(
+            `"${f.name}" is too large. Please keep each image under ${MAX_ORIGINAL_MB}MB.`
+          );
+          continue;
+        }
+        const compressed = await compressImageFile(f);
+        setReferenceUploads((prev) => [...prev, compressed]);
+      }
+    } catch (err) {
+      setUploadError(
+        err?.message || "Unable to process images. Please try again."
+      );
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const removeReference = (id) => {
+    setReferenceUploads((prev) => {
+      const target = prev.find((x) => x.id === id);
+      if (target?.previewUrl) URL.revokeObjectURL(target.previewUrl);
+      return prev.filter((x) => x.id !== id);
+    });
+  };
+
+  const setReferenceLabel = (id, label) => {
+    setReferenceUploads((prev) =>
+      prev.map((u) => (u.id === id ? { ...u, label } : u))
+    );
+  };
+
+  const moveReference = (id, direction) => {
+    setReferenceUploads((prev) => {
+      const idx = prev.findIndex((u) => u.id === id);
+      if (idx < 0) return prev;
+      const nextIdx = direction === "up" ? idx - 1 : idx + 1;
+      if (nextIdx < 0 || nextIdx >= prev.length) return prev;
+      const copy = [...prev];
+      const tmp = copy[idx];
+      copy[idx] = copy[nextIdx];
+      copy[nextIdx] = tmp;
+      return copy;
+    });
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     setStatus({ state: "loading", message: "" });
@@ -64,7 +274,19 @@ export default function CustomOrders() {
       const res = await fetch("/api/concierge", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "custom_order", payload: form }),
+        body: JSON.stringify({
+          type: "custom_order",
+          payload: {
+            ...form,
+            referenceUploads: referenceUploads.map((u) => ({
+              filename: u.filename,
+              label: u.label || "",
+              content: u.content,
+              contentType: u.contentType,
+              bytes: u.bytes,
+            })),
+          },
+        }),
       });
 
       if (!res.ok) {
@@ -78,6 +300,12 @@ export default function CustomOrders() {
           "Request received. Our concierge will email you shortly with next steps.",
       });
       setForm((p) => ({ ...p, notes: "", budget: "" }));
+
+      // Clear uploads
+      setReferenceUploads((prev) => {
+        prev?.forEach((u) => u?.previewUrl && URL.revokeObjectURL(u.previewUrl));
+        return [];
+      });
     } catch (err) {
       setStatus({
         state: "error",
@@ -185,10 +413,11 @@ export default function CustomOrders() {
               </p>
             </div>
 
-            <form
-              onSubmit={onSubmit}
-              className="mt-10 bg-white border border-black/5 rounded-3xl p-6 md:p-8 shadow-sm"
-            >
+            <div className="mt-10 grid lg:grid-cols-[1fr,0.85fr] gap-10 items-start">
+              <form
+                onSubmit={onSubmit}
+                className="bg-white border border-black/5 rounded-3xl p-6 md:p-8 shadow-sm"
+              >
               {/* honeypot */}
               <input
                 tabIndex={-1}
@@ -307,6 +536,49 @@ export default function CustomOrders() {
                 </div>
               </div>
 
+              <div className="mt-4 rounded-3xl border border-black/5 bg-[#FBF6ED]/60 p-5">
+                <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">
+                  Measurements (optional)
+                </p>
+                <p className="mt-2 text-xs text-neutral-600 leading-relaxed">
+                  If you know your measurements, add inches for a more precise fit. If you don’t, cap size is enough — we’ll confirm before production.
+                </p>
+
+                <div className="mt-4 grid sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="text-xs text-neutral-600">Circumference (in)</label>
+                    <input
+                      className={inputBase}
+                      value={form.capCircumference}
+                      onChange={update("capCircumference")}
+                      placeholder='e.g., 22'
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-neutral-600">Ear-to-ear (in)</label>
+                    <input
+                      className={inputBase}
+                      value={form.earToEar}
+                      onChange={update("earToEar")}
+                      placeholder='e.g., 13'
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-neutral-600">Front-to-nape (in)</label>
+                    <input
+                      className={inputBase}
+                      value={form.frontToNape}
+                      onChange={update("frontToNape")}
+                      placeholder='e.g., 14'
+                    />
+                  </div>
+                </div>
+
+                <p className="mt-3 text-xs text-neutral-500">
+                  Tip: use a soft tape measure. We can also help you measure during a consult.
+                </p>
+              </div>
+
               <div className="mt-4 grid md:grid-cols-3 gap-4">
                 <div>
                   <label className="text-xs text-neutral-600">Cap size</label>
@@ -380,8 +652,151 @@ export default function CustomOrders() {
                   placeholder="Describe your desired look, color placement, lace preference, and anything we should know."
                 />
                 <p className="mt-2 text-xs text-neutral-500">
-                  Tip: If you have a photo reference, mention where it’s posted (IG handle + screenshot name) and concierge will reply with the best way to share it.
+                  Tip: Upload 1–3 photos (hairline close-up, overall silhouette, and color/texture inspiration) to help us match your vision.
                 </p>
+              </div>
+
+              {/* Reference photos */}
+              <div className="mt-6">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-xs text-neutral-600">Reference photos (optional)</p>
+                    <p className="mt-1 text-xs text-neutral-500 leading-relaxed">
+                      Upload up to {MAX_REFERENCE_IMAGES} images. These are sent only to our concierge.
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click?.()}
+                    className="shrink-0 inline-flex items-center justify-center rounded-full px-4 py-2 text-[10px] uppercase tracking-[0.22em] border border-black/15 hover:border-black/30 bg-white"
+                    disabled={uploading}
+                  >
+                    {uploading ? "Processing…" : "Add photos"}
+                  </button>
+                </div>
+
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={async (e) => {
+                    const files = e.target.files;
+                    e.target.value = "";
+                    await addReferenceFiles(files);
+                  }}
+                />
+
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => fileInputRef.current?.click?.()}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      fileInputRef.current?.click?.();
+                    }
+                  }}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                  onDrop={async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    await addReferenceFiles(e.dataTransfer.files);
+                  }}
+                  className="mt-3 rounded-3xl border border-dashed border-black/20 bg-white/50 p-5 cursor-pointer focus:outline-none focus:ring-1 focus:ring-black/30"
+                >
+                  <p className="text-sm text-neutral-800">Drag & drop images here, or click to upload.</p>
+                  <p className="mt-1 text-xs text-neutral-500">
+                    Best: inspiration screenshot(s), hairline close-up, and desired length/shape.
+                  </p>
+                </div>
+
+                {uploadError && <p className="mt-2 text-xs text-red-700">{uploadError}</p>}
+
+                {referenceUploads.length > 0 && (
+                  <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {referenceUploads.map((u, idx) => (
+                      <div
+                        key={u.id}
+                        className="relative rounded-2xl overflow-hidden border border-black/10 bg-white"
+                      >
+                        <img
+                          src={u.previewUrl}
+                          alt="Reference upload"
+                          className="h-28 w-full object-cover"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeReference(u.id)}
+                          className="absolute top-2 right-2 h-8 w-8 rounded-full bg-white/90 hover:bg-white border border-black/10 flex items-center justify-center"
+                          aria-label="Remove image"
+                          title="Remove"
+                        >
+                          <span className="text-lg leading-none">×</span>
+                        </button>
+                        <div className="px-3 py-2 space-y-2">
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="min-w-0">
+                              <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-600 truncate">
+                                {u.filename}
+                              </p>
+                              <p className="text-[11px] text-neutral-500">
+                                {formatBytes(u.bytes)}
+                              </p>
+                            </div>
+
+                            <div className="flex items-center gap-1">
+                              <button
+                                type="button"
+                                onClick={() => moveReference(u.id, "up")}
+                                disabled={idx === 0}
+                                className="h-8 w-8 rounded-full border border-black/10 bg-white/70 hover:bg-white disabled:opacity-40"
+                                aria-label="Move image up"
+                                title="Move up"
+                              >
+                                ↑
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => moveReference(u.id, "down")}
+                                disabled={idx === referenceUploads.length - 1}
+                                className="h-8 w-8 rounded-full border border-black/10 bg-white/70 hover:bg-white disabled:opacity-40"
+                                aria-label="Move image down"
+                                title="Move down"
+                              >
+                                ↓
+                              </button>
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                              Label
+                            </label>
+                            <select
+                              value={u.label || "Inspiration"}
+                              onChange={(e) => setReferenceLabel(u.id, e.target.value)}
+                              className="mt-1 w-full px-3 py-2 rounded-2xl border border-black/10 bg-white/60 text-xs"
+                            >
+                              {referenceLabelOptions.map((l) => (
+                                <option key={l} value={l}>
+                                  {l}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* status */}
@@ -421,6 +836,60 @@ export default function CustomOrders() {
                 By submitting, you agree to be contacted by Eminence Hair Concierge regarding your request. For policy details, review our <Link className="underline" to="/terms">Terms</Link> and <Link className="underline" to="/privacy">Privacy Policy</Link>.
               </p>
             </form>
+
+            <aside className="space-y-6">
+              <div className="sticky top-28 rounded-3xl border border-black/10 bg-white/60 p-6 shadow-sm">
+                <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">
+                  Your request
+                </p>
+                <p className="mt-2 text-sm text-neutral-800 leading-relaxed">
+                  A live summary for concierge review.
+                </p>
+
+                <div className="mt-4 space-y-2">
+                  <SummaryRow label="Product" value={form.productType} />
+                  <SummaryRow label="Collection" value={form.collection} />
+                  <SummaryRow label="Texture" value={form.texture} />
+                  <SummaryRow label="Length" value={form.length ? `${form.length}\"` : ""} />
+                  <SummaryRow label="Density" value={form.density ? `${form.density}%` : ""} />
+                  <SummaryRow label="Lace" value={form.lace} />
+                  <SummaryRow label="Cap size" value={form.capSize} />
+                  {measurementLine ? <SummaryRow label="Measurements" value={measurementLine} /> : null}
+                  <SummaryRow label="Color" value={form.color} />
+                  <SummaryRow label="Needed by" value={form.deadline} />
+                  <SummaryRow label="Budget" value={form.budget} />
+                  <SummaryRow label="Reference photos" value={`${referenceUploads.length}`} />
+                </div>
+
+                <p className="mt-4 text-xs text-neutral-500 leading-relaxed">
+                  We’ll respond by email with questions + a quote.
+                </p>
+              </div>
+
+              <div className="rounded-3xl border border-black/5 bg-white p-6">
+                <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">
+                  Need help choosing?
+                </p>
+                <p className="mt-2 text-sm text-neutral-700 leading-relaxed">
+                  Book a private consult and we’ll guide texture, density, and cap sizing before you submit.
+                </p>
+                <div className="mt-4 flex flex-col gap-2">
+                  <Link
+                    to="/private-consult"
+                    className="inline-flex items-center justify-center rounded-full px-6 py-3 text-[11px] uppercase tracking-[0.26em] border border-black/15 hover:border-black/30"
+                  >
+                    Book a consult
+                  </Link>
+                  <Link
+                    to="/shop"
+                    className="inline-flex items-center justify-center rounded-full px-6 py-3 text-[11px] uppercase tracking-[0.26em] bg-black text-white hover:bg-black/90"
+                  >
+                    Shop ready-to-ship
+                  </Link>
+                </div>
+              </div>
+            </aside>
+          </div>
           </section>
         </div>
       </div>

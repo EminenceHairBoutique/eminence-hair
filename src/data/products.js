@@ -94,6 +94,76 @@ const BLONDE_613_PRICES = {
   28: { 140: 700, 180: 750, 200: 780 },
 };
 
+
+// ======================
+// DENSITY + PRICE HELPERS
+// ======================
+//
+// All wigs display density options as: 150% / 180% / 210% / 250%
+// Pricing matrices below remain “anchor points”, and we interpolate/extrapolate
+// smoothly (so custom densities like 280% will price correctly).
+
+const UI_DENSITIES = [150, 180, 210, 250];
+
+const roundMoney = (n) => Math.round(Number(n || 0));
+
+function interpolateDensityPrice(densityMap, density) {
+  const d = Number(density);
+  if (!densityMap || !Number.isFinite(d)) return 0;
+
+  const anchors = Object.keys(densityMap)
+    .map((k) => Number(k))
+    .filter((n) => Number.isFinite(n) && densityMap[n] != null)
+    .sort((a, b) => a - b);
+
+  if (anchors.length === 0) return 0;
+  if (densityMap[d] != null) return Number(densityMap[d]) || 0;
+
+  const lerp = (d0, p0, d1, p1, x) => {
+    if (d1 === d0) return p0;
+    return p0 + (p1 - p0) * ((x - d0) / (d1 - d0));
+  };
+
+  // Below range → extrapolate using first segment
+  if (d <= anchors[0]) {
+    if (anchors.length === 1) return Number(densityMap[anchors[0]]) || 0;
+    const d0 = anchors[0], d1 = anchors[1];
+    const p0 = Number(densityMap[d0]) || 0, p1 = Number(densityMap[d1]) || 0;
+    return lerp(d0, p0, d1, p1, d);
+  }
+
+  // Above range → extrapolate using last segment
+  if (d >= anchors[anchors.length - 1]) {
+    if (anchors.length === 1) return Number(densityMap[anchors[0]]) || 0;
+    const d0 = anchors[anchors.length - 2];
+    const d1 = anchors[anchors.length - 1];
+    const p0 = Number(densityMap[d0]) || 0;
+    const p1 = Number(densityMap[d1]) || 0;
+    return lerp(d0, p0, d1, p1, d);
+  }
+
+  // Within range → interpolate
+  for (let i = 0; i < anchors.length - 1; i++) {
+    const d0 = anchors[i], d1 = anchors[i + 1];
+    if (d > d0 && d < d1) {
+      const p0 = Number(densityMap[d0]) || 0;
+      const p1 = Number(densityMap[d1]) || 0;
+      return lerp(d0, p0, d1, p1, d);
+    }
+  }
+
+  return Number(densityMap[anchors[0]]) || 0;
+}
+
+function calcWigPrice(table, length, density, lace = "Transparent Lace") {
+  const L = Number(length);
+  const D = Number(density);
+  const laceFee = LACE_UPCHARGE[lace] ?? 0;
+  const densityMap = table?.[L];
+  const base = interpolateDensityPrice(densityMap, D);
+  return roundMoney(base + laceFee);
+}
+
 // ======================
 // PRODUCTS
 // ======================
@@ -111,10 +181,10 @@ export const products = [
     description:
       "Raw SEA BodyWave offers an effortless flowing 'S' pattern with exceptional softness, movement, and longevity. Ideal for luxurious, voluminous installs and natural glam looks.",
     lengths: [16, 18, 20, 22, 24, 26, 28, 30],
-    densities: [140, 180, 200, 250],
+    densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
-      return (SEA_WIG_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
-    },
+      return calcWigPrice(SEA_WIG_PRICES, length, density, lace);
+      },
     images: [
       "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_01.webp",
       "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_02.webp",
@@ -134,10 +204,10 @@ export const products = [
     description:
       "A naturally defined water-wave pattern sourced from SEA donors. Soft, airy curls with beautiful bounce and movement.",
     lengths: [16, 18, 20, 22, 24, 26],
-    densities: [140, 180, 200, 250],
+    densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
-      return (SEA_WIG_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
-    },
+      return calcWigPrice(SEA_WIG_PRICES, length, density, lace);
+      },
     images: [
       "/gallery/collections/SEA/Eminence_SEA_WaterWave_Natural_01.webp",
     ],
@@ -156,10 +226,10 @@ export const products = [
     description:
       "Authentic Burmese DeepWave with extraordinary definition and richness. A luxurious curl with unmatched density and longevity.",
     lengths: [16, 18, 20, 22, 24, 26, 28],
-    densities: [140, 180, 200],
+    densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
-      return (BURMESE_WIG_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
-    },
+      return calcWigPrice(BURMESE_WIG_PRICES, length, density, lace);
+      },
     images: [
       "/gallery/collections/Burmese/Eminence_Burmese_DeepWave_Natural_01.webp",
       "/gallery/collections/Burmese/Eminence_Burmese_DeepWave_Natural_02.webp",
@@ -179,10 +249,10 @@ export const products = [
     description:
       "Our Lavish LooseWave features a polished, flowing wave pattern with refined texture and a glossy finish. Perfect for effortless luxury.",
     lengths: [16, 18, 20, 22, 24, 26],
-    densities: [140, 180, 200, 250],
+    densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
-      return (LAVISH_WIG_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
-    },
+      return calcWigPrice(LAVISH_WIG_PRICES, length, density, lace);
+      },
     images: [
       "/gallery/collections/Lavish/Eminence_Lavish_LooseWave_Natural_01.webp",
     ],
@@ -201,10 +271,10 @@ export const products = [
     description:
       "Ultra-sleek raw Silky Straight with a soft, natural sheen. Sourced ethically for maximum longevity and premium flow.",
     lengths: [16, 18, 20, 22, 24, 26, 30, 32],
-    densities: [140, 180, 200, 250],
+    densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
-      return (STRAIGHT_WIG_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
-    },
+      return calcWigPrice(STRAIGHT_WIG_PRICES, length, density, lace);
+      },
     images: [
       "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_01.webp",
       "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_02.webp",
@@ -232,10 +302,10 @@ export const products = [
     description:
       "Rich, natural 1B tone with soft depth and dimension. Designed to blend seamlessly with natural dark hair.",
     lengths: [16, 18, 20, 22, 24, 26],
-    densities: [140, 180, 200],
+    densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
-      return (NATURAL_BODYWAVE_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
-    },
+      return calcWigPrice(NATURAL_BODYWAVE_PRICES, length, density, lace);
+      },
     images: [
       "/assets/wigs/wig_bodywave_1b/hero.webp",
       "/assets/wigs/wig_bodywave_1b/wear_01.webp",
@@ -260,10 +330,10 @@ export const products = [
     description:
       "Pure natural tone with a sleek, smooth straight texture. Ideal for polished minimal looks.",
     lengths: [16, 18, 20, 22, 24, 26],
-    densities: [140, 180, 200],
+    densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
-      return (NATURAL_STRAIGHT_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
-    },
+      return calcWigPrice(NATURAL_STRAIGHT_PRICES, length, density, lace);
+      },
     images: [
       "/gallery/colorways/Natural/Eminence_Colorways_SilkyStraight_Natural_01.webp",
       "/gallery/colorways/Natural/Eminence_Colorways_SilkyStraight_Natural_02.webp",
@@ -291,10 +361,10 @@ export const products = [
     description:
       "Our luminous 613 blonde colorway offers a bright, even lift with ultra-soft texture — perfect for dyeing, toning, or wearing as-is.",
     lengths: [16, 18, 20, 22, 24, 26, 28],
-    densities: [140, 180, 200],
+    densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
-      return (BLONDE_613_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
-    },
+      return calcWigPrice(BLONDE_613_PRICES, length, density, lace);
+      },
     images: [
       "/assets/wigs/wig_deepwave_613/hero.webp",
       "/assets/wigs/wig_deepwave_613/wear_01.webp",
@@ -321,10 +391,10 @@ export const products = [
     description:
       "A detailed reference of our BodyWave pattern — soft, dimensional, and naturally voluminous.",
     lengths: [16, 18, 20, 22, 24, 26, 28],
-    densities: [140, 180, 200],
+    densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
-      return (NATURAL_BODYWAVE_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
-    },
+      return calcWigPrice(NATURAL_BODYWAVE_PRICES, length, density, lace);
+      },
     images: [
       "/gallery/textures/BodyWave/Eminence_Textures_BodyWave_Natural_01.webp",
       "/gallery/textures/BodyWave/Eminence_Textures_BodyWave_Natural_02.webp",
@@ -352,11 +422,11 @@ export const products = [
     description:
       "A sleek, jet-black straight wig from our core Eminence Collection. Timeless elegance with premium HD lace.",
     lengths: [16, 18, 20, 22, 24, 26, 30, 32],
-    densities: [140, 180, 200, 250],
+    densities: UI_DENSITIES,
     assetKey: "wig_straight_1b",
     price(length, density, lace = "Transparent Lace") {
-      return (STRAIGHT_WIG_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
-    },
+      return calcWigPrice(STRAIGHT_WIG_PRICES, length, density, lace);
+      },
     images: [
       "/assets/wigs/wig_straight_1b/hero.webp",
       "/assets/wigs/wig_straight_1b/mannequin.webp",
@@ -388,10 +458,10 @@ export const products = [
     description:
       "True jet black, bone-straight finish with premium HD lace. Designed for a seamless melt and high-shine movement.",
     lengths: [16, 18, 20, 22, 24, 26, 30, 32],
-    densities: [140, 180, 200, 250],
+    densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
-      return (STRAIGHT_WIG_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
-    },
+      return calcWigPrice(STRAIGHT_WIG_PRICES, length, density, lace);
+      },
     images: [
       "/assets/wigs/wig_straight_1/hero.webp",
       "/assets/wigs/wig_straight_1/mannequin.webp",
@@ -421,10 +491,10 @@ export const products = [
     description:
       "A rich burgundy tone with soft, polished loose waves. HD lace crafted to melt cleanly with natural movement.",
     lengths: [16, 18, 20, 22, 24, 26, 28, 30],
-    densities: [140, 180, 200],
+    densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
-      return (LAVISH_WIG_PRICES[length]?.[density] ?? 0) + (LACE_UPCHARGE[lace] ?? 0);
-    },
+      return calcWigPrice(LAVISH_WIG_PRICES, length, density, lace);
+      },
     images: [
       "/assets/wigs/wig_loosewave_burgundy/hero.webp",
       "/assets/wigs/wig_loosewave_burgundy/texture.webp",
@@ -438,6 +508,8 @@ export const products = [
     name: "Natural Body Wave Bundles",
     displayName: "Natural Body Wave Bundles",
     type: "bundle",
+    badge: "Ready to ship",
+    readyToShip: true,
     collection: "Eminence Collection",
     collectionSlug: "eminence",
     texture: "BodyWave",
@@ -449,27 +521,24 @@ export const products = [
     // Bundles are priced by length (density not applicable)
     price(length) {
       const PRICE = {
-      12: 95,
-      14: 105,
-      16: 115,
-      18: 125,
-      20: 135,
-      22: 145,
-      24: 155,
-      26: 165,
-      28: 175,
-      30: 185
-    };
+
+        12: 109,
+        14: 139,
+        16: 159,
+        18: 179,
+        20: 199,
+        22: 219,
+        24: 239,
+        26: 259,
+        28: 279,
+        30: 299,
+      };
       return PRICE[length] ?? 0;
     },
     images: [
-      "/assets/bundles/bundle_bodywave_1/hero.webp",
-      "/assets/bundles/bundle_bodywave_1/texture.webp",
-      "/assets/bundles/bundle_bodywave_1/angle.webp",
-      "/assets/bundles/bundle_bodywave_1/wear_01.webp",
-      "/assets/bundles/bundle_bodywave_1/gallery_001.webp",
-      "/assets/bundles/bundle_bodywave_1/gallery_002.webp",
-      "/assets/bundles/bundle_bodywave_1/gallery_003.webp",
+      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_01.webp",
+      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_02.webp",
+      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_03.webp",
     ],
   },
   {
@@ -489,24 +558,401 @@ export const products = [
     // Bundles are priced by length (density not applicable)
     price(length) {
       const PRICE = {
-      12: 95,
-      14: 105,
-      16: 115,
-      18: 125,
-      20: 135,
-      22: 145,
-      24: 155,
-      26: 165,
-      28: 175,
-      30: 185
-    };
+
+        12: 119,
+        14: 149,
+        16: 169,
+        18: 189,
+        20: 209,
+        22: 229,
+        24: 249,
+        26: 269,
+        28: 289,
+        30: 309,
+      };
       return PRICE[length] ?? 0;
     },
     images: [
-      "/assets/bundles/bundle_deepcurly_1/hero.webp",
-      "/assets/bundles/bundle_deepcurly_1/texture.webp",
+      "/gallery/collections/Burmese/Eminence_Burmese_DeepWave_Natural_01.webp",
+      "/gallery/collections/Burmese/Eminence_Burmese_DeepWave_Natural_02.webp",
     ],
   },
+
+  {
+    id: "medical-grade-straight",
+    slug: "medical-grade-straight-hd-lace-wig",
+    name: "Medical Grade Straight HD Lace Wig",
+    displayName: "Medical Grade Straight HD Lace Wig",
+    type: "wig",
+    badge: "Medical Grade",
+    isMedical: true,
+    collection: "Medical Grade",
+    collectionSlug: "medical-grade",
+    texture: "Straight",
+    color: "1B",
+    description:
+      "A medical-grade cranial prosthesis option crafted for sensitive scalps — ultra-soft construction, refined density, and a natural finish designed for confidence and comfort.",
+    lengths: [16, 18, 20, 22, 24, 26],
+    densities: UI_DENSITIES,
+    price(length, density, lace = "Transparent Lace") {
+      // Medical-grade wigs include additional cap engineering + documentation support
+      return calcWigPrice(STRAIGHT_WIG_PRICES, length, density, lace) + 650;
+    },
+    images: [
+      "/gallery/medical/Medical_Grade_Straight_01.webp",
+      "/gallery/medical/Medical_Grade_Straight_02.webp",
+    ],
+  },
+
+  {
+    id: "medical-grade-bodywave",
+    slug: "medical-grade-body-wave-hd-lace-wig",
+    name: "Medical Grade Body Wave HD Lace Wig",
+    displayName: "Medical Grade Body Wave HD Lace Wig",
+    type: "wig",
+    badge: "Medical Grade",
+    isMedical: true,
+    collection: "Medical Grade",
+    collectionSlug: "medical-grade",
+    texture: "BodyWave",
+    color: "1B",
+    description:
+      "Soft body-wave movement with medical-grade comfort. Designed to look luxurious while remaining gentle and breathable for sensitive scalps.",
+    lengths: [16, 18, 20, 22, 24, 26],
+    densities: UI_DENSITIES,
+    price(length, density, lace = "Transparent Lace") {
+      return calcWigPrice(SEA_WIG_PRICES, length, density, lace) + 650;
+    },
+    images: [
+      "/gallery/medical/Medical_Grade_BodyWave_01.webp",
+      "/gallery/medical/Medical_Grade_BodyWave_02.webp",
+    ],
+  },
+
+  {
+    id: "medical-grade-deepwave",
+    slug: "medical-grade-deep-wave-hd-lace-wig",
+    name: "Medical Grade Deep Wave HD Lace Wig",
+    displayName: "Medical Grade Deep Wave HD Lace Wig",
+    type: "wig",
+    badge: "Medical Grade",
+    isMedical: true,
+    collection: "Medical Grade",
+    collectionSlug: "medical-grade",
+    texture: "DeepWave",
+    color: "1B",
+    description:
+      "Defined deep-wave texture paired with medical-grade cap construction. Created for softness, realism, and comfort through every stage of hair loss or regrowth.",
+    lengths: [16, 18, 20, 22, 24, 26],
+    densities: UI_DENSITIES,
+    price(length, density, lace = "Transparent Lace") {
+      return calcWigPrice(BURMESE_WIG_PRICES, length, density, lace) + 650;
+    },
+    images: [
+      "/gallery/medical/Medical_Grade_DeepWave_01.webp",
+      "/gallery/medical/Medical_Grade_DeepWave_02.webp",
+    ],
+  },
+
+  {
+    id: "bundles-natural-straight",
+    slug: "natural-straight-bundles",
+    name: "Natural Straight Bundles",
+    displayName: "Natural Straight Bundles",
+    type: "bundle",
+    badge: "Ready to ship",
+    readyToShip: true,
+    collection: "Eminence Collection",
+    collectionSlug: "eminence",
+    texture: "Straight",
+    color: "1B",
+    assetKey: "bundle_straight_1",
+    description:
+      "Polished natural-straight weft bundles in a seamless 1B tone — soft, lightweight, and designed for a clean, luxury finish.",
+    lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    price(length) {
+      const PRICE = {
+      12: 99,
+      14: 129,
+      16: 149,
+      18: 169,
+      20: 189,
+      22: 209,
+      24: 229,
+      26: 249,
+      28: 269,
+      30: 289
+    
+      };
+      return PRICE[length] ?? 0;
+    },
+    images: [
+      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_01.webp",
+      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_02.webp",
+      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_03.webp",
+    ],
+  },
+
+  {
+    id: "bundles-613-body-wave",
+    slug: "613-body-wave-bundles",
+    name: "613 Body Wave Bundles",
+    displayName: "613 Body Wave Bundles",
+    type: "bundle",
+    badge: "Ready to ship",
+    readyToShip: true,
+    collection: "Colorway 613",
+    collectionSlug: "613",
+    texture: "BodyWave",
+    color: "613",
+    assetKey: "bundle_bodywave_613",
+    description:
+      "Luminous 613 blonde body-wave bundles with clean color and soft movement — a premium, salon-ready blonde.",
+    lengths: [16, 18, 20, 22, 24],
+    price(length) {
+      const PRICE = {
+      16: 209,
+      18: 239,
+      20: 269,
+      22: 299,
+      24: 329
+    
+      };
+      return PRICE[length] ?? 0;
+    },
+    images: [
+      "/assets/bundles/bundle_bodywave_613/hero.webp",
+      "/assets/bundles/bundle_bodywave_613/texture.webp",
+      "/assets/bundles/bundle_bodywave_613/angle.webp",
+    ],
+  },
+
+  {
+    id: "closure-4x4",
+    slug: "4x4-hd-closure",
+    name: "4×4 HD Closure",
+    displayName: "4×4 HD Closure",
+    type: "closure",
+    badge: "Ready to ship",
+    readyToShip: true,
+    collection: "Eminence Collection",
+    collectionSlug: "eminence",
+    texture: "Closure",
+    color: "1B",
+    description:
+      "4×4 HD lace closure — seamless melt, refined parting, and a natural finish designed for luxury installs.",
+    lengths: [14, 16, 18],
+    price(length) {
+      const PRICE = {
+        14: 179,
+        16: 199,
+        18: 219,
+      };
+      return PRICE[length] ?? 0;
+    },
+    images: [
+      "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_01.webp",
+      "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_02.webp",
+      "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_03.webp",
+    ],
+  },
+
+  {
+    id: "closure-5x5",
+    slug: "5x5-hd-closure",
+    name: "5×5 HD Closure",
+    displayName: "5×5 HD Closure",
+    type: "closure",
+    badge: "Ready to ship",
+    readyToShip: true,
+    collection: "Eminence Collection",
+    collectionSlug: "eminence",
+    texture: "Closure",
+    color: "1B",
+    description:
+      "5×5 HD lace closure — enhanced coverage and parting space for a more elevated, ultra-realistic finish.",
+    lengths: [16, 18],
+    price(length) {
+      const PRICE = {
+        16: 239,
+        18: 259,
+      };
+      return PRICE[length] ?? 0;
+    },
+    images: [
+      "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_01.webp",
+      "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_02.webp",
+      "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_03.webp",
+    ],
+  },
+
+  {
+    id: "frontal-13x4",
+    slug: "13x4-hd-frontal",
+    name: "13×4 HD Frontal",
+    displayName: "13×4 HD Frontal",
+    type: "frontal",
+    badge: "Ready to ship",
+    readyToShip: true,
+    collection: "Eminence Collection",
+    collectionSlug: "eminence",
+    texture: "Frontal",
+    color: "1B",
+    description:
+      "13×4 HD lace frontal — premium hairline realism with styling versatility and an editorial finish.",
+    lengths: [16, 18],
+    price(length) {
+      const PRICE = {
+        16: 329,
+        18: 349,
+      };
+      return PRICE[length] ?? 0;
+    },
+    images: [
+      "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_01.webp",
+      "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_02.webp",
+      "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_03.webp",
+    ],
+  },
+
+  // ======================
+  // READY-TO-SHIP INSTALL SETS (single SKU)
+  // ======================
+  // These are intentionally hidden from the main Shop grid so they can live as
+  // high-converting “one click” bundles on /ready-to-ship.
+
+  {
+    id: "install-set-straight-141618",
+    slug: "install-set-straight-14-16-18",
+    name: "Install Set — Straight (14/16/18)",
+    displayName: "Install Set — Straight (14″ / 16″ / 18″)",
+    type: "bundle",
+    badge: "Install Set",
+    readyToShip: true,
+    hideFromShop: true,
+    collection: "Ready-to-Ship Edit",
+    collectionSlug: "ready-to-ship",
+    texture: "Straight",
+    color: "1B",
+    basePrice: 447,
+    description:
+      "A complete, install-ready straight set: 3 bundles (14\"/16\"/18\"). Added to bag as a single set item.",
+    images: [
+      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_01.webp",
+      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_02.webp",
+    ],
+  },
+
+  {
+    id: "install-set-bodywave-141618",
+    slug: "install-set-body-wave-14-16-18",
+    name: "Install Set — Body Wave (14/16/18)",
+    displayName: "Install Set — Body Wave (14″ / 16″ / 18″)",
+    type: "bundle",
+    badge: "Install Set",
+    readyToShip: true,
+    hideFromShop: true,
+    collection: "Ready-to-Ship Edit",
+    collectionSlug: "ready-to-ship",
+    texture: "BodyWave",
+    color: "1B",
+    basePrice: 477,
+    description:
+      "A complete, install-ready body wave set: 3 bundles (14\"/16\"/18\"). Added to bag as a single set item.",
+    images: [
+      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_01.webp",
+      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_02.webp",
+    ],
+  },
+
+  {
+    id: "install-set-straight-141618-closure4x4",
+    slug: "install-set-straight-14-16-18-with-4x4",
+    name: "Install Set — Straight + 4×4 Closure",
+    displayName: "Install Set — Straight (14″/16″/18″) + 4×4 Closure (16″)",
+    type: "bundle",
+    badge: "Install Set",
+    readyToShip: true,
+    hideFromShop: true,
+    collection: "Ready-to-Ship Edit",
+    collectionSlug: "ready-to-ship",
+    texture: "Straight",
+    color: "1B",
+    basePrice: 646,
+    description:
+      "Install set includes 3 straight bundles (14\"/16\"/18\") + 4×4 HD closure (16\"). Added to bag as one set item.",
+    images: [
+      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_01.webp",
+      "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_01.webp",
+    ],
+  },
+
+  {
+    id: "install-set-bodywave-141618-closure4x4",
+    slug: "install-set-body-wave-14-16-18-with-4x4",
+    name: "Install Set — Body Wave + 4×4 Closure",
+    displayName: "Install Set — Body Wave (14″/16″/18″) + 4×4 Closure (16″)",
+    type: "bundle",
+    badge: "Install Set",
+    readyToShip: true,
+    hideFromShop: true,
+    collection: "Ready-to-Ship Edit",
+    collectionSlug: "ready-to-ship",
+    texture: "BodyWave",
+    color: "1B",
+    basePrice: 676,
+    description:
+      "Install set includes 3 body wave bundles (14\"/16\"/18\") + 4×4 HD closure (16\"). Added to bag as one set item.",
+    images: [
+      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_01.webp",
+      "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_01.webp",
+    ],
+  },
+
+  {
+    id: "install-set-straight-161820-frontal13x4",
+    slug: "install-set-straight-16-18-20-with-13x4",
+    name: "Premium Install Set — Straight + 13×4 Frontal",
+    displayName: "Premium Install Set — Straight (16″/18″/20″) + 13×4 Frontal (18″)",
+    type: "bundle",
+    badge: "Install Set",
+    readyToShip: true,
+    hideFromShop: true,
+    collection: "Ready-to-Ship Edit",
+    collectionSlug: "ready-to-ship",
+    texture: "Straight",
+    color: "1B",
+    basePrice: 856,
+    description:
+      "Premium install set includes 3 straight bundles (16\"/18\"/20\") + 13×4 HD frontal (18\"). Added to bag as one set item.",
+    images: [
+      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_01.webp",
+      "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_02.webp",
+    ],
+  },
+
+  {
+    id: "install-set-bodywave-161820-frontal13x4",
+    slug: "install-set-body-wave-16-18-20-with-13x4",
+    name: "Premium Install Set — Body Wave + 13×4 Frontal",
+    displayName: "Premium Install Set — Body Wave (16″/18″/20″) + 13×4 Frontal (18″)",
+    type: "bundle",
+    badge: "Install Set",
+    readyToShip: true,
+    hideFromShop: true,
+    collection: "Ready-to-Ship Edit",
+    collectionSlug: "ready-to-ship",
+    texture: "BodyWave",
+    color: "1B",
+    basePrice: 886,
+    description:
+      "Premium install set includes 3 body wave bundles (16\"/18\"/20\") + 13×4 HD frontal (18\"). Added to bag as one set item.",
+    images: [
+      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_01.webp",
+      "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_02.webp",
+    ],
+  },
+
 
 ];
 

@@ -64,6 +64,8 @@ export async function createHandler(req, res) {
                 density,
                 isCustom: Boolean(item.isCustom),
                 customNotes: String(item.customNotes ?? ""),
+                baseColor: String(product.color ?? ""),
+                customColorTier: item.customColorTier ?? null,
               }).price || basePrice
             )
           : basePrice;

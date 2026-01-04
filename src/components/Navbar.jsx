@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingBag, ChevronDown, Search, Menu } from "lucide-react";
+import { ShoppingBag, ChevronDown, Search, Menu, User } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useUser } from "../context/UserContext";
 import MegaMenu from "./MegaMenu";
 import AnnouncementBar from "./AnnouncementBar";
 import SearchModal from "./SearchModal";
@@ -13,6 +14,7 @@ const formatMoney = (n) =>
 
 export default function Navbar() {
   const { items, total, openCart } = useCart();
+  const { user } = useUser();
   const location = useLocation();
 
   const [activeMenu, setActiveMenu] = useState(null); // 'shop' | 'about' | null
@@ -49,8 +51,10 @@ export default function Navbar() {
         title: "Shop",
         items: [
           { label: "All Products", href: "/shop" },
+          { label: "Ready-to-Ship Edit", href: "/ready-to-ship" },
           { label: "Eminence Essentials", href: "/shop?collection=eminence-essentials" },
           { label: "HD Lace Wigs", href: "/shop/wigs" },
+          { label: "Medical Grade Wigs", href: "/shop/medical" },
           { label: "Bundles", href: "/shop/bundles" },
         ],
       },
@@ -118,6 +122,8 @@ export default function Navbar() {
           { label: "Collections", href: "/collections" },
           { label: "Shop Essentials", href: "/shop?collection=eminence-essentials" },
           { label: "Shop All", href: "/shop" },
+          { label: "Partner Program", href: "/partners" },
+          { label: "Partner Portal", href: "/partner-portal" },
         ],
       },
     ],
@@ -167,6 +173,10 @@ export default function Navbar() {
             Start Here
           </Link>
 
+          <Link to="/ready-to-ship" className="hover:text-black transition">
+            Ready-to-Ship
+          </Link>
+
           <button
             type="button"
             onClick={() => setActiveMenu((m) => (m === "about" ? null : "about"))}
@@ -205,6 +215,21 @@ export default function Navbar() {
             className="hidden sm:inline-flex items-center px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/40 hover:bg-white/70 transition"
           >
             Consult
+          </Link>
+
+          <Link
+            to="/account"
+            className="relative p-2 rounded-full hover:bg-white/60 transition"
+            aria-label={user ? "My account" : "Sign in"}
+            title={user ? "My account" : "Sign in"}
+          >
+            <User size={20} className="text-neutral-800" />
+            {user && (
+              <span
+                className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-[#FBF6EE]"
+                aria-hidden="true"
+              />
+            )}
           </Link>
 
           <button

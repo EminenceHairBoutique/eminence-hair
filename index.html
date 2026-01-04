@@ -90,18 +90,7 @@
     </script>
     <!-- SEO:END -->
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA_MEASUREMENT_ID%"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){window.dataLayer.push(arguments);}
-      window.gtag = window.gtag || gtag;
-
-      gtag('js', new Date());
-
-      // SPA best practice: we'll send page_view on route changes
-      gtag('config', '%VITE_GA_MEASUREMENT_ID%', { send_page_view: false });
-    </script>
+    <!-- Analytics scripts are loaded after consent in-app (see TrackingScripts.jsx) -->
   </head>
 
   <body class="bg-ivory text-charcoal font-body antialiased">

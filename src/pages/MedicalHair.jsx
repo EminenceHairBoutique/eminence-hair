@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 
 import SEO from "../components/SEO";
+import { products } from "../data/products";
+import { useCart } from "../context/CartContext";
 
 function Accordion({ title, children }) {
   const [open, setOpen] = useState(false);
@@ -44,6 +46,55 @@ function Step({ n, title, body }) {
 
 export default function MedicalHair() {
   const [copied, setCopied] = useState(false);
+
+  const { addToCart } = useCart();
+
+  const medicalProducts = useMemo(
+    () =>
+      products
+        .filter((p) => p.isMedical || p.collectionSlug === "medical-grade")
+        .sort((a, b) => String(a.texture).localeCompare(String(b.texture))),
+    []
+  );
+
+  const getStartingPrice = (p) => {
+    if (!p) return 0;
+    const L = Array.isArray(p.lengths) && p.lengths.length ? Math.min(...p.lengths) : null;
+    const D = Array.isArray(p.densities) && p.densities.length ? p.densities[0] : 150;
+    if (typeof p.price === "function" && L != null) return Number(p.price(L, D, "Transparent Lace") || 0);
+    return Number(p.fromPrice ?? p.basePrice ?? 0);
+  };
+
+  const money = (n) =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(Number(n || 0));
+
+  const [matcher, setMatcher] = useState({
+    goal: "medical",
+    urgency: "standard",
+    texture: "Straight",
+    sensitivity: "high",
+  });
+
+  const recommended = useMemo(() => {
+    const wantMedical = matcher.goal === "medical" || matcher.sensitivity === "high";
+    const texture = matcher.texture;
+    const id = wantMedical
+      ? texture === "BodyWave"
+        ? "medical-grade-bodywave"
+        : texture === "DeepWave"
+        ? "medical-grade-deepwave"
+        : "medical-grade-straight"
+      : texture === "BodyWave"
+      ? "sea-bodywave"
+      : texture === "DeepWave"
+      ? "burmese-deepwave"
+      : "wig-black-straight";
+
+    return products.find((p) => p.id === id) || null;
+  }, [matcher]);
 
   const checklist = useMemo(
     () => [
@@ -95,7 +146,7 @@ export default function MedicalHair() {
 
               <div className="flex flex-wrap gap-3 pt-2">
                 <Link
-                  to="/shop/wigs"
+                  to="/shop/medical"
                   className="px-8 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] border border-neutral-900 bg-neutral-900 text-[#F9F7F4] hover:bg-transparent hover:text-neutral-900 transition inline-flex items-center gap-2"
                 >
                   Shop Wigs <ArrowRight className="w-4 h-4" />
@@ -146,6 +197,256 @@ export default function MedicalHair() {
                     <p className="text-sm font-medium">{c.title}</p>
                   </div>
                   <p className="mt-3 text-sm text-neutral-700 leading-relaxed">{c.body}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* MATCHMAKER */}
+          <section className="rounded-3xl border border-white/60 bg-white/70 backdrop-blur px-6 md:px-10 py-10 shadow-[0_18px_40px_rgba(15,10,5,0.14)]">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+              <div className="max-w-2xl">
+                <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-500">Matchmaker</p>
+                <h2 className="text-2xl md:text-3xl font-light tracking-wide">
+                  Find your best fit in under 60 seconds.
+                </h2>
+                <p className="mt-3 text-sm text-neutral-700 leading-relaxed">
+                  Answer four quick questions — we’ll recommend a medical-grade option (or a standard luxury wig if you prefer).
+                </p>
+              </div>
+
+              <Link
+                to="/shop/medical"
+                className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] underline underline-offset-4 text-neutral-700 hover:text-neutral-900"
+              >
+                Browse Medical Grade <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="mt-8 grid gap-6 md:grid-cols-2">
+              <div className="grid gap-4">
+                {/* Q1 */}
+                <div className="rounded-3xl border border-white/60 bg-white/70 px-6 py-5">
+                  <p className="text-[11px] uppercase tracking-[0.26em] text-neutral-500">1) Your goal</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {[
+                      { key: "medical", label: "Medical-grade comfort" },
+                      { key: "standard", label: "Luxury wig (standard)" },
+                      { key: "custom", label: "Custom build (atelier)" },
+                    ].map((o) => (
+                      <button
+                        key={o.key}
+                        type="button"
+                        onClick={() => setMatcher((m) => ({ ...m, goal: o.key }))}
+                        className={`rounded-full px-4 py-2 text-xs border ${
+                          matcher.goal === o.key ? "border-neutral-900 bg-neutral-900 text-[#F9F7F4]" : "border-black/10 bg-black/5"
+                        }`}
+                      >
+                        {o.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Q2 */}
+                <div className="rounded-3xl border border-white/60 bg-white/70 px-6 py-5">
+                  <p className="text-[11px] uppercase tracking-[0.26em] text-neutral-500">2) Timeline</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {[
+                      { key: "standard", label: "Standard turnaround" },
+                      { key: "rush", label: "I need it ASAP" },
+                      { key: "flexible", label: "I’m flexible" },
+                    ].map((o) => (
+                      <button
+                        key={o.key}
+                        type="button"
+                        onClick={() => setMatcher((m) => ({ ...m, urgency: o.key }))}
+                        className={`rounded-full px-4 py-2 text-xs border ${
+                          matcher.urgency === o.key ? "border-neutral-900 bg-neutral-900 text-[#F9F7F4]" : "border-black/10 bg-black/5"
+                        }`}
+                      >
+                        {o.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Q3 */}
+                <div className="rounded-3xl border border-white/60 bg-white/70 px-6 py-5">
+                  <p className="text-[11px] uppercase tracking-[0.26em] text-neutral-500">3) Texture</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {[
+                      { key: "Straight", label: "Straight" },
+                      { key: "BodyWave", label: "Body Wave" },
+                      { key: "DeepWave", label: "Deep Wave" },
+                    ].map((o) => (
+                      <button
+                        key={o.key}
+                        type="button"
+                        onClick={() => setMatcher((m) => ({ ...m, texture: o.key }))}
+                        className={`rounded-full px-4 py-2 text-xs border ${
+                          matcher.texture === o.key ? "border-neutral-900 bg-neutral-900 text-[#F9F7F4]" : "border-black/10 bg-black/5"
+                        }`}
+                      >
+                        {o.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Q4 */}
+                <div className="rounded-3xl border border-white/60 bg-white/70 px-6 py-5">
+                  <p className="text-[11px] uppercase tracking-[0.26em] text-neutral-500">4) Scalp sensitivity</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {[
+                      { key: "high", label: "Very sensitive" },
+                      { key: "medium", label: "Some sensitivity" },
+                      { key: "low", label: "No major concerns" },
+                    ].map((o) => (
+                      <button
+                        key={o.key}
+                        type="button"
+                        onClick={() => setMatcher((m) => ({ ...m, sensitivity: o.key }))}
+                        className={`rounded-full px-4 py-2 text-xs border ${
+                          matcher.sensitivity === o.key ? "border-neutral-900 bg-neutral-900 text-[#F9F7F4]" : "border-black/10 bg-black/5"
+                        }`}
+                      >
+                        {o.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-3xl border border-white/60 bg-gradient-to-b from-white/80 to-white/60 px-6 py-6 shadow-[0_18px_40px_rgba(15,10,5,0.14)]">
+                <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-500">Your match</p>
+
+                {recommended ? (
+                  <div className="mt-4">
+                    <p className="text-lg font-light text-neutral-900">
+                      {recommended.displayName || recommended.name}
+                    </p>
+                    <p className="mt-2 text-sm text-neutral-700 leading-relaxed">
+                      Based on your answers, we recommend this piece for the most natural look with comfortable wear.
+                    </p>
+
+                    <div className="mt-4 rounded-2xl bg-black/5 border border-black/10 p-4">
+                      <div className="flex items-end justify-between">
+                        <p className="text-xs text-neutral-600">Starting at</p>
+                        <p className="text-lg font-medium text-neutral-900">
+                          {money(getStartingPrice(recommended))}
+                        </p>
+                      </div>
+                      {matcher.urgency === "rush" && (
+                        <p className="mt-2 text-xs text-neutral-600">
+                          Need it ASAP? Book a consult — we’ll confirm what can ship immediately.
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="mt-5 flex flex-wrap gap-3">
+                      <Link
+                        to={`/products/${recommended.slug}`}
+                        className="px-7 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] border border-neutral-900 bg-neutral-900 text-[#F9F7F4] hover:bg-transparent hover:text-neutral-900 transition inline-flex items-center gap-2"
+                      >
+                        View details <ArrowRight className="w-4 h-4" />
+                      </Link>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const L =
+                            Array.isArray(recommended.lengths) && recommended.lengths.length
+                              ? recommended.lengths[0]
+                              : 18;
+                          const D =
+                            Array.isArray(recommended.densities) && recommended.densities.length
+                              ? recommended.densities[0]
+                              : 150;
+                          addToCart(recommended, {
+                            length: L,
+                            density: D,
+                            lace: "Transparent Lace",
+                            isCustom: matcher.goal === "custom",
+                            customNotes:
+                              matcher.goal === "custom"
+                                ? "Medical Hair Matchmaker — requesting atelier refinement."
+                                : "",
+                          });
+                        }}
+                        className="px-7 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] border border-neutral-900 hover:bg-neutral-900 hover:text-[#F9F7F4] transition"
+                      >
+                        Add base configuration
+                      </button>
+                    </div>
+
+                    <p className="mt-5 text-xs text-neutral-600 leading-relaxed">
+                      Prefer something even more customized (density, knots, hairline, or color)? Use{" "}
+                      <Link to="/custom-atelier" className="underline underline-offset-4">
+                        Custom Atelier
+                      </Link>{" "}
+                      and we’ll tailor it with you.
+                    </p>
+                  </div>
+                ) : (
+                  <p className="mt-4 text-sm text-neutral-700">Select your options to see a match.</p>
+                )}
+              </div>
+            </div>
+          </section>
+
+          {/* MEDICAL PRODUCT OPTIONS */}
+          <section className="space-y-6">
+            <div className="flex items-end justify-between">
+              <div>
+                <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-500">Medical Grade</p>
+                <h2 className="text-2xl font-light">Our medical-grade options.</h2>
+                <p className="mt-2 text-sm text-neutral-700 leading-relaxed max-w-2xl">
+                  These pieces are designed with sensitive scalps in mind — refined realism, gentle construction, and concierge guidance.
+                </p>
+              </div>
+
+              <Link
+                to="/shop/medical"
+                className="hidden md:inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] underline underline-offset-4 text-neutral-700 hover:text-neutral-900"
+              >
+                Shop Medical Grade <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {medicalProducts.map((p) => (
+                <div
+                  key={p.id}
+                  className="rounded-3xl border border-white/60 bg-white/70 backdrop-blur px-6 py-6 shadow-[0_18px_40px_rgba(15,10,5,0.14)]"
+                >
+                  <p className="text-sm font-medium text-neutral-900">{p.displayName || p.name}</p>
+                  <p className="mt-2 text-sm text-neutral-700 leading-relaxed">
+                    Texture: <span className="font-medium text-neutral-900">{p.texture}</span>
+                  </p>
+                  <p className="mt-3 text-xs text-neutral-600">Starting at {money(getStartingPrice(p))}</p>
+
+                  <div className="mt-5 flex flex-wrap gap-3">
+                    <Link
+                      to={`/products/${p.slug}`}
+                      className="px-6 py-2 rounded-full text-[11px] uppercase tracking-[0.26em] border border-neutral-900 bg-neutral-900 text-[#F9F7F4] hover:bg-transparent hover:text-neutral-900 transition"
+                    >
+                      View
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const L =
+                          Array.isArray(p.lengths) && p.lengths.length ? p.lengths[0] : 18;
+                        const D =
+                          Array.isArray(p.densities) && p.densities.length ? p.densities[0] : 150;
+                        addToCart(p, { length: L, density: D, lace: "Transparent Lace" });
+                      }}
+                      className="px-6 py-2 rounded-full text-[11px] uppercase tracking-[0.26em] border border-neutral-900 hover:bg-neutral-900 hover:text-[#F9F7F4] transition"
+                    >
+                      Add base
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

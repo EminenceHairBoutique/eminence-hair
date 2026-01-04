@@ -108,7 +108,10 @@ export default function Checkout() {
                             : "—"} ·{" "}
                           {(item.density ?? item.selectedDensity)
                             ? `${item.density ?? item.selectedDensity}%`
-                            : "—"} · Qty {item.quantity}
+                            : "—"}
+                          {item.customColorTier && item.customColorTier !== "AS_LISTED"
+                            ? ` · Color ${item.customColorTier}`
+                            : ""} · Qty {item.quantity}
                         </p>
                         {item.autoDefaultsApplied && (
                           <p className="mt-1 text-[11px] tracking-[0.18em] uppercase text-neutral-400">
@@ -198,6 +201,8 @@ export default function Checkout() {
                           // custom (wigs only, ignored for bundles)
                           isCustom: Boolean(i.isCustom),
                           customNotes: i.customNotes ?? "",
+                          customColorTier: i.customColorTier ?? null,
+                          capSize: i.capSize ?? null,
                         })),
 
                         // Logged-in mapping (used for order history + loyalty)

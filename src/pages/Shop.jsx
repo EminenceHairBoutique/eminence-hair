@@ -4,6 +4,7 @@ import { products, eminenceEssentials } from "../data/products";
 import { useCart } from "../context/CartContext";
 import { prefetchRoute } from "../utils/prefetch";
 import SEO from "../components/SEO";
+import QuickViewModal from "../components/QuickViewModal";
 
 import firstPage from "../assets/first_page.png";
 
@@ -18,7 +19,24 @@ const getMinDensity = (p) => safeMin(p.densities, p.defaultDensity ?? null);
 const getStartingPrice = (p) => {
   const L = getMinLength(p);
   const D = getMinDensity(p);
-  if (typeof p.price === "function" && L != null && D != null) return Number(p.price(L, D) || 0);
+
+  // Prefer explicit from/base pricing if present
+  if (p.basePrice != null) return Number(p.basePrice) || 0;
+  if (p.fromPrice != null) return Number(p.fromPrice) || 0;
+
+  // Compute from price() if available
+  if (typeof p.price === "function" && L != null) {
+    try {
+      const val =
+        D == null
+          ? Number(p.price(L) || 0) // bundles / closures / frontals
+          : Number(p.price(L, D, "Transparent Lace") || 0); // wigs
+      return Number.isFinite(val) ? val : 0;
+    } catch {
+      // fall through
+    }
+  }
+
   return Number(p.basePrice ?? p.fromPrice ?? p.price ?? 0);
 };
 
@@ -106,7 +124,9 @@ export default function Shop() {
 
   /* MODE FROM URL */
   const modeFromPath =
-    location.pathname === "/shop/wigs"
+    location.pathname === "/shop/medical"
+      ? "wig"
+      : location.pathname === "/shop/wigs"
       ? "wig"
       : location.pathname === "/shop/bundles"
       ? "bundle"
@@ -133,12 +153,26 @@ export default function Shop() {
   const isEssentialsView =
     collectionFilter === "eminence-essentials" || collectionFilter === "Eminence Essentials";
 
+  // Medical view is a dedicated route (/shop/medical). Keep it explicit so we don't
+  // accidentally hide products when a user is browsing the main shop.
+  const isMedicalView = location.pathname === "/shop/medical";
+
   const [addingId, setAddingId] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [quickViewProduct, setQuickViewProduct] = useState(null);
 
   const filteredByType = useMemo(() => {
-    if (mode === "all") return products;
-    return products.filter((p) => p.type === mode);
+    // Hide internal SKUs (e.g., install sets) from the main shop grid.
+    const visible = products.filter((p) => !p.hideFromShop);
+
+    if (mode === "all") return visible;
+
+    // Closures view includes both closures + frontals.
+    if (mode === "closure") {
+      return visible.filter((p) => p.type === "closure" || p.type === "frontal");
+    }
+
+    return visible.filter((p) => p.type === mode);
   }, [mode]);
 
   const collectionOptions = useMemo(() => {
@@ -190,6 +224,11 @@ export default function Shop() {
   const visibleProducts = useMemo(() => {
     let list = [...filteredByType];
 
+    // Medical Grade view: show only medical products
+    if (isMedicalView) {
+      list = list.filter((p) => p.isMedical || p.collectionSlug === "medical-grade");
+    }
+
     // ✅ If user is explicitly on Essentials view, show ONLY essentials
     if (isEssentialsView) {
       list = list
@@ -225,7 +264,7 @@ export default function Shop() {
     if (sortKey === "alpha") list.sort(byName);
 
     return list;
-  }, [filteredByType, isEssentialsView, collectionFilter, textureFilter, colorFilter, sortKey]);
+  }, [filteredByType, isEssentialsView, isMedicalView, collectionFilter, textureFilter, colorFilter, sortKey]);
 
   const activeChips = useMemo(() => {
     const collectionLabel =
@@ -320,22 +359,31 @@ export default function Shop() {
   }
 
   const heroTitle =
-    mode === "wig"
+    isMedicalView
+      ? "Medical Grade Wigs"
+      : isEssentialsView
+      ? "Eminence Essentials"
+      : mode === "wig"
       ? "Luxury wigs, perfected."
       : mode === "bundle"
-      ? "Bundles, crafted to Eminence standards."
+      ? "Signature bundles for flawless installs."
       : mode === "closure"
-      ? "Closures, designed to disappear."
-      : "Shop all luxury wigs, bundles, and textures in one edit.";
+      ? "Closures & frontals that melt."
+      : "Luxury hair, curated.";
 
   const heroSubtitle =
-    mode === "wig"
+    isMedicalView
+      ? "Cranial prosthesis options designed for sensitive scalps — refined realism, ultra-soft construction, and concierge support."
+      : isEssentialsView
+      ? "Our most-requested textures and best sellers — curated for first-time clients and returning collectors."
+      : mode === "wig"
       ? "HD lace wigs crafted from raw SEA & Cambodian hair."
       : mode === "bundle"
-      ? "Premium hair bundles and extensions — launching soon."
+      ? "Cambodian & SEA wefts in premium textures, made for volume, longevity, and a seamless blend."
       : mode === "closure"
-      ? "Natural-looking closures built for seamless blends."
-      : "Raw Cambodian & SEA hair, Burmese deep waves, and signature color units built with editorial density.";
+      ? "Premium HD lace closures & frontals designed for an ultra-natural hairline."
+      : "Cambodian & SEA hair, Burmese deep waves, and signature color units built with editorial density.";
+
 
   const buildModeTo = (path) => {
     const next = new URLSearchParams(searchParams);
@@ -367,12 +415,14 @@ export default function Shop() {
     <>
       <SEO
         title={
-          mode === "wig"
+          isMedicalView
+            ? "Medical Grade Wigs"
+            : mode === "wig"
             ? "Luxury HD Lace Wigs"
             : mode === "bundle"
             ? "Premium Hair Bundles"
             : mode === "closure"
-            ? "Luxury Closures"
+            ? "Luxury Closures & Frontals"
             : "Luxury Wigs & Hair Extensions"
         }
         description="Shop luxury wigs, bundles, and textures by Eminence Hair."
@@ -429,13 +479,17 @@ export default function Shop() {
                 <Pill active={mode === "all"}>All</Pill>
               </Link>
               <Link to={buildModeTo("/shop/wigs")} aria-label="Shop wigs">
-                <Pill active={mode === "wig"}>Wigs</Pill>
+                <Pill active={mode === "wig" && !isMedicalView}>Wigs</Pill>
+              </Link>
+
+              <Link to={buildModeTo("/shop/medical")} aria-label="Shop medical grade">
+                <Pill active={isMedicalView}>Medical</Pill>
               </Link>
               <Link to={buildModeTo("/shop/bundles")} aria-label="Shop bundles">
                 <Pill active={mode === "bundle"}>Bundles</Pill>
               </Link>
-              <Link to={buildModeTo("/shop/closures")} aria-label="Shop closures">
-                <Pill active={mode === "closure"}>Closures</Pill>
+              <Link to={buildModeTo("/shop/closures")} aria-label="Shop closures and frontals">
+                <Pill active={mode === "closure"}>Closures &amp; Frontals</Pill>
               </Link>
 
               <div className="ml-auto flex items-center gap-2">
@@ -449,7 +503,7 @@ export default function Shop() {
                 </button>
 
                 {/* Desktop sort */}
-                <div className="hidden md:flex items-center gap-2">
+                <div className="hidden md:flex lg:hidden items-center gap-2">
                   <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
                     Sort
                   </label>
@@ -468,7 +522,7 @@ export default function Shop() {
             </div>
 
             {/* Desktop filters row */}
-            <div className="hidden md:flex flex-wrap items-center gap-3 rounded-3xl border border-white/60 bg-white/40 backdrop-blur px-4 py-3">
+            <div className="hidden md:flex lg:hidden flex-wrap items-center gap-3 rounded-3xl border border-white/60 bg-white/40 backdrop-blur px-4 py-3">
               <div className="flex items-center gap-2">
                 <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
                   Collection
@@ -691,6 +745,8 @@ export default function Shop() {
                           src={p.images?.[0]}
                           alt={p.displayName || p.name}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          loading="lazy"
+                          decoding="async"
                         />
 
                         <span className="absolute top-3 left-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
@@ -707,9 +763,18 @@ export default function Shop() {
                           {p.displayName || p.name}
                         </p>
 
-                        <p className="mt-1 text-xs text-neutral-600">
-                          From ${Number(startingPrice || 0).toFixed(0)}
-                        </p>
+                        <div className="mt-3 flex items-center justify-between gap-3">
+                          <p className="text-xs text-neutral-600">
+                            From ${Number(startingPrice || 0).toFixed(0)}
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() => setQuickViewProduct(p)}
+                            className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/70 hover:bg-white"
+                          >
+                            View
+                          </button>
+                        </div>
                       </div>
                     </div>
                   );
@@ -727,8 +792,105 @@ export default function Shop() {
                 ))}
               </div>
             ) : (
-              <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-                {visibleProducts.map((p) => {
+              <div className="lg:grid lg:grid-cols-[260px,1fr] gap-10">
+                {/* Desktop sidebar filters (lg+) */}
+                <aside className="hidden lg:block">
+                  <div className="sticky top-28 rounded-3xl border border-white/60 bg-white/40 backdrop-blur p-5 shadow-sm">
+                    <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">
+                      Refine
+                    </p>
+
+                    <div className="mt-5 space-y-4">
+                      <div>
+                        <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                          Collection
+                        </label>
+                        <select
+                          value={collectionFilter}
+                          onChange={(e) => setParam("collection", e.target.value)}
+                          className="mt-2 w-full px-4 py-2 rounded-2xl border border-neutral-300 bg-white/70 text-sm"
+                        >
+                          <option value="All">All</option>
+                          {collectionOptions.map((o) => (
+                            <option key={o.value} value={o.value}>
+                              {o.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                          Texture
+                        </label>
+                        <select
+                          value={textureFilter}
+                          onChange={(e) => setParam("texture", e.target.value)}
+                          className="mt-2 w-full px-4 py-2 rounded-2xl border border-neutral-300 bg-white/70 text-sm"
+                        >
+                          {textureOptions.map((t) => (
+                            <option key={t} value={t}>
+                              {t}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                          Color
+                        </label>
+                        <select
+                          value={colorFilter}
+                          onChange={(e) => setParam("color", e.target.value)}
+                          className="mt-2 w-full px-4 py-2 rounded-2xl border border-neutral-300 bg-white/70 text-sm"
+                        >
+                          {colorOptions.map((c) => (
+                            <option key={c} value={c}>
+                              {c}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                          Sort
+                        </label>
+                        <select
+                          value={sortKey}
+                          onChange={(e) => setParam("sort", e.target.value)}
+                          className="mt-2 w-full px-4 py-2 rounded-2xl border border-neutral-300 bg-white/70 text-sm"
+                        >
+                          <option value="featured">Featured</option>
+                          <option value="price-asc">Price: Low → High</option>
+                          <option value="price-desc">Price: High → Low</option>
+                          <option value="alpha">A → Z</option>
+                        </select>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={clearAllFilters}
+                        className="w-full mt-2 px-4 py-2.5 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/60 hover:bg-white"
+                      >
+                        Clear all
+                      </button>
+
+                      <div className="rounded-2xl border border-black/5 bg-white/60 p-4">
+                        <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                          Concierge tip
+                        </p>
+                        <p className="mt-2 text-xs text-neutral-700 leading-relaxed">
+                          Not sure what to choose? Start with <strong>Eminence Essentials</strong>, then refine texture and length.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </aside>
+
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+                  {visibleProducts.map((p) => {
                   const startingPrice = getStartingPrice(p);
                   const minLength = getMinLength(p);
                   const minDensity = getMinDensity(p);
@@ -747,6 +909,8 @@ export default function Shop() {
                           src={p.images?.[0]}
                           alt={p.displayName || p.name}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          loading="lazy"
+                          decoding="async"
                         />
 
                         <span className="absolute top-3 left-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
@@ -773,7 +937,7 @@ export default function Shop() {
                           </p>
                         </div>
 
-                        <div className="mt-3 flex items-center justify-between">
+                        <div className="mt-3 flex items-center justify-between gap-3">
                           <div>
                             <p className="text-xs uppercase tracking-[0.22em] text-neutral-500">From</p>
                             <p className="text-sm font-medium text-neutral-900">
@@ -781,28 +945,39 @@ export default function Shop() {
                             </p>
                           </div>
 
-                          {p.type === "wig" ? (
-                            <Link
-                              to={`/products/${p.slug}`}
-                              className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
-                            >
-                              Select
-                            </Link>
-                          ) : (
+                          <div className="flex items-center gap-2">
                             <button
                               type="button"
-                              onClick={() => handleQuickAdd(p)}
-                              disabled={addingId === p.id}
-                              className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900 disabled:bg-neutral-500"
+                              onClick={() => setQuickViewProduct(p)}
+                              className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/70 hover:bg-white"
                             >
-                              {addingId === p.id ? "Added" : "Add"}
+                              View
                             </button>
-                          )}
+
+                            {p.type === "wig" ? (
+                              <Link
+                                to={`/products/${p.slug}`}
+                                className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
+                              >
+                                Select
+                              </Link>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => handleQuickAdd(p)}
+                                disabled={addingId === p.id}
+                                className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900 disabled:bg-neutral-500"
+                              >
+                                {addingId === p.id ? "Added" : "Add"}
+                              </button>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
                   );
                 })}
+                </div>
               </div>
             )}
           </section>
@@ -816,6 +991,12 @@ export default function Shop() {
           </Link>
         </div>
       </div>
+
+      <QuickViewModal
+        open={Boolean(quickViewProduct)}
+        onClose={() => setQuickViewProduct(null)}
+        product={quickViewProduct}
+      />
     </>
   );
 }

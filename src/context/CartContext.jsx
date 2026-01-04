@@ -34,9 +34,9 @@ export function CartProvider({ children }) {
       prev.map((item) => ({
         ...item,
         length: item.length ?? item.selectedLength ?? Math.min(...(item.lengths || [])),
-        density: item.density ?? item.selectedDensity ?? 140,
+        density: item.density ?? item.selectedDensity ?? 150,
         selectedLength: item.length ?? item.selectedLength ?? Math.min(...(item.lengths || [])),
-        selectedDensity: item.density ?? item.selectedDensity ?? 140,
+        selectedDensity: item.density ?? item.selectedDensity ?? 150,
       }))
     );
   }, []);
@@ -55,8 +55,8 @@ export function CartProvider({ children }) {
 
     const baseDensity =
       options.density ??
-      (Array.isArray(product.densities) && product.densities.includes(140)
-        ? 140
+      (Array.isArray(product.densities) && product.densities.includes(150)
+        ? 150
         : Array.isArray(product.densities)
         ? Math.min(...product.densities)
         : null);
@@ -65,13 +65,18 @@ export function CartProvider({ children }) {
     const color = options.color ?? product.color ?? null;
     const quantity = Number(options.quantity ?? 1) || 1;
 
+    const isCustom = Boolean(options.isCustom ?? product.isCustom ?? false);
+    const customNotes = String(options.customNotes ?? product.customNotes ?? "").trim();
+    const capSize = options.capSize ?? product.capSize ?? null;
+    const customColorTier = options.customColorTier ?? product.customColorTier ?? null;
+
     const length = baseLength != null ? Number(baseLength) : null;
     const density = baseDensity != null ? Number(baseDensity) : null;
 
     const price =
-      typeof product.price === "function" && length != null && density != null
+      typeof product.price === "function" && length != null
         ? Number(product.price(length, density, lace) || 0)
-        : Number(product.price || 0);
+        : Number(product.basePrice ?? product.fromPrice ?? product.price ?? 0);
 
     const image = product.images?.[0] || product.image || product.img || fallbackImage;
 
@@ -99,8 +104,13 @@ export function CartProvider({ children }) {
 
       autoDefaultsApplied,
 
-      variant: `${product.id}::${length}::${density}::${lace}::${color || ""}`,
-      cartKey: `${product.id}::${length}::${density}::${lace}::${color || ""}`,
+      isCustom,
+      customNotes,
+      capSize,
+      customColorTier,
+
+      variant: `${product.id}::${length}::${density}::${lace}::${color || ""}::${capSize || ""}::${isCustom ? 1 : 0}::${customColorTier || ""}::${isCustom ? customNotes.slice(0, 120) : ""}`,
+      cartKey: `${product.id}::${length}::${density}::${lace}::${color || ""}::${capSize || ""}::${isCustom ? 1 : 0}::${customColorTier || ""}::${isCustom ? customNotes.slice(0, 120) : ""}`,
     };
 
     // Analytics / pixels (only if consented)
@@ -144,13 +154,16 @@ export function CartProvider({ children }) {
       const current = prev.find((x) => (x.cartKey || x.variant) === cartKey);
       if (!current) return prev;
 
-      const length = Number(next.length ?? current.length ?? current.selectedLength);
-      const density = Number(next.density ?? current.density ?? current.selectedDensity);
+      const nextLength = next.length ?? current.length ?? current.selectedLength;
+      const nextDensity = next.density ?? current.density ?? current.selectedDensity;
+
+      const length = nextLength != null ? Number(nextLength) : null;
+      const density = nextDensity != null ? Number(nextDensity) : null;
       const lace = next.lace ?? current.lace ?? "Transparent Lace";
       const color = next.color ?? current.color ?? null;
 
       const price =
-        product && typeof product.price === "function"
+        product && typeof product.price === "function" && length != null
           ? Number(product.price(length, density, lace) || 0)
           : Number(current.price || 0);
 

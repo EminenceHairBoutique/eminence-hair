@@ -92,6 +92,7 @@ export default function CartDrawer() {
                     {item.selectedDensity && ` · ${item.selectedDensity}%`}
                     {item.laceType && ` · ${item.laceType}`}
                     {item.capSize && ` · ${item.capSize}`}
+                    {item.customColorTier && item.customColorTier !== "AS_LISTED" && ` · Color ${item.customColorTier}`}
                     {` · Qty ${item.quantity}`}
                   </p>
 

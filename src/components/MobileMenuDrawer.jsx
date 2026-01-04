@@ -77,6 +77,17 @@ export default function MobileMenuDrawer({ open, onClose, onSearch, sections }) 
                 </Link>
               </div>
 
+              <Link
+                to="/account"
+                onClick={onClose}
+                className="mt-3 flex items-center justify-between rounded-2xl border border-black/10 bg-white/50 px-4 py-4"
+              >
+                <span className="text-[11px] uppercase tracking-[0.26em] text-neutral-900">
+                  Account
+                </span>
+                <ChevronRight size={16} className="text-neutral-500" />
+              </Link>
+
               <div className="mt-6 grid gap-2">
                 <Link
                   to="/shop"

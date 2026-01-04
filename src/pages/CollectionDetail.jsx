@@ -7,6 +7,7 @@ import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
 import { prefetchRoute } from "../utils/prefetch";
 import SEO from "../components/SEO";
+import QuickViewModal from "../components/QuickViewModal";
 
 /* ---------------- helpers ---------------- */
 const safeMin = (arr, fallback = null) => {
@@ -20,7 +21,24 @@ const getMinDensity = (p) => safeMin(p.densities, p.defaultDensity ?? null);
 const getStartingPrice = (p) => {
   const L = getMinLength(p);
   const D = getMinDensity(p);
-  if (typeof p.price === "function" && L != null && D != null) return Number(p.price(L, D) || 0);
+
+  // Prefer explicit from/base pricing if present
+  if (p.basePrice != null) return Number(p.basePrice) || 0;
+  if (p.fromPrice != null) return Number(p.fromPrice) || 0;
+
+  // Compute from price() if available
+  if (typeof p.price === "function" && L != null) {
+    try {
+      const val =
+        D == null
+          ? Number(p.price(L) || 0) // bundles / closures / frontals
+          : Number(p.price(L, D, "Transparent Lace") || 0); // wigs
+      return Number.isFinite(val) ? val : 0;
+    } catch {
+      // fall through
+    }
+  }
+
   return Number(p.basePrice ?? p.fromPrice ?? p.price ?? 0);
 };
 
@@ -322,6 +340,7 @@ export default function CollectionDetail() {
   }, [collectionProducts, typeFilter, textureFilter, colorFilter, sort]);
 
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [quickViewProduct, setQuickViewProduct] = useState(null);
   const hasFilters =
     typeFilter !== "All" || textureFilter !== "All" || colorFilter !== "All" || sort !== "Featured";
 
@@ -660,6 +679,8 @@ export default function CollectionDetail() {
                                 src={p.images?.[0]}
                                 alt={p.displayName || p.name}
                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                loading="lazy"
+                                decoding="async"
                               />
 
                               {isWig && (
@@ -695,30 +716,40 @@ export default function CollectionDetail() {
                                   </p>
                                 </div>
 
-                                {isWig ? (
-                                  <Link
-                                    to={`/products/${p.slug}`}
-                                    className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
-                                  >
-                                    Select
-                                  </Link>
-                                ) : (
+                                <div className="flex items-center gap-2">
                                   <button
                                     type="button"
-                                    onClick={() => {
-                                      const payload = { ...p };
-                                      const L = getMinLength(p);
-                                      if (L != null) {
-                                        payload.length = payload.length ?? L;
-                                        payload.selectedLength = payload.selectedLength ?? L;
-                                      }
-                                      addToCart(payload);
-                                    }}
-                                    className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
+                                    onClick={() => setQuickViewProduct(p)}
+                                    className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-white/70 hover:bg-white"
                                   >
-                                    Add
+                                    View
                                   </button>
-                                )}
+
+                                  {isWig ? (
+                                    <Link
+                                      to={`/products/${p.slug}`}
+                                      className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
+                                    >
+                                      Select
+                                    </Link>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const payload = { ...p };
+                                        const L = getMinLength(p);
+                                        if (L != null) {
+                                          payload.length = payload.length ?? L;
+                                          payload.selectedLength = payload.selectedLength ?? L;
+                                        }
+                                        addToCart(payload);
+                                      }}
+                                      className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
+                                    >
+                                      Add
+                                    </button>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -831,6 +862,12 @@ export default function CollectionDetail() {
             </Motion.div>
           </div>
         )}
+
+        <QuickViewModal
+          open={Boolean(quickViewProduct)}
+          onClose={() => setQuickViewProduct(null)}
+          product={quickViewProduct}
+        />
       </div>
     </>
   );
