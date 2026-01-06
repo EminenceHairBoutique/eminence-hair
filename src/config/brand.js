@@ -2,7 +2,9 @@
 // Centralized brand/store constants so you can update copy in one place.
 
 export const BRAND = {
-  name: "Eminēce",
+  // NOTE: Keep the brand spelling plain ASCII for maximum consistency across
+  // fonts/devices/search and to avoid accidental diacritics rendering.
+  name: "Eminence",
   fullName: "Eminence Hair Boutique",
   tagline: "Luxury Hair Atelier",
   supportEmail: "support@eminenceluxuryhair.com",

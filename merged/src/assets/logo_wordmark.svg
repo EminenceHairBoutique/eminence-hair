@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 400" fill="none">
+  <path d="M140 165c0-36 41-65 92-65 51 0 92 29 92 65s-41 65-92 65c-51 0-92-29-92-65z" fill="none"/>
+
+  <!-- EMİNENCE text -->
+  <text x="50%" y="55%" text-anchor="middle"
+    font-family="Cormorant Garamond, serif"
+    font-size="140"
+    fill="#000">
+    EMINENCE
+  </text>
+
+  <!-- hair flourish -->
+  <path d="M200 120c150-90 450-90 600 0 150 90 450 90 600 0"
+        stroke="#000"
+        stroke-width="8"
+        stroke-linecap="round"
+        fill="none"
+        opacity="0.9"/>
+
+  <!-- hair (subtext) -->
+  <text x="50%" y="78%" text-anchor="middle"
+    font-family="Playfair Display, serif"
+    font-size="85"
+    fill="#000">
+    hair
+  </text>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 400" fill="none">
+  <defs>
+    <!-- Matte Gold Gradient -->
+    <linearGradient id="matteGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E0C28B"/>
+      <stop offset="40%" stop-color="#C9A76D"/>
+      <stop offset="70%" stop-color="#B8935A"/>
+      <stop offset="100%" stop-color="#D2B078"/>
+    </linearGradient>
+  </defs>
+
+  <!-- EMINENCE text -->
+  <text x="50%" y="55%" text-anchor="middle"
+    font-family="Cormorant Garamond, serif"
+    font-size="140"
+    fill="url(#matteGold)"
+    letter-spacing="4">
+    EMINENCE
+  </text>
+
+  <!-- Elegant hair flourish -->
+  <path d="M200 120c150-90 450-90 600 0 150 90 450 90 600 0"
+        stroke="url(#matteGold)"
+        stroke-width="10"
+        stroke-linecap="round"
+        fill="none"
+        opacity="0.88"/>
+
+  <!-- 'hair' subtext -->
+  <text x="50%" y="78%" text-anchor="middle"
+    font-family="Playfair Display, serif"
+    font-size="85"
+    fill="url(#matteGold)"
+    letter-spacing="2">
+    hair
+  </text>
+</svg>
