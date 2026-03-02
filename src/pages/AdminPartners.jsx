@@ -197,6 +197,12 @@ export default function AdminPartners() {
 function ApplicationRow({ app, onUpdate }) {
   const [tier, setTier] = useState(app.partner_tier || "wholesale");
 
+  const trackBadge = app.partner_track
+    ? { stylist: { label: "Stylist", tone: "warn" }, creator: { label: "Creator", tone: "neutral" } }[
+        String(app.partner_track).toLowerCase()
+      ] || null
+    : null;
+
   return (
     <div className="px-6 py-5">
       <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
@@ -204,6 +210,7 @@ function ApplicationRow({ app, onUpdate }) {
           <div className="flex flex-wrap items-center gap-2">
             <p className="font-medium text-neutral-900 truncate">{app.full_name || "(No name)"}</p>
             <Badge tone={statusTone(app.status)}>{String(app.status || "unknown")}</Badge>
+            {trackBadge && <Badge tone={trackBadge.tone}>{trackBadge.label}</Badge>}
             {app.profiles?.account_tier && (
               <Badge>{`Profile: ${app.profiles.account_tier}`}</Badge>
             )}
@@ -216,10 +223,24 @@ function ApplicationRow({ app, onUpdate }) {
             {app.phone && <div><span className="text-neutral-500">Phone:</span> {app.phone}</div>}
             {app.country && <div><span className="text-neutral-500">Country:</span> {app.country}</div>}
             {app.monthly_volume && <div><span className="text-neutral-500">Volume:</span> {app.monthly_volume}</div>}
+            {app.install_volume && <div><span className="text-neutral-500">Installs/mo:</span> {app.install_volume}</div>}
+            {app.salon_address && <div><span className="text-neutral-500">Salon:</span> {app.salon_address}</div>}
+            {app.license_number && <div><span className="text-neutral-500">License:</span> {app.license_number} ({app.license_state || "—"})</div>}
+            {app.primary_platform && <div><span className="text-neutral-500">Platform:</span> {app.primary_platform}</div>}
+            {app.instagram_handle && <div><span className="text-neutral-500">Instagram:</span> {app.instagram_handle}</div>}
+            {app.follower_count && <div><span className="text-neutral-500">Followers:</span> {app.follower_count}</div>}
             {app.interested_in && <div className="sm:col-span-2"><span className="text-neutral-500">Interested in:</span> {app.interested_in}</div>}
             {app.website_or_instagram && (
               <div className="sm:col-span-2 break-all">
                 <span className="text-neutral-500">Site/IG:</span> {app.website_or_instagram}
+              </div>
+            )}
+            {app.license_file_url && (
+              <div className="sm:col-span-2">
+                <span className="text-neutral-500">License file:</span>{" "}
+                <a href={app.license_file_url} target="_blank" rel="noreferrer" className="underline">
+                  View
+                </a>
               </div>
             )}
           </div>
@@ -243,10 +264,23 @@ function ApplicationRow({ app, onUpdate }) {
               onChange={(e) => setTier(e.target.value)}
               className="w-full px-3 py-3 rounded-2xl border border-neutral-300 bg-white/80 text-sm"
             >
-              <option value="wholesale">Wholesale</option>
-              <option value="distributor">Distributor</option>
-              <option value="private_label">Private Label</option>
-              <option value="vip">VIP</option>
+              <optgroup label="Stylist Tiers">
+                <option value="registered_stylist">Registered Stylist</option>
+                <option value="approved_salon_partner">Approved Salon Partner</option>
+                <option value="preferred_salon_partner">Preferred Salon Partner</option>
+                <option value="atelier_partner">Atelier Partner</option>
+              </optgroup>
+              <optgroup label="Creator Tiers">
+                <option value="affiliate_creator">Affiliate Creator</option>
+                <option value="featured_creator">Featured Creator</option>
+                <option value="brand_muse">Brand Muse</option>
+              </optgroup>
+              <optgroup label="Legacy Tiers">
+                <option value="wholesale">Wholesale</option>
+                <option value="distributor">Distributor</option>
+                <option value="private_label">Private Label</option>
+                <option value="vip">VIP</option>
+              </optgroup>
             </select>
           </label>
 

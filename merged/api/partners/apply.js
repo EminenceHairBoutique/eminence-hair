@@ -69,6 +69,16 @@ export default async function handler(req, res) {
   const email = String(payload.email || user?.email || "").trim().toLowerCase();
   if (!email) return json(res, 400, { error: "Email is required" });
 
+  const partnerTrack = payload.partnerTrack || null; // 'stylist' | 'creator' | null (legacy)
+
+  // Determine default partner tier based on track
+  const defaultTier =
+    partnerTrack === "stylist"
+      ? "registered_stylist"
+      : partnerTrack === "creator"
+        ? "affiliate_creator"
+        : null;
+
   const row = {
     user_id: user?.id || null,
     email,
@@ -81,7 +91,30 @@ export default async function handler(req, res) {
     interested_in: payload.interestedIn || null,
     message: payload.message || null,
     status: "pending",
+    // New track fields
+    partner_track: partnerTrack,
+    // Stylist-specific fields
+    license_number: payload.licenseNumber || null,
+    license_state: payload.licenseState || null,
+    license_file_url: payload.licenseFileUrl || null,
+    salon_address: payload.salonAddress || null,
+    install_volume: payload.installVolume || null,
+    hair_types: payload.hairTypes || null,
+    // Creator-specific fields
+    primary_platform: payload.primaryPlatform || null,
+    instagram_handle: payload.instagramHandle || null,
+    tiktok_handle: payload.tiktokHandle || null,
+    youtube_url: payload.youtubeUrl || null,
+    follower_count: payload.followerCount || null,
+    engagement_rate: payload.engagementRate || null,
+    content_examples: payload.contentExamples || null,
+    previous_brand_work: payload.previousBrandWork || null,
   };
+
+  // Only include partner_tier if it's a new-track application
+  if (defaultTier) {
+    row.partner_tier = defaultTier;
+  }
 
   try {
     // Store in DB (if the table exists). Safe: service role bypasses RLS.
@@ -96,9 +129,14 @@ export default async function handler(req, res) {
 
     // Mark profile as pending (if logged in + columns exist).
     if (user?.id) {
+      const profilePatch = { partner_status: "pending", account_tier: "partner_pending" };
+      if (partnerTrack) {
+        profilePatch.partner_track = partnerTrack;
+      }
+
       const { error: profErr } = await supabaseServer
         .from("profiles")
-        .update({ partner_status: "pending", account_tier: "partner_pending" })
+        .update(profilePatch)
         .eq("id", user.id);
 
       if (profErr) {

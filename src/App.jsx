@@ -28,6 +28,8 @@ const StartHere = lazy(() => import("./pages/StartHere"));
 const Shop = lazy(() => import("./pages/Shop"));
 const ReadyToShip = lazy(() => import("./pages/ReadyToShip"));
 const PartnerProgram = lazy(() => import("./pages/PartnerProgram"));
+const StylistApplication = lazy(() => import("./pages/StylistApplication"));
+const CreatorApplication = lazy(() => import("./pages/CreatorApplication"));
 const PartnerPortal = lazy(() => import("./pages/PartnerPortal"));
 const AdminPartners = lazy(() => import("./pages/AdminPartners"));
 const Consultation = lazy(() => import("./pages/Consultation"));
@@ -87,6 +89,8 @@ export default function App() {
                 ["/start-here", <StartHere />],
                 ["/ready-to-ship", <ReadyToShip />],
                 ["/partners", <PartnerProgram />],
+                ["/partners/stylists", <StylistApplication />],
+                ["/partners/creators", <CreatorApplication />],
                 [
                   "/partner-portal",
                   <PartnerRoute>
