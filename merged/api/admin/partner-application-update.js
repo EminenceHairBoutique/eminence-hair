@@ -65,6 +65,27 @@ async function ensureProfileRow(userId, email) {
     .upsert({ id: userId, email: email || null }, { onConflict: "id" });
 }
 
+function generateReferralCode(fullName) {
+  const namePart = String(fullName || "")
+    .replace(/[^a-zA-Z0-9]/g, "")
+    .toUpperCase()
+    .slice(0, 6)
+    .padEnd(6, "X");
+  const randPart = Math.random().toString(36).toUpperCase().slice(2, 6);
+  return `EMI-${namePart}-${randPart}`;
+}
+
+function commissionRateForTier(tier) {
+  const map = {
+    affiliate_creator: 10,
+    featured_creator: 20,
+    brand_muse: 25,
+  };
+  return map[String(tier || "")] ?? null;
+}
+
+const CREATOR_TIERS = new Set(["affiliate_creator", "featured_creator", "brand_muse"]);
+
 export default async function handler(req, res) {
   if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
 
@@ -135,12 +156,56 @@ export default async function handler(req, res) {
     if (targetUserId) {
       await ensureProfileRow(targetUserId, targetEmail);
 
+      // Fetch the user's current tier from profiles for accurate audit history
+      const { data: currentProfile } = await supabaseServer
+        .from("profiles")
+        .select("partner_tier, referral_code")
+        .eq("id", targetUserId)
+        .maybeSingle();
+
+      const previousTier = currentProfile?.partner_tier || null;
+
       const profilePatch =
         nextStatus === "approved"
           ? { account_tier: "partner", partner_status: "approved", partner_tier: partnerTier }
           : nextStatus === "rejected"
             ? { account_tier: "customer", partner_status: "rejected", partner_tier: null }
             : { account_tier: "partner_pending", partner_status: "pending", partner_tier: null };
+
+      // Set partner_track from application if available
+      if (app.partner_track) {
+        profilePatch.partner_track = app.partner_track;
+      }
+
+      // Creator-specific: generate referral code and set commission rate on approval
+      if (nextStatus === "approved" && CREATOR_TIERS.has(partnerTier)) {
+        const commissionRate = commissionRateForTier(partnerTier);
+        if (commissionRate !== null) {
+          profilePatch.commission_rate = commissionRate;
+        }
+
+        // Only generate referral code if not already set on profile
+        let referralCode = currentProfile?.referral_code || null;
+        if (!referralCode) {
+          referralCode = generateReferralCode(app.full_name);
+          profilePatch.referral_code = referralCode;
+        }
+
+        // Store referral code + commission rate on the application row (single update)
+        const appUpdate = { referral_code: referralCode };
+        if (commissionRate !== null) {
+          appUpdate.commission_rate = commissionRate;
+        }
+        await supabaseServer
+          .from("partner_applications")
+          .update(appUpdate)
+          .eq("id", applicationId);
+      }
+
+      // Set tier_promoted_at on approval
+      if (nextStatus === "approved") {
+        profilePatch.tier_promoted_at = new Date().toISOString();
+      }
 
       const { error: profErr } = await supabaseServer
         .from("profiles")
@@ -149,6 +214,23 @@ export default async function handler(req, res) {
 
       if (profErr) {
         console.warn("Admin approve: profile update failed", profErr);
+      }
+
+      // Write tier history audit row on approval
+      if (nextStatus === "approved") {
+        const { error: histErr } = await supabaseServer
+          .from("partner_tier_history")
+          .insert({
+            user_id: targetUserId,
+            previous_tier: previousTier,
+            new_tier: partnerTier,
+            changed_by: user.id,
+            reason: `Admin approval via application ${applicationId}`,
+          });
+
+        if (histErr) {
+          console.warn("Admin approve: tier history insert failed", histErr);
+        }
       }
     }
 

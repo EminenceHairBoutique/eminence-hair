@@ -70,6 +70,8 @@ const Footer = () => {
             <Link to="/custom-atelier" className="hover:text-neutral-200 block">Custom Atelier</Link>
             <Link to="/custom-orders" className="hover:text-neutral-200 block">Custom Orders</Link>
             <Link to="/partners" className="hover:text-neutral-200 block">Partner Program</Link>
+            <Link to="/partners/stylists" className="hover:text-neutral-200 block">Stylist Program</Link>
+            <Link to="/partners/creators" className="hover:text-neutral-200 block">Creator Program</Link>
             <Link to="/partner-portal" className="hover:text-neutral-200 block">Partner Portal</Link>
           </div>
 

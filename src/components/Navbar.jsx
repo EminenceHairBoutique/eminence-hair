@@ -123,6 +123,8 @@ export default function Navbar() {
           { label: "Shop Essentials", href: "/shop?collection=eminence-essentials" },
           { label: "Shop All", href: "/shop" },
           { label: "Partner Program", href: "/partners" },
+          { label: "Stylist Program", href: "/partners/stylists" },
+          { label: "Creator Program", href: "/partners/creators" },
           { label: "Partner Portal", href: "/partner-portal" },
         ],
       },
