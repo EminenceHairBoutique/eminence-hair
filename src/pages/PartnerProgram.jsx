@@ -99,6 +99,11 @@ export default function Partners() {
 
   const partnerTier = user?.partnerTier || null;
 
+  const formatTierName = (tier) =>
+    String(tier || "")
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+
   return (
     <>
       <SEO
@@ -129,7 +134,7 @@ export default function Partners() {
               <div>
                 <p className="text-[11px] tracking-[0.26em] uppercase text-emerald-700">Active Partner</p>
                 <p className="mt-1 text-sm text-emerald-900 font-medium">
-                  {partnerTier ? `Tier: ${partnerTier.replace(/_/g, " ")}` : "Your account has partner access."}
+                  {partnerTier ? `Tier: ${formatTierName(partnerTier)}` : "Your account has partner access."}
                 </p>
               </div>
               <Link

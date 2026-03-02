@@ -6,6 +6,16 @@
  * Usage: replace {{name}} with the partner's first name before sending.
  */
 
+/** Escape HTML special characters to prevent XSS in email templates. */
+function escapeHtml(str) {
+  return String(str || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 const headerHtml = `
   <div style="background:#111;padding:32px 40px 24px;text-align:center;">
     <p style="margin:0;color:#D4AF37;font-size:10px;letter-spacing:0.32em;text-transform:uppercase;font-family:Georgia,serif;">
@@ -194,7 +204,7 @@ export const affiliateCreatorEmail = (referralCode = "", portalUrl = "https://em
     ${referralCode ? `
     <div style="background:#111;border-radius:12px;padding:20px;margin:24px 0;text-align:center;">
       <p style="margin:0 0 8px;color:#888;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;">Your Referral Code</p>
-      <p style="margin:0;color:#D4AF37;font-size:22px;letter-spacing:0.18em;font-family:Georgia,serif;">${referralCode}</p>
+      <p style="margin:0;color:#D4AF37;font-size:22px;letter-spacing:0.18em;font-family:Georgia,serif;">${escapeHtml(referralCode)}</p>
     </div>` : ""}
     <div style="background:#F9F7F4;border-radius:12px;padding:20px;margin:24px 0;">
       <p style="margin:0 0 8px;color:#888;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;">Your Tier 1 Benefits</p>

@@ -156,6 +156,15 @@ export default async function handler(req, res) {
     if (targetUserId) {
       await ensureProfileRow(targetUserId, targetEmail);
 
+      // Fetch the user's current tier from profiles for accurate audit history
+      const { data: currentProfile } = await supabaseServer
+        .from("profiles")
+        .select("partner_tier, referral_code")
+        .eq("id", targetUserId)
+        .maybeSingle();
+
+      const previousTier = currentProfile?.partner_tier || null;
+
       const profilePatch =
         nextStatus === "approved"
           ? { account_tier: "partner", partner_status: "approved", partner_tier: partnerTier }
@@ -175,28 +184,22 @@ export default async function handler(req, res) {
           profilePatch.commission_rate = commissionRate;
         }
 
-        // Only generate referral code if not already set
-        const { data: existingProfile } = await supabaseServer
-          .from("profiles")
-          .select("referral_code")
-          .eq("id", targetUserId)
-          .maybeSingle();
-
-        if (!existingProfile?.referral_code) {
-          profilePatch.referral_code = generateReferralCode(app.full_name);
-          // Also store on the application row
-          await supabaseServer
-            .from("partner_applications")
-            .update({ referral_code: profilePatch.referral_code, commission_rate: commissionRate })
-            .eq("id", applicationId);
+        // Only generate referral code if not already set on profile
+        let referralCode = currentProfile?.referral_code || null;
+        if (!referralCode) {
+          referralCode = generateReferralCode(app.full_name);
+          profilePatch.referral_code = referralCode;
         }
 
+        // Store referral code + commission rate on the application row (single update)
+        const appUpdate = { referral_code: referralCode };
         if (commissionRate !== null) {
-          await supabaseServer
-            .from("partner_applications")
-            .update({ commission_rate: commissionRate })
-            .eq("id", applicationId);
+          appUpdate.commission_rate = commissionRate;
         }
+        await supabaseServer
+          .from("partner_applications")
+          .update(appUpdate)
+          .eq("id", applicationId);
       }
 
       // Set tier_promoted_at on approval
@@ -213,13 +216,13 @@ export default async function handler(req, res) {
         console.warn("Admin approve: profile update failed", profErr);
       }
 
-      // Write tier history audit row
+      // Write tier history audit row on approval
       if (nextStatus === "approved") {
         const { error: histErr } = await supabaseServer
           .from("partner_tier_history")
           .insert({
             user_id: targetUserId,
-            previous_tier: app.partner_tier || null,
+            previous_tier: previousTier,
             new_tier: partnerTier,
             changed_by: user.id,
             reason: `Admin approval via application ${applicationId}`,

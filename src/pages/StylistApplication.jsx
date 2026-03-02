@@ -131,7 +131,9 @@ export default function StylistApplication() {
       // Upload license file if provided
       if (licenseFile) {
         const ext = licenseFile.name.split(".").pop();
-        const path = `licenses/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+        // Use user ID (or random UUID fallback) for a stable, non-guessable path
+        const uid = user?.id || crypto.randomUUID?.() || Math.random().toString(36).slice(2);
+        const path = `licenses/${uid}-${Date.now()}.${ext}`;
         const { data: uploadData, error: uploadErr } = await supabase.storage
           .from("partner-licenses")
           .upload(path, licenseFile, { upsert: false });
