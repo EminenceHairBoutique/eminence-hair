@@ -16,6 +16,7 @@ import ScrollToTop from "./components/ScrollToTop";
 
 // Partner gating + optional partner chat
 import PartnerRoute from "./components/PartnerRoute";
+import AdminRoute from "./components/AdminRoute";
 import LiveChat from "./components/LiveChat";
 
 // Safety + loading
@@ -99,7 +100,12 @@ export default function App() {
                     <PartnerPortal />
                   </PartnerRoute>,
                 ],
-                ["/admin/partners", <AdminPartners />],
+                [
+                  "/admin/partners",
+                  <AdminRoute>
+                    <AdminPartners />
+                  </AdminRoute>,
+                ],
                 ["/consultation", <Consultation />],
                 ["/shop", <Shop />],
                 ["/shop/wigs", <Shop />],
