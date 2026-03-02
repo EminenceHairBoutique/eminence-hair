@@ -138,7 +138,7 @@ export default function Navbar() {
   return (
     <header
       ref={headerRef}
-      className="fixed top-0 left-0 w-full z-50 bg-[#FBF6EE]/90 backdrop-blur-md border-b border-black/5 relative"
+      className="fixed top-0 left-0 w-full z-50 bg-[#FBF6EE]/90 backdrop-blur-md border-b border-black/5"
     >
       <AnnouncementBar />
 

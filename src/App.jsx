@@ -54,6 +54,7 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const PrivacyChoices = lazy(() => import("./pages/PrivacyChoices"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Returns = lazy(() => import("./pages/Returns"));
+const Cart = lazy(() => import("./pages/Cart"));
 
 
 export default function App() {
@@ -129,6 +130,7 @@ export default function App() {
                 ["/privacy-choices", <PrivacyChoices />],
                 ["/terms", <Terms />],
                 ["/returns", <Returns />],
+                ["/cart", <Cart />],
                 ["/verify", <Verify />],
                 ["*", <NotFound />],
               ].map(([path, element]) => (

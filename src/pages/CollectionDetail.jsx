@@ -68,7 +68,7 @@ const matchesColor = (p, color) => {
   const has = (needle) => haystack.includes(needle);
 
   // Your current color families
-  if (c === "1") return productColor === "1" || has("jet black") || has("#1") || /1/.test(haystack);
+  if (c === "1") return productColor === "1" || has("jet black") || has("#1") || has("1");
   if (c === "1b") return productColor === "1b" || has("1b") || has("natural black") || has("natural");
   if (c === "613") return productColor === "613" || has("613") || has("blonde") || slug === "613" || collection.includes("colorway 613");
   if (c === "burgundy") return productColor === "burgundy" || has("burgundy") || has("burg") || has("h-red") || has("red");

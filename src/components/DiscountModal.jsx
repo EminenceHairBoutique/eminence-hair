@@ -281,7 +281,9 @@ export default function DiscountModal() {
                     onClick={() => {
                       try {
                         navigator.clipboard.writeText(discountCode);
-                      } catch {}
+                      } catch (_e) {
+                        // clipboard not available
+                      }
                     }}
                   >
                     Copy code

@@ -9,7 +9,6 @@ import React, {
   useEffect,
 } from "react";
 import fallbackImage from "../assets/editorial.png";
-import { trackAddToCart } from "../utils/track";
 import { products } from "../data/products";
 import { resolveProductImages } from "../utils/productMedia";
 

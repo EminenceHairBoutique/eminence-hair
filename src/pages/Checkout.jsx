@@ -174,7 +174,7 @@ export default function Checkout() {
                         "eminence_checkout_snapshot",
                         JSON.stringify({ items, total, currency: "USD", timestamp: Date.now() })
                       );
-                    } catch {}
+                    } catch (_e) { /* ignore */ }
 
                     // Track begin checkout (GA4 + Meta Pixel) — only fires after consent.
                     trackBeginCheckout({ items, value: total });
