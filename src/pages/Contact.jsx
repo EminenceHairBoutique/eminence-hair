@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Mail, MapPin, Phone } from "lucide-react";
 import logoWordmark from "../assets/logo_wordmark.svg";
+import SEO from "../components/SEO";
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
@@ -64,7 +65,12 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-charcoal text-ivory pt-28 pb-20">
+    <>
+      <SEO
+        title="Contact — Concierge"
+        description="Reach out to the Eminence Hair concierge team for order support, custom requests, and editorial inquiries."
+      />
+      <div className="min-h-screen bg-charcoal text-ivory pt-28 pb-20">
       {/* Hero + Layout Shell */}
       <section className="max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-goldGlow relative bg-charcoal">
         {/* Background – Soft Editorial Gradient */}
@@ -302,5 +308,6 @@ export default function Contact() {
         </div>
       </section>
     </div>
+    </>
   );
 }

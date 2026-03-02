@@ -48,7 +48,7 @@ export default function Cart() {
                   <h2 className="text-lg font-light">{item.name}</h2>
                   
                   <p className="mt-2 text-sm text-neutral-600">
-                    {item.length ? `${item.length}\"` : ""}
+                    {item.length ? `${item.length}"` : ""}
                     {hasDensities && item.density ? ` · ${item.density}% Density` : ""}
                   </p>
 

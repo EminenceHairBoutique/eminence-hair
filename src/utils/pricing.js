@@ -7,7 +7,7 @@
 
 export function applyCustomPricing({
   basePrice,
-  density, // kept for compatibility / future use
+  density: _density, // kept for compatibility / future use
   isCustom,
   customNotes,
   baseColor,

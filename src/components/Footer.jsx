@@ -120,10 +120,10 @@ const Footer = () => {
         </div>
 
         <div className="mt-4 text-sm text-neutral-600 flex flex-wrap gap-4 justify-center">
-          <Link to="/returns">Returns & Exchanges</Link>
-          <Link to="/privacy">Privacy Policy</Link>
-          <Link to="/privacy-choices">Your Privacy Choices</Link>
-          <Link to="/terms">Terms & Conditions</Link>
+          <Link to="/returns" className="hover:text-neutral-300 transition">Returns & Exchanges</Link>
+          <Link to="/privacy" className="hover:text-neutral-300 transition">Privacy Policy</Link>
+          <Link to="/privacy-choices" className="hover:text-neutral-300 transition">Your Privacy Choices</Link>
+          <Link to="/terms" className="hover:text-neutral-300 transition">Terms & Conditions</Link>
         </div>
 
       </div>

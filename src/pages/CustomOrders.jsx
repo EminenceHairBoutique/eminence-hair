@@ -850,7 +850,7 @@ export default function CustomOrders() {
                   <SummaryRow label="Product" value={form.productType} />
                   <SummaryRow label="Collection" value={form.collection} />
                   <SummaryRow label="Texture" value={form.texture} />
-                  <SummaryRow label="Length" value={form.length ? `${form.length}\"` : ""} />
+                  <SummaryRow label="Length" value={form.length ? `${form.length}"` : ""} />
                   <SummaryRow label="Density" value={form.density ? `${form.density}%` : ""} />
                   <SummaryRow label="Lace" value={form.lace} />
                   <SummaryRow label="Cap size" value={form.capSize} />

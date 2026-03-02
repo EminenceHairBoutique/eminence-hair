@@ -1,5 +1,7 @@
 import { Resend } from "resend";
 
+// This module is used server-side only (Vercel functions / dev-server).
+// eslint-disable-next-line no-undef
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendOrderConfirmationEmail({

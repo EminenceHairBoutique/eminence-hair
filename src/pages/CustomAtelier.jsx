@@ -976,7 +976,7 @@ export default function CustomAtelier() {
                     <div className="mt-8 rounded-3xl border border-black/5 bg-[#FBF6ED]/60 p-6">
                       <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500">Summary</p>
                       <p className="mt-3 text-sm text-neutral-800">
-                        <strong>{form.productType}</strong> • {form.texture} • {form.color} • {form.length}\" • {form.density}% • {form.lace} • {form.capSize}
+                        <strong>{form.productType}</strong> • {form.texture} • {form.color} • {form.length}" • {form.density}% • {form.lace} • {form.capSize}
                       </p>
 
                       {(form.capCircumference || form.earToEar || form.frontToNape) && (
@@ -1070,7 +1070,7 @@ export default function CustomAtelier() {
                   <SummaryRow label="Type" value={form.productType} />
                   <SummaryRow label="Texture" value={form.texture} />
                   <SummaryRow label="Color" value={form.color} />
-                  <SummaryRow label="Length" value={form.length ? `${form.length}\"` : ""} />
+                  <SummaryRow label="Length" value={form.length ? `${form.length}"` : ""} />
                   <SummaryRow label="Density" value={form.density ? `${form.density}%` : ""} />
                   <SummaryRow label="Lace" value={form.lace} />
                   <SummaryRow label="Cap size" value={form.capSize} />

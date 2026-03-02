@@ -187,10 +187,11 @@ function Accordion({ title, children }) {
   );
 }
 
-function TrustItem({ icon: Icon, title, detail }) {
+function TrustItem({ icon, title, detail }) {
+  const IconComp = icon;
   return (
     <div className="flex items-start gap-3 rounded-2xl border border-neutral-200 bg-[#FBF6ED]/60 p-4">
-      <Icon className="w-4 h-4 mt-0.5 text-neutral-900" />
+      <IconComp className="w-4 h-4 mt-0.5 text-neutral-900" />
       <div>
         <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">{title}</p>
         <p className="text-xs text-neutral-700 mt-1 leading-snug">{detail}</p>
@@ -207,7 +208,7 @@ function SpecTable({ product, selectedLength, selectedDensity, lace, capSize }) 
     { label: "Texture", value: product.texture || "—" },
     { label: "Color", value: product.color || "—" },
     { label: "Collection", value: product.collection || "—" },
-    { label: "Length", value: selectedLength ? `${selectedLength}\"` : "—" },
+    { label: "Length", value: selectedLength ? `${selectedLength}"` : "—" },
   ];
 
   if (product.type === "wig") {

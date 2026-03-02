@@ -64,7 +64,7 @@ export default function CartDrawer() {
           <p className="text-sm tracking-[0.22em] uppercase">
             Shopping Bag
           </p>
-          <button onClick={closeCart}>
+          <button onClick={closeCart} aria-label="Close cart">
             <X className="w-5 h-5" />
           </button>
         </div>
