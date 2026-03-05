@@ -59,6 +59,7 @@ const Terms = lazy(() => import("./pages/Terms"));
 const Returns = lazy(() => import("./pages/Returns"));
 const Installers = lazy(() => import("./pages/Installers"));
 const Cart = lazy(() => import("./pages/Cart"));
+const AtelierTryOn = lazy(() => import("./pages/AtelierTryOn"));
 
 
 export default function App() {
@@ -143,6 +144,7 @@ export default function App() {
                 ["/returns", <Returns />],
                 ["/installers", <Installers />],
                 ["/cart", <Cart />],
+                ["/atelier/try-on", <AtelierTryOn />],
                 ["/verify", <Verify />],
                 ["*", <NotFound />],
               ].map(([path, element]) => (

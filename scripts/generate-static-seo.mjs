@@ -405,6 +405,13 @@ async function main() {
       description: "Terms and conditions for shopping with Eminence Hair Boutique.",
       ogType: "website",
     },
+    {
+      pathname: "/atelier/try-on",
+      title: "Virtual Try-On",
+      description:
+        "Try on Eminence Hair wigs virtually using AI face detection. Upload a photo and see how you look.",
+      ogType: "website",
+    },
 
     // Noindex routes (not in sitemap)
     {
