@@ -11,6 +11,18 @@ const money = (n) =>
   `$${Number(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 
 const CONSENT_VERSION = "v1.0"; // bump to v1.1 when policies change
+const REFERRAL_KEY = "eminence_referral";
+
+function readReferralCode() {
+  try {
+    const raw = window?.localStorage?.getItem?.(REFERRAL_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed?.code || null;
+  } catch {
+    return null;
+  }
+}
 
 export default function Checkout() {
   const { items = [], total = 0 } = useCart();
@@ -208,6 +220,9 @@ export default function Checkout() {
                         // Logged-in mapping (used for order history + loyalty)
                         userId: user?.id || null,
                         customerEmail: user?.email || null,
+
+                        // Referral attribution (captured from ?ref=CODE URL param)
+                        referralCode: readReferralCode() || undefined,
 
                         consentVersion: CONSENT_VERSION,
                       }),

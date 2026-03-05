@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 
 const CONSENT_KEY = "eminence_cookie_consent";
 const UTM_KEY = "eminence_utm";
+const REFERRAL_KEY = "eminence_referral";
 
 /**
  * Route analytics helper (SPA)
@@ -25,6 +26,17 @@ export default function useRouteAnalytics() {
 
       const allowAnalytics = Boolean(consent?.analytics);
       const allowMarketing = Boolean(consent?.marketing);
+
+      // ---- Capture referral code (?ref=CODE) — no consent required, not PII ----
+      if (location.search) {
+        const params = new URLSearchParams(location.search);
+        const refCode = params.get("ref");
+        if (refCode && /^[A-Za-z0-9_-]{3,40}$/.test(refCode)) {
+          try {
+            window.localStorage.setItem(REFERRAL_KEY, JSON.stringify({ code: refCode, timestamp: Date.now() }));
+          } catch { /* ignore */ }
+        }
+      }
 
       // ---- Capture UTMs (for attribution) ----
       if ((allowAnalytics || allowMarketing) && location.search) {
