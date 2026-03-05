@@ -15,7 +15,7 @@ export async function createHandler(req, res) {
   }
 
   try {
-    const { items, userId, customerEmail } = req.body || {};
+    const { items, userId, customerEmail, referralCode } = req.body || {};
 
     if (!items || !Array.isArray(items)) {
       return res.status(400).json({ error: "Invalid cart items" });
@@ -113,6 +113,7 @@ export async function createHandler(req, res) {
         source: "eminence_checkout",
         user_id: userId ? String(userId) : "",
         customer_email: customerEmail ? String(customerEmail) : "",
+        referral_code: referralCode ? String(referralCode).slice(0, 40) : "",
       },
     });
 

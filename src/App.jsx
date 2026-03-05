@@ -57,6 +57,7 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const PrivacyChoices = lazy(() => import("./pages/PrivacyChoices"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Returns = lazy(() => import("./pages/Returns"));
+const Installers = lazy(() => import("./pages/Installers"));
 const Cart = lazy(() => import("./pages/Cart"));
 
 
@@ -140,6 +141,7 @@ export default function App() {
                 ["/privacy-choices", <PrivacyChoices />],
                 ["/terms", <Terms />],
                 ["/returns", <Returns />],
+                ["/installers", <Installers />],
                 ["/cart", <Cart />],
                 ["/verify", <Verify />],
                 ["*", <NotFound />],
@@ -164,6 +166,8 @@ export default function App() {
               <Route path="/checkout/success" element={<Navigate to="/success" replace />} />
               <Route path="/order-confirmation" element={<Navigate to="/success" replace />} />
               <Route path="/medical" element={<Navigate to="/medical-hair" replace />} />
+              <Route path="/help" element={<Navigate to="/faqs" replace />} />
+              <Route path="/shipping-returns" element={<Navigate to="/returns" replace />} />
             </Routes>
           </AnimatePresence>
         </ErrorBoundary>
