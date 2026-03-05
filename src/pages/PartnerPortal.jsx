@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import SEO from "../components/SEO";
 import { products, STANDARD_WIG_DENSITIES } from "../data/products";
 import { Button } from "../components/ui/button";
 import { useUser } from "../context/UserContext";
+import { supabase } from "../lib/supabaseClient";
 
 const money = (n) => `$${Number(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 
@@ -54,8 +55,207 @@ const prettyType = (t) => {
   return t;
 };
 
+// ─── Affiliate / Directory Panel ────────────────────────────────────────────
+
+function CopyButton({ value }) {
+  const [copied, setCopied] = useState(false);
+  const copy = () => {
+    if (!value) return;
+    navigator.clipboard.writeText(value).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+  return (
+    <button
+      type="button"
+      onClick={copy}
+      className="ml-2 px-3 py-1 text-[10px] uppercase tracking-[0.18em] rounded-full border border-black/20 hover:border-black/40 transition"
+    >
+      {copied ? "Copied!" : "Copy"}
+    </button>
+  );
+}
+
+const SPECIALTY_OPTIONS = [
+  "Wig Installation", "Wig Customisation", "Extensions", "Braids",
+  "Color / Bleaching", "Medical Hair", "Natural Hair", "Loc Extensions",
+];
+
+function DirectorySettings({ userId, partnerTrack }) {
+  const [settings, setSettings] = useState({
+    city: "", booking_url: "", specialties: [], directory_opt_in: false,
+  });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [err, setErr] = useState("");
+
+  useEffect(() => {
+    if (!userId) return;
+    (async () => {
+      try {
+        const { data: session } = await supabase.auth.getSession();
+        const token = session?.session?.access_token;
+        if (!token) return;
+        const r = await fetch("/api/partners/directory-settings", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (r.ok) {
+          const { settings: s } = await r.json();
+          setSettings((prev) => ({ ...prev, ...(s || {}) }));
+        }
+      } catch (_) { /* ignore */ } finally {
+        setLoading(false);
+      }
+    })();
+  }, [userId]);
+
+  const toggleSpecialty = (spec) => {
+    setSettings((prev) => {
+      const cur = Array.isArray(prev.specialties) ? prev.specialties : [];
+      return {
+        ...prev,
+        specialties: cur.includes(spec) ? cur.filter((s) => s !== spec) : [...cur, spec],
+      };
+    });
+  };
+
+  const save = async () => {
+    setErr("");
+    setSaving(true);
+    try {
+      const { data: session } = await supabase.auth.getSession();
+      const token = session?.session?.access_token;
+      const r = await fetch("/api/partners/directory-settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify(settings),
+      });
+      if (!r.ok) throw new Error(await r.text());
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } catch (e) {
+      setErr(e?.message || "Save failed.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (partnerTrack !== "stylist") return null;
+  if (loading) return <p className="text-xs text-neutral-400 py-2">Loading directory settings…</p>;
+
+  const specs = Array.isArray(settings.specialties) ? settings.specialties : [];
+
+  return (
+    <div className="rounded-3xl border border-white/70 bg-white/60 backdrop-blur-xl shadow-[0_8px_30px_rgba(15,10,5,0.10)] p-6 mt-6">
+      <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-500">Stylist Directory</p>
+      <h2 className="mt-2 text-xl font-light">Directory listing settings</h2>
+      <p className="mt-1 text-sm text-neutral-500">
+        Control how you appear in the{" "}
+        <Link to="/installers" className="underline hover:text-black transition">public stylist directory</Link>.
+      </p>
+
+      <div className="mt-5 space-y-4">
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={!!settings.directory_opt_in}
+            onChange={(e) => setSettings((p) => ({ ...p, directory_opt_in: e.target.checked }))}
+            className="w-4 h-4 accent-black"
+          />
+          <span className="text-sm">Show me in the public stylist directory</span>
+        </label>
+
+        {settings.directory_opt_in && (
+          <>
+            <label className="block">
+              <span className="block text-xs text-neutral-600 mb-1">City / Location</span>
+              <input
+                type="text"
+                value={settings.city || ""}
+                onChange={(e) => setSettings((p) => ({ ...p, city: e.target.value }))}
+                placeholder="e.g. Atlanta, GA"
+                className="w-full px-4 py-3 rounded-2xl border border-neutral-300 bg-white/70 focus:outline-none focus:ring-1 focus:ring-black text-sm"
+              />
+            </label>
+
+            <label className="block">
+              <span className="block text-xs text-neutral-600 mb-1">Booking URL</span>
+              <input
+                type="url"
+                value={settings.booking_url || ""}
+                onChange={(e) => setSettings((p) => ({ ...p, booking_url: e.target.value }))}
+                placeholder="https://calendly.com/your-link"
+                className="w-full px-4 py-3 rounded-2xl border border-neutral-300 bg-white/70 focus:outline-none focus:ring-1 focus:ring-black text-sm"
+              />
+            </label>
+
+            <div>
+              <span className="block text-xs text-neutral-600 mb-2">Specialties (select all that apply)</span>
+              <div className="flex flex-wrap gap-2">
+                {SPECIALTY_OPTIONS.map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => toggleSpecialty(s)}
+                    className={`px-3 py-1.5 rounded-full text-[11px] uppercase tracking-wider border transition ${
+                      specs.includes(s)
+                        ? "bg-black text-white border-black"
+                        : "border-neutral-300 hover:border-neutral-500"
+                    }`}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
+        {err && <p className="text-xs text-red-600">{err}</p>}
+        {saved && <p className="text-xs text-green-700">Saved successfully.</p>}
+
+        <Button
+          type="button"
+          onClick={save}
+          disabled={saving}
+          className="rounded-full"
+        >
+          {saving ? "Saving…" : "Save directory settings"}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Portal ─────────────────────────────────────────────────────────────
+
 export default function PartnerPortal() {
   const { user } = useUser();
+
+  // Fetch extra profile fields not loaded by UserContext
+  const [profile, setProfile] = useState(null);
+  useEffect(() => {
+    if (!user?.id) return;
+    supabase
+      .from("profiles")
+      .select("referral_code, commission_rate, total_referral_sales, partner_track")
+      .eq("id", user.id)
+      .maybeSingle()
+      .then(({ data }) => setProfile(data || {}));
+  }, [user?.id]);
+
+  const referralCode = profile?.referral_code || "";
+  const commissionRate = Number(profile?.commission_rate || 0);
+  const totalReferralSales = Number(profile?.total_referral_sales || 0);
+  const partnerTrack = profile?.partner_track || user?.partnerTrack || "";
+
+  const siteOrigin =
+    typeof window !== "undefined"
+      ? window.location.origin
+      : "https://eminencehairboutique.com";
+  const affiliateLink = referralCode ? `${siteOrigin}?ref=${referralCode}` : "";
 
   const catalog = useMemo(() => {
     return (products || [])
@@ -261,6 +461,41 @@ export default function PartnerPortal() {
             </div>
           </div>
 
+          {/* ── Partner Status + Affiliate Code ── */}
+          <div className="rounded-3xl border border-white/70 bg-white/60 backdrop-blur-xl shadow-[0_8px_30px_rgba(15,10,5,0.10)] p-6 mb-6">
+            <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-500">Your account</p>
+            <div className="mt-3 grid sm:grid-cols-3 gap-4">
+              <div className="rounded-2xl border border-neutral-200 bg-white/70 p-4">
+                <p className="text-xs uppercase tracking-[0.22em] text-neutral-500">Status</p>
+                <p className="mt-2 text-base font-medium capitalize">{user?.partnerStatus || "approved"}</p>
+                <p className="mt-0.5 text-xs text-neutral-500">{user?.accountTier || "partner"}</p>
+              </div>
+              <div className="rounded-2xl border border-neutral-200 bg-white/70 p-4">
+                <p className="text-xs uppercase tracking-[0.22em] text-neutral-500">Commission rate</p>
+                <p className="mt-2 text-base font-medium">
+                  {commissionRate > 0 ? `${commissionRate}%` : "—"}
+                </p>
+                <p className="mt-0.5 text-xs text-neutral-500">
+                  {totalReferralSales > 0 ? `${money(totalReferralSales)} in referral sales` : "No referral sales yet"}
+                </p>
+              </div>
+              <div className="rounded-2xl border border-neutral-200 bg-white/70 p-4">
+                <p className="text-xs uppercase tracking-[0.22em] text-neutral-500">Affiliate code</p>
+                {referralCode ? (
+                  <>
+                    <p className="mt-2 text-base font-medium font-mono tracking-wider">{referralCode}</p>
+                    <div className="mt-1 flex items-center">
+                      <span className="text-xs text-neutral-500 truncate max-w-[140px]">{affiliateLink}</span>
+                      <CopyButton value={affiliateLink} />
+                    </div>
+                  </>
+                ) : (
+                  <p className="mt-2 text-xs text-neutral-400">No code yet — contact support.</p>
+                )}
+              </div>
+            </div>
+          </div>
+
           <div className="grid lg:grid-cols-12 gap-6">
             <div className="lg:col-span-8">
               <div className="rounded-3xl border border-white/70 bg-white/60 backdrop-blur-xl shadow-[0_18px_40px_rgba(15,10,5,0.18)] p-6">
@@ -360,6 +595,9 @@ export default function PartnerPortal() {
               </div>
             </div>
           </div>
+
+          {/* ── Stylist Directory Settings ── */}
+          <DirectorySettings userId={user?.id} partnerTrack={partnerTrack} />
         </div>
       </div>
     </>

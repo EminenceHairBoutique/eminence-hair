@@ -10,9 +10,11 @@
     "build": "vite build && node scripts/generate-static-seo.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "audit:products": "node scripts/audit-products.mjs"
+    "audit:products": "node scripts/audit-products.mjs",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@mediapipe/tasks-vision": "^0.10.32",
     "@stripe/react-stripe-js": "^5.4.1",
     "@stripe/stripe-js": "^8.6.0",
     "@supabase/supabase-js": "^2.89.0",
@@ -31,6 +33,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/vite": "^4.1.18",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
