@@ -9,11 +9,8 @@ import SearchModal from "./SearchModal";
 import MobileMenuDrawer from "./MobileMenuDrawer";
 import { BRAND } from "../config/brand";
 
-const formatMoney = (n) =>
-  `$${Number(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
-
 export default function Navbar() {
-  const { items, total, openCart } = useCart();
+  const { items, openCart } = useCart();
   const { user } = useUser();
   const location = useLocation();
 
@@ -144,7 +141,7 @@ export default function Navbar() {
     >
       <AnnouncementBar />
 
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
         {/* Brand */}
         <Link to="/" className="flex flex-col leading-none">
           <span className="text-[15px] tracking-[0.28em] uppercase text-neutral-900">
@@ -277,19 +274,6 @@ export default function Navbar() {
         sections={[...shopSections.slice(0, 2), ...aboutSections.slice(0, 2)]}
       />
 
-      {/* Subtle cart summary (desktop only) */}
-      <div className="hidden md:block max-w-7xl mx-auto px-6 pb-3">
-        {items.length > 0 ? (
-          <div className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
-            Cart: {items.length} item{items.length === 1 ? "" : "s"} •{" "}
-            <span className="text-neutral-800">{formatMoney(total)}</span>
-          </div>
-        ) : (
-          <div className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
-            Discreet luxury. Crafted to last.
-          </div>
-        )}
-      </div>
     </header>
   );
 }
