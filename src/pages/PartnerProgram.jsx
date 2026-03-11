@@ -1,8 +1,10 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
+import { motion as Motion } from "framer-motion";
 import { useUser } from "../context/UserContext";
 import SEO from "../components/SEO";
 import PageHero from "../components/PageHero";
+import { staggerContainer, staggerChild, hoverLift, fadeUp, viewport } from "../ui/motionPresets";
 
 const STYLIST_TIERS = [
   {
@@ -79,12 +81,16 @@ const HOW_IT_WORKS = [
 
 function TierCard({ num, name, benefit, req }) {
   return (
-    <div className="rounded-2xl border border-white/70 bg-white/55 backdrop-blur-xl p-5">
+    <Motion.div
+      className="rounded-2xl border border-white/70 bg-white/55 backdrop-blur-xl p-5 card-hover"
+      variants={staggerChild}
+      whileHover={hoverLift}
+    >
       <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-400">{num}</p>
       <p className="mt-2 text-sm font-medium text-neutral-900">{name}</p>
       <p className="mt-1 text-xs text-neutral-700 leading-relaxed">{benefit}</p>
       <p className="mt-2 text-[11px] text-neutral-500 leading-relaxed">Req: {req}</p>
-    </div>
+    </Motion.div>
   );
 }
 
@@ -149,15 +155,26 @@ export default function Partners() {
           <div>
             <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-500">How It Works</p>
             <h2 className="mt-3 text-2xl font-light text-neutral-900">Three steps to partnership</h2>
-            <div className="mt-8 grid sm:grid-cols-3 gap-5">
+            <Motion.div
+              className="mt-8 grid sm:grid-cols-3 gap-5"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewport}
+            >
               {HOW_IT_WORKS.map((s) => (
-                <div key={s.step} className="rounded-3xl border border-white/70 bg-white/55 backdrop-blur-xl shadow-[0_18px_40px_rgba(15,10,5,0.08)] p-6">
+                <Motion.div
+                  key={s.step}
+                  className="rounded-3xl border border-white/70 bg-white/55 backdrop-blur-xl shadow-[0_18px_40px_rgba(15,10,5,0.08)] p-6 card-hover"
+                  variants={staggerChild}
+                  whileHover={hoverLift}
+                >
                   <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-400">{s.step}</p>
                   <p className="mt-3 text-base font-medium text-neutral-900">{s.label}</p>
                   <p className="mt-2 text-sm text-neutral-700 leading-relaxed">{s.desc}</p>
-                </div>
+                </Motion.div>
               ))}
-            </div>
+            </Motion.div>
           </div>
 
           <div>
@@ -176,11 +193,17 @@ export default function Partners() {
                 Apply \u2014 Stylist Program
               </Link>
             </div>
-            <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Motion.div
+              className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewport}
+            >
               {STYLIST_TIERS.map((t) => (
                 <TierCard key={t.flag} {...t} />
               ))}
-            </div>
+            </Motion.div>
           </div>
 
           <div>
@@ -199,11 +222,17 @@ export default function Partners() {
                 Apply \u2014 Creator Program
               </Link>
             </div>
-            <div className="mt-6 grid sm:grid-cols-3 gap-4">
+            <Motion.div
+              className="mt-6 grid sm:grid-cols-3 gap-4"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewport}
+            >
               {CREATOR_TIERS.map((t) => (
                 <TierCard key={t.flag} {...t} />
               ))}
-            </div>
+            </Motion.div>
           </div>
 
           <div className="rounded-3xl border border-white/70 bg-white/55 backdrop-blur-xl shadow-[0_18px_40px_rgba(15,10,5,0.12)] p-8 text-center max-w-2xl mx-auto">

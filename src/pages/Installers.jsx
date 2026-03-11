@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion as Motion } from "framer-motion";
 import SEO from "../components/SEO";
 import PageHero from "../components/PageHero";
 import { supabase } from "../lib/supabaseClient";
+import { staggerContainer, staggerChild, hoverLift, viewport } from "../ui/motionPresets";
 
 const PLACEHOLDER = "/assets/eminence_product_display.webp";
 
@@ -146,13 +148,29 @@ export default function Installers() {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by name or city…"
               aria-label="Search stylists"
-              className="w-full border border-black/15 rounded-full px-5 py-3 text-sm text-neutral-800 bg-white placeholder:text-neutral-400 outline-none focus:border-black/40 transition"
+              className="w-full border border-black/15 rounded-full px-5 py-3 text-sm text-neutral-800 bg-white placeholder:text-neutral-400 outline-none focus:border-[#D4AF37]/60 focus:ring-2 focus:ring-[#D4AF37]/20 transition"
             />
           </div>
 
-          {/* States */}
+          {/* Loading skeleton */}
           {loading && (
-            <p className="text-center text-sm text-neutral-500 py-16">Loading directory…</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="rounded-2xl overflow-hidden border border-black/[0.07] bg-white">
+                  <div className="aspect-[4/3] eminence-skeleton" />
+                  <div className="p-5 space-y-3">
+                    <div className="h-4 w-3/4 rounded eminence-skeleton" />
+                    <div className="h-3 w-1/2 rounded eminence-skeleton" />
+                    <div className="h-3 w-2/5 rounded eminence-skeleton" />
+                    <div className="mt-4 flex gap-2">
+                      <div className="h-5 w-16 rounded-full eminence-skeleton" />
+                      <div className="h-5 w-20 rounded-full eminence-skeleton" />
+                    </div>
+                    <div className="mt-4 h-9 w-full rounded-full eminence-skeleton" />
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
 
           {!loading && error && (
@@ -160,9 +178,15 @@ export default function Installers() {
           )}
 
           {!loading && !error && filtered.length === 0 && (
-            <div className="text-center py-16">
-              <p className="text-neutral-500 text-sm mb-4">
-                {search ? "No stylists match your search." : "No approved stylists in the directory yet."}
+            <div className="text-center py-20">
+              <svg className="mx-auto mb-4 w-12 h-12 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1} aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0" />
+              </svg>
+              <p className="text-neutral-500 text-sm mb-2 font-medium">
+                {search ? `No stylists matching "${search}"` : "No approved stylists in the directory yet."}
+              </p>
+              <p className="text-neutral-400 text-xs mb-6">
+                {search ? "Try a different name or city." : "Be the first to join the Eminence network."}
               </p>
               <Link
                 to="/partners/stylists"
@@ -174,11 +198,19 @@ export default function Installers() {
           )}
 
           {!loading && !error && filtered.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewport}
+            >
               {filtered.map((s) => (
-                <StylistCard key={s.id} stylist={s} />
+                <Motion.div key={s.id} variants={staggerChild} whileHover={hoverLift}>
+                  <StylistCard stylist={s} />
+                </Motion.div>
               ))}
-            </div>
+            </Motion.div>
           )}
         </div>
       </section>
