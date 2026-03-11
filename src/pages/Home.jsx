@@ -2,9 +2,11 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { motion as Motion } from "framer-motion";
 import { useCart } from "../context/CartContext";
 import { eminenceEssentials } from "../data/products";
 import { resolveProductImages } from "../utils/productMedia";
+import { fadeUp, staggerContainer, staggerChild, hoverLift, viewport } from "../ui/motionPresets";
 
 import hero from "../assets/hero.jpg.png";
 import firstPage from "../assets/first_page.png";
@@ -99,7 +101,11 @@ const Home = () => {
                   <div className="mt-3 h-5 w-[60%] rounded-xl bg-white/15 animate-pulse" />
                 </>
               ) : (
-                <>
+                <Motion.div
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                >
                   <h1 className="text-3xl md:text-4xl font-light font-display max-w-xl leading-tight">
                     Raw, silky Cambodian luxury for women who expect their hair to dress like couture.
                   </h1>
@@ -107,7 +113,7 @@ const Home = () => {
                     Ethically sourced Cambodian &amp; Myanmar hair, crafted in our partner atelier.
                     High-density HD lace units engineered for flash, studio, and everyday softness.
                   </p>
-                </>
+                </Motion.div>
               )}
 
               <div className="mt-8 flex flex-wrap gap-4">

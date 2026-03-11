@@ -755,7 +755,7 @@ export default function Shop() {
                   return (
                     <div
                       key={p.id}
-                      className="group flex flex-col rounded-3xl bg-[#F7EFE2] border border-white/40 shadow-[0_18px_40px_rgba(15,10,5,0.22)] overflow-hidden"
+                      className="group flex flex-col rounded-3xl bg-[#F7EFE2] border border-white/40 shadow-[0_18px_40px_rgba(15,10,5,0.22)] overflow-hidden card-hover"
                     >
                       <Link
                         to={`/products/${p.slug}`}
@@ -814,7 +814,7 @@ export default function Shop() {
             {pageLoading ? (
               <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
                 {Array.from({ length: 8 }).map((_, i) => (
-                  <div key={i} className="rounded-3xl bg-black/10 animate-pulse h-[420px]" />
+                  <div key={i} className="rounded-3xl h-[420px] eminence-skeleton" />
                 ))}
               </div>
             ) : (
@@ -925,7 +925,7 @@ export default function Shop() {
                   return (
                     <div
                       key={p.id}
-                      className="group flex flex-col h-full rounded-3xl bg-[#F7EFE2] border border-white/40 shadow-[0_18px_40px_rgba(15,10,5,0.22)] overflow-hidden"
+                      className="group flex flex-col h-full rounded-3xl bg-[#F7EFE2] border border-white/40 shadow-[0_18px_40px_rgba(15,10,5,0.22)] overflow-hidden card-hover"
                     >
                       <Link
                         to={`/products/${p.slug}`}
