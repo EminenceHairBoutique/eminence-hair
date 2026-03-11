@@ -68,7 +68,6 @@ button:focus-visible {
 :focus-visible {
   outline: 2px solid rgba(212, 175, 55, 0.6);
   outline-offset: 3px;
-  border-radius: 4px;
 }
 
 /* Suppress outline for mouse users */
