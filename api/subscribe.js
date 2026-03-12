@@ -2,6 +2,7 @@
 
 import { supabaseServer } from "../lib/supabaseServer.js";
 import { sendConciergeRequestEmail } from "../lib/email.js";
+import { checkRateLimit } from "./_utils/rateLimit.js";
 
 async function readJson(req) {
   // Vercel may provide req.body already parsed
@@ -34,6 +35,14 @@ export default async function handler(req, res) {
     res.status(405).send("Method not allowed");
     return;
   }
+
+  // Rate limit: 5 subscribe attempts per IP per minute.
+  const allowed = await checkRateLimit(req, res, {
+    endpoint: "subscribe",
+    max: 5,
+    windowMs: 60_000,
+  });
+  if (!allowed) return;
 
   const data = await readJson(req);
   if (!data) {
