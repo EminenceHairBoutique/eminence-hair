@@ -5,10 +5,16 @@ import { Link } from "react-router-dom";
 import PageTransition from "../components/PageTransition";
 import PageHero from "../components/PageHero";
 import db4 from "../assets/db4.png";
+import SEO from "../components/SEO";
 
 export default function About() {
   return (
-    <PageTransition>
+    <>
+      <SEO
+        title="About Eminence Hair Boutique"
+        description="Built for women whose standards are as high as their density. Ethically sourced raw hair with atelier-level construction and quality control."
+      />
+      <PageTransition>
       <div className="bg-[#F9F7F4] text-[#111]">
         <PageHero
           compact
@@ -154,5 +160,6 @@ export default function About() {
         </div>
       </div>
     </PageTransition>
+    </>
   );
 }

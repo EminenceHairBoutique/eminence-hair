@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { X } from "lucide-react";
 import gallerySections from "../data/gallerySections";
 import LazyImage from "../components/LazyImage";
+import SEO from "../components/SEO";
 
 const FILTERS = {
   Texture: ["All", "BodyWave", "WaterWave", "DeepWave", "LooseWave", "Straight", "Curly"],
@@ -46,7 +47,12 @@ export default function Gallery() {
   }, [allItems, activeFilter, value]);
 
   return (
-    <div className="pt-28 pb-24 bg-[#FBF6ED]">
+    <>
+      <SEO
+        title="Gallery"
+        description="Browse our curated gallery of luxury hair — editorial campaigns, client looks, and texture showcases from Eminence Hair Boutique."
+      />
+      <div className="pt-28 pb-24 bg-[#FBF6ED]">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* MOBILE FILTER BAR */}
@@ -195,5 +201,6 @@ export default function Gallery() {
         </div>
       )}
     </div>
+    </>
   );
 }

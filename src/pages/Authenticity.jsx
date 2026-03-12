@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import ThirdPartyVerifiedBadge from "../components/ThirdPartyVerifiedBadge";
+import SEO from "../components/SEO";
 
 export default function Authenticity() {
   const [lightbox, setLightbox] = useState(null);
 
   return (
-    <div className="pt-20 pb-20 bg-[#FBF6ED]">
+    <>
+      <SEO
+        title="Authenticity — Third-Party Verified"
+        description="Every Eminence piece is independently inspected to verify composition, integrity, and quality. Transparently sourced, rigorously tested."
+      />
+      <div className="pt-20 pb-20 bg-[#FBF6ED]">
       <div className="max-w-5xl mx-auto px-6">
 
         {/* HEADER */}
@@ -158,5 +164,6 @@ export default function Authenticity() {
         </div>
       )}
     </div>
+    </>
   );
 }

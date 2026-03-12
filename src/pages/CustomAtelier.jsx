@@ -10,6 +10,7 @@ import {
   compressImageToBlob as compressImageFile,
 } from "../utils/imageProcessing";
 import { formatBytes } from "../utils/format";
+import SEO from "../components/SEO";
 const inputBase =
   "w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:border-black/25";
 
@@ -396,7 +397,12 @@ export default function CustomAtelier() {
   );
 
   return (
-    <PageTransition>
+    <>
+      <SEO
+        title="Custom Atelier — Build Your Own Wig"
+        description="Design your perfect wig — choose texture, color, length, lace, and fit. Our concierge confirms what's achievable and crafts your piece with precision."
+      />
+      <PageTransition>
       <div className="bg-[#F9F7F4] text-[#111]">
         <PageHero
           eyebrow="Custom Atelier"
@@ -1067,5 +1073,6 @@ export default function CustomAtelier() {
         </div>
       </div>
     </PageTransition>
+    </>
   );
 }

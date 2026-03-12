@@ -36,3 +36,6 @@ dist-ssr
 test-results/
 playwright-report/
 .playwright/
+
+# Merged backup directory
+merged/

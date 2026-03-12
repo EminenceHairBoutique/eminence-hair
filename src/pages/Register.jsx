@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
+import SEO from "../components/SEO";
 
 const Register = () => {
   const { register } = useUser();
@@ -20,7 +21,13 @@ const Register = () => {
   };
 
   return (
-    <div className="pt-28 pb-24 px-4 flex justify-center">
+    <>
+      <SEO
+        title="Create Account"
+        description="Create your Eminence Hair Boutique account to track orders and manage preferences."
+        noindex={true}
+      />
+      <div className="pt-28 pb-24 px-4 flex justify-center">
       <div className="w-full max-w-md border border-white/10 rounded-2xl p-8 bg-white/5 text-white">
         <h1 className="text-2xl font-light tracking-[0.3em] uppercase mb-6 text-center">
           Create Account
@@ -83,6 +90,7 @@ const Register = () => {
         </p>
       </div>
     </div>
+    </>
   );
 };
 
