@@ -580,7 +580,7 @@ const Home = () => {
                     Shop Pre-Orders
                   </Link>
                   <Link
-                    to="/shop/preorders#how-it-works"
+                    to="/shop/preorders"
                     className="rounded-full border border-white/25 px-7 py-3 text-[11px] uppercase tracking-[0.26em] text-white hover:border-white/50 hover:bg-white/5 transition"
                   >
                     How Pre-Orders Work

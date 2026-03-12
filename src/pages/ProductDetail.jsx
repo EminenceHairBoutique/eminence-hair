@@ -823,7 +823,7 @@ export default function ProductDetail() {
                             Estimated lead time: {product.leadTimeLabel}
                           </span>
                         )}
-                        {product.preorderDisclaimer}
+                      {product.preorderDisclaimer || "This item is fulfilled directly from our factory partner and is not part of current domestic inventory."}
                       </p>
                     </div>
                   )}

@@ -240,9 +240,8 @@ export default function Shop() {
   const visibleProducts = useMemo(() => {
     let list = [...filteredByType];
 
-    // Pre-Order view: show only pre-order products
+    // Pre-Order view: show only pre-order products (filteredByType already scopes this, but texture filter may still apply)
     if (isPreorderView) {
-      list = list.filter((p) => p.isPreorder);
       // Allow texture filter to refine
       if (textureFilter !== "All") {
         list = list.filter((p) => isSame(p.texture, textureFilter));
