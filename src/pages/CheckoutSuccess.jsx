@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import SEO from "../components/SEO";
 
 export default function CheckoutSuccess() {
   const { clearCart } = useCart();
@@ -10,7 +11,13 @@ export default function CheckoutSuccess() {
   }, [clearCart]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f7f4ef] px-6">
+    <>
+      <SEO
+        title="Order Confirmed"
+        description="Thank you for your Eminence Hair order. Confirmation details have been sent to your email."
+        noindex={true}
+      />
+      <div className="min-h-screen flex items-center justify-center bg-[#f7f4ef] px-6">
       <div className="max-w-md text-center">
         <h1 className="text-2xl font-light tracking-wide mb-4">
           Thank you for your order
@@ -41,5 +48,6 @@ export default function CheckoutSuccess() {
         </p>
       </div>
     </div>
+    </>
   );
 }

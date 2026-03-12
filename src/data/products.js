@@ -961,10 +961,200 @@ export const products = [
 ];
 
 // ======================
+// PREORDER — ATELIER DROP-SHIP PRICING MATRICES
+// Factory drop-ship; not held in domestic inventory.
+// Tier ladder: Elite Raw > SDD > DD > Raw Standard > Tier-1
+// ======================
+
+const PREORDER_PRICES = {
+  "Elite Raw": {
+    12: 189, 14: 219, 16: 249, 18: 279, 20: 309,
+    22: 339, 24: 369, 26: 399, 28: 429, 30: 459,
+  },
+  SDD: {
+    12: 159, 14: 189, 16: 219, 18: 249, 20: 279,
+    22: 309, 24: 339, 26: 369, 28: 399, 30: 429,
+  },
+  DD: {
+    12: 139, 14: 169, 16: 199, 18: 229, 20: 259,
+    22: 289, 24: 319, 26: 349, 28: 379, 30: 409,
+  },
+  "Raw Standard": {
+    12: 119, 14: 149, 16: 179, 18: 199, 20: 219,
+    22: 249, 24: 279, 26: 309, 28: 339, 30: 369,
+  },
+  "Tier-1": {
+    12: 99, 14: 129, 16: 149, 18: 169, 20: 189,
+    22: 219, 24: 249, 26: 279, 28: 299, 30: 319,
+  },
+};
+
+// ======================
+// PREORDER PRODUCTS (Atelier Pre-Order — Factory Drop-Ship)
+// Images reference the publicly hosted GitHub issue attachments.
+// A luxury placeholder is shown if any path fails to load.
+// ======================
+const PREORDER_BUNDLE_DISCLAIMER =
+  "Pre-order items are factory drop-shipped and not held in domestic inventory. " +
+  "All pre-order sales are final. No returns or exchanges. " +
+  "Estimated dispatch is 14–21 business days from order confirmation. " +
+  "Tracking information will be emailed once your order has shipped. " +
+  "Adult signature required upon delivery.";
+
+products.push(
+  {
+    id: "preorder-dd-straight-bundles",
+    slug: "atelier-preorder-dd-straight-bundles",
+    name: "Double Drawn Straight Bundles",
+    displayName: "Atelier Pre-Order — Double Drawn (DD) Straight Bundles",
+    type: "bundle",
+    isPreorder: true,
+    shipsFrom: "Factory",
+    leadTimeDays: 21,
+    qualityTier: "DD",
+    preorderDisclaimer: PREORDER_BUNDLE_DISCLAIMER,
+    badge: "Pre-Order",
+    collection: "Atelier Pre-Order",
+    collectionSlug: "atelier-preorder",
+    texture: "Straight",
+    color: "1B",
+    description:
+      "Double Drawn (DD) straight bundles sourced direct from our factory partners. " +
+      "Each weft is meticulously sorted so that 80–85% of strands share the same full length — " +
+      "delivering exceptional volume from root to tip. Factory drop-shipped to you.",
+    lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    price(length) {
+      return PREORDER_PRICES["DD"][length] ?? 0;
+    },
+    images: [
+      "https://github.com/user-attachments/assets/fd53ac67-a840-4bad-8a64-8a25a7657a3e",
+      "https://github.com/user-attachments/assets/4b8ccf81-0ec5-4024-91e4-02bedb3df510",
+    ],
+  },
+
+  {
+    id: "preorder-sdd-straight-bundles",
+    slug: "atelier-preorder-sdd-straight-bundles",
+    name: "Super Double Drawn Straight Bundles",
+    displayName: "Atelier Pre-Order — Super Double Drawn (SDD) Straight Bundles",
+    type: "bundle",
+    isPreorder: true,
+    shipsFrom: "Factory",
+    leadTimeDays: 21,
+    qualityTier: "SDD",
+    preorderDisclaimer: PREORDER_BUNDLE_DISCLAIMER,
+    badge: "Pre-Order",
+    collection: "Atelier Pre-Order",
+    collectionSlug: "atelier-preorder",
+    texture: "Straight",
+    color: "1B",
+    description:
+      "Super Double Drawn (SDD) straight bundles — our most uniformly drawn tier. " +
+      "95%+ of strands run the full declared length for maximum fullness and a blunt, " +
+      "salon-ready finish. Ideal for high-volume installs. Factory drop-shipped.",
+    lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    price(length) {
+      return PREORDER_PRICES["SDD"][length] ?? 0;
+    },
+    images: [
+      "https://github.com/user-attachments/assets/717f0955-481e-48dd-916a-13ddd163a0e5",
+    ],
+  },
+
+  {
+    id: "preorder-raw-vietnamese-bodywave-bundles",
+    slug: "atelier-preorder-raw-vietnamese-bodywave-bundles",
+    name: "Raw Vietnamese Body Wave Bundles",
+    displayName: "Atelier Pre-Order — Raw Vietnamese Body Wave Bundles",
+    type: "bundle",
+    isPreorder: true,
+    shipsFrom: "Factory",
+    leadTimeDays: 21,
+    qualityTier: "Elite Raw",
+    preorderDisclaimer: PREORDER_BUNDLE_DISCLAIMER,
+    badge: "Pre-Order",
+    collection: "Atelier Pre-Order",
+    collectionSlug: "atelier-preorder",
+    texture: "BodyWave",
+    color: "1B",
+    description:
+      "True raw Vietnamese hair — single donor, cuticle-aligned, and unprocessed. " +
+      "The body-wave pattern is natural and dimensional, with exceptional longevity and " +
+      "the ability to be lifted, colored, and restyled. Our Elite Raw tier. Factory drop-shipped.",
+    lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    price(length) {
+      return PREORDER_PRICES["Elite Raw"][length] ?? 0;
+    },
+    images: [
+      "https://github.com/user-attachments/assets/02ccc457-99e9-4d38-ad63-f5fec333362c",
+    ],
+  },
+
+  {
+    id: "preorder-raw-standard-bodywave-bundles",
+    slug: "atelier-preorder-raw-standard-bodywave-bundles",
+    name: "Raw Standard Body Wave Bundles",
+    displayName: "Atelier Pre-Order — True Raw Standard Body Wave Bundles",
+    type: "bundle",
+    isPreorder: true,
+    shipsFrom: "Factory",
+    leadTimeDays: 18,
+    qualityTier: "Raw Standard",
+    preorderDisclaimer: PREORDER_BUNDLE_DISCLAIMER,
+    badge: "Pre-Order",
+    collection: "Atelier Pre-Order",
+    collectionSlug: "atelier-preorder",
+    texture: "BodyWave",
+    color: "1B",
+    description:
+      "True Raw Standard (首檔) body wave bundles — lightly sorted, cuticle-intact raw hair " +
+      "with natural body and movement. A refined entry point into our raw tier. Factory drop-shipped.",
+    lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    price(length) {
+      return PREORDER_PRICES["Raw Standard"][length] ?? 0;
+    },
+    images: [
+      "https://github.com/user-attachments/assets/bc5e97f8-0db8-41d3-a9f7-c896010f4ae1",
+    ],
+  },
+
+  {
+    id: "preorder-tier1-bodywave-bundles",
+    slug: "atelier-preorder-tier1-bodywave-bundles",
+    name: "High Grade Tier-1 Body Wave Bundles",
+    displayName: "Atelier Pre-Order — High Grade 'Tier-1' Body Wave Bundles",
+    type: "bundle",
+    isPreorder: true,
+    shipsFrom: "Factory",
+    leadTimeDays: 14,
+    qualityTier: "Tier-1",
+    preorderDisclaimer: PREORDER_BUNDLE_DISCLAIMER,
+    badge: "Pre-Order",
+    collection: "Atelier Pre-Order",
+    collectionSlug: "atelier-preorder",
+    texture: "BodyWave",
+    color: "1B",
+    description:
+      "High Grade Tier-1 (一檔茬) body wave bundles — accessible entry into our factory " +
+      "drop-ship line. Cuticle-aligned with natural movement and reliable quality for " +
+      "everyday installs. Factory drop-shipped.",
+    lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    price(length) {
+      return PREORDER_PRICES["Tier-1"][length] ?? 0;
+    },
+    images: [
+      "https://github.com/user-attachments/assets/5ff44015-ae79-483a-b25d-cb340b5691b7",
+    ],
+  }
+);
+
+// ======================
 // DERIVED COLLECTIONS
 // ======================
 export const eminenceEssentials = products
   .filter((p) => p.isEssential)
   .sort((a, b) => (a.essentialOrder ?? 99) - (b.essentialOrder ?? 99));
+
+export const preorderProducts = products.filter((p) => p.isPreorder === true);
 
 export default products;

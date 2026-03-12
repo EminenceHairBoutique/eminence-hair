@@ -18,7 +18,15 @@ export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState(() => {
     try {
       const saved = localStorage.getItem("eminence_cart");
-      return saved ? JSON.parse(saved) : [];
+      const items = saved ? JSON.parse(saved) : [];
+      // Normalize legacy items that may be missing length/density fields
+      return items.map((item) => ({
+        ...item,
+        length: item.length ?? item.selectedLength ?? Math.min(...(item.lengths || [])),
+        density: item.density ?? item.selectedDensity ?? 150,
+        selectedLength: item.length ?? item.selectedLength ?? Math.min(...(item.lengths || [])),
+        selectedDensity: item.density ?? item.selectedDensity ?? 150,
+      }));
     } catch {
       return [];
     }
@@ -28,18 +36,6 @@ export function CartProvider({ children }) {
   useEffect(() => {
     localStorage.setItem("eminence_cart", JSON.stringify(cartItems));
   }, [cartItems]);
-
-  useEffect(() => {
-    setCartItems((prev) =>
-      prev.map((item) => ({
-        ...item,
-        length: item.length ?? item.selectedLength ?? Math.min(...(item.lengths || [])),
-        density: item.density ?? item.selectedDensity ?? 150,
-        selectedLength: item.length ?? item.selectedLength ?? Math.min(...(item.lengths || [])),
-        selectedDensity: item.density ?? item.selectedDensity ?? 150,
-      }))
-    );
-  }, []);
 
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);

@@ -264,6 +264,9 @@ export default function PartnerPortal() {
       .sort((a, b) => (a.collection || "").localeCompare(b.collection || "") || (a.displayName || a.name || "").localeCompare(b.displayName || b.name || ""));
   }, []);
 
+  // O(1) lookup map so resolvedLines doesn't need to scan the full catalog per line
+  const catalogMap = useMemo(() => new Map(catalog.map((p) => [p.id, p])), [catalog]);
+
   const [lines, setLines] = useState(() => [
     {
       id: `line_${Date.now()}`,
@@ -301,7 +304,7 @@ export default function PartnerPortal() {
   const resolvedLines = useMemo(() => {
     return lines
       .map((l) => {
-        const product = catalog.find((p) => p.id === l.productId);
+        const product = catalogMap.get(l.productId);
         const group = classifyGroup(product?.type);
         const safeLength = Number(l.length || product?.lengths?.[0] || 16);
         const safeDensity = Number(l.density || 180);
@@ -326,7 +329,7 @@ export default function PartnerPortal() {
         };
       })
       .filter((l) => l.product);
-  }, [lines, catalog]);
+  }, [lines, catalogMap]);
 
   const totalsByGroup = useMemo(() => {
     const groupTotals = { bundles: 0, wigs: 0, other: 0 };

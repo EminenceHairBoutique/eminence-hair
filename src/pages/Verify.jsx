@@ -1,12 +1,18 @@
 import { useSearchParams, Link } from "react-router-dom";
 import ThirdPartyVerifiedBadge from "../components/ThirdPartyVerifiedBadge";
+import SEO from "../components/SEO";
 
 export default function Verify() {
   const [params] = useSearchParams();
   const report = params.get("report") || params.get("code");
 
   return (
-    <div className="pt-28 pb-32 bg-[#FBF6ED]">
+    <>
+      <SEO
+        title="Product Verification"
+        description="Verify the authenticity of your Eminence Hair product. Each piece is independently inspected by an accredited third-party laboratory."
+      />
+      <div className="pt-28 pb-32 bg-[#FBF6ED]">
       <div className="max-w-3xl mx-auto px-6 text-center">
 
         <ThirdPartyVerifiedBadge className="h-10 mx-auto mb-10" />
@@ -65,5 +71,6 @@ export default function Verify() {
         </p>
       </div>
     </div>
+    </>
   );
 }
