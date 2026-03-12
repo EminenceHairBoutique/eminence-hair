@@ -4,7 +4,7 @@ import { motion as Motion } from "framer-motion";
 import { useUser } from "../context/UserContext";
 import SEO from "../components/SEO";
 import PageHero from "../components/PageHero";
-import { staggerContainer, staggerChild, hoverLift, fadeUp, viewport } from "../ui/motionPresets";
+import { staggerContainer, staggerChild, hoverLift, viewport } from "../ui/motionPresets";
 
 const STYLIST_TIERS = [
   {

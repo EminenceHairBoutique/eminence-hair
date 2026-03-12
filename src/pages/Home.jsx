@@ -6,7 +6,7 @@ import { motion as Motion } from "framer-motion";
 import { useCart } from "../context/CartContext";
 import { eminenceEssentials } from "../data/products";
 import { resolveProductImages } from "../utils/productMedia";
-import { fadeUp, staggerContainer, staggerChild, hoverLift, viewport } from "../ui/motionPresets";
+import { fadeUp } from "../ui/motionPresets";
 
 import hero from "../assets/hero.jpg.png";
 import firstPage from "../assets/first_page.png";
