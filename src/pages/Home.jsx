@@ -594,6 +594,92 @@ const Home = () => {
             </div>
           </section>
 
+          {/* SECTION G.5 — ATELIER PRE-ORDER CTA */}
+          <section className="py-16 border-t border-neutral-200 bg-[#F3EFE8]">
+            <div className="max-w-6xl mx-auto px-6">
+              <Motion.div
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewport}
+                className="rounded-[2.25rem] overflow-hidden border border-neutral-200 shadow-[0_24px_70px_rgba(17,12,5,0.12)] bg-[#0B0B0C] text-white"
+              >
+                <div className="grid md:grid-cols-[1.15fr_0.85fr]">
+                  {/* Left — copy block */}
+                  <div className="p-8 md:p-12 flex flex-col justify-center">
+                    <p className="text-[11px] uppercase tracking-[0.32em] text-white/55 mb-4">
+                      Atelier Pre-Order
+                    </p>
+                    <h2 className="text-2xl md:text-3xl font-light font-display leading-tight max-w-md">
+                      Factory-direct luxury, available by pre-order.
+                    </h2>
+                    <p className="mt-4 text-sm text-white/70 leading-relaxed max-w-md">
+                      Select premium bundles and wigs can be fulfilled directly
+                      from our partner atelier when not held in domestic stock —
+                      giving you access to the full range at true factory quality.
+                    </p>
+
+                    <div className="mt-8 flex flex-wrap gap-3">
+                      <Link
+                        to="/custom-orders"
+                        className="rounded-full bg-white text-[#111] px-7 py-2.5 text-[11px] uppercase tracking-[0.26em] hover:bg-white/90 transition"
+                      >
+                        Shop Pre-Orders
+                      </Link>
+                      <Link
+                        to="/custom-atelier"
+                        className="rounded-full border border-white/25 px-7 py-2.5 text-[11px] uppercase tracking-[0.26em] text-white hover:border-white/55 hover:bg-white/6 transition"
+                      >
+                        How Pre-Orders Work
+                      </Link>
+                    </div>
+
+                    <div className="mt-10 grid grid-cols-3 gap-3">
+                      {[
+                        { t: "Factory-direct", d: "Atelier quality at origin" },
+                        { t: "Full selection", d: "Beyond domestic stock" },
+                        { t: "Concierge support", d: "Guided pre-order process" },
+                      ].map((x) => (
+                        <div
+                          key={x.t}
+                          className="rounded-2xl border border-white/10 bg-white/5 p-3"
+                        >
+                          <p className="text-xs font-medium">{x.t}</p>
+                          <p className="mt-1 text-[11px] text-white/55">{x.d}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Right — accent panel */}
+                  <div className="relative hidden md:flex flex-col justify-center items-center bg-white/4 border-l border-white/8 p-10 text-center gap-6">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/8 to-transparent pointer-events-none" />
+                    <p className="text-[11px] uppercase tracking-[0.36em] text-white/40">
+                      How it works
+                    </p>
+                    <div className="space-y-5 text-left w-full max-w-[220px]">
+                      {[
+                        { n: "01", label: "Choose your piece", sub: "Select from the full atelier catalogue" },
+                        { n: "02", label: "We confirm specs", sub: "Density, knots, color — all verified" },
+                        { n: "03", label: "Factory fulfillment", sub: "Produced & shipped direct to you" },
+                      ].map((step) => (
+                        <div key={step.n} className="flex gap-4 items-start">
+                          <span className="text-[11px] text-[#D4AF37] tracking-[0.2em] mt-0.5 shrink-0">
+                            {step.n}
+                          </span>
+                          <div>
+                            <p className="text-xs font-medium text-white/90">{step.label}</p>
+                            <p className="text-[11px] text-white/45 mt-0.5">{step.sub}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </Motion.div>
+            </div>
+          </section>
+
           {/* SECTION H — WHY EMINENCE (USP GRID) */}
           <section className="py-16 border-t border-neutral-200 bg-[#111] text-[#F9F7F4]">
             <div className="max-w-6xl mx-auto px-6">
