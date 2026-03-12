@@ -10,7 +10,6 @@ const normalizeString = (str) =>
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "")
     .trim();
-import { norm } from "../utils/strings";
 import SEO from "../components/SEO";
 
 const TEXTURE_OPTIONS = [
