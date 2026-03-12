@@ -1136,8 +1136,8 @@ export const products = [
       return P[length] ?? 299;
     },
     images: [
-      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_03.webp",
-      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_04.webp",
+      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_01.webp",
+      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_02.webp",
     ],
   },
 ];
