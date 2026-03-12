@@ -1017,8 +1017,8 @@ export const products = [
       return P[length] ?? 179;
     },
     images: [
-      "/gallery/collections/Burmese/Eminence_Burmese_BodyWave_Natural_01.webp",
-      "/gallery/collections/Burmese/Eminence_Burmese_BodyWave_Natural_02.webp",
+      "/gallery/collections/Burmese/Eminence_Burmese_DeepWave_Natural_01.webp",
+      "/gallery/collections/Burmese/Eminence_Burmese_DeepWave_Natural_02.webp",
     ],
   },
 
