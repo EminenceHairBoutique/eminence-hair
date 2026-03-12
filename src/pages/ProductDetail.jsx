@@ -440,26 +440,7 @@ export default function ProductDetail() {
 
   const price = basePrice + customColorSurcharge;
 
-  // ViewItem tracking (GA4 + Meta Pixel) — only fires after consent.
-  useEffect(() => {
-    if (!product) return;
-    trackViewItem(product, { value: Number(price || 0) || undefined });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [product?.id]);
-
-  if (!product) {
-    return (
-      <div className="pt-32 text-center">
-        <p className="text-neutral-600">Product not found.</p>
-      </div>
-    );
-  }
-
-  const canAdd =
-    (isBundle && length) ||
-    (isClosure && length) ||
-    (isWig && length && density && lace && capSize);
-
+  // ✅ Must be declared before any early return to satisfy Rules of Hooks
   const handleAdd = useCallback(() => {
     const variantParts = [
       length != null ? `L${length}` : "",
@@ -492,6 +473,26 @@ export default function ProductDetail() {
       qualityTier: product.qualityTier ?? null,
     });
   }, [length, density, lace, capSize, isCustom, customNotes, customColorTier, price, product, images, qty, addToCart]);
+
+  // ViewItem tracking (GA4 + Meta Pixel) — only fires after consent.
+  useEffect(() => {
+    if (!product) return;
+    trackViewItem(product, { value: Number(price || 0) || undefined });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product?.id]);
+
+  if (!product) {
+    return (
+      <div className="pt-32 text-center">
+        <p className="text-neutral-600">Product not found.</p>
+      </div>
+    );
+  }
+
+  const canAdd =
+    (isBundle && length) ||
+    (isClosure && length) ||
+    (isWig && length && density && lace && capSize);
 
   const total = Number(price || 0) * Number(qty || 1);
 
