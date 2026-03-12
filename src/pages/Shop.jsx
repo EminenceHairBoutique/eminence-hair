@@ -398,7 +398,7 @@ export default function Shop() {
     isMedicalView
       ? "Medical Grade Wigs"
       : isPreorderView
-      ? "Pre Orders"
+      ? "Pre-Orders"
       : isEssentialsView
       ? "Eminence Essentials"
       : mode === "wig"
@@ -484,7 +484,7 @@ export default function Shop() {
                 </>
               ) : (
                 <>
-                  <h1 className="text-3xl md:text-4xl font-light tracking-wide max-w-xl">
+                  <h1 id={isPreorderView ? "how-it-works" : undefined} className="text-3xl md:text-4xl font-light tracking-wide max-w-xl">
                     {heroTitle}
                   </h1>
                   <p className="text-sm text-neutral-700 max-w-xl">{heroSubtitle}</p>
@@ -530,6 +530,9 @@ export default function Shop() {
               </Link>
               <Link to={buildModeTo("/shop/closures")} aria-label="Shop closures and frontals">
                 <Pill active={mode === "closure"}>Closures &amp; Frontals</Pill>
+              </Link>
+              <Link to={buildModeTo("/shop/preorders")} aria-label="Shop pre-orders">
+                <Pill active={isPreorderView}>Pre-Orders</Pill>
               </Link>
 
               <div className="ml-auto flex items-center gap-2">

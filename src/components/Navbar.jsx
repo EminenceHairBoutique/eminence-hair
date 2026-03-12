@@ -53,7 +53,7 @@ export default function Navbar() {
           { label: "HD Lace Wigs", href: "/shop/wigs" },
           { label: "Medical Grade Wigs", href: "/shop/medical" },
           { label: "Bundles", href: "/shop/bundles" },
-          { label: "Pre Orders", href: "/shop/preorders" },
+          { label: "Pre-Orders", href: "/shop/preorders" },
         ],
       },
       {

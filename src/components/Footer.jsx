@@ -34,7 +34,7 @@ const Footer = () => {
               Shop
             </p>
             <Link to="/shop" className="hover:text-neutral-200 block">All Products</Link>
-            <Link to="/shop/preorders" className="hover:text-neutral-200 block">Pre Orders</Link>
+            <Link to="/shop/preorders" className="hover:text-neutral-200 block">Pre-Orders</Link>
             <Link to="/ready-to-ship" className="hover:text-neutral-200 block">Ready-to-Ship</Link>
             <Link to="/shop/wigs" className="hover:text-neutral-200 block">Wigs</Link>
             <Link to="/shop/bundles" className="hover:text-neutral-200 block">Bundles</Link>

@@ -300,6 +300,12 @@ async function main() {
       description: "Shop closures from Eminence Hair Boutique.",
       ogType: "website",
     },
+    {
+      pathname: "/shop/preorders",
+      title: "Pre-Order — Factory-Direct Luxury Hair",
+      description: "Shop pre-order bundles and wigs factory drop-shipped directly from our partner atelier. Raw Vietnamese, Double Drawn, Super Double Drawn, and more.",
+      ogType: "website",
+    },
 
     {
       pathname: "/collections",
