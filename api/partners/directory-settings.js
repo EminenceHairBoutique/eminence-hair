@@ -14,10 +14,10 @@ function json(res, status, body) {
 }
 
 async function parseJsonBody(req) {
-  const b = req.body;
-  if (b && typeof b === "object") return b;
-  if (typeof b === "string") {
-    try { return JSON.parse(b); } catch { return null; }
+  const rawBody = req.body;
+  if (rawBody && typeof rawBody === "object") return rawBody;
+  if (typeof rawBody === "string") {
+    try { return JSON.parse(rawBody); } catch { return null; }
   }
   const chunks = [];
   for await (const chunk of req) chunks.push(chunk);

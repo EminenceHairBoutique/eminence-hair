@@ -4,10 +4,10 @@ function readConsent() {
   try {
     const raw = window?.localStorage?.getItem?.(CONSENT_KEY);
     if (!raw) return { analytics: false, marketing: false };
-    const c = JSON.parse(raw);
+    const consent = JSON.parse(raw);
     return {
-      analytics: Boolean(c?.analytics),
-      marketing: Boolean(c?.marketing),
+      analytics: Boolean(consent?.analytics),
+      marketing: Boolean(consent?.marketing),
     };
   } catch {
     return { analytics: false, marketing: false };
@@ -106,7 +106,7 @@ export function trackBeginCheckout({ items = [], value } = {}) {
   });
 
   trackPixel("InitiateCheckout", {
-    num_items: safeItems.reduce((s, it) => s + (it.quantity || 1), 0),
+    num_items: safeItems.reduce((total, it) => total + (it.quantity || 1), 0),
     value: typeof value === "number" ? value : undefined,
     currency: "USD",
   });

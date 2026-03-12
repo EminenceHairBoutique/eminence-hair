@@ -4,6 +4,12 @@ import PageTransition from "../components/PageTransition";
 import PageHero from "../components/PageHero";
 import { products, eminenceEssentials } from "../data/products";
 import { resolveProductImages } from "../utils/productMedia";
+
+const normalizeString = (str) =>
+  String(str || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "")
+    .trim();
 import { norm } from "../utils/strings";
 import SEO from "../components/SEO";
 
@@ -45,10 +51,10 @@ export default function StartHere() {
     let list = products.filter((p) => p.type === type);
 
     if (texture !== "All") {
-      list = list.filter((p) => norm(p.texture) === norm(texture));
+      list = list.filter((p) => normalizeString(p.texture) === normalizeString(texture));
     }
     if (color !== "All") {
-      list = list.filter((p) => norm(p.color) === norm(color) || norm(p.collectionSlug) === norm(color));
+      list = list.filter((p) => normalizeString(p.color) === normalizeString(color) || normalizeString(p.collectionSlug) === normalizeString(color));
     }
 
     if (lengthRange) {
@@ -60,11 +66,11 @@ export default function StartHere() {
 
     // Small scoring: essentials first, then same texture.
     const score = (p) => {
-      let s = 0;
-      if (p.isEssential) s += 4;
-      if (texture !== "All" && norm(p.texture) === norm(texture)) s += 2;
-      if (color !== "All" && (norm(p.color) === norm(color) || norm(p.collectionSlug) === norm(color))) s += 1;
-      return s;
+      let productScore = 0;
+      if (p.isEssential) productScore += 4;
+      if (texture !== "All" && normalizeString(p.texture) === normalizeString(texture)) productScore += 2;
+      if (color !== "All" && (normalizeString(p.color) === normalizeString(color) || normalizeString(p.collectionSlug) === normalizeString(color))) productScore += 1;
+      return productScore;
     };
 
     return list
@@ -129,13 +135,13 @@ export default function StartHere() {
                   <Field label="Texture">
                     <div className="flex flex-wrap gap-2">
                       <Pill active={texture === "All"} onClick={() => setTexture("All")}>All</Pill>
-                      {TEXTURE_OPTIONS.map((t) => (
+                      {TEXTURE_OPTIONS.map((textureOption) => (
                         <Pill
-                          key={t.value}
-                          active={texture === t.value}
-                          onClick={() => setTexture(t.value)}
+                          key={textureOption.value}
+                          active={texture === textureOption.value}
+                          onClick={() => setTexture(textureOption.value)}
                         >
-                          {t.label}
+                          {textureOption.label}
                         </Pill>
                       ))}
                     </div>
@@ -144,13 +150,13 @@ export default function StartHere() {
                   <Field label="Color">
                     <div className="flex flex-wrap gap-2">
                       <Pill active={color === "All"} onClick={() => setColor("All")}>All</Pill>
-                      {COLOR_OPTIONS.map((c) => (
+                      {COLOR_OPTIONS.map((colorOption) => (
                         <Pill
-                          key={c.value}
-                          active={color === c.value}
-                          onClick={() => setColor(c.value)}
+                          key={colorOption.value}
+                          active={color === colorOption.value}
+                          onClick={() => setColor(colorOption.value)}
                         >
-                          {c.label}
+                          {colorOption.label}
                         </Pill>
                       ))}
                     </div>
@@ -159,13 +165,13 @@ export default function StartHere() {
                   <Field label="Length">
                     <div className="flex flex-wrap gap-2">
                       <Pill active={lengthBand === "All"} onClick={() => setLengthBand("All")}>All</Pill>
-                      {LENGTH_OPTIONS.map((b) => (
+                      {LENGTH_OPTIONS.map((lengthOption) => (
                         <Pill
-                          key={b.value}
-                          active={lengthBand === b.value}
-                          onClick={() => setLengthBand(b.value)}
+                          key={lengthOption.value}
+                          active={lengthBand === lengthOption.value}
+                          onClick={() => setLengthBand(lengthOption.value)}
                         >
-                          {b.label}
+                          {lengthOption.label}
                         </Pill>
                       ))}
                     </div>

@@ -19,15 +19,15 @@ import { supabaseServer } from "../../lib/supabaseServer.js";
 function getBearerToken(req) {
   const auth = req.headers?.authorization || req.headers?.Authorization;
   if (!auth) return null;
-  const m = String(auth).match(/^Bearer\s+(.+)$/i);
-  return m ? m[1] : null;
+  const tokenMatch = String(auth).match(/^Bearer\s+(.+)$/i);
+  return tokenMatch ? tokenMatch[1] : null;
 }
 
 function adminEmailAllowlist() {
   const raw = process.env.ADMIN_EMAILS || process.env.VITE_ADMIN_EMAILS || "";
   return raw
     .split(",")
-    .map((s) => s.trim().toLowerCase())
+    .map((emailAddress) => emailAddress.trim().toLowerCase())
     .filter(Boolean);
 }
 

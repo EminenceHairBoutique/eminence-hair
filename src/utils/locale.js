@@ -34,17 +34,17 @@ export function detectPreferredCurrency() {
 }
 
 export function formatApproxCurrencyFromUSD(amountUSD, currency) {
-  const n = Number(amountUSD || 0);
-  if (!Number.isFinite(n)) return "";
+  const amountValue = Number(amountUSD || 0);
+  if (!Number.isFinite(amountValue)) return "";
 
   if (currency === "GBP") {
-    const v = n * FX_RATES.GBP;
-    return `≈ £${Math.round(v).toLocaleString()}`;
+    const convertedAmount = amountValue * FX_RATES.GBP;
+    return `≈ £${Math.round(convertedAmount).toLocaleString()}`;
   }
 
   if (currency === "EUR") {
-    const v = n * FX_RATES.EUR;
-    return `≈ €${Math.round(v).toLocaleString()}`;
+    const convertedAmount = amountValue * FX_RATES.EUR;
+    return `≈ €${Math.round(convertedAmount).toLocaleString()}`;
   }
 
   return "";

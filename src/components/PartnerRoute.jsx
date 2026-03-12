@@ -2,12 +2,12 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 
 const isApprovedPartner = (tier, status) => {
-  const t = String(tier || "").toLowerCase();
-  const s = String(status || "").toLowerCase();
+  const tierValue = String(tier || "").toLowerCase();
+  const statusValue = String(status || "").toLowerCase();
 
   // Accept a few reasonable values to avoid lockouts.
-  if (t === "partner" || t === "wholesale" || t.startsWith("partner_")) return true;
-  if (s === "approved" || s === "active") return true;
+  if (tierValue === "partner" || tierValue === "wholesale" || tierValue.startsWith("partner_")) return true;
+  if (statusValue === "approved" || statusValue === "active") return true;
 
   return false;
 };

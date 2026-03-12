@@ -6,7 +6,7 @@ import { Button } from "../components/ui/button";
 import { useUser } from "../context/UserContext";
 import { supabase } from "../lib/supabaseClient";
 
-const money = (n) => `$${Number(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+const money = (amount) => `$${Number(amount || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 
 const WHOLESALE_DISCOUNTS = {
   retail: 0,
@@ -48,11 +48,11 @@ function tierForQty(qty, kind) {
   return "retail";
 }
 
-const prettyType = (t) => {
-  if (t === "wig") return "Wig";
-  if (t === "bundle") return "Bundle";
-  if (t === "closure") return "Closure / Frontal";
-  return t;
+const prettyType = (productType) => {
+  if (productType === "wig") return "Wig";
+  if (productType === "bundle") return "Bundle";
+  if (productType === "closure") return "Closure / Frontal";
+  return productType;
 };
 
 // ─── Affiliate / Directory Panel ────────────────────────────────────────────
@@ -98,12 +98,12 @@ function DirectorySettings({ userId, partnerTrack }) {
         const { data: session } = await supabase.auth.getSession();
         const token = session?.session?.access_token;
         if (!token) return;
-        const r = await fetch("/api/partners/directory-settings", {
+        const fetchResponse = await fetch("/api/partners/directory-settings", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        if (r.ok) {
-          const { settings: s } = await r.json();
-          setSettings((prev) => ({ ...prev, ...(s || {}) }));
+        if (fetchResponse.ok) {
+          const { settings: settingsData } = await fetchResponse.json();
+          setSettings((prev) => ({ ...prev, ...(settingsData || {}) }));
         }
       } catch (_) { /* ignore */ } finally {
         setLoading(false);
@@ -116,7 +116,7 @@ function DirectorySettings({ userId, partnerTrack }) {
       const cur = Array.isArray(prev.specialties) ? prev.specialties : [];
       return {
         ...prev,
-        specialties: cur.includes(spec) ? cur.filter((s) => s !== spec) : [...cur, spec],
+        specialties: cur.includes(spec) ? cur.filter((specialty) => specialty !== spec) : [...cur, spec],
       };
     });
   };
@@ -127,12 +127,12 @@ function DirectorySettings({ userId, partnerTrack }) {
     try {
       const { data: session } = await supabase.auth.getSession();
       const token = session?.session?.access_token;
-      const r = await fetch("/api/partners/directory-settings", {
+      const fetchResponse = await fetch("/api/partners/directory-settings", {
         method: "PATCH",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(settings),
       });
-      if (!r.ok) throw new Error(await r.text());
+      if (!fetchResponse.ok) throw new Error(await fetchResponse.text());
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch (e) {
@@ -194,18 +194,18 @@ function DirectorySettings({ userId, partnerTrack }) {
             <div>
               <span className="block text-xs text-neutral-600 mb-2">Specialties (select all that apply)</span>
               <div className="flex flex-wrap gap-2">
-                {SPECIALTY_OPTIONS.map((s) => (
+                {SPECIALTY_OPTIONS.map((specialtyOption) => (
                   <button
-                    key={s}
+                    key={specialtyOption}
                     type="button"
-                    onClick={() => toggleSpecialty(s)}
+                    onClick={() => toggleSpecialty(specialtyOption)}
                     className={`px-3 py-1.5 rounded-full text-[11px] uppercase tracking-wider border transition ${
-                      specs.includes(s)
+                      specs.includes(specialtyOption)
                         ? "bg-black text-white border-black"
                         : "border-neutral-300 hover:border-neutral-500"
                     }`}
                   >
-                    {s}
+                    {specialtyOption}
                   </button>
                 ))}
               </div>
@@ -332,9 +332,9 @@ export default function PartnerPortal() {
   }, [lines, catalogMap]);
 
   const totalsByGroup = useMemo(() => {
-    const t = { bundles: 0, wigs: 0, other: 0 };
-    for (const l of resolvedLines) t[l.group] = (t[l.group] || 0) + (l.qty || 0);
-    return t;
+    const groupTotals = { bundles: 0, wigs: 0, other: 0 };
+    for (const l of resolvedLines) groupTotals[l.group] = (groupTotals[l.group] || 0) + (l.qty || 0);
+    return groupTotals;
   }, [resolvedLines]);
 
   const tierBundles = tierForQty(totalsByGroup.bundles, "bundles");
@@ -346,8 +346,8 @@ export default function PartnerPortal() {
 
     for (const l of resolvedLines) {
       if (!l.qty) continue;
-      const d = l.group === "wigs" ? WHOLESALE_DISCOUNTS[tierWigs] : l.group === "bundles" ? WHOLESALE_DISCOUNTS[tierBundles] : 0;
-      const unitWholesale = Math.round(l.retailUnit * (1 - d));
+      const discountRate = l.group === "wigs" ? WHOLESALE_DISCOUNTS[tierWigs] : l.group === "bundles" ? WHOLESALE_DISCOUNTS[tierBundles] : 0;
+      const unitWholesale = Math.round(l.retailUnit * (1 - discountRate));
       retailTotal += l.retailUnit * l.qty;
       wholesaleTotal += unitWholesale * l.qty;
     }
@@ -618,9 +618,9 @@ function LinkPill({ href, label }) {
   );
 }
 
-function tierLabel(t) {
-  if (t === "tier10") return "10+";
-  if (t === "tier5") return "5+";
+function tierLabel(tierKey) {
+  if (tierKey === "tier10") return "10+";
+  if (tierKey === "tier5") return "5+";
   return "Retail";
 }
 
@@ -654,8 +654,8 @@ function Field({ label, textarea = false, ...props }) {
 }
 
 function LineRow({ line, catalog, onChange, onRemove }) {
-  const p = line.product;
-  const wigDensities = (p?.densities?.length ? p.densities : STANDARD_WIG_DENSITIES) || [150, 180, 210, 250];
+  const lineProduct = line.product;
+  const wigDensities = (lineProduct?.densities?.length ? lineProduct.densities : STANDARD_WIG_DENSITIES) || [150, 180, 210, 250];
 
   const retailUnit = line.retailUnit || 0;
   const unit5 = Math.round(retailUnit * (1 - WHOLESALE_DISCOUNTS.tier5));
@@ -695,15 +695,15 @@ function LineRow({ line, catalog, onChange, onRemove }) {
             onChange={(e) => onChange(line.id, { length: Number(e.target.value) })}
             className="w-full px-3 py-3 rounded-2xl border border-neutral-300 bg-white/80 text-sm"
           >
-            {(p?.lengths || []).map((len) => (
+            {(lineProduct?.lengths || []).map((len) => (
               <option key={len} value={len}>
-                {len}{p?.type === "wig" ? "\"" : "\""}
+                {len}{lineProduct?.type === "wig" ? "\"" : "\""}
               </option>
             ))}
           </select>
         </label>
 
-        {p?.type === "wig" ? (
+        {lineProduct?.type === "wig" ? (
           <label className="block">
             <span className="block text-xs text-neutral-600 mb-1">Density</span>
             <select
@@ -711,9 +711,9 @@ function LineRow({ line, catalog, onChange, onRemove }) {
               onChange={(e) => onChange(line.id, { density: Number(e.target.value) })}
               className="w-full px-3 py-3 rounded-2xl border border-neutral-300 bg-white/80 text-sm"
             >
-              {wigDensities.map((d) => (
-                <option key={d} value={d}>
-                  {d}%
+              {wigDensities.map((densityValue) => (
+                <option key={densityValue} value={densityValue}>
+                  {densityValue}%
                 </option>
               ))}
             </select>
@@ -762,7 +762,7 @@ function LineRow({ line, catalog, onChange, onRemove }) {
       <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-xs text-neutral-500">
-            {p?.collection ? `${p.collection} • ` : ""}{p?.texture || ""}{p?.color ? ` • ${p.color}` : ""}
+            {lineProduct?.collection ? `${lineProduct.collection} • ` : ""}{lineProduct?.texture || ""}{lineProduct?.color ? ` • ${lineProduct.color}` : ""}
           </p>
           <p className="text-sm text-neutral-800 mt-1">
             <span className="text-neutral-500">Retail:</span> {money(retailUnit)}&nbsp; &nbsp;

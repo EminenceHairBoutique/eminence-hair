@@ -19,9 +19,9 @@ async function readJson(req) {
 }
 
 function isValidEmail(email) {
-  const e = String(email || "").trim();
+  const emailAddress = String(email || "").trim();
   // Simple, robust-enough validation
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress);
 }
 
 export default async function handler(req, res) {

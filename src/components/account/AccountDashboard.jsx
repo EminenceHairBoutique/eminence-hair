@@ -33,10 +33,10 @@ const niceDate = (iso) => {
 };
 
 const isApprovedPartner = (tier, status) => {
-  const t = String(tier || "").toLowerCase();
-  const s = String(status || "").toLowerCase();
-  if (t === "partner" || t === "wholesale" || t.startsWith("partner_")) return true;
-  if (s === "approved" || s === "active") return true;
+  const tierValue = String(tier || "").toLowerCase();
+  const statusValue = String(status || "").toLowerCase();
+  if (tierValue === "partner" || tierValue === "wholesale" || tierValue.startsWith("partner_")) return true;
+  if (statusValue === "approved" || statusValue === "active") return true;
   return false;
 };
 
