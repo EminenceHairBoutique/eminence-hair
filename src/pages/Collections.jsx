@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import PageTransition from "../components/PageTransition";
 import PageHero from "../components/PageHero";
 import LazyImage from "../components/LazyImage";
+import SEO from "../components/SEO";
 
 export default function Collections() {
   const collections = useMemo(
@@ -140,7 +141,12 @@ export default function Collections() {
   }, [active, collections]);
 
   return (
-    <PageTransition>
+    <>
+      <SEO
+        title="Collections"
+        description="Explore the Eminence universe — origin-driven collections, editorial edits, and colorways designed to perform under every light."
+      />
+      <PageTransition>
       <div className="bg-[#F9F7F4] text-[#111]">
         <PageHero
           eyebrow="Collections"
@@ -372,5 +378,6 @@ export default function Collections() {
         </div>
       </div>
     </PageTransition>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import SEO from "../components/SEO";
 
 // Matches src/components/legal/CookieBanner.jsx
 const STORAGE_KEY = "eminence_cookie_consent";
@@ -93,7 +94,12 @@ export default function PrivacyChoices() {
   };
 
   return (
-    <div className="pt-28 pb-24 bg-neutral-50 text-neutral-900">
+    <>
+      <SEO
+        title="Your Privacy Choices"
+        description="Control how non-essential technologies are used on the Eminence Hair Boutique website."
+      />
+      <div className="pt-28 pb-24 bg-neutral-50 text-neutral-900">
       <div className="max-w-4xl mx-auto px-6 space-y-10">
         <header className="space-y-3">
           <h1 className="text-3xl font-light tracking-wide">Your Privacy Choices</h1>
@@ -193,5 +199,6 @@ export default function PrivacyChoices() {
         </section>
       </div>
     </div>
+    </>
   );
 }

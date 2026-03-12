@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SEO from "../components/SEO";
 
 export default function Consultation() {
   const calendlyUrl =
@@ -7,7 +8,12 @@ export default function Consultation() {
     "https://calendly.com/"; // set VITE_CALENDLY_URL in Vercel / .env
 
   return (
-    <div className="bg-white">
+    <>
+      <SEO
+        title="Book a Consultation"
+        description="Schedule a private video consultation for wigs, installs, medical-grade solutions, or custom atelier requests with the Eminence concierge team."
+      />
+      <div className="bg-white">
       <div className="mx-auto max-w-6xl px-6 py-14">
         <div className="max-w-2xl">
           <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
@@ -65,5 +71,6 @@ export default function Consultation() {
         </p>
       </div>
     </div>
+    </>
   );
 }

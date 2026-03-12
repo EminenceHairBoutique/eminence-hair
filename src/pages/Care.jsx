@@ -4,6 +4,7 @@ import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import PageTransition from "../components/PageTransition";
 import PageHero from "../components/PageHero";
+import SEO from "../components/SEO";
 
 export default function Care() {
   const sections = useMemo(
@@ -109,7 +110,12 @@ export default function Care() {
   const active = textures.find((t) => t.id === activeTexture);
 
   return (
-    <PageTransition>
+    <>
+      <SEO
+        title="Hair Care Guide"
+        description="Keep your Eminence hair soft, silky, and camera-ready with our expert care guide. Proper wash, heat, and storage rituals for lasting luxury."
+      />
+      <PageTransition>
       <div className="bg-[#F9F7F4] text-[#111]">
         <PageHero
           compact
@@ -261,5 +267,6 @@ export default function Care() {
         </div>
       </div>
     </PageTransition>
+    </>
   );
 }

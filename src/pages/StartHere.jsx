@@ -5,6 +5,7 @@ import PageHero from "../components/PageHero";
 import { products, eminenceEssentials } from "../data/products";
 import { resolveProductImages } from "../utils/productMedia";
 import { norm } from "../utils/strings";
+import SEO from "../components/SEO";
 
 const TEXTURE_OPTIONS = [
   { label: "Straight", value: "Straight" },
@@ -84,7 +85,12 @@ export default function StartHere() {
   const empty = suggested.length === 0;
 
   return (
-    <PageTransition>
+    <>
+      <SEO
+        title="Start Here — Guided Hair Shopping"
+        description="Choose wigs or bundles, then narrow by texture, color, and length. Our concierge can help you select the right piece without pressure."
+      />
+      <PageTransition>
       <div className="bg-[#F9F7F4] text-[#111]">
         <PageHero
           eyebrow="Start Here"
@@ -256,6 +262,7 @@ export default function StartHere() {
         </div>
       </div>
     </PageTransition>
+    </>
   );
 }
 

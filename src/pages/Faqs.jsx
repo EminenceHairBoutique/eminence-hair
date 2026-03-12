@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import PageTransition from "../components/PageTransition";
 import PageHero from "../components/PageHero";
+import SEO from "../components/SEO";
 
 function normalize(s = "") {
   return String(s).toLowerCase().trim();
@@ -227,7 +228,12 @@ export default function Faqs() {
   };
 
   return (
-    <PageTransition>
+    <>
+      <SEO
+        title="Frequently Asked Questions"
+        description="Quick answers, clear policies, and guidance for choosing your Eminence hair. Shipping, returns, care, and custom order FAQs."
+      />
+      <PageTransition>
       <div className="bg-[#F9F7F4] text-[#111]">
         <PageHero
           compact
@@ -382,5 +388,6 @@ export default function Faqs() {
         </div>
       </div>
     </PageTransition>
+    </>
   );
 }
