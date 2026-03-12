@@ -60,6 +60,7 @@ const Returns = lazy(() => import("./pages/Returns"));
 const Installers = lazy(() => import("./pages/Installers"));
 const Cart = lazy(() => import("./pages/Cart"));
 const AtelierTryOn = lazy(() => import("./pages/AtelierTryOn"));
+const AtelierMirror = lazy(() => import("./pages/AtelierMirror"));
 const AtelierPreorder = lazy(() => import("./pages/AtelierPreorder"));
 
 
@@ -147,6 +148,7 @@ export default function App() {
                 ["/installers", <Installers />],
                 ["/cart", <Cart />],
                 ["/atelier/try-on", <AtelierTryOn />],
+                ["/atelier/mirror", <AtelierMirror />],
                 ["/atelier/preorder", <AtelierPreorder />],
                 ["/preorder", <AtelierPreorder />],
                 ["/verify", <Verify />],
