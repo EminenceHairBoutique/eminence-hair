@@ -34,22 +34,35 @@ const Footer = () => {
               Shop
             </p>
             <Link to="/shop" className="hover:text-neutral-200 block">All Products</Link>
-            <Link to="/custom-orders" className="hover:text-neutral-200 block">Pre-Orders</Link>
+            <Link to="/shop/preorders" className="hover:text-neutral-200 block">Pre-Orders</Link>
             <Link to="/ready-to-ship" className="hover:text-neutral-200 block">Ready-to-Ship</Link>
             <Link to="/shop/wigs" className="hover:text-neutral-200 block">Wigs</Link>
             <Link to="/shop/bundles" className="hover:text-neutral-200 block">Bundles</Link>
-            <Link to="/collections" className="hover:text-neutral-200 block">Collections</Link>
+            <Link to="/shop?collection=eminence-essentials" className="hover:text-neutral-200 block">Eminence Essentials</Link>
           </div>
 
           <div className="space-y-2">
             <p className="text-neutral-500 tracking-[0.22em] uppercase text-[11px] mb-2">
               Info
             </p>
+            <Link to="/collections/fw-2025" className="hover:text-neutral-200 block">F/W 2025</Link>
+            <Link to="/collections/sea" className="hover:text-neutral-200 block">SEA</Link>
+            <Link to="/collections/burmese" className="hover:text-neutral-200 block">Burmese</Link>
+            <Link to="/collections/lavish" className="hover:text-neutral-200 block">Lavish</Link>
+            <Link to="/collections/613" className="hover:text-neutral-200 block">613</Link>
             <Link to="/authenticity" className="hover:text-neutral-200 block">Authenticity</Link>
-            <Link to="/returns" className="hover:text-neutral-200 block">Shipping &amp; Returns</Link>
+          </div>
+
+          <div className="space-y-2">
+            <p className="text-neutral-500 tracking-[0.22em] uppercase text-[11px] mb-2">
+              Help
+            </p>
+            <Link to="/care" className="hover:text-neutral-200 block">Care Guide</Link>
             <Link to="/faqs" className="hover:text-neutral-200 block">FAQs</Link>
-            <Link to="/medical-hair" className="hover:text-neutral-200 block">Medical Concierge</Link>
-            <Link to="/about" className="hover:text-neutral-200 block">Our Story</Link>
+            <Link to="/returns" className="hover:text-neutral-200 block">Shipping & Returns</Link>
+            <Link to="/contact" className="hover:text-neutral-200 block">Contact</Link>
+            <Link to="/private-consult" className="hover:text-neutral-200 block">Book a Consult</Link>
+            <Link to="/partners" className="hover:text-neutral-200 block">Partner Program</Link>
           </div>
 
           <div className="space-y-2">
@@ -82,8 +95,7 @@ const Footer = () => {
             >
               {BRAND.supportEmail}
             </a>
-            <Link to="/contact" className="hover:text-neutral-200 block">Concierge</Link>
-            <Link to="/partners" className="hover:text-neutral-200 block">Partner Program</Link>
+            <Link to="/account" className="hover:text-neutral-200 block">My Account</Link>
           </div>
 
         </div>

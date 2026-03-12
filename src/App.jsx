@@ -119,6 +119,7 @@ export default function App() {
                 ["/shop/bundles", <Shop />],
                 ["/shop/closures", <Shop />],
                 ["/shop/medical", <Shop />],
+                ["/shop/preorders", <Shop />],
                 ["/products/:slug", <ProductDetail />],
                 ["/gallery", <Gallery />],
                 ["/collections", <Collections />],
