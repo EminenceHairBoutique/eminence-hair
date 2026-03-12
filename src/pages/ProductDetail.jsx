@@ -26,10 +26,7 @@ import ShippingRegions from "../components/ShippingRegions";
 import VirtualPreviewModal from "../components/VirtualPreviewModal";
 import { trackViewItem } from "../utils/track";
 import { resolveProductImages } from "../utils/productMedia";
-
-/* ---------------- helpers ---------------- */
-const formatMoney = (n) =>
-  `$${Number(n).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+import { formatMoney } from "../utils/format";
 
 /* ---------------- collection PDP copy ---------------- */
 function EssentialLaceCopy({ product }) {

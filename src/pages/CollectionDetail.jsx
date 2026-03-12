@@ -9,79 +9,9 @@ import { prefetchRoute } from "../utils/prefetch";
 import SEO from "../components/SEO";
 import QuickViewModal from "../components/QuickViewModal";
 import { resolveProductImages } from "../utils/productMedia";
-
-/* ---------------- helpers ---------------- */
-const safeMin = (arr, fallback = null) => {
-  if (!Array.isArray(arr) || arr.length === 0) return fallback;
-  return Math.min(...arr);
-};
-
-const getMinLength = (p) => safeMin(p.lengths, p.defaultLength ?? null);
-const getMinDensity = (p) => safeMin(p.densities, p.defaultDensity ?? null);
-
-const getStartingPrice = (p) => {
-  const L = getMinLength(p);
-  const D = getMinDensity(p);
-
-  // Prefer explicit from/base pricing if present
-  if (p.basePrice != null) return Number(p.basePrice) || 0;
-  if (p.fromPrice != null) return Number(p.fromPrice) || 0;
-
-  // Compute from price() if available
-  if (typeof p.price === "function" && L != null) {
-    try {
-      const val =
-        D == null
-          ? Number(p.price(L) || 0) // bundles / closures / frontals
-          : Number(p.price(L, D, "Transparent Lace") || 0); // wigs
-      return Number.isFinite(val) ? val : 0;
-    } catch {
-      // fall through
-    }
-  }
-
-  return Number(p.basePrice ?? p.fromPrice ?? p.price ?? 0);
-};
-
-const formatMoney = (n) =>
-  `$${Number(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
-
-const slugify = (str) =>
-  String(str || "")
-    .toLowerCase()
-    .trim()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)+/g, "");
-
-const matchesColor = (p, color) => {
-  const c = String(color || "").toLowerCase();
-
-  // Backwards compatible: many older products are tagged via collectionSlug / collection name
-  const slug = String(p.collectionSlug || "").toLowerCase();
-  const collection = String(p.collection || "").toLowerCase();
-  const name = String(p.name || "").toLowerCase();
-  const displayName = String(p.displayName || "").toLowerCase();
-  const productColor = String(p.color || "").toLowerCase();
-
-  const haystack = `${productColor} ${slug} ${collection} ${name} ${displayName}`.toLowerCase();
-  const has = (needle) => haystack.includes(needle);
-
-  // Your current color families
-  if (c === "1") return productColor === "1" || has("jet black") || has("#1") || has("1");
-  if (c === "1b") return productColor === "1b" || has("1b") || has("natural black") || has("natural");
-  if (c === "613") return productColor === "613" || has("613") || has("blonde") || slug === "613" || collection.includes("colorway 613");
-  if (c === "burgundy") return productColor === "burgundy" || has("burgundy") || has("burg") || has("h-red") || has("red");
-  if (c === "brown") return productColor === "brown" || has("brown") || has("22") || has("24") || has("27");
-  if (c === "silver") return productColor === "silver" || has("silver") || has("gray") || has("grey");
-  if (c === "orange") return productColor === "orange" || has("orange");
-
-  // Legacy option
-  if (c === "natural") return has("natural") || has("1b") || slug === "natural" || collection.includes("colorway natural");
-
-  // If you later add more, this will safely default false
-  return false;
-};
+import { slugify } from "../utils/strings";
+import { formatMoney } from "../utils/format";
+import { getMinLength, getMinDensity, getStartingPrice, matchesColor } from "../utils/productFiltering";
 
 const prefetchProduct = () => import("./ProductDetail");
 

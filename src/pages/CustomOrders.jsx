@@ -4,109 +4,15 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import PageTransition from "../components/PageTransition";
 import PageHero from "../components/PageHero";
+import {
+  MAX_REFERENCE_IMAGES,
+  MAX_ORIGINAL_MB,
+  compressImageToBase64 as compressImageFile,
+} from "../utils/imageProcessing";
+import { formatBytes } from "../utils/format";
 
 const inputBase =
   "w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:border-black/25";
-
-const MAX_REFERENCE_IMAGES = 4;
-const MAX_ORIGINAL_MB = 12;
-const MAX_DIMENSION = 1600;
-const JPEG_QUALITY = 0.82;
-
-const formatBytes = (bytes = 0) => {
-  const n = Number(bytes || 0);
-  if (n <= 0) return "0 KB";
-  const kb = n / 1024;
-  if (kb < 1024) return `${Math.round(kb)} KB`;
-  return `${(kb / 1024).toFixed(1)} MB`;
-};
-
-const safeFilename = (name = "reference") => {
-  const base = String(name || "reference")
-    .replace(/\.[^/.]+$/, "")
-    .replace(/[^a-z0-9_-]+/gi, "-")
-    .replace(/-+/g, "-")
-    .replace(/^[-_]+|[-_]+$/g, "")
-    .slice(0, 40);
-  return `${base || "reference"}.jpg`;
-};
-
-const blobToBase64 = (blob) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = String(reader.result || "");
-      const base64 = result.split(",")[1] || "";
-      resolve(base64);
-    };
-    reader.onerror = () => reject(new Error("Unable to read image"));
-    reader.readAsDataURL(blob);
-  });
-
-const fileToImage = async (file) => {
-  if (typeof createImageBitmap === "function") {
-    const bitmap = await createImageBitmap(file);
-    return bitmap;
-  }
-
-  const dataUrl = await new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = () => reject(new Error("Unable to read image"));
-    reader.readAsDataURL(file);
-  });
-
-  const img = await new Promise((resolve, reject) => {
-    const el = new Image();
-    el.onload = () => resolve(el);
-    el.onerror = () => reject(new Error("Unable to load image"));
-    el.src = dataUrl;
-  });
-  return img;
-};
-
-const compressImageFile = async (file) => {
-  const bitmap = await fileToImage(file);
-  const width = bitmap.width || bitmap.naturalWidth || 1;
-  const height = bitmap.height || bitmap.naturalHeight || 1;
-  const scale = Math.min(1, MAX_DIMENSION / Math.max(width, height));
-  const targetW = Math.max(1, Math.round(width * scale));
-  const targetH = Math.max(1, Math.round(height * scale));
-
-  const canvas = document.createElement("canvas");
-  canvas.width = targetW;
-  canvas.height = targetH;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Unable to process image");
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, targetW, targetH);
-  ctx.drawImage(bitmap, 0, 0, targetW, targetH);
-  if (typeof bitmap.close === "function") bitmap.close();
-
-  const blob = await new Promise((resolve, reject) => {
-    canvas.toBlob(
-      (b) => (b ? resolve(b) : reject(new Error("Unable to compress image"))),
-      "image/jpeg",
-      JPEG_QUALITY
-    );
-  });
-
-  const base64 = await blobToBase64(blob);
-  const previewUrl = URL.createObjectURL(blob);
-  const id =
-    (typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID()) ||
-    `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-
-  return {
-    id,
-    filename: safeFilename(file?.name),
-    label: "Inspiration",
-    content: base64,
-    contentType: blob.type,
-    bytes: blob.size,
-    previewUrl,
-  };
-};
 
 export default function CustomOrders() {
   const productTypes = useMemo(
