@@ -4,12 +4,7 @@ import PageTransition from "../components/PageTransition";
 import PageHero from "../components/PageHero";
 import { products, eminenceEssentials } from "../data/products";
 import { resolveProductImages } from "../utils/productMedia";
-
-const norm = (s) =>
-  String(s || "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "")
-    .trim();
+import { norm } from "../utils/strings";
 
 const TEXTURE_OPTIONS = [
   { label: "Straight", value: "Straight" },
