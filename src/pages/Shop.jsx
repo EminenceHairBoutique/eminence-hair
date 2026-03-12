@@ -133,6 +133,8 @@ export default function Shop() {
       ? "bundle"
       : location.pathname === "/shop/closures"
       ? "closure"
+      : location.pathname === "/shop/preorders"
+      ? "preorder"
       : "all";
 
   // Support Navbar links like /shop?type=wig
@@ -161,6 +163,7 @@ export default function Shop() {
   // Medical view is a dedicated route (/shop/medical). Keep it explicit so we don't
   // accidentally hide products when a user is browsing the main shop.
   const isMedicalView = location.pathname === "/shop/medical";
+  const isPreorderView = location.pathname === "/shop/preorders" || mode === "preorder";
 
   const [addingId, setAddingId] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -170,14 +173,19 @@ export default function Shop() {
     // Hide internal SKUs (e.g., install sets) from the main shop grid.
     const visible = products.filter((p) => !p.hideFromShop);
 
-    if (mode === "all") return visible;
+    if (mode === "all") return visible.filter((p) => !p.isPreorder);
+
+    // Pre-orders dedicated view
+    if (mode === "preorder") {
+      return visible.filter((p) => p.isPreorder);
+    }
 
     // Closures view includes both closures + frontals.
     if (mode === "closure") {
-      return visible.filter((p) => p.type === "closure" || p.type === "frontal");
+      return visible.filter((p) => (p.type === "closure" || p.type === "frontal") && !p.isPreorder);
     }
 
-    return visible.filter((p) => p.type === mode);
+    return visible.filter((p) => p.type === mode && !p.isPreorder);
   }, [mode]);
 
   const collectionOptions = useMemo(() => {
@@ -232,6 +240,16 @@ export default function Shop() {
   const visibleProducts = useMemo(() => {
     let list = [...filteredByType];
 
+    // Pre-Order view: show only pre-order products
+    if (isPreorderView) {
+      list = list.filter((p) => p.isPreorder);
+      // Allow texture filter to refine
+      if (textureFilter !== "All") {
+        list = list.filter((p) => isSame(p.texture, textureFilter));
+      }
+      return list;
+    }
+
     // Medical Grade view: show only medical products
     if (isMedicalView) {
       list = list.filter((p) => p.isMedical || p.collectionSlug === "medical-grade");
@@ -283,7 +301,7 @@ export default function Shop() {
     if (sortKey === "alpha") list.sort(byName);
 
     return list;
-  }, [filteredByType, isEssentialsView, isReadyToShipView, isMedicalView, collectionFilter, textureFilter, colorFilter, sortKey]);
+  }, [filteredByType, isEssentialsView, isReadyToShipView, isMedicalView, isPreorderView, collectionFilter, textureFilter, colorFilter, sortKey]);
 
   const activeChips = useMemo(() => {
     const collectionLabel =
@@ -380,6 +398,8 @@ export default function Shop() {
   const heroTitle =
     isMedicalView
       ? "Medical Grade Wigs"
+      : isPreorderView
+      ? "Pre Orders"
       : isEssentialsView
       ? "Eminence Essentials"
       : mode === "wig"
@@ -393,6 +413,8 @@ export default function Shop() {
   const heroSubtitle =
     isMedicalView
       ? "Cranial prosthesis options designed for sensitive scalps — refined realism, ultra-soft construction, and concierge support."
+      : isPreorderView
+      ? "Factory-direct luxury bundles — True Raw, Double Drawn, and Super Double Drawn — dispatched from our partner atelier with a 10–18 day lead time."
       : isEssentialsView
       ? "Our most-requested textures and best sellers — curated for first-time clients and returning collectors."
       : mode === "wig"
@@ -947,6 +969,12 @@ export default function Shop() {
                         {p.readyToShip && (
                           <span className="absolute top-3 right-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-white/80 text-neutral-900 border border-white/60">
                             Ready to ship
+                          </span>
+                        )}
+
+                        {p.isPreorder && (
+                          <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] uppercase tracking-[0.2em] bg-[#D4AF37] text-[#111] font-medium shadow-sm">
+                            Pre-Order
                           </span>
                         )}
                       </Link>

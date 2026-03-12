@@ -958,6 +958,189 @@ export const products = [
   },
 
 
+  // ======================
+  // PRE-ORDER COLLECTION
+  // ======================
+
+  {
+    id: "preorder-raw-vietnamese",
+    slug: "preorder-raw-vietnamese",
+    name: "Raw Vietnamese",
+    displayName: "Raw Vietnamese Bundles — Pre-Order",
+    type: "bundle",
+    collection: "Pre Orders",
+    collectionSlug: "preorders",
+    texture: "Straight",
+    color: "1B",
+    isPreorder: true,
+    preorderCategory: "Pre Orders",
+    shipsFrom: "Factory",
+    leadTimeLabel: "10–14 business days",
+    qualityTier: "True Raw",
+    preorderBadgeText: "Pre-Order",
+    preorderDisclaimer: "This item is fulfilled directly from our factory partner and is not part of current domestic inventory.",
+    basePrice: 189,
+    description: "100% raw Vietnamese hair bundles — unprocessed, cuticle-aligned, factory drop-shipped directly from our partner atelier. Rich texture with natural body.",
+    lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28],
+    price(length) {
+      const P = { 12: 159, 14: 169, 16: 189, 18: 209, 20: 229, 22: 249, 24: 269, 26: 289, 28: 309 };
+      return P[length] ?? 189;
+    },
+    images: [
+      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_01.webp",
+      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_02.webp",
+    ],
+  },
+
+  {
+    id: "preorder-raw-wefts-natural",
+    slug: "preorder-raw-wefts-natural",
+    name: "Raw Wefts & Natural",
+    displayName: "Raw Wefts & Natural Ends — Pre-Order",
+    type: "bundle",
+    collection: "Pre Orders",
+    collectionSlug: "preorders",
+    texture: "Natural",
+    color: "1B",
+    isPreorder: true,
+    preorderCategory: "Pre Orders",
+    shipsFrom: "Factory",
+    leadTimeLabel: "10–14 business days",
+    qualityTier: "True Raw",
+    preorderBadgeText: "Pre-Order",
+    preorderDisclaimer: "This item is fulfilled directly from our factory partner and is not part of current domestic inventory.",
+    basePrice: 179,
+    description: "Raw weft bundles with preserved natural ends — minimal processing, full cuticle alignment, and factory-direct quality. Natural luster without the silicone coating.",
+    lengths: [12, 14, 16, 18, 20, 22, 24],
+    price(length) {
+      const P = { 12: 149, 14: 159, 16: 179, 18: 199, 20: 219, 22: 239, 24: 259 };
+      return P[length] ?? 179;
+    },
+    images: [
+      "/gallery/collections/Burmese/Eminence_Burmese_BodyWave_Natural_01.webp",
+      "/gallery/collections/Burmese/Eminence_Burmese_BodyWave_Natural_02.webp",
+    ],
+  },
+
+  {
+    id: "preorder-high-grade-tier1",
+    slug: "preorder-high-grade-tier1",
+    name: "High Grade Tier-1",
+    displayName: "High Grade Tier-1 Bundles — Pre-Order",
+    type: "bundle",
+    collection: "Pre Orders",
+    collectionSlug: "preorders",
+    texture: "Straight",
+    color: "1B",
+    isPreorder: true,
+    preorderCategory: "Pre Orders",
+    shipsFrom: "Factory",
+    leadTimeLabel: "10–14 business days",
+    qualityTier: "High Grade",
+    preorderBadgeText: "Pre-Order",
+    preorderDisclaimer: "This item is fulfilled directly from our factory partner and is not part of current domestic inventory.",
+    basePrice: 219,
+    description: "Our highest-grade bundles — Tier-1 classification for strand uniformity, luster, and longevity. Factory-selected from premium donor batches.",
+    lengths: [14, 16, 18, 20, 22, 24, 26, 28, 30],
+    price(length) {
+      const P = { 14: 199, 16: 219, 18: 239, 20: 259, 22: 279, 24: 299, 26: 319, 28: 339, 30: 359 };
+      return P[length] ?? 219;
+    },
+    images: [
+      "/gallery/collections/Lavish/Eminence_Lavish_BodyWave_Natural_01.webp",
+      "/gallery/collections/Lavish/Eminence_Lavish_BodyWave_Natural_02.webp",
+    ],
+  },
+
+  {
+    id: "preorder-true-raw-standard",
+    slug: "preorder-true-raw-standard",
+    name: "True Raw Standard",
+    displayName: "True Raw Standard Bundles — Pre-Order",
+    type: "bundle",
+    collection: "Pre Orders",
+    collectionSlug: "preorders",
+    texture: "BodyWave",
+    color: "1B",
+    isPreorder: true,
+    preorderCategory: "Pre Orders",
+    shipsFrom: "Factory",
+    leadTimeLabel: "10–14 business days",
+    qualityTier: "True Raw",
+    preorderBadgeText: "Pre-Order",
+    preorderDisclaimer: "This item is fulfilled directly from our factory partner and is not part of current domestic inventory.",
+    basePrice: 169,
+    description: "True raw hair at its standard tier — cuticle-aligned, unprocessed, and ethically sourced. The right entry point into genuine raw hair.",
+    lengths: [12, 14, 16, 18, 20, 22, 24, 26],
+    price(length) {
+      const P = { 12: 139, 14: 149, 16: 169, 18: 189, 20: 209, 22: 229, 24: 249, 26: 269 };
+      return P[length] ?? 169;
+    },
+    images: [
+      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_03.webp",
+      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_04.webp",
+    ],
+  },
+
+  {
+    id: "preorder-double-drawn",
+    slug: "preorder-double-drawn",
+    name: "Double Drawn (DD)",
+    displayName: "Double Drawn Bundles (DD) — Pre-Order",
+    type: "bundle",
+    collection: "Pre Orders",
+    collectionSlug: "preorders",
+    texture: "Straight",
+    color: "1B",
+    isPreorder: true,
+    preorderCategory: "Pre Orders",
+    shipsFrom: "Factory",
+    leadTimeLabel: "12–16 business days",
+    qualityTier: "Double Drawn",
+    preorderBadgeText: "Pre-Order",
+    preorderDisclaimer: "This item is fulfilled directly from our factory partner and is not part of current domestic inventory.",
+    basePrice: 249,
+    description: "Double drawn (DD) bundles — hand-selected for strand length uniformity from root to tip. Ultra-full, ultra-dense finish at every length.",
+    lengths: [14, 16, 18, 20, 22, 24, 26, 28],
+    price(length) {
+      const P = { 14: 229, 16: 249, 18: 269, 20: 289, 22: 309, 24: 329, 26: 349, 28: 369 };
+      return P[length] ?? 249;
+    },
+    images: [
+      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_01.webp",
+      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_02.webp",
+    ],
+  },
+
+  {
+    id: "preorder-super-double-drawn",
+    slug: "preorder-super-double-drawn",
+    name: "Super Double Drawn (SDD)",
+    displayName: "Super Double Drawn Bundles (SDD) — Pre-Order",
+    type: "bundle",
+    collection: "Pre Orders",
+    collectionSlug: "preorders",
+    texture: "Straight",
+    color: "1B",
+    isPreorder: true,
+    preorderCategory: "Pre Orders",
+    shipsFrom: "Factory",
+    leadTimeLabel: "14–18 business days",
+    qualityTier: "Super Double Drawn",
+    preorderBadgeText: "Pre-Order",
+    preorderDisclaimer: "This item is fulfilled directly from our factory partner and is not part of current domestic inventory.",
+    basePrice: 299,
+    description: "The pinnacle of bundle density — Super Double Drawn (SDD) with maximum strand uniformity throughout. Every inch, full. Factory-curated for the most demanding installs.",
+    lengths: [14, 16, 18, 20, 22, 24, 26, 28, 30],
+    price(length) {
+      const P = { 14: 279, 16: 299, 18: 319, 20: 339, 22: 359, 24: 379, 26: 399, 28: 419, 30: 439 };
+      return P[length] ?? 299;
+    },
+    images: [
+      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_03.webp",
+      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_04.webp",
+    ],
+  },
 ];
 
 // ======================
@@ -966,5 +1149,7 @@ export const products = [
 export const eminenceEssentials = products
   .filter((p) => p.isEssential)
   .sort((a, b) => (a.essentialOrder ?? 99) - (b.essentialOrder ?? 99));
+
+export const preorderProducts = products.filter((p) => p.isPreorder === true);
 
 export default products;

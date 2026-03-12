@@ -217,6 +217,12 @@ function SpecTable({ product, selectedLength, selectedDensity, lace, capSize }) 
     rows.push({ label: "Cap Size", value: capSize || "—" });
   }
 
+  if (product.isPreorder) {
+    rows.push({ label: "Ships From", value: product.shipsFrom || "Factory" });
+    rows.push({ label: "Lead Time", value: product.leadTimeLabel || "10–14 business days" });
+    rows.push({ label: "Quality Tier", value: product.qualityTier || "—" });
+  }
+
   if (product.verificationCode) {
     rows.push({ label: "Verification", value: `Serial ${product.verificationCode}` });
   }
@@ -801,6 +807,27 @@ export default function ProductDetail() {
                     </>
                   )}
 
+                  {product.isPreorder && (
+                    <div className="rounded-2xl border border-[#D4AF37]/30 bg-[#D4AF37]/5 p-4 space-y-2 mb-4">
+                      <div className="flex items-center gap-2">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-[0.2em] bg-[#D4AF37] text-[#111] font-medium">
+                          Pre-Order
+                        </span>
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-[0.2em] border border-neutral-300 text-neutral-600">
+                          Factory Drop-Ship
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-neutral-600 leading-relaxed">
+                        {product.leadTimeLabel && (
+                          <span className="block font-medium text-neutral-800 mb-1">
+                            Estimated lead time: {product.leadTimeLabel}
+                          </span>
+                        )}
+                        {product.preorderDisclaimer}
+                      </p>
+                    </div>
+                  )}
+
                   <div className="flex items-center gap-3">
                     <div className="flex items-center border rounded-full">
                       <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-3" aria-label="Decrease quantity">
@@ -821,7 +848,7 @@ export default function ProductDetail() {
                           : "bg-neutral-300 text-neutral-500 cursor-not-allowed"
                       }`}
                     >
-                      Add to Bag
+                      {product.isPreorder ? "Pre-Order" : "Add to Bag"}
                     </button>
                   </div>
 
@@ -878,6 +905,34 @@ export default function ProductDetail() {
                     (product?.name || "").toLowerCase().includes("essential lace")) && (
                     <Accordion title="Essential Lace Details">
                       <EssentialLaceCopy product={product} />
+                    </Accordion>
+                  )}
+
+                  {product.isPreorder && (
+                    <Accordion title="How Pre-Order Works">
+                      <div className="space-y-3">
+                        <div className="flex gap-3">
+                          <span className="text-[#D4AF37] font-medium text-sm">1</span>
+                          <div>
+                            <p className="text-sm font-medium text-neutral-900">Place your order</p>
+                            <p className="text-xs text-neutral-600 mt-0.5">Your pre-order is confirmed and queued with our factory partner.</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-3">
+                          <span className="text-[#D4AF37] font-medium text-sm">2</span>
+                          <div>
+                            <p className="text-sm font-medium text-neutral-900">Factory prepares and dispatches</p>
+                            <p className="text-xs text-neutral-600 mt-0.5">Your item is prepared and shipped directly from our atelier within the estimated lead time.</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-3">
+                          <span className="text-[#D4AF37] font-medium text-sm">3</span>
+                          <div>
+                            <p className="text-sm font-medium text-neutral-900">Tracking is sent once shipped</p>
+                            <p className="text-xs text-neutral-600 mt-0.5">You'll receive a tracking number via email as soon as your order leaves the factory.</p>
+                          </div>
+                        </div>
+                      </div>
                     </Accordion>
                   )}
 
@@ -985,7 +1040,7 @@ export default function ProductDetail() {
                       : "bg-neutral-300 text-neutral-500 cursor-not-allowed"
                   }`}
                 >
-                  Add to Bag
+                  {product.isPreorder ? "Pre-Order" : "Add to Bag"}
                 </button>
               </div>
             </div>
