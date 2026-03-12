@@ -94,3 +94,26 @@ button:focus-visible {
   width: 100%;
 }
 
+/* ─── Elegant image fallback placeholder ───────────────────────────── */
+.img-fallback {
+  background-color: #F3EFE8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Normalized tap targets for mobile ────────────────────────────── */
+@media (max-width: 640px) {
+  button,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  /* exception: compact icon buttons */
+  .tap-compact,
+  .tap-compact * {
+    min-height: unset;
+    min-width: unset;
+  }
+}
+

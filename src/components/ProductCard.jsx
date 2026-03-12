@@ -50,16 +50,20 @@ const ProductCard = ({ product }) => {
   return (
     <Link
       to={`/products/${product.slug ?? product.id}`}
-      className="group block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
+      className="group block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 card-hover"
     >
-      <div className="aspect-[3/4] bg-neutral-100 overflow-hidden">
+      <div className="aspect-[3/4] bg-neutral-100 overflow-hidden relative">
         {product.image || images?.[0] || product.images?.[0] ? (
           <img
             src={product.image || images?.[0] || product.images?.[0]}
             alt={product.name}
             className="h-full w-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
           />
-        ) : null}
+        ) : (
+          <div className="h-full w-full flex items-center justify-center bg-[#F3EFE8]">
+            <span className="text-[11px] tracking-[0.22em] uppercase text-neutral-400">Eminence</span>
+          </div>
+        )}
       </div>
 
       <div className="px-4 pt-4 pb-5">
@@ -83,7 +87,7 @@ const ProductCard = ({ product }) => {
           </span>
           <button
             onClick={handleQuickAdd}
-            className="text-[10px] uppercase tracking-[0.22em] border border-neutral-300 rounded-full px-3 py-1 text-neutral-600 group-hover:border-[#111]"
+            className="text-[10px] uppercase tracking-[0.22em] border border-neutral-300 rounded-full px-3 py-1 text-neutral-600 transition-colors group-hover:border-[#111] hover:bg-[#111] hover:text-[#F9F7F4]"
             type="button"
           >
             Add
