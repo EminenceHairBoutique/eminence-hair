@@ -7,6 +7,7 @@
 // - TWILIO_VERIFY_SERVICE_SID
 
 import { supabaseServer } from "../lib/supabaseServer.js";
+import { checkRateLimit } from "./_utils/rateLimit.js";
 
 async function readJson(req) {
   if (req.body && typeof req.body === "object") return req.body;
@@ -84,6 +85,14 @@ export default async function handler(req, res) {
     res.status(405).json({ error: "Method not allowed" });
     return;
   }
+
+  // Rate limit: 5 SMS verify attempts per IP per minute.
+  const allowed = await checkRateLimit(req, res, {
+    endpoint: "sms-verify",
+    max: 5,
+    windowMs: 60_000,
+  });
+  if (!allowed) return;
 
   const payload = await readJson(req);
   if (!payload) {

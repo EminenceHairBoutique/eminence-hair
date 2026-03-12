@@ -6,6 +6,8 @@
 // - TWILIO_AUTH_TOKEN
 // - TWILIO_VERIFY_SERVICE_SID
 
+import { checkRateLimit } from "./_utils/rateLimit.js";
+
 async function readJson(req) {
   // Vercel may provide req.body already parsed
   if (req.body && typeof req.body === "object") return req.body;
@@ -84,6 +86,15 @@ export default async function handler(req, res) {
     res.status(405).json({ error: "Method not allowed" });
     return;
   }
+
+  // Rate limit: 3 SMS verification starts per IP per minute.
+  // This prevents SMS bombing / abuse of the Twilio account.
+  const allowed = await checkRateLimit(req, res, {
+    endpoint: "sms-start",
+    max: 3,
+    windowMs: 60_000,
+  });
+  if (!allowed) return;
 
   const payload = await readJson(req);
   if (!payload) {
