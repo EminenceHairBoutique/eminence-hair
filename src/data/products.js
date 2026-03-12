@@ -1076,8 +1076,8 @@ export const products = [
       return P[length] ?? 169;
     },
     images: [
-      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_03.webp",
-      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_04.webp",
+      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_01.webp",
+      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_02.webp",
     ],
   },
 
