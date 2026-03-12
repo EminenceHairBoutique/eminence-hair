@@ -125,27 +125,22 @@ export default function AccountDashboard() {
           .eq("id", user.id)
           .maybeSingle();
 
-        // If no profile row exists yet, create one (RLS must allow insert of own row).
+        // If no profile row exists yet, create one and return the inserted data in one query.
         if (!prof && !profErr) {
-          const { error: insErr } = await supabase.from("profiles").insert({
-            id: user.id,
-            email: user.email || null,
-            loyalty_points: 0,
-            lifetime_spend_cents: 0,
-            first_purchase_bonus_awarded: false,
-          });
+          const { data: inserted, error: insErr } = await supabase
+            .from("profiles")
+            .insert({
+              id: user.id,
+              email: user.email || null,
+              loyalty_points: 0,
+              lifetime_spend_cents: 0,
+              first_purchase_bonus_awarded: false,
+            })
+            .select("id, email, loyalty_points, lifetime_spend_cents, first_purchase_bonus_awarded")
+            .maybeSingle();
 
-          if (!insErr) {
-            const refetch = await supabase
-              .from("profiles")
-              .select(
-                "id, email, loyalty_points, lifetime_spend_cents, first_purchase_bonus_awarded"
-              )
-              .eq("id", user.id)
-              .maybeSingle();
-            prof = refetch.data || null;
-            profErr = refetch.error || null;
-          }
+          prof = inserted || null;
+          profErr = insErr || null;
         }
 
         // 2) Orders (tries user_id first; falls back to email if needed)

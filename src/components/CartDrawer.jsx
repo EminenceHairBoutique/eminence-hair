@@ -102,6 +102,12 @@ export default function CartDrawer() {
                     </p>
                   )}
 
+                  {item.isPreorder && (
+                    <p className="mt-1 text-[11px] uppercase tracking-widest text-amber-700">
+                      Pre-Order · Factory Drop-Ship
+                    </p>
+                  )}
+
                   <div className="mt-3 flex items-center gap-3">
                     <div className="flex items-center border rounded-full">
                       <button

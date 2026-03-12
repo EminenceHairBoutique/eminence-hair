@@ -27,7 +27,7 @@ const Footer = () => {
         </div>
 
         {/* MIDDLE SECTION — LINKS */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-10 text-center text-[12px] tracking-wide">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-10 text-center text-[12px] tracking-wide">
 
           <div className="space-y-2">
             <p className="text-neutral-500 tracking-[0.22em] uppercase text-[11px] mb-2">
@@ -43,7 +43,7 @@ const Footer = () => {
 
           <div className="space-y-2">
             <p className="text-neutral-500 tracking-[0.22em] uppercase text-[11px] mb-2">
-              Collections
+              Info
             </p>
             <Link to="/collections/fw-2025" className="hover:text-neutral-200 block">F/W 2025</Link>
             <Link to="/collections/sea" className="hover:text-neutral-200 block">SEA</Link>

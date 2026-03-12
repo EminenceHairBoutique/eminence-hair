@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import PageTransition from "../components/PageTransition";
 import PageHero from "../components/PageHero";
+import SEO from "../components/SEO";
 
 const inputBase =
   "w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:border-black/25";
@@ -61,7 +62,12 @@ export default function PrivateConsult() {
   };
 
   return (
-    <PageTransition>
+    <>
+      <SEO
+        title="Private Consult — Concierge Guidance"
+        description="Tell us your goals, schedule, and maintenance tolerance — and we'll recommend the right collection, density, lace, and installation plan."
+      />
+      <PageTransition>
       <div className="bg-[#F9F7F4] text-[#111]">
         <PageHero
           compact
@@ -299,5 +305,6 @@ export default function PrivateConsult() {
         </div>
       </div>
     </PageTransition>
+    </>
   );
 }

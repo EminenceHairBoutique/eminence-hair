@@ -80,3 +80,10 @@ alter table public.loyalty_ledger enable row level security;
 drop policy if exists "Ledger: read own" on public.loyalty_ledger;
 create policy "Ledger: read own" on public.loyalty_ledger
 for select using (auth.uid() = user_id);
+
+-- Indexes for frequently queried columns
+create index if not exists idx_orders_user_id on public.orders (user_id);
+create index if not exists idx_orders_stripe_session_id on public.orders (stripe_session_id);
+create index if not exists idx_orders_email on public.orders (email);
+create index if not exists idx_loyalty_ledger_user_id on public.loyalty_ledger (user_id);
+create index if not exists idx_profiles_email on public.profiles (email);

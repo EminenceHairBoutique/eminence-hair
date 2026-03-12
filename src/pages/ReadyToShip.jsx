@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
+import SEO from "../components/SEO";
 
 const money = (n) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(
@@ -100,7 +101,12 @@ export default function ReadyToShip() {
   };
 
   return (
-    <div className="bg-[#0B0B0C] text-white">
+    <>
+      <SEO
+        title="Ready to Ship"
+        description="Curated Eminence essentials prepared for fast dispatch — ideal for last-minute installs, travel, or stylists who need premium hair on a timeline."
+      />
+      <div className="bg-[#0B0B0C] text-white">
       <div className="mx-auto max-w-6xl px-6 py-14">
         <div className="max-w-2xl">
           <p className="text-[11px] uppercase tracking-[0.22em] text-white/60">
@@ -448,5 +454,6 @@ export default function ReadyToShip() {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -21,6 +21,17 @@ export async function createHandler(req, res) {
       return res.status(400).json({ error: "Invalid cart items" });
     }
 
+    // Server-side enforcement: reject mixed preorder + domestic checkout.
+    const hasPreorder = items.some((i) => Boolean(i.isPreorder));
+    const hasDomestic = items.some((i) => !i.isPreorder);
+    if (hasPreorder && hasDomestic) {
+      return res.status(400).json({
+        error:
+          "Mixed cart: pre-order and domestic items cannot be checked out together. " +
+          "Please checkout each group separately.",
+      });
+    }
+
     const origin =
       req.headers.origin ||
       `https://${req.headers["x-forwarded-host"] || req.headers.host}`;
@@ -95,6 +106,15 @@ export async function createHandler(req, res) {
       };
     });
 
+    // Aggregate preorder metadata for the session.
+    const isPreorderSession = hasPreorder;
+    const preorderLeadDays = isPreorderSession
+      ? Math.max(...items.map((i) => Number(i.leadTimeDays || 0)))
+      : 0;
+    const qualityTiers = isPreorderSession
+      ? [...new Set(items.map((i) => i.qualityTier).filter(Boolean))].join(",")
+      : "";
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items,
@@ -114,6 +134,11 @@ export async function createHandler(req, res) {
         user_id: userId ? String(userId) : "",
         customer_email: customerEmail ? String(customerEmail) : "",
         referral_code: referralCode ? String(referralCode).slice(0, 40) : "",
+        // Preorder-specific metadata
+        preorder: isPreorderSession ? "true" : "false",
+        ships_from: isPreorderSession ? "Factory" : "Domestic",
+        lead_time_days: isPreorderSession ? String(preorderLeadDays) : "0",
+        quality_tier: qualityTiers.slice(0, 100),
       },
     });
 

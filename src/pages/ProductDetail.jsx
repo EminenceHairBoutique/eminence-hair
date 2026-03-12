@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {
   ChevronLeft,
@@ -11,6 +11,8 @@ import {
   RotateCcw,
   ShieldCheck,
   MessageCircle,
+  Clock,
+  AlertTriangle,
 } from "lucide-react";
 import { motion as Motion } from "framer-motion";
 
@@ -26,10 +28,7 @@ import ShippingRegions from "../components/ShippingRegions";
 import VirtualPreviewModal from "../components/VirtualPreviewModal";
 import { trackViewItem } from "../utils/track";
 import { resolveProductImages } from "../utils/productMedia";
-
-/* ---------------- helpers ---------------- */
-const formatMoney = (n) =>
-  `$${Number(n).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+import { formatMoney } from "../utils/format";
 
 /* ---------------- collection PDP copy ---------------- */
 function EssentialLaceCopy({ product }) {
@@ -273,9 +272,10 @@ function RecommendedGrid({ current }) {
     };
 
     return others
-      .slice()
-      .sort((a, b) => score(b) - score(a))
-      .slice(0, 6);
+      .map((p) => [p, score(p)])
+      .sort(([, sA], [, sB]) => sB - sA)
+      .slice(0, 6)
+      .map(([p]) => p);
   }, [current]);
 
   if (!current || recs.length === 0) return null;
@@ -460,7 +460,7 @@ export default function ProductDetail() {
     (isClosure && length) ||
     (isWig && length && density && lace && capSize);
 
-  function handleAdd() {
+  const handleAdd = useCallback(() => {
     const variantParts = [
       length != null ? `L${length}` : "",
       density != null ? `D${density}` : "",
@@ -485,8 +485,13 @@ export default function ProductDetail() {
       image: images?.[0] || product.image || product.img,
       quantity: qty,
       variant: variantParts.join("|") || "standard",
+      // Preorder fields (passed through for cart/checkout display)
+      isPreorder: product.isPreorder ?? false,
+      shipsFrom: product.shipsFrom ?? "Domestic",
+      leadTimeDays: product.leadTimeDays ?? null,
+      qualityTier: product.qualityTier ?? null,
     });
-  }
+  }, [length, density, lace, capSize, isCustom, customNotes, customColorTier, price, product, images, qty, addToCart]);
 
   const total = Number(price || 0) * Number(qty || 1);
 
@@ -851,6 +856,51 @@ export default function ProductDetail() {
                       {product.isPreorder ? "Pre-Order" : "Add to Bag"}
                     </button>
                   </div>
+
+                  {/* Preorder info block */}
+                  {product.isPreorder && (
+                    <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 space-y-3">
+                      <div className="flex items-center gap-2">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-neutral-900 text-[#F9F7F4] text-[10px] uppercase tracking-[0.22em] px-3 py-1">
+                          <Truck className="w-3 h-3" />
+                          Factory Drop-Ship
+                        </span>
+                        {product.qualityTier && (
+                          <span className="inline-flex items-center rounded-full border border-neutral-300 bg-white text-[10px] uppercase tracking-[0.16em] px-3 py-1 text-neutral-700">
+                            {product.qualityTier}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-2 text-sm text-amber-900">
+                        <Clock className="w-4 h-4 shrink-0" />
+                        <span>
+                          Estimated dispatch:{" "}
+                          <strong>
+                            {product.leadTimeDays > 0
+                              ? `${product.leadTimeDays} business days`
+                              : "14–21 business days"}
+                          </strong>
+                        </span>
+                      </div>
+
+                      <div className="flex items-start gap-2 text-xs text-amber-800">
+                        <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                        <span>
+                          Tracking will be sent when shipped · Adult signature required
+                        </span>
+                      </div>
+
+                      <div className="text-[11px] text-amber-800 leading-relaxed border-t border-amber-200 pt-3">
+                        <p className="font-semibold uppercase tracking-[0.1em] mb-1.5">Non-Negotiables</p>
+                        <ul className="list-disc pl-4 space-y-1">
+                          <li>All pre-order sales are <strong>final</strong>. No returns or exchanges.</li>
+                          <li>Lead time is estimated — factory delays may occur.</li>
+                          <li>Cannot be combined with domestic items at checkout.</li>
+                        </ul>
+                      </div>
+                    </div>
+                  )}
 
                   {isCustomizable && (
                     <p className="-mt-2 text-xs text-neutral-500 leading-relaxed">

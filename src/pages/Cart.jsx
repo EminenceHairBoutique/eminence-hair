@@ -2,26 +2,40 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { products } from "../data/products";
+import SEO from "../components/SEO";
 
 export default function Cart() {
   const { cartItems, updateQuantity, removeFromCart, subtotal, updateItemOptions } = useCart();
 
   if (!cartItems.length) {
     return (
-      <div className="pt-32 text-center">
-        <h1 className="text-2xl font-light">Your bag is empty</h1>
-        <Link
-          to="/shop"
-          className="inline-block mt-6 text-[11px] tracking-[0.26em] uppercase underline"
-        >
-          Continue Shopping
-        </Link>
-      </div>
+      <>
+        <SEO
+          title="Shopping Bag"
+          description="Review your Eminence Hair selections before checkout."
+          noindex={true}
+        />
+        <div className="pt-32 text-center">
+          <h1 className="text-2xl font-light">Your bag is empty</h1>
+          <Link
+            to="/shop"
+            className="inline-block mt-6 text-[11px] tracking-[0.26em] uppercase underline"
+          >
+            Continue Shopping
+          </Link>
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="pt-28 pb-24 bg-[#FBF5EC]">
+    <>
+      <SEO
+        title="Shopping Bag"
+        description="Review your Eminence Hair selections before checkout."
+        noindex={true}
+      />
+      <div className="pt-28 pb-24 bg-[#FBF5EC]">
       <div className="max-w-5xl mx-auto px-6">
         <h1 className="text-3xl font-light mb-12">Shopping Bag</h1>
 
@@ -148,5 +162,6 @@ export default function Cart() {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -4,12 +4,7 @@ import { motion as Motion, AnimatePresence } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { products } from "../data/products";
 import { resolveProductImages } from "../utils/productMedia";
-
-const norm = (s) =>
-  String(s || "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "")
-    .trim();
+import { norm } from "../utils/strings";
 
 /**
  * SearchModal

@@ -4,9 +4,7 @@ import { AnimatePresence, motion as Motion } from "framer-motion";
 import { X, Minus, Plus, Check } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { resolveProductImages } from "../utils/productMedia";
-
-const formatMoney = (n) =>
-  `$${Number(n || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+import { formatMoney } from "../utils/format";
 
 function OptionGroup({ label, values, value, onChange, suffix = "" }) {
   if (!Array.isArray(values) || values.length === 0) return null;
