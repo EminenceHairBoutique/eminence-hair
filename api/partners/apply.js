@@ -11,16 +11,16 @@ function json(res, status, body) {
 function getBearerToken(req) {
   const auth = req.headers?.authorization || req.headers?.Authorization;
   if (!auth) return null;
-  const m = String(auth).match(/^Bearer\s+(.+)$/i);
-  return m ? m[1] : null;
+  const tokenMatch = String(auth).match(/^Bearer\s+(.+)$/i);
+  return tokenMatch ? tokenMatch[1] : null;
 }
 
 async function parseJsonBody(req) {
-  const b = req.body;
-  if (b && typeof b === "object") return b;
-  if (typeof b === "string") {
+  const rawBody = req.body;
+  if (rawBody && typeof rawBody === "object") return rawBody;
+  if (typeof rawBody === "string") {
     try {
-      return JSON.parse(b);
+      return JSON.parse(rawBody);
     } catch {
       return null;
     }

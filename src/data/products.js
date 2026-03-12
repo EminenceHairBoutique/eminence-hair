@@ -112,8 +112,8 @@ const UI_DENSITIES = STANDARD_WIG_DENSITIES;
 const roundMoney = (n) => Math.round(Number(n || 0));
 
 function interpolateDensityPrice(densityMap, density) {
-  const d = Number(density);
-  if (!densityMap || !Number.isFinite(d)) return 0;
+  const densityNumber = Number(density);
+  if (!densityMap || !Number.isFinite(densityNumber)) return 0;
 
   const anchors = Object.keys(densityMap)
     .map((k) => Number(k))
@@ -121,7 +121,7 @@ function interpolateDensityPrice(densityMap, density) {
     .sort((a, b) => a - b);
 
   if (anchors.length === 0) return 0;
-  if (densityMap[d] != null) return Number(densityMap[d]) || 0;
+  if (densityMap[densityNumber] != null) return Number(densityMap[densityNumber]) || 0;
 
   const lerp = (d0, p0, d1, p1, x) => {
     if (d1 === d0) return p0;
@@ -129,30 +129,30 @@ function interpolateDensityPrice(densityMap, density) {
   };
 
   // Below range → extrapolate using first segment
-  if (d <= anchors[0]) {
+  if (densityNumber <= anchors[0]) {
     if (anchors.length === 1) return Number(densityMap[anchors[0]]) || 0;
     const d0 = anchors[0], d1 = anchors[1];
     const p0 = Number(densityMap[d0]) || 0, p1 = Number(densityMap[d1]) || 0;
-    return lerp(d0, p0, d1, p1, d);
+    return lerp(d0, p0, d1, p1, densityNumber);
   }
 
   // Above range → extrapolate using last segment
-  if (d >= anchors[anchors.length - 1]) {
+  if (densityNumber >= anchors[anchors.length - 1]) {
     if (anchors.length === 1) return Number(densityMap[anchors[0]]) || 0;
     const d0 = anchors[anchors.length - 2];
     const d1 = anchors[anchors.length - 1];
     const p0 = Number(densityMap[d0]) || 0;
     const p1 = Number(densityMap[d1]) || 0;
-    return lerp(d0, p0, d1, p1, d);
+    return lerp(d0, p0, d1, p1, densityNumber);
   }
 
   // Within range → interpolate
   for (let i = 0; i < anchors.length - 1; i++) {
     const d0 = anchors[i], d1 = anchors[i + 1];
-    if (d > d0 && d < d1) {
+    if (densityNumber > d0 && densityNumber < d1) {
       const p0 = Number(densityMap[d0]) || 0;
       const p1 = Number(densityMap[d1]) || 0;
-      return lerp(d0, p0, d1, p1, d);
+      return lerp(d0, p0, d1, p1, densityNumber);
     }
   }
 

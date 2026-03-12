@@ -22,10 +22,10 @@ const Badge = ({ children, tone = "neutral" }) => {
 };
 
 function statusTone(status) {
-  const s = String(status || "").toLowerCase();
-  if (s === "approved") return "success";
-  if (s === "pending") return "warn";
-  if (s === "rejected") return "danger";
+  const normalizedStatus = String(status || "").toLowerCase();
+  if (normalizedStatus === "approved") return "success";
+  if (normalizedStatus === "pending") return "warn";
+  if (normalizedStatus === "rejected") return "danger";
   return "neutral";
 }
 
@@ -61,8 +61,8 @@ export default function AdminPartners() {
       });
 
       if (!res.ok) {
-        const t = await res.text();
-        throw new Error(t || "Failed to fetch applications");
+        const responseText = await res.text();
+        throw new Error(responseText || "Failed to fetch applications");
       }
 
       const json = await res.json();
@@ -97,8 +97,8 @@ export default function AdminPartners() {
       });
 
       if (!res.ok) {
-        const t = await res.text();
-        throw new Error(t || "Update failed");
+        const responseText = await res.text();
+        throw new Error(responseText || "Update failed");
       }
 
       // Refresh list

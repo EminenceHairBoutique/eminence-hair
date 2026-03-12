@@ -21,10 +21,10 @@ function safeFilename(name) {
 }
 
 function getBearerToken(req) {
-  const h = req.headers?.authorization || req.headers?.Authorization || "";
-  const s = String(h);
-  if (!s.toLowerCase().startsWith("bearer ")) return null;
-  return s.slice(7);
+  const authHeader = req.headers?.authorization || req.headers?.Authorization || "";
+  const authHeaderString = String(authHeader);
+  if (!authHeaderString.toLowerCase().startsWith("bearer ")) return null;
+  return authHeaderString.slice(7);
 }
 
 export default async function handler(req, res) {

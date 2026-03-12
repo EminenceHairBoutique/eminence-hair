@@ -98,87 +98,87 @@ export default function VirtualPreviewModal({
   const normalizeColorId = (input) => {
     if (!input) return null;
     const raw = String(input).trim();
-    const s = raw.toLowerCase();
+    const normalizedInput = raw.toLowerCase();
 
     // Direct IDs
-    if (["1", "1b", "613", "burgundy", "brown", "silver", "orange"].includes(s)) {
-      if (s === "1") return "1";
-      if (s === "1b") return "1B";
-      if (s === "613") return "613";
-      if (s === "burgundy") return "Burgundy";
-      if (s === "brown") return "Brown";
-      if (s === "silver") return "Silver";
-      if (s === "orange") return "Orange";
+    if (["1", "1b", "613", "burgundy", "brown", "silver", "orange"].includes(normalizedInput)) {
+      if (normalizedInput === "1") return "1";
+      if (normalizedInput === "1b") return "1B";
+      if (normalizedInput === "613") return "613";
+      if (normalizedInput === "burgundy") return "Burgundy";
+      if (normalizedInput === "brown") return "Brown";
+      if (normalizedInput === "silver") return "Silver";
+      if (normalizedInput === "orange") return "Orange";
     }
 
     // Common labels / phrases
-    if (s.includes("jet") || s.includes("true black")) return "1";
-    if (s.includes("natural") && s.includes("black")) return "1B";
-    if (s.includes("blonde") || s.includes("613")) return "613";
-    if (s.includes("burgundy") || s.includes("wine") || s.includes("red")) return "Burgundy";
-    if (s.includes("brown") || s.includes("22") || s.includes("24") || s.includes("27")) return "Brown";
-    if (s.includes("silver") || s.includes("grey") || s.includes("gray")) return "Silver";
-    if (s.includes("orange") || s.includes("ginger") || s.includes("copper")) return "Orange";
+    if (normalizedInput.includes("jet") || normalizedInput.includes("true black")) return "1";
+    if (normalizedInput.includes("natural") && normalizedInput.includes("black")) return "1B";
+    if (normalizedInput.includes("blonde") || normalizedInput.includes("613")) return "613";
+    if (normalizedInput.includes("burgundy") || normalizedInput.includes("wine") || normalizedInput.includes("red")) return "Burgundy";
+    if (normalizedInput.includes("brown") || normalizedInput.includes("22") || normalizedInput.includes("24") || normalizedInput.includes("27")) return "Brown";
+    if (normalizedInput.includes("silver") || normalizedInput.includes("grey") || normalizedInput.includes("gray")) return "Silver";
+    if (normalizedInput.includes("orange") || normalizedInput.includes("ginger") || normalizedInput.includes("copper")) return "Orange";
 
     // Try to extract an ID from the string (e.g. "1B (Natural Black)")
-    const m = raw.match(/\b(1B|613|1|Burgundy|Brown|Silver|Orange)\b/i);
-    if (m?.[1]) {
-      const v = m[1];
-      if (String(v).toUpperCase() === "1B") return "1B";
-      if (String(v) === "1") return "1";
+    const colorIdMatch = raw.match(/\b(1B|613|1|Burgundy|Brown|Silver|Orange)\b/i);
+    if (colorIdMatch?.[1]) {
+      const matchedColorId = colorIdMatch[1];
+      if (String(matchedColorId).toUpperCase() === "1B") return "1B";
+      if (String(matchedColorId) === "1") return "1";
       // Capitalize names
-      if (["burgundy", "brown", "silver", "orange"].includes(String(v).toLowerCase())) {
-        const vv = String(v).toLowerCase();
-        return vv.charAt(0).toUpperCase() + vv.slice(1);
+      if (["burgundy", "brown", "silver", "orange"].includes(String(matchedColorId).toLowerCase())) {
+        const lowercasedColorId = String(matchedColorId).toLowerCase();
+        return lowercasedColorId.charAt(0).toUpperCase() + lowercasedColorId.slice(1);
       }
-      return v;
+      return matchedColorId;
     }
 
     // Parse from assetKey when present (wig_bodywave_1b)
     const ak = String(product?.assetKey || "").toLowerCase();
-    const m2 = ak.match(/_(1b|613|1|burgundy|brown|silver|orange)$/i);
-    if (m2?.[1]) {
-      const v = m2[1];
-      if (String(v).toLowerCase() === "1b") return "1B";
-      if (String(v) === "1") return "1";
-      if (String(v) === "613") return "613";
-      return String(v).charAt(0).toUpperCase() + String(v).slice(1);
+    const assetKeyColorMatch = ak.match(/_(1b|613|1|burgundy|brown|silver|orange)$/i);
+    if (assetKeyColorMatch?.[1]) {
+      const assetKeyColorId = assetKeyColorMatch[1];
+      if (String(assetKeyColorId).toLowerCase() === "1b") return "1B";
+      if (String(assetKeyColorId) === "1") return "1";
+      if (String(assetKeyColorId) === "613") return "613";
+      return String(assetKeyColorId).charAt(0).toUpperCase() + String(assetKeyColorId).slice(1);
     }
     return null;
   };
 
   const normalizeTextureId = (input) => {
     const raw = String(input || "").trim();
-    const s = raw.toLowerCase();
+    const normalizedInput = raw.toLowerCase();
 
     // Direct IDs
-    if (["straight", "loosewave", "bodywave", "deepwave"].includes(s)) {
-      if (s === "straight") return "Straight";
-      if (s === "loosewave") return "LooseWave";
-      if (s === "bodywave") return "BodyWave";
-      if (s === "deepwave") return "DeepWave";
+    if (["straight", "loosewave", "bodywave", "deepwave"].includes(normalizedInput)) {
+      if (normalizedInput === "straight") return "Straight";
+      if (normalizedInput === "loosewave") return "LooseWave";
+      if (normalizedInput === "bodywave") return "BodyWave";
+      if (normalizedInput === "deepwave") return "DeepWave";
     }
 
     // Common variants
-    if (s.includes("straight")) return "Straight";
-    if (s.includes("loose") && s.includes("wave")) return "LooseWave";
-    if (s.includes("body") && s.includes("wave")) return "BodyWave";
-    if (s.includes("deep") && s.includes("wave")) return "DeepWave";
+    if (normalizedInput.includes("straight")) return "Straight";
+    if (normalizedInput.includes("loose") && normalizedInput.includes("wave")) return "LooseWave";
+    if (normalizedInput.includes("body") && normalizedInput.includes("wave")) return "BodyWave";
+    if (normalizedInput.includes("deep") && normalizedInput.includes("wave")) return "DeepWave";
 
     // Sometimes textures come in combined strings ("Curly / BodyWave / Straight compatible")
-    if (s.includes("bodywave")) return "BodyWave";
-    if (s.includes("loosewave")) return "LooseWave";
-    if (s.includes("deepwave")) return "DeepWave";
+    if (normalizedInput.includes("bodywave")) return "BodyWave";
+    if (normalizedInput.includes("loosewave")) return "LooseWave";
+    if (normalizedInput.includes("deepwave")) return "DeepWave";
 
     // Parse from assetKey when present (wig_loosewave_burgundy)
     const ak = String(product?.assetKey || "").toLowerCase();
-    const m = ak.match(/^wig_([a-z]+wave|straight)/i);
-    if (m?.[1]) {
-      const t = m[1];
-      if (t === "straight") return "Straight";
-      if (t === "loosewave") return "LooseWave";
-      if (t === "bodywave") return "BodyWave";
-      if (t === "deepwave") return "DeepWave";
+    const textureKeyMatch = ak.match(/^wig_([a-z]+wave|straight)/i);
+    if (textureKeyMatch?.[1]) {
+      const matchedTextureKey = textureKeyMatch[1];
+      if (matchedTextureKey === "straight") return "Straight";
+      if (matchedTextureKey === "loosewave") return "LooseWave";
+      if (matchedTextureKey === "bodywave") return "BodyWave";
+      if (matchedTextureKey === "deepwave") return "DeepWave";
     }
     return null;
   };
@@ -192,7 +192,7 @@ export default function VirtualPreviewModal({
   const [notifyStatus, setNotifyStatus] = useState({ state: "idle", msg: "" });
 
   const selectedColor = useMemo(
-    () => COLORS.find((c) => String(c.id).toLowerCase() === String(color).toLowerCase()) || COLORS[1],
+    () => COLORS.find((colorOption) => String(colorOption.id).toLowerCase() === String(color).toLowerCase()) || COLORS[1],
     [color]
   );
 
@@ -215,9 +215,9 @@ export default function VirtualPreviewModal({
 
   const onPick = () => fileRef.current?.click();
   const onFile = (e) => {
-    const f = e.target.files?.[0];
-    if (!f) return;
-    const url = URL.createObjectURL(f);
+    const selectedFile = e.target.files?.[0];
+    if (!selectedFile) return;
+    const url = URL.createObjectURL(selectedFile);
     setPhotoUrl(url);
   };
 
@@ -243,8 +243,8 @@ export default function VirtualPreviewModal({
         }),
       });
       if (!res.ok) {
-        const t = await res.text();
-        throw new Error(t || "Unable to submit.");
+        const responseText = await res.text();
+        throw new Error(responseText || "Unable to submit.");
       }
       setNotifyStatus({ state: "success", msg: "You’re on the list. We’ll email you when AR Try‑On launches." });
       setNotifyName("");
@@ -305,7 +305,7 @@ export default function VirtualPreviewModal({
                       <HairSilhouette color={selectedColor.hex} opacity={opacity} />
                       <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/40 to-transparent">
                         <p className="text-[10px] uppercase tracking-[0.22em] text-white/90">
-                          {TEXTURES.find((t) => t.id === texture)?.label || texture} • {selectedColor.label}
+                          {TEXTURES.find((textureOption) => textureOption.id === texture)?.label || texture} • {selectedColor.label}
                         </p>
                       </div>
                     </>
@@ -371,18 +371,18 @@ export default function VirtualPreviewModal({
                 <div>
                   <p className="text-xs text-neutral-700 mb-2">Texture</p>
                   <div className="flex flex-wrap gap-2">
-                    {TEXTURES.map((t) => (
+                    {TEXTURES.map((textureOption) => (
                       <button
-                        key={t.id}
+                        key={textureOption.id}
                         type="button"
-                        onClick={() => setTexture(t.id)}
+                        onClick={() => setTexture(textureOption.id)}
                         className={`px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border transition ${
-                          texture === t.id
+                          texture === textureOption.id
                             ? "bg-black text-white border-black"
                             : "border-neutral-300 hover:border-neutral-500"
                         }`}
                       >
-                        {t.label}
+                        {textureOption.label}
                       </button>
                     ))}
                   </div>
@@ -391,24 +391,24 @@ export default function VirtualPreviewModal({
                 <div>
                   <p className="text-xs text-neutral-700 mb-2">Color</p>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    {COLORS.map((c) => (
+                    {COLORS.map((colorOption) => (
                       <button
-                        key={c.id}
+                        key={colorOption.id}
                         type="button"
-                        onClick={() => setColor(c.id)}
+                        onClick={() => setColor(colorOption.id)}
                         className={`flex items-center gap-3 rounded-2xl border px-3 py-3 text-left transition ${
-                          String(color).toLowerCase() === String(c.id).toLowerCase()
+                          String(color).toLowerCase() === String(colorOption.id).toLowerCase()
                             ? "border-black"
                             : "border-neutral-200 hover:border-neutral-400"
                         }`}
                       >
                         <span
                           className="h-6 w-6 rounded-full border border-black/10"
-                          style={{ background: c.hex }}
+                          style={{ background: colorOption.hex }}
                           aria-hidden="true"
                         />
                         <span className="text-[11px] uppercase tracking-[0.22em] text-neutral-700">
-                          {c.id}
+                          {colorOption.id}
                         </span>
                       </button>
                     ))}
