@@ -47,44 +47,28 @@ async function awardLoyalty({ userId, email, amountTotalCents, orderNumber, stri
   if (!userId) return;
 
   try {
-    // Ensure a profile row exists
-    const { data: existingProfile, error: profErr } = await supabaseServer
+    // Ensure a profile row exists and fetch current values in one round-trip.
+    // ignoreDuplicates: true means existing rows are left unchanged (no overwrite of earned points).
+    const { data: profile, error: profErr } = await supabaseServer
       .from("profiles")
+      .upsert(
+        {
+          id: userId,
+          email: email || null,
+          loyalty_points: 0,
+          lifetime_spend_cents: 0,
+          first_purchase_bonus_awarded: false,
+        },
+        { onConflict: "id", ignoreDuplicates: true }
+      )
       .select("id, email, loyalty_points, lifetime_spend_cents, first_purchase_bonus_awarded")
-      .eq("id", userId)
       .maybeSingle();
 
     if (profErr) {
       // Table might not exist yet, or RLS is misconfigured.
-      console.warn("Loyalty: could not read profile", profErr);
+      console.warn("Loyalty: could not read/create profile", profErr);
       return;
     }
-
-    if (!existingProfile) {
-      const { error: insErr } = await supabaseServer.from("profiles").insert({
-        id: userId,
-        email: email || null,
-        loyalty_points: 0,
-        lifetime_spend_cents: 0,
-        first_purchase_bonus_awarded: false,
-      });
-
-      if (insErr) {
-        console.warn("Loyalty: could not create profile", insErr);
-        return;
-      }
-    }
-
-    // Re-fetch after insert (or reuse existing)
-    const profile =
-      existingProfile ||
-      (
-        await supabaseServer
-          .from("profiles")
-          .select("id, email, loyalty_points, lifetime_spend_cents, first_purchase_bonus_awarded")
-          .eq("id", userId)
-          .maybeSingle()
-      ).data;
 
     const currentPoints = Number(profile?.loyalty_points || 0);
     const currentSpend = Number(profile?.lifetime_spend_cents || 0);

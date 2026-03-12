@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {
   ChevronLeft,
@@ -264,9 +264,10 @@ function RecommendedGrid({ current }) {
     };
 
     return others
-      .slice()
-      .sort((a, b) => score(b) - score(a))
-      .slice(0, 6);
+      .map((p) => [p, score(p)])
+      .sort(([, sA], [, sB]) => sB - sA)
+      .slice(0, 6)
+      .map(([p]) => p);
   }, [current]);
 
   if (!current || recs.length === 0) return null;
@@ -451,7 +452,7 @@ export default function ProductDetail() {
     (isClosure && length) ||
     (isWig && length && density && lace && capSize);
 
-  function handleAdd() {
+  const handleAdd = useCallback(() => {
     const variantParts = [
       length != null ? `L${length}` : "",
       density != null ? `D${density}` : "",
@@ -477,7 +478,7 @@ export default function ProductDetail() {
       quantity: qty,
       variant: variantParts.join("|") || "standard",
     });
-  }
+  }, [length, density, lace, capSize, isCustom, customNotes, customColorTier, price, product, images, qty, addToCart]);
 
   const total = Number(price || 0) * Number(qty || 1);
 
