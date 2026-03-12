@@ -1047,8 +1047,7 @@ export const products = [
       return P[length] ?? 219;
     },
     images: [
-      "/gallery/collections/Lavish/Eminence_Lavish_BodyWave_Natural_01.webp",
-      "/gallery/collections/Lavish/Eminence_Lavish_BodyWave_Natural_02.webp",
+      "/gallery/collections/Lavish/Eminence_Lavish_LooseWave_Natural_01.webp",
     ],
   },
 
