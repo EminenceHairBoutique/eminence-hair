@@ -6,7 +6,7 @@ import { motion as Motion } from "framer-motion";
 import { useCart } from "../context/CartContext";
 import { eminenceEssentials } from "../data/products";
 import { resolveProductImages } from "../utils/productMedia";
-import { fadeUp, staggerContainer, staggerChild, viewport } from "../ui/motionPresets";
+import { fadeUp } from "../ui/motionPresets";
 
 import hero from "../assets/hero.jpg.png";
 import firstPage from "../assets/first_page.png";
@@ -236,18 +236,11 @@ const Home = () => {
                 </p>
               </div>
 
-              <Motion.div
-                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewport}
-              >
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {eminenceEssentials.slice(0, 3).map((p) => (
-                  <Motion.div
+                  <div
                     key={p.id}
-                    variants={staggerChild}
-                    className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm card-hover"
+                    className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm"
                   >
                     <img
                       src={resolveProductImages(p)?.[0]}
@@ -270,14 +263,11 @@ const Home = () => {
                         Shop Now
                       </Link>
                     </div>
-                  </Motion.div>
+                  </div>
                 ))}
 
                 {/* Explore All */}
-                <Motion.div
-                  variants={staggerChild}
-                  className="bg-[#F3EFE8] border border-neutral-200 rounded-3xl flex flex-col justify-center items-center text-center p-8 card-hover"
-                >
+                <div className="bg-[#F3EFE8] border border-neutral-200 rounded-3xl flex flex-col justify-center items-center text-center p-8">
                   <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-600 mb-2">
                     Full Edit
                   </p>
@@ -290,8 +280,8 @@ const Home = () => {
                   >
                     Shop All
                   </Link>
-                </Motion.div>
-              </Motion.div>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -447,14 +437,8 @@ const Home = () => {
                 </Link>
               </div>
 
-              <Motion.div
-                className="grid md:grid-cols-4 gap-6 text-sm"
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewport}
-              >
-                <Motion.div variants={staggerChild} className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm flex flex-col card-hover">
+              <div className="grid md:grid-cols-4 gap-6 text-sm">
+                <div className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm flex flex-col">
                   <img src={yummy1} alt="Silky Straight" className="h-56 w-full object-cover" />
                   <div className="p-4 flex-1 flex flex-col">
                     <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-500 mb-1">
@@ -471,9 +455,9 @@ const Home = () => {
                       Shop Straight
                     </Link>
                   </div>
-                </Motion.div>
+                </div>
 
-                <Motion.div variants={staggerChild} className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm flex flex-col card-hover">
+                <div className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm flex flex-col">
                   <img src={yummy2} alt="Body Wave" className="h-56 w-full object-cover" />
                   <div className="p-4 flex-1 flex flex-col">
                     <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-500 mb-1">
@@ -489,9 +473,9 @@ const Home = () => {
                       Shop Body Wave
                     </Link>
                   </div>
-                </Motion.div>
+                </div>
 
-                <Motion.div variants={staggerChild} className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm flex flex-col card-hover">
+                <div className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm flex flex-col">
                   <img src={yummy3} alt="Deep Wave / Curly" className="h-56 w-full object-cover" />
                   <div className="p-4 flex-1 flex flex-col">
                     <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-500 mb-1">
@@ -508,9 +492,9 @@ const Home = () => {
                       Shop Textures
                     </Link>
                   </div>
-                </Motion.div>
+                </div>
 
-                <Motion.div variants={staggerChild} className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm flex flex-col card-hover">
+                <div className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm flex flex-col">
                   <img src={yummy} alt="613 / Blonde" className="h-56 w-full object-cover" />
                   <div className="p-4 flex-1 flex flex-col">
                     <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-500 mb-1">
@@ -527,8 +511,8 @@ const Home = () => {
                       Shop Blonde
                     </Link>
                   </div>
-                </Motion.div>
-              </Motion.div>
+                </div>
+              </div>
             </div>
           </section>
 
