@@ -14,19 +14,27 @@ import { resolveProductImages } from "../utils/productMedia";
 
 const CartContext = createContext(null);
 
+/** Returns the minimum value from a non-empty array, or null if the array is empty. */
+function safeMin(arr) {
+  return Array.isArray(arr) && arr.length > 0 ? Math.min(...arr) : null;
+}
+
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState(() => {
     try {
       const saved = localStorage.getItem("eminence_cart");
       const items = saved ? JSON.parse(saved) : [];
       // Normalize legacy items that may be missing length/density fields
-      return items.map((item) => ({
-        ...item,
-        length: item.length ?? item.selectedLength ?? (item.lengths?.length ? Math.min(...item.lengths) : null),
-        density: item.density ?? item.selectedDensity ?? 150,
-        selectedLength: item.length ?? item.selectedLength ?? (item.lengths?.length ? Math.min(...item.lengths) : null),
-        selectedDensity: item.density ?? item.selectedDensity ?? 150,
-      }));
+      return items.map((item) => {
+        const length = item.length ?? item.selectedLength ?? safeMin(item.lengths);
+        return {
+          ...item,
+          length,
+          density: item.density ?? item.selectedDensity ?? 150,
+          selectedLength: length,
+          selectedDensity: item.density ?? item.selectedDensity ?? 150,
+        };
+      });
     } catch {
       return [];
     }
@@ -46,16 +54,13 @@ export function CartProvider({ children }) {
 
     // Base/default options (used when user quick-adds from Shop/Gallery)
     const baseLength =
-      options.length ??
-      (Array.isArray(product.lengths) && product.lengths.length ? Math.min(...product.lengths) : null);
+      options.length ?? safeMin(product.lengths);
 
     const baseDensity =
       options.density ??
       (Array.isArray(product.densities) && product.densities.includes(150)
         ? 150
-        : Array.isArray(product.densities) && product.densities.length
-        ? Math.min(...product.densities)
-        : null);
+        : safeMin(product.densities));
 
     const lace = options.lace ?? "Transparent Lace";
     const color = options.color ?? product.color ?? null;

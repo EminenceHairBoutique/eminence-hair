@@ -5,6 +5,11 @@ import { applyCustomPricing } from "../src/utils/pricing.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+// userId is only used as metadata — never for pricing or privilege decisions.
+// Validate UUID format to reject malformed values before passing to Stripe.
+const UUID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export default async function handler(req, res) {
   return await createHandler(req, res);
 }
@@ -24,8 +29,6 @@ export async function createHandler(req, res) {
     // userId is only used as client_reference_id metadata for order history —
     // it is never used for pricing or privilege decisions. Validate UUID format
     // to reject obviously malformed values before passing to Stripe.
-    const UUID_RE =
-      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     if (userId && !UUID_RE.test(String(userId))) {
       return res.status(400).json({ error: "Invalid userId format" });
     }

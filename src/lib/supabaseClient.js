@@ -13,9 +13,30 @@ if (!supabaseUrl || !supabaseAnonKey) {
   );
 }
 
-// Provide fallback placeholder values so createClient doesn't throw when env
-// vars are missing (e.g., during CI builds or local dev without a .env file).
-export const supabase = createClient(
-  supabaseUrl || "https://placeholder.supabase.co",
-  supabaseAnonKey || "placeholder-anon-key"
-);
+// Guard: only create a real client when both vars are present.
+// When missing (CI builds, local dev without .env), export a no-op proxy that
+// lets the app render without crashing the provider tree.
+let supabaseInstance;
+
+if (supabaseUrl && supabaseAnonKey) {
+  supabaseInstance = createClient(supabaseUrl, supabaseAnonKey);
+} else {
+  // Minimal no-op proxy that satisfies callers expecting a supabase client
+  // shape. All async methods return empty/null results instead of throwing.
+  const noop = () => Promise.resolve({ data: null, error: null });
+  const noopQuery = () => ({ select: noopQuery, insert: noopQuery, update: noopQuery, delete: noopQuery, eq: noopQuery, single: noop, then: (fn) => noop().then(fn) });
+  supabaseInstance = {
+    auth: {
+      getSession: noop,
+      getUser: noop,
+      signInWithPassword: noop,
+      signOut: noop,
+      onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
+    },
+    from: () => noopQuery(),
+    storage: { from: () => ({ upload: noop, getPublicUrl: () => ({ data: { publicUrl: "" } }) }) },
+    functions: { invoke: noop },
+  };
+}
+
+export const supabase = supabaseInstance;
