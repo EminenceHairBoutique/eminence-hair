@@ -22,9 +22,9 @@ export function CartProvider({ children }) {
       // Normalize legacy items that may be missing length/density fields
       return items.map((item) => ({
         ...item,
-        length: item.length ?? item.selectedLength ?? Math.min(...(item.lengths || [])),
+        length: item.length ?? item.selectedLength ?? (item.lengths?.length ? Math.min(...item.lengths) : null),
         density: item.density ?? item.selectedDensity ?? 150,
-        selectedLength: item.length ?? item.selectedLength ?? Math.min(...(item.lengths || [])),
+        selectedLength: item.length ?? item.selectedLength ?? (item.lengths?.length ? Math.min(...item.lengths) : null),
         selectedDensity: item.density ?? item.selectedDensity ?? 150,
       }));
     } catch {
@@ -47,13 +47,13 @@ export function CartProvider({ children }) {
     // Base/default options (used when user quick-adds from Shop/Gallery)
     const baseLength =
       options.length ??
-      (Array.isArray(product.lengths) ? Math.min(...product.lengths) : null);
+      (Array.isArray(product.lengths) && product.lengths.length ? Math.min(...product.lengths) : null);
 
     const baseDensity =
       options.density ??
       (Array.isArray(product.densities) && product.densities.includes(150)
         ? 150
-        : Array.isArray(product.densities)
+        : Array.isArray(product.densities) && product.densities.length
         ? Math.min(...product.densities)
         : null);
 

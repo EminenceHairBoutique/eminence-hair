@@ -1,23 +1,70 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+/** Returns true if the error looks like a Vite/webpack chunk load failure. */
+function isChunkLoadError(error) {
+  if (!error) return false;
+  const msg = String(error?.message || error?.name || error || "").toLowerCase();
+  return (
+    msg.includes("failed to fetch dynamically imported module") ||
+    msg.includes("importing a module script failed") ||
+    msg.includes("chunkloaderror") ||
+    msg.includes("loading chunk") ||
+    msg.includes("loading css chunk") ||
+    /loading .* chunk \d+ failed/i.test(msg)
+  );
+}
+
+const CHUNK_RELOAD_KEY = "eminence_chunk_reload_attempted";
+
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false, error: null };
+    this.state = { hasError: false, error: null, isChunkError: false };
   }
 
   static getDerivedStateFromError(error) {
-    return { hasError: true, error };
+    const isChunkError = isChunkLoadError(error);
+    return { hasError: true, error, isChunkError };
   }
 
-  componentDidCatch(_error, _info) {
-    // Optional: send to logging later (Sentry/LogRocket)
-    // console.error("ErrorBoundary caught:", error, info);
+  componentDidCatch(error, _info) {
+    // Auto-reload once on chunk load errors to clear stale assets.
+    if (isChunkLoadError(error)) {
+      const alreadyReloaded =
+        typeof window !== "undefined" &&
+        window.sessionStorage.getItem(CHUNK_RELOAD_KEY);
+      if (!alreadyReloaded) {
+        if (typeof window !== "undefined") {
+          window.sessionStorage.setItem(CHUNK_RELOAD_KEY, "1");
+          window.location.reload();
+        }
+      }
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    // Reset error state when the route changes so the new route gets a
+    // fresh render attempt rather than staying stuck on the error screen.
+    if (
+      this.state.hasError &&
+      prevProps.locationKey !== this.props.locationKey
+    ) {
+      this.setState({ hasError: false, error: null, isChunkError: false });
+    }
   }
 
   handleReset = () => {
-    this.setState({ hasError: false, error: null });
+    if (this.state.isChunkError) {
+      // For chunk errors, a simple state reset won't work because React.lazy
+      // caches the rejected promise. Force a full reload instead.
+      if (typeof window !== "undefined") {
+        window.sessionStorage.removeItem(CHUNK_RELOAD_KEY);
+        window.location.reload();
+      }
+      return;
+    }
+    this.setState({ hasError: false, error: null, isChunkError: false });
   };
 
   render() {

@@ -21,6 +21,15 @@ export async function createHandler(req, res) {
       return res.status(400).json({ error: "Invalid cart items" });
     }
 
+    // userId is only used as client_reference_id metadata for order history —
+    // it is never used for pricing or privilege decisions. Validate UUID format
+    // to reject obviously malformed values before passing to Stripe.
+    const UUID_RE =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (userId && !UUID_RE.test(String(userId))) {
+      return res.status(400).json({ error: "Invalid userId format" });
+    }
+
     // Server-side enforcement: reject mixed preorder + domestic checkout.
     const hasPreorder = items.some((i) => Boolean(i.isPreorder));
     const hasDomestic = items.some((i) => !i.isPreorder);
@@ -48,8 +57,8 @@ export async function createHandler(req, res) {
       }
 
       // Variant selections (null => server applies safe defaults)
-      const length = Number(item.length ?? Math.min(...(product.lengths || [0])));
-      const density = Number(item.density ?? Math.min(...(product.densities || [0])));
+      const length = Number(item.length ?? (product.lengths?.length ? Math.min(...product.lengths) : 0));
+      const density = Number(item.density ?? (product.densities?.length ? Math.min(...product.densities) : 0));
       const lace = item.lace ?? "Transparent Lace";
 
       // Compute base price on the server.
