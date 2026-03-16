@@ -1,6 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+/** Returns true when the error looks like a failed dynamic-import / chunk load. */
+function isChunkLoadError(error) {
+  if (!error) return false;
+  const name = error.name || "";
+  const message = error.message || "";
+  return (
+    name === "ChunkLoadError" ||
+    message.includes("Failed to fetch dynamically imported module") ||
+    message.includes("ChunkLoadError") ||
+    message.includes("Loading chunk") ||
+    message.includes("Importing a module script failed")
+  );
+}
+
+/** Returns true when the current URL contains debug=1 or debug=true. */
+function isDebugMode() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const val = params.get("debug");
+    return val === "1" || val === "true";
+  } catch {
+    return false;
+  }
+}
+
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -17,11 +42,18 @@ export default class ErrorBoundary extends React.Component {
   }
 
   handleReset = () => {
-    this.setState({ hasError: false, error: null });
+    if (isChunkLoadError(this.state.error)) {
+      window.location.reload();
+    } else {
+      this.setState({ hasError: false, error: null });
+    }
   };
 
   render() {
     if (!this.state.hasError) return this.props.children;
+
+    const { error } = this.state;
+    const showDebug = isDebugMode();
 
     return (
       <div className="min-h-[70vh] pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">
@@ -57,6 +89,21 @@ export default class ErrorBoundary extends React.Component {
           <p className="mt-8 text-[11px] text-neutral-400">
             If this keeps happening, contact support.
           </p>
+
+          {showDebug && error && (
+            <div className="mt-6 text-left">
+              <pre className="text-[11px] whitespace-pre-wrap break-words bg-black/5 p-4 rounded-xl text-neutral-700 leading-relaxed">
+                {[
+                  error.name ? `name: ${String(error.name)}` : null,
+                  error.message ? `message: ${String(error.message)}` : null,
+                  error.stack ? `\nstack:\n${String(error.stack)}` : null,
+                  error.cause ? `\ncause: ${String(error.cause)}` : null,
+                ]
+                  .filter(Boolean)
+                  .join("\n")}
+              </pre>
+            </div>
+          )}
         </div>
       </div>
     );
