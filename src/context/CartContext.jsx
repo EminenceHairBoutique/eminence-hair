@@ -14,6 +14,9 @@ import { resolveProductImages } from "../utils/productMedia";
 
 const CartContext = createContext(null);
 
+const safeMin = (arr) =>
+  Array.isArray(arr) && arr.length > 0 ? Math.min(...arr) : null;
+
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState(() => {
     try {
@@ -22,9 +25,9 @@ export function CartProvider({ children }) {
       // Normalize legacy items that may be missing length/density fields
       return items.map((item) => ({
         ...item,
-        length: item.length ?? item.selectedLength ?? Math.min(...(item.lengths || [])),
+        length: item.length ?? item.selectedLength ?? safeMin(item.lengths || []),
         density: item.density ?? item.selectedDensity ?? 150,
-        selectedLength: item.length ?? item.selectedLength ?? Math.min(...(item.lengths || [])),
+        selectedLength: item.length ?? item.selectedLength ?? safeMin(item.lengths || []),
         selectedDensity: item.density ?? item.selectedDensity ?? 150,
       }));
     } catch {
@@ -47,14 +50,14 @@ export function CartProvider({ children }) {
     // Base/default options (used when user quick-adds from Shop/Gallery)
     const baseLength =
       options.length ??
-      (Array.isArray(product.lengths) ? Math.min(...product.lengths) : null);
+      (Array.isArray(product.lengths) ? safeMin(product.lengths) : null);
 
     const baseDensity =
       options.density ??
       (Array.isArray(product.densities) && product.densities.includes(150)
         ? 150
         : Array.isArray(product.densities)
-        ? Math.min(...product.densities)
+        ? safeMin(product.densities)
         : null);
 
     const lace = options.lace ?? "Transparent Lace";

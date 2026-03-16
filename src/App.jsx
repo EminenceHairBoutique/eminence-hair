@@ -1,11 +1,12 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense } from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence, motion as Motion } from "framer-motion";
 import { useCart } from "./context/CartContext";
 import DiscountModal from "./components/DiscountModal";
 import CookieBanner from "./components/legal/CookieBanner";
 import TrackingScripts from "./components/TrackingScripts";
-const CartDrawer = lazy(() => import("./components/CartDrawer"));
+import { lazyWithRetry } from "./utils/lazyWithRetry";
+const CartDrawer = lazyWithRetry(() => import("./components/CartDrawer"));
 import useRouteAnalytics from "./hooks/useRouteAnalytics";
 
 
@@ -24,44 +25,44 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import RouteSkeleton from "./components/RouteSkeleton";
 
 // 🔹 Lazy-loaded pages (same pages, no logic change)
-const Home = lazy(() => import("./pages/Home"));
-const StartHere = lazy(() => import("./pages/StartHere"));
-const Shop = lazy(() => import("./pages/Shop"));
-const ReadyToShip = lazy(() => import("./pages/ReadyToShip"));
-const PartnerProgram = lazy(() => import("./pages/PartnerProgram"));
-const StylistApplication = lazy(() => import("./pages/StylistApplication"));
-const CreatorApplication = lazy(() => import("./pages/CreatorApplication"));
-const PartnerPortal = lazy(() => import("./pages/PartnerPortal"));
-const AdminPartners = lazy(() => import("./pages/AdminPartners"));
-const Consultation = lazy(() => import("./pages/Consultation"));
-const ProductDetail = lazy(() => import("./pages/ProductDetail"));
-const Gallery = lazy(() => import("./pages/Gallery"));
-const Collections = lazy(() => import("./pages/Collections"));
-const CollectionDetail = lazy(() => import("./pages/CollectionDetail"));
-const MedicalHair = lazy(() => import("./pages/MedicalHair"));
-const Checkout = lazy(() => import("./pages/Checkout"));
-const Success = lazy(() => import("./pages/Success"));
-const Cancel = lazy(() => import("./pages/Cancel"));
-const Account = lazy(() => import("./pages/Account"));
-const Authenticity = lazy(() => import("./pages/Authenticity"));
-const Care = lazy(() => import("./pages/Care"));
-const About = lazy(() => import("./pages/About"));
-const Faqs = lazy(() => import("./pages/Faqs"));
-const Contact = lazy(() => import("./pages/Contact"));
-const CustomOrders = lazy(() => import("./pages/CustomOrders"));
-const PrivateConsult = lazy(() => import("./pages/PrivateConsult"));
-const CustomAtelier = lazy(() => import("./pages/CustomAtelier"));
-const Verify = lazy(() => import("./pages/Verify"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const Privacy = lazy(() => import("./pages/Privacy"));
-const PrivacyChoices = lazy(() => import("./pages/PrivacyChoices"));
-const Terms = lazy(() => import("./pages/Terms"));
-const Returns = lazy(() => import("./pages/Returns"));
-const Installers = lazy(() => import("./pages/Installers"));
-const Cart = lazy(() => import("./pages/Cart"));
-const AtelierTryOn = lazy(() => import("./pages/AtelierTryOn"));
-const AtelierMirror = lazy(() => import("./pages/AtelierMirror"));
-const AtelierPreorder = lazy(() => import("./pages/AtelierPreorder"));
+const Home = lazyWithRetry(() => import("./pages/Home"));
+const StartHere = lazyWithRetry(() => import("./pages/StartHere"));
+const Shop = lazyWithRetry(() => import("./pages/Shop"));
+const ReadyToShip = lazyWithRetry(() => import("./pages/ReadyToShip"));
+const PartnerProgram = lazyWithRetry(() => import("./pages/PartnerProgram"));
+const StylistApplication = lazyWithRetry(() => import("./pages/StylistApplication"));
+const CreatorApplication = lazyWithRetry(() => import("./pages/CreatorApplication"));
+const PartnerPortal = lazyWithRetry(() => import("./pages/PartnerPortal"));
+const AdminPartners = lazyWithRetry(() => import("./pages/AdminPartners"));
+const Consultation = lazyWithRetry(() => import("./pages/Consultation"));
+const ProductDetail = lazyWithRetry(() => import("./pages/ProductDetail"));
+const Gallery = lazyWithRetry(() => import("./pages/Gallery"));
+const Collections = lazyWithRetry(() => import("./pages/Collections"));
+const CollectionDetail = lazyWithRetry(() => import("./pages/CollectionDetail"));
+const MedicalHair = lazyWithRetry(() => import("./pages/MedicalHair"));
+const Checkout = lazyWithRetry(() => import("./pages/Checkout"));
+const Success = lazyWithRetry(() => import("./pages/Success"));
+const Cancel = lazyWithRetry(() => import("./pages/Cancel"));
+const Account = lazyWithRetry(() => import("./pages/Account"));
+const Authenticity = lazyWithRetry(() => import("./pages/Authenticity"));
+const Care = lazyWithRetry(() => import("./pages/Care"));
+const About = lazyWithRetry(() => import("./pages/About"));
+const Faqs = lazyWithRetry(() => import("./pages/Faqs"));
+const Contact = lazyWithRetry(() => import("./pages/Contact"));
+const CustomOrders = lazyWithRetry(() => import("./pages/CustomOrders"));
+const PrivateConsult = lazyWithRetry(() => import("./pages/PrivateConsult"));
+const CustomAtelier = lazyWithRetry(() => import("./pages/CustomAtelier"));
+const Verify = lazyWithRetry(() => import("./pages/Verify"));
+const NotFound = lazyWithRetry(() => import("./pages/NotFound"));
+const Privacy = lazyWithRetry(() => import("./pages/Privacy"));
+const PrivacyChoices = lazyWithRetry(() => import("./pages/PrivacyChoices"));
+const Terms = lazyWithRetry(() => import("./pages/Terms"));
+const Returns = lazyWithRetry(() => import("./pages/Returns"));
+const Installers = lazyWithRetry(() => import("./pages/Installers"));
+const Cart = lazyWithRetry(() => import("./pages/Cart"));
+const AtelierTryOn = lazyWithRetry(() => import("./pages/AtelierTryOn"));
+const AtelierMirror = lazyWithRetry(() => import("./pages/AtelierMirror"));
+const AtelierPreorder = lazyWithRetry(() => import("./pages/AtelierPreorder"));
 
 
 export default function App() {
@@ -86,7 +87,7 @@ export default function App() {
         <DiscountModal />
         <ScrollToTop />
 
-        <ErrorBoundary>
+        <ErrorBoundary locationKey={location.pathname}>
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               {[
