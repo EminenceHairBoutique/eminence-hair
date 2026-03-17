@@ -58,8 +58,10 @@ export default class ErrorBoundary extends React.Component {
     if (this.state.isChunkError) {
       // For chunk errors, a simple state reset won't work because React.lazy
       // caches the rejected promise. Force a full reload instead.
+      // Note: Do NOT remove CHUNK_RELOAD_KEY here. The key is managed by
+      // lazyWithRetry to prevent infinite reload loops. Removing it would
+      // defeat the safety mechanism and cause unnecessary reloads.
       if (typeof window !== "undefined") {
-        window.sessionStorage.removeItem(CHUNK_RELOAD_KEY);
         window.location.reload();
       }
       return;
