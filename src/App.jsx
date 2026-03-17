@@ -87,7 +87,7 @@ export default function App() {
         <DiscountModal />
         <ScrollToTop />
 
-        <ErrorBoundary locationKey={location.pathname}>
+        <ErrorBoundary locationKey={`${location.pathname}${location.search}`}>
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               {[
