@@ -27,8 +27,40 @@ const RETRY_DELAY_MS = 500;
  */
 export function lazyWithRetry(importFn) {
   return lazy(() => {
+    const RELOAD_KEY = "eminence_chunk_reload_attempted";
+
+    const triggerReloadOrThrow = (err) => {
+      if (
+        typeof window !== "undefined" &&
+        window.sessionStorage &&
+        !window.sessionStorage.getItem(RELOAD_KEY)
+      ) {
+        window.sessionStorage.setItem(RELOAD_KEY, "1");
+        window.location.reload();
+        // Return a pending promise while reload is in progress.
+        return new Promise(() => {});
+      }
+
+      // Reload already tried — propagate the error to the ErrorBoundary.
+      throw err;
+    };
+
     const doImport = (retriesLeft) =>
       importFn().catch((err) => {
+        const message =
+          err && typeof err.message === "string" ? err.message : "";
+
+        const isChunkLoadError =
+          message.includes("Loading chunk") ||
+          message.includes("ChunkLoadError") ||
+          message.includes("Failed to fetch dynamically imported module") ||
+          message.includes("Importing a module script failed");
+
+        // For stale deploy / chunk-load errors, retries are not helpful.
+        if (isChunkLoadError) {
+          return triggerReloadOrThrow(err);
+        }
+
         if (retriesLeft > 0) {
           // Wait with exponential back-off, then retry the same import.
           const delay = RETRY_DELAY_MS * Math.pow(2, MAX_RETRIES - retriesLeft);
@@ -39,16 +71,7 @@ export function lazyWithRetry(importFn) {
 
         // All retries exhausted — force a full page reload to clear stale
         // chunk assets. Use sessionStorage to prevent an infinite reload loop.
-        const RELOAD_KEY = "eminence_chunk_reload_attempted";
-        if (typeof window !== "undefined" && !window.sessionStorage.getItem(RELOAD_KEY)) {
-          window.sessionStorage.setItem(RELOAD_KEY, "1");
-          window.location.reload();
-          // Return a pending promise while reload is in progress.
-          return new Promise(() => {});
-        }
-
-        // Reload already tried — propagate the error to the ErrorBoundary.
-        throw err;
+        return triggerReloadOrThrow(err);
       });
 
     return doImport(MAX_RETRIES);
