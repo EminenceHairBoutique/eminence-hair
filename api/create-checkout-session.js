@@ -144,7 +144,7 @@ export async function createHandler(req, res) {
 
     res.json({ url: session.url });
   } catch (err) {
-    console.error("Stripe error:", err?.message || err);
-    res.status(500).json({ error: err?.message || "Stripe error" });
+    console.error("Stripe checkout error:", err?.message || err);
+    res.status(500).json({ error: "Checkout failed. Please try again." });
   }
 }
