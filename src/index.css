@@ -1,4 +1,19 @@
 @import "tailwindcss";
+
+/* ─── Base document polish ──────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Brand-tinted text selection */
+::selection {
+  background: rgba(212, 175, 55, 0.18);
+  color: inherit;
+}
+
 @keyframes dropdownIn {
   from {
     opacity: 0;

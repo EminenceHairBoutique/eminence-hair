@@ -7,62 +7,62 @@ import { BRAND, SOCIAL } from "../config/brand";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#111] text-[#F9F7F4] pt-14 pb-8 mt-16">
+    <footer className="bg-[#111] text-[#F9F7F4] pt-16 pb-8 mt-16">
       <div className="max-w-6xl mx-auto px-6">
 
         {/* TOP SECTION — LOGO + SLOGAN */}
-        <div className="flex flex-col items-center text-center mb-10">
+        <div className="flex flex-col items-center text-center mb-12">
           <div className="flex items-center gap-3 mb-3">
             <Sparkles className="w-4 h-4 text-[#D4AF37]" />
             <span className="tracking-[0.35em] text-[13px] font-light uppercase">
               {BRAND.fullName}
             </span>
           </div>
-          <p className="max-w-md text-[11px] text-neutral-500 leading-relaxed">
+          <p className="max-w-sm text-[11px] text-neutral-500 leading-relaxed">
             Luxury human hair, crafted in our partner atelier.
             Designed for women who expect their hair to perform like couture.
           </p>
         </div>
 
         {/* MIDDLE SECTION — 4 COLUMNS */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center text-[12px] tracking-wide">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center text-[12px]">
 
-          <div className="space-y-2">
-            <p className="text-neutral-500 tracking-[0.22em] uppercase text-[10px] mb-3">
+          <div className="space-y-2.5">
+            <p className="text-neutral-500 tracking-[0.26em] uppercase text-[10px] mb-4">
               Shop
             </p>
-            <Link to="/shop" className="hover:text-neutral-200 transition block">All Products</Link>
-            <Link to="/shop/preorders" className="hover:text-neutral-200 transition block">Pre-Orders</Link>
-            <Link to="/ready-to-ship" className="hover:text-neutral-200 transition block">Ready-to-Ship</Link>
-            <Link to="/shop/wigs" className="hover:text-neutral-200 transition block">Wigs</Link>
-            <Link to="/shop/bundles" className="hover:text-neutral-200 transition block">Bundles</Link>
+            <Link to="/shop" className="text-neutral-400 hover:text-neutral-100 transition block">All Products</Link>
+            <Link to="/shop/preorders" className="text-neutral-400 hover:text-neutral-100 transition block">Pre-Orders</Link>
+            <Link to="/ready-to-ship" className="text-neutral-400 hover:text-neutral-100 transition block">Ready-to-Ship</Link>
+            <Link to="/shop/wigs" className="text-neutral-400 hover:text-neutral-100 transition block">Wigs</Link>
+            <Link to="/shop/bundles" className="text-neutral-400 hover:text-neutral-100 transition block">Bundles</Link>
           </div>
 
-          <div className="space-y-2">
-            <p className="text-neutral-500 tracking-[0.22em] uppercase text-[10px] mb-3">
+          <div className="space-y-2.5">
+            <p className="text-neutral-500 tracking-[0.26em] uppercase text-[10px] mb-4">
               Collections
             </p>
-            <Link to="/collections/fw-2025" className="hover:text-neutral-200 transition block">F/W 2025</Link>
-            <Link to="/collections/sea" className="hover:text-neutral-200 transition block">SEA</Link>
-            <Link to="/collections/burmese" className="hover:text-neutral-200 transition block">Burmese</Link>
-            <Link to="/collections/lavish" className="hover:text-neutral-200 transition block">Lavish</Link>
-            <Link to="/authenticity" className="hover:text-neutral-200 transition block">Authenticity</Link>
-            <Link to="/shop?collection=eminence-essentials" className="hover:text-neutral-200 transition block">Eminence Essentials</Link>
+            <Link to="/collections/fw-2025" className="text-neutral-400 hover:text-neutral-100 transition block">F/W 2025</Link>
+            <Link to="/collections/sea" className="text-neutral-400 hover:text-neutral-100 transition block">SEA</Link>
+            <Link to="/collections/burmese" className="text-neutral-400 hover:text-neutral-100 transition block">Burmese</Link>
+            <Link to="/collections/lavish" className="text-neutral-400 hover:text-neutral-100 transition block">Lavish</Link>
+            <Link to="/authenticity" className="text-neutral-400 hover:text-neutral-100 transition block">Authenticity</Link>
+            <Link to="/shop?collection=eminence-essentials" className="text-neutral-400 hover:text-neutral-100 transition block">Essentials</Link>
           </div>
 
-          <div className="space-y-2">
-            <p className="text-neutral-500 tracking-[0.22em] uppercase text-[10px] mb-3">
+          <div className="space-y-2.5">
+            <p className="text-neutral-500 tracking-[0.26em] uppercase text-[10px] mb-4">
               Help
             </p>
-            <Link to="/care" className="hover:text-neutral-200 transition block">Care Guide</Link>
-            <Link to="/faqs" className="hover:text-neutral-200 transition block">FAQs</Link>
-            <Link to="/returns" className="hover:text-neutral-200 transition block">Shipping & Returns</Link>
-            <Link to="/contact" className="hover:text-neutral-200 transition block">Contact</Link>
-            <Link to="/private-consult" className="hover:text-neutral-200 transition block">Book a Consult</Link>
+            <Link to="/care" className="text-neutral-400 hover:text-neutral-100 transition block">Care Guide</Link>
+            <Link to="/faqs" className="text-neutral-400 hover:text-neutral-100 transition block">FAQs</Link>
+            <Link to="/returns" className="text-neutral-400 hover:text-neutral-100 transition block">Shipping &amp; Returns</Link>
+            <Link to="/contact" className="text-neutral-400 hover:text-neutral-100 transition block">Contact</Link>
+            <Link to="/private-consult" className="text-neutral-400 hover:text-neutral-100 transition block">Book a Consult</Link>
           </div>
 
-          <div className="space-y-2">
-            <p className="text-neutral-500 tracking-[0.22em] uppercase text-[10px] mb-3">
+          <div className="space-y-2.5">
+            <p className="text-neutral-500 tracking-[0.26em] uppercase text-[10px] mb-4">
               Connect
             </p>
             {SOCIAL.instagram && (
@@ -70,9 +70,9 @@ const Footer = () => {
                 href={SOCIAL.instagram}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-neutral-200 transition block"
+                className="text-neutral-400 hover:text-neutral-100 transition block"
               >
-                Instagram
+                Instagram ↗
               </a>
             )}
             {SOCIAL.tiktok && (
@@ -80,32 +80,39 @@ const Footer = () => {
                 href={SOCIAL.tiktok}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-neutral-200 transition block"
+                className="text-neutral-400 hover:text-neutral-100 transition block"
               >
-                TikTok
+                TikTok ↗
               </a>
             )}
             <a
               href={`mailto:${BRAND.supportEmail}`}
-              className="hover:text-neutral-200 transition block"
+              className="text-neutral-400 hover:text-neutral-100 transition block break-all"
             >
               {BRAND.supportEmail}
             </a>
-            <Link to="/account" className="hover:text-neutral-200 transition block">My Account</Link>
-            <Link to="/partners" className="hover:text-neutral-200 transition block">Partner Program</Link>
+            <Link to="/account" className="text-neutral-400 hover:text-neutral-100 transition block">My Account</Link>
+            <Link to="/partners" className="text-neutral-400 hover:text-neutral-100 transition block">Partner Program</Link>
           </div>
 
         </div>
 
-        {/* DIVIDER + LEGAL */}
-        <div className="border-t border-neutral-800 mt-10 pt-6 text-center">
-          <div className="flex flex-wrap gap-4 justify-center mb-4 text-[11px] text-neutral-600">
-            <Link to="/returns" className="hover:text-neutral-400 transition">Returns & Exchanges</Link>
+        {/* GOLD DIVIDER */}
+        <div className="mt-12 mb-0 flex items-center gap-4">
+          <div className="flex-1 h-px bg-neutral-800" />
+          <Sparkles className="w-3 h-3 text-[#D4AF37] opacity-60 shrink-0" />
+          <div className="flex-1 h-px bg-neutral-800" />
+        </div>
+
+        {/* LEGAL */}
+        <div className="mt-6 text-center">
+          <div className="flex flex-wrap gap-x-5 gap-y-2 justify-center mb-4 text-[11px] text-neutral-600">
+            <Link to="/returns" className="hover:text-neutral-400 transition">Returns &amp; Exchanges</Link>
             <Link to="/privacy" className="hover:text-neutral-400 transition">Privacy Policy</Link>
             <Link to="/privacy-choices" className="hover:text-neutral-400 transition">Your Privacy Choices</Link>
             <Link to="/terms" className="hover:text-neutral-400 transition">Terms &amp; Conditions</Link>
           </div>
-          <p className="text-[11px] tracking-wide text-neutral-500">
+          <p className="text-[11px] tracking-[0.16em] text-neutral-600">
             &copy; {new Date().getFullYear()} {BRAND.fullName}. All Rights Reserved.
           </p>
         </div>

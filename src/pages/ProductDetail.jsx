@@ -762,12 +762,13 @@ export default function ProductDetail() {
                         onChange={setCapSize}
                       />
 
-                      <div className="border rounded-xl p-4">
-                        <label className="flex items-center gap-2 text-xs cursor-pointer">
+                      <div className="border border-neutral-200 rounded-2xl p-4 bg-white">
+                        <label className="flex items-center gap-2.5 text-xs cursor-pointer text-neutral-700">
                           <input
                             type="checkbox"
                             checked={isCustom}
                             onChange={(e) => setIsCustom(e.target.checked)}
+                            className="rounded"
                           />
                           Request a custom wig
                         </label>
@@ -835,23 +836,23 @@ export default function ProductDetail() {
                   )}
 
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center border rounded-full">
-                      <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-3" aria-label="Decrease quantity">
-                        <Minus size={14} />
+                    <div className="flex items-center border border-neutral-200 rounded-full bg-white">
+                      <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-3.5 py-2 tap-compact" aria-label="Decrease quantity">
+                        <Minus size={13} />
                       </button>
-                      <span className="px-3 text-sm">{qty}</span>
-                      <button onClick={() => setQty(qty + 1)} className="px-3" aria-label="Increase quantity">
-                        <Plus size={14} />
+                      <span className="px-3 text-sm min-w-[2rem] text-center">{qty}</span>
+                      <button onClick={() => setQty(qty + 1)} className="px-3.5 py-2 tap-compact" aria-label="Increase quantity">
+                        <Plus size={13} />
                       </button>
                     </div>
 
                     <button
                       disabled={!canAdd}
                       onClick={handleAdd}
-                      className={`flex-1 py-2.5 rounded-full text-[12px] tracking-[0.22em] ${
+                      className={`flex-1 py-3 rounded-full text-[11px] tracking-[0.26em] uppercase transition ${
                         canAdd
-                          ? "bg-black text-white"
-                          : "bg-neutral-300 text-neutral-500 cursor-not-allowed"
+                          ? "bg-[#111] text-[#F9F7F4] hover:bg-neutral-800"
+                          : "bg-neutral-200 text-neutral-400 cursor-not-allowed"
                       }`}
                     >
                       {product.isPreorder ? "Pre-Order" : "Add to Bag"}
@@ -1075,20 +1076,20 @@ export default function ProductDetail() {
         {/* Sticky mobile bar */}
         {sticky && (
           <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden">
-            <div className="mx-auto max-w-7xl px-4 pb-4">
-              <div className="rounded-2xl border bg-white/90 backdrop-blur shadow-[0_18px_40px_rgba(15,10,5,0.22)] p-3 flex items-center gap-3">
+            <div className="mx-auto max-w-7xl px-4 pb-safe-area-inset-bottom pb-4">
+              <div className="rounded-2xl border border-neutral-200 bg-white/95 backdrop-blur shadow-[0_18px_40px_rgba(15,10,5,0.18)] p-3 flex items-center gap-3">
                 <div className="min-w-0 flex-1">
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">Total</p>
+                  <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-400">Total</p>
                   <p className="text-sm font-medium text-neutral-900 truncate">{formatMoney(total)}</p>
                 </div>
 
                 <button
                   disabled={!canAdd}
                   onClick={handleAdd}
-                  className={`px-6 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] ${
+                  className={`px-7 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] transition ${
                     canAdd
-                      ? "bg-neutral-900 text-[#F9F7F4] hover:bg-black"
-                      : "bg-neutral-300 text-neutral-500 cursor-not-allowed"
+                      ? "bg-[#111] text-[#F9F7F4] hover:bg-neutral-800"
+                      : "bg-neutral-200 text-neutral-400 cursor-not-allowed"
                   }`}
                 >
                   {product.isPreorder ? "Pre-Order" : "Add to Bag"}
