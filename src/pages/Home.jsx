@@ -802,41 +802,42 @@ const Home = () => {
 
           {/* SECTION I — NEWSLETTER CTA */}
           <section className="py-16 border-t border-neutral-200 bg-[#F9F7F4]">
-            <div className="max-w-3xl mx-auto px-6 text-center">
-              <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-500 mb-2">
+            <div className="max-w-2xl mx-auto px-6 text-center">
+              <p className="text-[11px] tracking-[0.32em] uppercase text-neutral-500 mb-3">
                 Private List
               </p>
               <h2 className="text-2xl font-light font-display mb-3">
                 Be the first to know when new units drop.
               </h2>
-              <p className="text-sm text-neutral-700 mb-6">
-                Early access to capsules, priority restocks, and ritual-based care guides. Your 10%
-                welcome code will meet you at checkout.
+              <p className="text-sm text-neutral-600 mb-8 leading-relaxed max-w-lg mx-auto">
+                Early access to capsule drops, priority restocks, and care guides.
+                Your 10% welcome code arrives at checkout.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-xl mx-auto">
+              <div className="flex flex-col sm:flex-row gap-2.5 justify-center max-w-md mx-auto">
                 <input
                   type="email"
-                  placeholder="Email address"
+                  placeholder="Your email address"
                   value={newsletterEmail}
                   onChange={(e) => setNewsletterEmail(e.target.value)}
-                  className="flex-1 min-w-0 bg-white border border-neutral-300 rounded-full px-4 py-2 text-sm outline-none focus:border-[#111]"
+                  onKeyDown={(e) => e.key === "Enter" && handleNewsletterSignup()}
+                  className="flex-1 min-w-0 bg-white border border-neutral-200 rounded-full px-5 py-3 text-sm outline-none focus:border-neutral-400 transition placeholder:text-neutral-400"
                 />
                 <button
                   onClick={handleNewsletterSignup}
-                  disabled={newsletterStatus === "loading"}
-                  className="px-8 py-2.5 text-xs tracking-[0.26em] uppercase border border-[#111] bg-[#111] text-[#F9F7F4] rounded-full hover:bg-transparent hover:text-[#111] transition disabled:opacity-60 disabled:cursor-not-allowed"
+                  disabled={newsletterStatus === "loading" || newsletterStatus === "success"}
+                  className="shrink-0 px-7 py-3 text-[11px] tracking-[0.26em] uppercase border border-[#111] bg-[#111] text-[#F9F7F4] rounded-full hover:bg-black transition disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {newsletterStatus === "loading" ? "Joining..." : newsletterStatus === "success" ? "You’re in" : "Join Eminence"}
+                  {newsletterStatus === "loading" ? "Joining…" : newsletterStatus === "success" ? "You're In ✓" : "Join Eminence"}
                 </button>
               </div>
 
-              <p className="mt-3 text-[11px] text-neutral-500">
+              <p className={`mt-4 text-[11px] transition ${newsletterStatus === "error" ? "text-red-500" : "text-neutral-400"}`}>
                 {newsletterStatus === "success"
-                  ? "You’re on the list — watch your inbox for early access."
+                  ? "Welcome — check your inbox for your welcome code."
                   : newsletterStatus === "error"
                   ? newsletterError
-                  : "No spam — just launches, drops, and things worth knowing."}
+                  : "No spam. Just launches, drops, and things worth knowing."}
               </p>
             </div>
           </section>

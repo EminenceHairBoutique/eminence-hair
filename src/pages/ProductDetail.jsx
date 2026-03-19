@@ -173,15 +173,19 @@ function ProductStructuredData({ product, price }) {
 function Accordion({ title, children }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border-t border-neutral-200">
+    <div className="border-t border-neutral-100">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between py-4 text-left"
+        className="w-full flex items-center justify-between py-4 text-left group"
       >
-        <span className="text-sm tracking-wide text-neutral-900">{title}</span>
-        <ChevronDown className={`w-4 h-4 transition ${open ? "rotate-180" : ""}`} />
+        <span className="text-[13px] tracking-[0.04em] text-neutral-800 group-hover:text-neutral-900 transition">{title}</span>
+        <ChevronDown className={`w-4 h-4 text-neutral-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
-      {open && <div className="pb-5 text-sm leading-relaxed text-neutral-600">{children}</div>}
+      {open && (
+        <div className="pb-6 text-[13px] leading-relaxed text-neutral-600">
+          {children}
+        </div>
+      )}
     </div>
   );
 }
@@ -835,26 +839,26 @@ export default function ProductDetail() {
                   )}
 
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center border rounded-full">
-                      <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-3" aria-label="Decrease quantity">
-                        <Minus size={14} />
+                    <div className="flex items-center border border-neutral-200 rounded-full bg-white">
+                      <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-3.5 py-2 text-neutral-500 hover:text-neutral-900 transition" aria-label="Decrease quantity">
+                        <Minus size={13} />
                       </button>
-                      <span className="px-3 text-sm">{qty}</span>
-                      <button onClick={() => setQty(qty + 1)} className="px-3" aria-label="Increase quantity">
-                        <Plus size={14} />
+                      <span className="px-3 text-sm text-neutral-900 min-w-[28px] text-center">{qty}</span>
+                      <button onClick={() => setQty(qty + 1)} className="px-3.5 py-2 text-neutral-500 hover:text-neutral-900 transition" aria-label="Increase quantity">
+                        <Plus size={13} />
                       </button>
                     </div>
 
                     <button
                       disabled={!canAdd}
                       onClick={handleAdd}
-                      className={`flex-1 py-2.5 rounded-full text-[12px] tracking-[0.22em] ${
+                      className={`flex-1 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] transition font-medium ${
                         canAdd
-                          ? "bg-black text-white"
-                          : "bg-neutral-300 text-neutral-500 cursor-not-allowed"
+                          ? "bg-[#111] text-[#F9F7F4] hover:bg-black"
+                          : "bg-neutral-200 text-neutral-400 cursor-not-allowed"
                       }`}
                     >
-                      {product.isPreorder ? "Pre-Order" : "Add to Bag"}
+                      {product.isPreorder ? "Pre-Order Now" : "Add to Bag"}
                     </button>
                   </div>
 
@@ -1075,23 +1079,23 @@ export default function ProductDetail() {
         {/* Sticky mobile bar */}
         {sticky && (
           <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden">
-            <div className="mx-auto max-w-7xl px-4 pb-4">
-              <div className="rounded-2xl border bg-white/90 backdrop-blur shadow-[0_18px_40px_rgba(15,10,5,0.22)] p-3 flex items-center gap-3">
+            <div className="mx-auto max-w-7xl px-4 pb-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+              <div className="rounded-2xl border border-neutral-200 bg-white/95 backdrop-blur shadow-[0_-4px_30px_rgba(15,10,5,0.12)] p-3 flex items-center gap-3">
                 <div className="min-w-0 flex-1">
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">Total</p>
+                  <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-400">Total</p>
                   <p className="text-sm font-medium text-neutral-900 truncate">{formatMoney(total)}</p>
                 </div>
 
                 <button
                   disabled={!canAdd}
                   onClick={handleAdd}
-                  className={`px-6 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] ${
+                  className={`px-7 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] transition font-medium ${
                     canAdd
-                      ? "bg-neutral-900 text-[#F9F7F4] hover:bg-black"
-                      : "bg-neutral-300 text-neutral-500 cursor-not-allowed"
+                      ? "bg-[#111] text-[#F9F7F4] hover:bg-black"
+                      : "bg-neutral-200 text-neutral-400 cursor-not-allowed"
                   }`}
                 >
-                  {product.isPreorder ? "Pre-Order" : "Add to Bag"}
+                  {product.isPreorder ? "Pre-Order Now" : "Add to Bag"}
                 </button>
               </div>
             </div>
@@ -1123,19 +1127,25 @@ function OptionGroup({ label, values, value, onChange, suffix = "" }) {
 
   return (
     <div>
-      <p className="text-xs mb-2">{label}</p>
+      <div className="flex items-center justify-between mb-2.5">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">{label}</p>
+        {value != null && (
+          <span className="text-[11px] text-neutral-700">{value}{suffix}</span>
+        )}
+      </div>
       <div className="flex flex-wrap gap-2">
         {values.map((v) => (
           <button
             key={v}
             type="button"
             onClick={() => onChange(v)}
-            className={`px-4 py-1.5 text-[12px] rounded-full border ${
-              v === value ? "bg-black text-white border-black" : "border-neutral-300"
+            className={`px-4 py-2 text-[11px] tracking-[0.1em] rounded-full border transition ${
+              v === value
+                ? "bg-[#111] text-[#F9F7F4] border-[#111]"
+                : "border-neutral-200 text-neutral-700 hover:border-neutral-400 bg-white"
             }`}
           >
-            {v}
-            {suffix}
+            {v}{suffix}
           </button>
         ))}
       </div>

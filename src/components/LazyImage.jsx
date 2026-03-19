@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const PLACEHOLDER_STYLE = {
-  background: "linear-gradient(135deg, #F5EFE6 0%, #E8DDD0 100%)",
+  background: "linear-gradient(135deg, #F3EFE8 0%, #EBE3D7 100%)",
 };
 
 export default function LazyImage({ src, alt = "", className = "" }) {
@@ -19,7 +19,7 @@ export default function LazyImage({ src, alt = "", className = "" }) {
   return (
     <div className={`relative overflow-hidden ${className}`}>
       {!loaded && (
-        <div className="absolute inset-0 animate-pulse bg-neutral-200" />
+        <div className="absolute inset-0 eminence-skeleton" />
       )}
       {errored ? (
         <div
@@ -27,16 +27,9 @@ export default function LazyImage({ src, alt = "", className = "" }) {
           style={PLACEHOLDER_STYLE}
           aria-label={alt || "Image unavailable"}
         >
-          <svg
-            className="w-10 h-10 text-neutral-300"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={1}
-            aria-hidden="true"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
+          <span className="text-[10px] tracking-[0.22em] uppercase text-neutral-400">
+            Eminence
+          </span>
         </div>
       ) : (
         <img

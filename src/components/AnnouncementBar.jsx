@@ -8,35 +8,35 @@ import { MICROCOPY } from "../config/brand";
  */
 export default function AnnouncementBar() {
   const items = [
-    { label: MICROCOPY.authenticityLabel, href: "/authenticity" },
-    { label: MICROCOPY.consultLabel, href: "/private-consult" },
+    { label: "Verified Origin", href: "/authenticity" },
+    { label: "Private Consult", href: "/private-consult" },
     { label: "Care Guide", href: "/care" },
   ];
 
   return (
-    <div className="w-full bg-[#111] text-[#FBF6EE] border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
-        <p className="text-[10px] uppercase tracking-[0.24em] text-white/80">
+    <div className="w-full bg-[#111] text-[#FBF6EE] border-b border-white/5">
+      <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between gap-4">
+        <p className="text-[10px] uppercase tracking-[0.26em] text-white/70 shrink-0">
           {MICROCOPY.shippingLabel}
         </p>
 
-        <div className="hidden sm:flex items-center gap-3 text-[10px] uppercase tracking-[0.22em]">
+        <div className="hidden sm:flex items-center gap-4 text-[10px] uppercase tracking-[0.24em]">
           {items.map((it, idx) => (
             <React.Fragment key={it.href}>
               <Link
                 to={it.href}
-                className="text-white/80 hover:text-white transition"
+                className="text-white/65 hover:text-white/90 transition"
               >
                 {it.label}
               </Link>
-              {idx < items.length - 1 && <span className="text-white/30">•</span>}
+              {idx < items.length - 1 && <span className="text-white/20">·</span>}
             </React.Fragment>
           ))}
         </div>
 
-        <div className="hidden md:block text-[10px] uppercase tracking-[0.22em] text-white/70">
+        <p className="hidden lg:block text-[10px] uppercase tracking-[0.24em] text-white/60 shrink-0">
           {MICROCOPY.secureCheckout}
-        </div>
+        </p>
       </div>
     </div>
   );

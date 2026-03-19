@@ -17,7 +17,16 @@ export default function Navbar() {
   const [activeMenu, setActiveMenu] = useState(null); // 'shop' | 'about' | null
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const headerRef = useRef(null);
+
+  // Scroll state for refined shadow
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Close dropdowns on navigation
   useEffect(() => {
@@ -138,7 +147,9 @@ export default function Navbar() {
   return (
     <header
       ref={headerRef}
-      className="fixed top-0 left-0 w-full z-50 bg-[#FBF6EE]/90 backdrop-blur-md border-b border-black/5"
+      className={`fixed top-0 left-0 w-full z-50 bg-[#FBF6EE]/92 backdrop-blur-md border-b border-black/5 transition-shadow duration-300 ${
+        scrolled ? "shadow-[0_2px_20px_rgba(0,0,0,0.06)]" : ""
+      }`}
     >
       <AnnouncementBar />
 

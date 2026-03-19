@@ -34,7 +34,7 @@ const ProductCard = ({ product }) => {
       price,
       image: product.image || images?.[0] || product.images?.[0],
 
-      // ✅ store option fields for drawer/checkout display
+      // store option fields for drawer/checkout display
       length,
       density,
       selectedLength: length,
@@ -50,10 +50,9 @@ const ProductCard = ({ product }) => {
   return (
     <Link
       to={`/products/${product.slug ?? product.id}`}
-      className="group block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 card-hover"
-      className="group block bg-white rounded-2xl overflow-hidden shadow-sm card-hover border border-neutral-100"
+      className="group block bg-white rounded-2xl overflow-hidden card-hover border border-neutral-100"
     >
-      <div className="aspect-[3/4] bg-neutral-100 overflow-hidden relative">
+      <div className="aspect-[3/4] bg-[#F3EFE8] overflow-hidden relative">
         {product.image || images?.[0] || product.images?.[0] ? (
           <img
             src={product.image || images?.[0] || product.images?.[0]}
@@ -62,16 +61,8 @@ const ProductCard = ({ product }) => {
             loading="lazy"
           />
         ) : (
-          <div className="h-full w-full flex items-center justify-center bg-[#F3EFE8]">
+          <div className="h-full w-full flex items-center justify-center">
             <span className="text-[11px] tracking-[0.22em] uppercase text-neutral-400">Eminence</span>
-          </div>
-        )}
-      </div>
-
-      <div className="px-4 pt-4 pb-5">
-            <span className="text-[11px] tracking-[0.22em] uppercase text-neutral-400">
-              Eminence Hair
-            </span>
           </div>
         )}
         {(product.badge || product.readyToShip) && (
@@ -82,23 +73,25 @@ const ProductCard = ({ product }) => {
       </div>
 
       <div className="px-4 pt-4 pb-5">
-        <h3 className="text-sm text-[#111] mb-1 line-clamp-2">
+        <p className="text-[10px] tracking-[0.22em] uppercase text-neutral-400 mb-1">
+          {product.collection || "Eminence Hair"}
+        </p>
+        <h3 className="text-sm text-[#111] mb-1 line-clamp-2 leading-snug">
           {product.name}
         </h3>
 
-        <p className="text-xs text-neutral-500 mb-2">
-          {product.texture && product.texture.replace("-", " ")}{" "}
-          {product.laceType ? ` • ${product.laceType}` : ""}
+        <p className="text-xs text-neutral-500 mb-3">
+          {product.texture && product.texture.replace("-", " ")}
+          {product.laceType ? ` · ${product.laceType}` : ""}
         </p>
 
         <div className="flex items-center justify-between">
-          <span className="text-[15px] font-medium text-[#111]">
+          <span className="text-[14px] font-medium text-[#111]">
             ${Number(product.basePrice ?? product.fromPrice ?? product.price ?? 0).toLocaleString()}
           </span>
           <button
             onClick={handleQuickAdd}
-            className="text-[10px] uppercase tracking-[0.22em] border border-neutral-300 rounded-full px-3 py-1 text-neutral-600 transition-colors group-hover:border-[#111] hover:bg-[#111] hover:text-[#F9F7F4]"
-            className="text-[10px] uppercase tracking-[0.22em] border border-neutral-300 rounded-full px-3 py-1 text-neutral-600 hover:border-[#111] hover:text-[#111] transition"
+            className="text-[10px] uppercase tracking-[0.22em] border border-neutral-300 rounded-full px-3 py-1.5 text-neutral-600 hover:border-[#111] hover:bg-[#111] hover:text-[#F9F7F4] transition"
             type="button"
           >
             Add
