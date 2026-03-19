@@ -68,14 +68,16 @@ export default function Success() {
         description="Your Eminence Hair order has been successfully placed."
       />
 
-      <div className="pt-32 pb-32 bg-[#FBF6ED] text-center">
-        <h1 className="text-3xl font-light mb-4">
-          Order Confirmed
-        </h1>
+      <div className="pt-32 pb-32 bg-[#FBF6ED] min-h-screen">
+        <div className="max-w-xl mx-auto px-6 text-center">
+          <p className="text-[11px] tracking-[0.32em] uppercase text-[#D4AF37] mb-4">Confirmed</p>
+          <h1 className="text-3xl font-light font-display mb-4">
+            Order Confirmed
+          </h1>
 
-        <p className="text-neutral-600 max-w-md mx-auto mb-6">
-          Thank you for choosing <strong>Eminence Hair</strong>.
-        </p>
+          <p className="text-neutral-600 max-w-md mx-auto mb-6">
+            Thank you for choosing <strong>Eminence Hair</strong>.
+          </p>
 
         {isPreorder ? (
           /* Preorder-specific confirmation */
@@ -132,25 +134,26 @@ export default function Success() {
         )}
 
         {sessionId && (
-          <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-400 mb-10">
-            Stripe Session · {sessionId.slice(-8)}
+          <p className="text-[10px] tracking-[0.22em] uppercase text-neutral-400 mb-10">
+            Reference · {sessionId.slice(-8)}
           </p>
         )}
 
-        <div className="flex justify-center gap-4">
+        <div className="flex flex-wrap justify-center gap-3">
           <Link
             to="/shop"
-            className="px-8 py-3 rounded-full bg-black text-white text-[11px] tracking-[0.26em]"
+            className="px-8 py-3 rounded-full bg-[#111] text-[#F9F7F4] text-[11px] tracking-[0.26em] hover:bg-black transition uppercase"
           >
             Continue Shopping
           </Link>
 
           <Link
             to="/account"
-            className="px-8 py-3 rounded-full border border-black text-[11px] tracking-[0.26em]"
+            className="px-8 py-3 rounded-full border border-neutral-300 text-[11px] tracking-[0.26em] hover:border-neutral-600 transition uppercase"
           >
-            View Orders
+            My Account
           </Link>
+        </div>
         </div>
       </div>
     </>

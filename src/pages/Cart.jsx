@@ -15,14 +15,26 @@ export default function Cart() {
           description="Review your Eminence Hair selections before checkout."
           noindex={true}
         />
-        <div className="pt-32 text-center">
-          <h1 className="text-2xl font-light">Your bag is empty</h1>
-          <Link
-            to="/shop"
-            className="inline-block mt-6 text-[11px] tracking-[0.26em] uppercase underline"
-          >
-            Continue Shopping
-          </Link>
+        <div className="pt-32 pb-32 bg-[#FBF6ED] min-h-screen text-center flex flex-col items-center justify-center">
+          <p className="text-[11px] tracking-[0.32em] uppercase text-neutral-500 mb-4">Shopping Bag</p>
+          <h1 className="text-2xl font-light font-display mb-3">Your bag is empty.</h1>
+          <p className="text-sm text-neutral-500 mb-8 max-w-xs">
+            Discover our latest pieces and add your favourites.
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <Link
+              to="/shop"
+              className="px-8 py-3 rounded-full text-[11px] tracking-[0.26em] uppercase bg-[#111] text-[#F9F7F4] hover:bg-black transition"
+            >
+              Shop Now
+            </Link>
+            <Link
+              to="/collections"
+              className="px-8 py-3 rounded-full text-[11px] tracking-[0.26em] uppercase border border-neutral-300 hover:border-neutral-600 transition"
+            >
+              Collections
+            </Link>
+          </div>
         </div>
       </>
     );
@@ -35,7 +47,7 @@ export default function Cart() {
         description="Review your Eminence Hair selections before checkout."
         noindex={true}
       />
-      <div className="pt-28 pb-24 bg-[#FBF5EC]">
+      <div className="pt-28 pb-24 bg-[#FBF6ED]">
       <div className="max-w-5xl mx-auto px-6">
         <h1 className="text-3xl font-light mb-12">Shopping Bag</h1>
 
