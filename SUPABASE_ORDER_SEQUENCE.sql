@@ -20,6 +20,64 @@ CREATE SEQUENCE IF NOT EXISTS public.order_number_seq
   CACHE 1;
 
 -- ──────────────────────────────────────────────────────────────────────────────
+-- 1a. Seed the sequence based on existing orders so we don't reuse numeric parts
+--     from the legacy COUNT-based scheme. Safe to re-run: never moves the
+--     sequence backwards and always keeps it at or above 100001.
+-- ──────────────────────────────────────────────────────────────────────────────
+DO $$
+DECLARE
+  _has_orders_column boolean;
+  _max_existing_seq  bigint;
+  _current_last      bigint;
+  _new_start         bigint;
+BEGIN
+  -- Check that the orders.order_number column exists
+  SELECT EXISTS (
+    SELECT 1
+    FROM information_schema.columns
+    WHERE table_schema = 'public'
+      AND table_name   = 'orders'
+      AND column_name  = 'order_number'
+  ) INTO _has_orders_column;
+
+  IF _has_orders_column THEN
+    -- Extract the numeric portion from EM-<seq>-... order numbers and find the max.
+    SELECT COALESCE(
+      MAX(
+        (regexp_replace(order_number, '^EM-([0-9]+)-.*$', '\1'))::bigint
+      ),
+      100000  -- so +1 below yields at least 100001 when there are no matches
+    ) + 1
+    INTO _max_existing_seq
+    FROM public.orders
+    WHERE order_number ~ '^EM-[0-9]+-';
+
+    -- Get the current last_value of the sequence if it exists.
+    BEGIN
+      SELECT last_value
+      INTO _current_last
+      FROM public.order_number_seq;
+    EXCEPTION
+      WHEN undefined_table OR undefined_object THEN
+        _current_last := NULL;
+    END;
+
+    -- Choose the highest of the existing max+1, current last_value, and 100001.
+    _new_start := GREATEST(
+      COALESCE(_max_existing_seq, 100001),
+      COALESCE(_current_last, 100001),
+      100001
+    );
+
+    PERFORM setval('public.order_number_seq', _new_start, true);
+  END IF;
+EXCEPTION
+  WHEN undefined_table OR undefined_object THEN
+    -- If orders or the sequence don't exist yet, just skip seeding.
+    NULL;
+END $$;
+
+-- ──────────────────────────────────────────────────────────────────────────────
 -- 2. Helper function that returns the next order number string
 --    Format: EM-<seq>-<4-digit timestamp suffix>
 --    The suffix adds just enough entropy to make IDs opaque without changing
