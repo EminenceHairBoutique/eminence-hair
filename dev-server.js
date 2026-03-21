@@ -10,6 +10,9 @@ import cors from "cors";
 import createCheckoutSession from "./api/create-checkout-session.js";
 import stripeWebhook from "./api/stripe-webhook.js";
 import concierge from "./api/concierge.js";
+import smsStart from "./api/sms-start.js";
+import smsVerify from "./api/sms-verify.js";
+import subscribe from "./api/subscribe.js";
 
 const app = express();
 
@@ -36,6 +39,26 @@ app.post(
   "/api/concierge",
   express.json(),
   concierge
+);
+
+// ✅ SMS verification — JSON body
+app.post(
+  "/api/sms-start",
+  express.json(),
+  smsStart
+);
+
+app.post(
+  "/api/sms-verify",
+  express.json(),
+  smsVerify
+);
+
+// ✅ Newsletter subscribe — JSON body
+app.post(
+  "/api/subscribe",
+  express.json(),
+  subscribe
 );
 
 app.listen(3000, () => {
