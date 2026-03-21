@@ -4,6 +4,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const SESSION_KEY = "eminence_cart_banner_dismissed";
 
+function markDismissed() {
+  try { sessionStorage.setItem(SESSION_KEY, "1"); } catch { /* ignore */ }
+}
+
 export default function AbandonedCartBanner() {
   const { items, openCart } = useCart();
   const navigate = useNavigate();
@@ -45,7 +49,7 @@ export default function AbandonedCartBanner() {
 
   const dismiss = () => {
     setVisible(false);
-    try { sessionStorage.setItem(SESSION_KEY, "1"); } catch { /* ignore */ }
+    markDismissed();
   };
 
   if (!visible || items.length === 0) return null;
@@ -53,7 +57,7 @@ export default function AbandonedCartBanner() {
   return (
     <div
       role="alert"
-      className="fixed bottom-0 left-0 right-0 z-50 bg-neutral-900 text-white px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xl animate-in slide-in-from-bottom duration-300"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-neutral-900 text-white px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xl animate-banner-in"
     >
       <p className="text-sm leading-snug">
         You left something behind 👀 — complete your order before it sells out!

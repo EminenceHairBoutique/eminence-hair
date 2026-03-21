@@ -102,7 +102,7 @@ export default function EmailPopup() {
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-md bg-[#FBF6EE] rounded-3xl shadow-2xl p-8 sm:p-10 animate-in fade-in zoom-in-95 duration-300">
+      <div className="relative w-full max-w-md bg-[#FBF6EE] rounded-3xl shadow-2xl p-8 sm:p-10 animate-modal-in">
         {/* Close */}
         <button
           type="button"

@@ -20,7 +20,7 @@ export default function UrgencyWidget({ stockCount }) {
 
   useEffect(() => {
     const reschedule = () => {
-      const delay = randomBetween(45_000, 90_000);
+      const delay = randomBetween(45000, 90000);
       intervalRef.current = setTimeout(() => {
         setViewers(randomBetween(8, 24));
         reschedule();

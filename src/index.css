@@ -102,6 +102,25 @@ button:focus-visible {
   justify-content: center;
 }
 
+/* ─── Modal / overlay animations ───────────────────────────────────── */
+@keyframes fadeInZoom {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInBottom {
+  from { opacity: 0; transform: translateY(100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-modal-in {
+  animation: fadeInZoom 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-banner-in {
+  animation: slideInBottom 260ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* ─── Normalized tap targets for mobile ────────────────────────────── */
 @media (max-width: 640px) {
   button,

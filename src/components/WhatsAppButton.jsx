@@ -4,12 +4,18 @@ const WHATSAPP_NUMBER = import.meta?.env?.VITE_WHATSAPP_NUMBER || "";
 const PREFILLED_MESSAGE =
   "Hi Eminence Hair! I have a question about your hair.";
 
+// Only digits; strip any accidental spaces, dashes, or + signs
+function sanitizeNumber(raw) {
+  return String(raw || "").replace(/\D/g, "");
+}
+
 export default function WhatsAppButton() {
   const [hovered, setHovered] = useState(false);
 
-  if (!WHATSAPP_NUMBER) return null;
+  const safeNumber = sanitizeNumber(WHATSAPP_NUMBER);
+  if (!safeNumber) return null;
 
-  const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(PREFILLED_MESSAGE)}`;
+  const href = `https://wa.me/${safeNumber}?text=${encodeURIComponent(PREFILLED_MESSAGE)}`;
 
   return (
     <a

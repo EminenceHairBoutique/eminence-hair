@@ -180,8 +180,10 @@ function ProductStructuredData({ product, price }) {
   if (!productData.sku) delete productData.sku;
 
   // BreadcrumbList
-  const category = product.type === "wig" ? "HD Lace Wigs" : product.type === "bundle" ? "Bundles" : product.type === "closure" ? "Closures" : "Products";
-  const categorySlug = product.type === "wig" ? "/shop/wigs" : product.type === "bundle" ? "/shop/bundles" : product.type === "closure" ? "/shop/closures" : "/shop";
+  const TYPE_LABELS = { wig: "HD Lace Wigs", bundle: "Bundles", closure: "Closures", frontal: "Closures" };
+  const TYPE_SLUGS  = { wig: "/shop/wigs",   bundle: "/shop/bundles", closure: "/shop/closures", frontal: "/shop/closures" };
+  const category     = TYPE_LABELS[product.type] || "Products";
+  const categorySlug = TYPE_SLUGS[product.type]  || "/shop";
 
   const breadcrumb = {
     "@context": "https://schema.org",
