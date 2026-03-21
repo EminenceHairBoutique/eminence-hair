@@ -37,8 +37,7 @@ DECLARE
 BEGIN
   seq_val  := nextval('public.order_number_seq');
   -- Last 4 digits of the current Unix epoch in milliseconds
-  ts_suffix := lpad((extract(epoch from clock_timestamp()) * 1000)::bigint::text, 4, '0');
-  ts_suffix := right(ts_suffix, 4);
+  ts_suffix := right((extract(epoch from clock_timestamp()) * 1000)::bigint::text, 4);
   RETURN 'EM-' || seq_val::text || '-' || ts_suffix;
 END;
 $$;

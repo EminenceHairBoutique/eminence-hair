@@ -29,7 +29,7 @@ export function normalizePhone(input) {
   if (s.startsWith("+")) {
     const digits = s.slice(1).replace(/\D/g, "");
     // E.164 requires 7–15 digits after the country code
-    if (digits.length < 6 || digits.length > 15) return null;
+    if (digits.length < 7 || digits.length > 15) return null;
     return "+" + digits;
   }
 
