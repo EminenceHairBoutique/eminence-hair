@@ -36,6 +36,17 @@ export function trackPixel(event, params = {}) {
   }
 }
 
+export function trackTikTok(event, params = {}) {
+  try {
+    const { marketing } = readConsent();
+    if (!marketing) return;
+    if (typeof window?.ttq?.track !== "function") return;
+    window.ttq.track(event, params);
+  } catch {
+    // ignore
+  }
+}
+
 export function trackViewItem(product, { value } = {}) {
   if (!product) return;
 
@@ -56,6 +67,14 @@ export function trackViewItem(product, { value } = {}) {
   trackPixel("ViewContent", {
     content_name: item.item_name,
     content_ids: [item.item_id],
+    content_type: "product",
+    value: typeof value === "number" ? value : undefined,
+    currency: "USD",
+  });
+
+  trackTikTok("ViewContent", {
+    content_name: item.item_name,
+    content_id: item.item_id,
     content_type: "product",
     value: typeof value === "number" ? value : undefined,
     currency: "USD",
@@ -87,6 +106,15 @@ export function trackAddToCart(lineItem) {
     value: Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || undefined,
     currency: "USD",
   });
+
+  trackTikTok("AddToCart", {
+    content_name: item.item_name,
+    content_id: item.item_id,
+    content_type: "product",
+    quantity: item.quantity,
+    value: Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || undefined,
+    currency: "USD",
+  });
 }
 
 export function trackBeginCheckout({ items = [], value } = {}) {
@@ -106,6 +134,12 @@ export function trackBeginCheckout({ items = [], value } = {}) {
   });
 
   trackPixel("InitiateCheckout", {
+    num_items: safeItems.reduce((total, it) => total + (it.quantity || 1), 0),
+    value: typeof value === "number" ? value : undefined,
+    currency: "USD",
+  });
+
+  trackTikTok("InitiateCheckout", {
     num_items: safeItems.reduce((total, it) => total + (it.quantity || 1), 0),
     value: typeof value === "number" ? value : undefined,
     currency: "USD",
@@ -130,6 +164,11 @@ export function trackPurchase({ transaction_id, value, items = [] } = {}) {
   });
 
   trackPixel("Purchase", {
+    value: typeof value === "number" ? value : undefined,
+    currency: "USD",
+  });
+
+  trackTikTok("PlaceAnOrder", {
     value: typeof value === "number" ? value : undefined,
     currency: "USD",
   });

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { SOCIAL } from "../config/brand";
 
 const SITE_NAME = "Eminence Hair Boutique";
 const DEFAULT_DESCRIPTION =
@@ -55,16 +56,29 @@ function buildDefaultJsonLd({ url, name, description, image }) {
   const siteUrl = getSiteUrl();
   const logo = toAbsoluteUrl(image || DEFAULT_IMAGE_PATH);
 
+  // Build sameAs array from real social config (omit empties)
+  const sameAs = Object.values(SOCIAL || {}).filter(
+    (v) => typeof v === "string" && v.startsWith("http")
+  );
+
+  const org = {
+    "@type": "Organization",
+    "@id": `${siteUrl}/#organization`,
+    name: SITE_NAME,
+    url: `${siteUrl}/`,
+    logo,
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      email: "support@eminenceluxuryhair.com",
+    },
+  };
+  if (sameAs.length) org.sameAs = sameAs;
+
   return {
     "@context": "https://schema.org",
     "@graph": [
-      {
-        "@type": "Organization",
-        "@id": `${siteUrl}/#organization`,
-        name: SITE_NAME,
-        url: `${siteUrl}/`,
-        logo,
-      },
+      org,
       {
         "@type": "WebSite",
         "@id": `${siteUrl}/#website`,

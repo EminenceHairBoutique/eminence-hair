@@ -5,6 +5,9 @@ import { useCart } from "./context/CartContext";
 import DiscountModal from "./components/DiscountModal";
 import CookieBanner from "./components/legal/CookieBanner";
 import TrackingScripts from "./components/TrackingScripts";
+import WhatsAppButton from "./components/WhatsAppButton";
+import EmailPopup from "./components/EmailPopup";
+import AbandonedCartBanner from "./components/AbandonedCartBanner";
 const CartDrawer = lazy(() => import("./components/CartDrawer"));
 import useRouteAnalytics from "./hooks/useRouteAnalytics";
 
@@ -76,6 +79,10 @@ export default function App() {
       <Suspense fallback={null}>
         <CartDrawer />
       </Suspense>
+      {/* Global overlays rendered outside the blur wrapper */}
+      <WhatsAppButton />
+      <EmailPopup />
+      <AbandonedCartBanner />
       {/* Everything except the drawer blurs/locks while cart is open */}
       <div
         className={`transition-all duration-300 ${

@@ -26,6 +26,7 @@ import db5 from "../assets/db5.png";
 import heroVideo from "../assets/videos/eminence_hero.mp4";
 import PageTransition from "../components/PageTransition.jsx";
 import SEO from "../components/SEO";
+import SocialProofRow from "../components/SocialProofRow";
 import { subscribeEmail } from "../utils/subscribe";
 
 const Home = () => {
@@ -799,6 +800,9 @@ const Home = () => {
               </div>
             </div>
           </section>
+
+          {/* SECTION H — SOCIAL PROOF */}
+          <SocialProofRow />
 
           {/* SECTION I — NEWSLETTER CTA */}
           <section className="py-16 border-t border-neutral-200 bg-[#F9F7F4]">

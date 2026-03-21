@@ -29,6 +29,7 @@ import VirtualPreviewModal from "../components/VirtualPreviewModal";
 import { trackViewItem } from "../utils/track";
 import { resolveProductImages } from "../utils/productMedia";
 import { formatMoney } from "../utils/format";
+import UrgencyWidget from "../components/UrgencyWidget";
 
 /* ---------------- collection PDP copy ---------------- */
 function EssentialLaceCopy({ product }) {
@@ -133,39 +134,77 @@ function EssentialLaceCopy({ product }) {
 }
 
 /* ---------------- structured data ---------------- */
+const SITE_URL_PDP = (
+  import.meta?.env?.VITE_SITE_URL || "https://www.eminenceluxuryhair.com"
+).replace(/\/+$/, "");
+
 function ProductStructuredData({ product, price }) {
   if (!product) return null;
 
   const images = resolveProductImages(product).slice(0, 6);
+  const url =
+    typeof window !== "undefined"
+      ? window.location.href
+      : `${SITE_URL_PDP}/products/${product.slug}`;
 
-  const data = {
+  const availability = product.soldOut
+    ? "https://schema.org/SoldOut"
+    : product.isPreorder
+    ? "https://schema.org/PreOrder"
+    : "https://schema.org/InStock";
+
+  const productData = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.displayName || product.name,
     description: product.description,
     sku: product.verificationCode,
-    brand: { "@type": "Brand", name: "Eminence Hair" },
+    brand: { "@type": "Brand", name: "Eminence Hair Boutique" },
     image: images,
     offers: {
       "@type": "Offer",
       priceCurrency: "USD",
       price: Number(price || 0),
-      url: typeof window !== "undefined" ? window.location.href : undefined,
-    },    additionalProperty: {
+      url,
+      availability,
+      seller: { "@type": "Organization", name: "Eminence Hair Boutique" },
+    },
+    additionalProperty: {
       "@type": "PropertyValue",
       name: "Third-Party Verified",
       value: "Independently inspected by accredited laboratory",
     },
   };
 
-  // Remove undefined fields (schema.org is picky)
-  if (!data.offers.url) delete data.offers.url;
+  if (!productData.description) delete productData.description;
+  if (!productData.sku) delete productData.sku;
+
+  // BreadcrumbList
+  const category = product.type === "wig" ? "HD Lace Wigs" : product.type === "bundle" ? "Bundles" : product.type === "closure" ? "Closures" : "Products";
+  const categorySlug = product.type === "wig" ? "/shop/wigs" : product.type === "bundle" ? "/shop/bundles" : product.type === "closure" ? "/shop/closures" : "/shop";
+
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL_PDP}/` },
+      { "@type": "ListItem", position: 2, name: "Shop", item: `${SITE_URL_PDP}/shop` },
+      { "@type": "ListItem", position: 3, name: category, item: `${SITE_URL_PDP}${categorySlug}` },
+      { "@type": "ListItem", position: 4, name: product.displayName || product.name, item: url },
+    ],
+  };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+      />
+    </>
   );
 }
 
@@ -833,6 +872,9 @@ export default function ProductDetail() {
                       </p>
                     </div>
                   )}
+
+                  {/* Urgency / scarcity */}
+                  <UrgencyWidget stockCount={product.stockCount} />
 
                   <div className="flex items-center gap-3">
                     <div className="flex items-center border rounded-full">
