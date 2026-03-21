@@ -114,12 +114,13 @@ export default function Success() {
           // tracking errors must never break the success page
         }
 
+        clearCart();
         setVerifyState(STATE_VERIFIED);
       } catch {
-        // Network error — show verified anyway so the user isn't stuck;
-        // the webhook already recorded the order server-side.
-        setVerifyState(STATE_VERIFIED);
-        clearCart();
+        // Network or verification error — do NOT show success or clear the cart
+        // without a confirmed server response. Keep the user in a retryable
+        // failure state instead.
+        setVerifyState(STATE_FAILED);
       }
     })();
   }, [sessionId, clearCart]);
