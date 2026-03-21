@@ -236,6 +236,50 @@ export default async function handler(req, res) {
         break;
       }
 
+      case "payment_intent.payment_failed": {
+        const intent = event.data.object;
+        console.log("❌ PaymentIntent failed:", intent.id);
+
+        // Update order status to payment_failed (idempotent)
+        try {
+          const { error } = await supabaseServer
+            .from("orders")
+            .update({ status: "payment_failed" })
+            .eq("stripe_payment_intent", intent.id)
+            .neq("status", "payment_failed");
+
+          if (error) {
+            console.warn("⚠️ Could not update order status to payment_failed:", error.message);
+          }
+        } catch (e) {
+          console.warn("⚠️ payment_failed update exception:", e?.message || e);
+        }
+        break;
+      }
+
+      case "charge.refunded": {
+        const charge = event.data.object;
+        const paymentIntentId = charge.payment_intent;
+        console.log("💸 Charge refunded. PaymentIntent:", paymentIntentId);
+
+        if (paymentIntentId) {
+          try {
+            const { error } = await supabaseServer
+              .from("orders")
+              .update({ status: "refunded" })
+              .eq("stripe_payment_intent", paymentIntentId)
+              .neq("status", "refunded");
+
+            if (error) {
+              console.warn("⚠️ Could not update order status to refunded:", error.message);
+            }
+          } catch (e) {
+            console.warn("⚠️ charge.refunded update exception:", e?.message || e);
+          }
+        }
+        break;
+      }
+
       default:
         console.log(`ℹ️ Unhandled event type: ${event.type}`);
     }

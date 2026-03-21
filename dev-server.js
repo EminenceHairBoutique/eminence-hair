@@ -10,6 +10,8 @@ import cors from "cors";
 import createCheckoutSession from "./api/create-checkout-session.js";
 import stripeWebhook from "./api/stripe-webhook.js";
 import concierge from "./api/concierge.js";
+import smsStart from "./api/sms-start.js";
+import smsVerify from "./api/sms-verify.js";
 
 const app = express();
 
@@ -37,6 +39,14 @@ app.post(
   express.json(),
   concierge
 );
+
+// ✅ Twilio Verify: send SMS code
+app.post("/api/sms-start", express.json(), smsStart);
+app.post("/api/send-verification", express.json(), smsStart);
+
+// ✅ Twilio Verify: check SMS code
+app.post("/api/sms-verify", express.json(), smsVerify);
+app.post("/api/check-verification", express.json(), smsVerify);
 
 app.listen(3000, () => {
   console.log("✅ Local API running on http://localhost:3000");

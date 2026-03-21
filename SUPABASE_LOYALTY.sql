@@ -49,6 +49,7 @@ alter table public.orders add column if not exists amount_total bigint;
 alter table public.orders add column if not exists currency text;
 alter table public.orders add column if not exists order_number text;
 alter table public.orders add column if not exists stripe_session_id text;
+alter table public.orders add column if not exists stripe_payment_intent text;
 alter table public.orders add column if not exists items jsonb;
 alter table public.orders add column if not exists consent jsonb;
 alter table public.orders add column if not exists status text;
@@ -84,6 +85,7 @@ for select using (auth.uid() = user_id);
 -- Indexes for frequently queried columns
 create index if not exists idx_orders_user_id on public.orders (user_id);
 create index if not exists idx_orders_stripe_session_id on public.orders (stripe_session_id);
+create index if not exists idx_orders_stripe_payment_intent on public.orders (stripe_payment_intent);
 create index if not exists idx_orders_email on public.orders (email);
 create index if not exists idx_loyalty_ledger_user_id on public.loyalty_ledger (user_id);
 create index if not exists idx_profiles_email on public.profiles (email);
