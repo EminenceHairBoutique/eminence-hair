@@ -8,6 +8,7 @@
 
 import { supabaseServer } from "../lib/supabaseServer.js";
 import { checkRateLimit } from "./_utils/rateLimit.js";
+import { normalizePhone } from "./_utils/phone.js";
 
 async function readJson(req) {
   if (req.body && typeof req.body === "object") return req.body;
@@ -21,26 +22,6 @@ async function readJson(req) {
   } catch {
     return null;
   }
-}
-
-function normalizePhone(input) {
-  const raw = String(input || "").trim();
-  if (!raw) return null;
-
-  let s = raw.replace(/[^\d+]/g, "");
-  if (s.startsWith("00")) s = "+" + s.slice(2);
-
-  if (s.startsWith("+")) {
-    const digits = s.slice(1).replace(/\D/g, "");
-    if (digits.length < 6 || digits.length > 15) return null;
-    return "+" + digits;
-  }
-
-  const digits = s.replace(/\D/g, "");
-  if (digits.length === 10) return "+1" + digits;
-  if (digits.length === 11 && digits.startsWith("1")) return "+" + digits;
-
-  return null;
 }
 
 async function twilioVerifyCheck({ to, code }) {
