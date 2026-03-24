@@ -202,6 +202,7 @@ export default function VirtualPreviewModal({
     setColor(normalizeColorId(initialColor) || "1B");
     setTexture(normalizeTextureId(initialTexture) || "BodyWave");
     setNotifyStatus({ state: "idle", msg: "" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, initialColor, initialTexture]);
 
   useEffect(() => {

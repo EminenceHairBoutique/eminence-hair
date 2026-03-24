@@ -215,6 +215,7 @@ export default function SEO({
       });
 
     setJsonLd(schema);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title, description, image, JSON.stringify(images || []), type, noindex, location.pathname]);
 
   return null;
