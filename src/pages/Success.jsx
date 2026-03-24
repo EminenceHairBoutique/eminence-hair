@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, Navigate } from "react-router-dom";
 import { Clock, Truck, PenLine } from "lucide-react";
 import SEO from "../components/SEO";
 import { useCart } from "../context/CartContext";
@@ -7,71 +7,184 @@ import { trackPurchase } from "../utils/track";
 
 const DEFAULT_PREORDER_LEAD_TIME_RANGE = "14–21 business days";
 
+// Verification states
+const STATE_LOADING = "loading";
+const STATE_VERIFIED = "verified";
+const STATE_FAILED = "failed";
+const STATE_NO_SESSION = "no_session";
+
 export default function Success() {
   const { clearCart } = useCart();
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id");
+
+  const [verifyState, setVerifyState] = useState(
+    sessionId ? STATE_LOADING : STATE_NO_SESSION
+  );
   const [isPreorder, setIsPreorder] = useState(false);
   const [leadTimeDays, setLeadTimeDays] = useState(null);
 
   useEffect(() => {
-    if (!sessionId) return;
+    if (!sessionId) {
+      setVerifyState(STATE_NO_SESSION);
+      return;
+    }
 
-    // Detect preorder from snapshot saved before Stripe redirect.
+    // Read the pre-redirect cart snapshot for preorder detection.
+    // Done before the async verify so UI can render optimistically on the
+    // preorder branch once we know the session is valid.
+    let snapItems = [];
     try {
       const snapRaw = window.localStorage.getItem("eminence_checkout_snapshot");
       const snap = snapRaw ? JSON.parse(snapRaw) : null;
-      const items = Array.isArray(snap?.items) ? snap.items : [];
-      const hasPreorder = items.some((i) => i.isPreorder);
-      setIsPreorder(hasPreorder);
-      if (hasPreorder && items.length > 0) {
-        const leads = items.map((i) => Number(i.leadTimeDays || 0)).filter((n) => n > 0);
-        const maxLead = leads.length > 0 ? Math.max(...leads) : 0;
-        setLeadTimeDays(maxLead > 0 ? maxLead : null);
-      }
+      snapItems = Array.isArray(snap?.items) ? snap.items : [];
     } catch {
-      // ignore
+      // ignore parse errors
     }
 
-    // Purchase tracking (GA4 + Meta Pixel) — only fires after cookie consent.
-    try {
-      const lastTracked = window.localStorage.getItem("eminence_purchase_tracked_session");
-      if (lastTracked !== sessionId) {
-        const snapRaw = window.localStorage.getItem("eminence_checkout_snapshot");
-        const snap = snapRaw ? JSON.parse(snapRaw) : null;
-
-        const value =
-          snap && typeof snap.total !== "undefined" ? Number(snap.total) : undefined;
-        const items = Array.isArray(snap?.items) ? snap.items : [];
-
-        trackPurchase({
-          transaction_id: sessionId,
-          value,
-          items,
+    // Verify with the server before clearing cart or firing any tracking pixels.
+    // This prevents cart clearing / tracking on:
+    //  - manually crafted ?session_id= URLs
+    //  - canceled / expired sessions
+    //  - sessions that belong to a different site
+    (async () => {
+      try {
+        const resp = await fetch("/api/verify-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId }),
         });
 
-        window.localStorage.setItem("eminence_purchase_tracked_session", sessionId);
-        window.localStorage.removeItem("eminence_checkout_snapshot");
-      }
-    } catch {
-      // ignore
-    }
+        const data = await resp.json().catch(() => ({}));
 
-    // Only clear cart if Stripe session exists
-    clearCart();
+        if (!resp.ok || !data.ok) {
+          setVerifyState(STATE_FAILED);
+          return;
+        }
+
+        // Session is verified paid. Now safe to:
+        //  1. Detect preorder (prefer server response, fall back to local snapshot)
+        const serverIsPreorder = Boolean(data.isPreorder);
+        const localIsPreorder = snapItems.some((i) => i.isPreorder);
+        const preorder = serverIsPreorder || localIsPreorder;
+        setIsPreorder(preorder);
+
+        if (preorder) {
+          const serverLead = data.leadTimeDays > 0 ? data.leadTimeDays : null;
+          if (!serverLead) {
+            const leads = snapItems
+              .map((i) => Number(i.leadTimeDays || 0))
+              .filter((n) => n > 0);
+            setLeadTimeDays(leads.length > 0 ? Math.max(...leads) : null);
+          } else {
+            setLeadTimeDays(serverLead);
+          }
+        }
+
+        //  2. Clear the cart (only on verified success)
+        clearCart();
+
+        //  3. Fire purchase tracking once per session
+        try {
+          const lastTracked = window.localStorage.getItem(
+            "eminence_purchase_tracked_session"
+          );
+          if (lastTracked !== sessionId) {
+            const snapRaw = window.localStorage.getItem(
+              "eminence_checkout_snapshot"
+            );
+            const snap = snapRaw ? JSON.parse(snapRaw) : null;
+            const value =
+              snap && typeof snap.total !== "undefined"
+                ? Number(snap.total)
+                : data.amount != null
+                ? data.amount / 100
+                : undefined;
+            const trackItems = Array.isArray(snap?.items) ? snap.items : [];
+
+            trackPurchase({ transaction_id: sessionId, value, items: trackItems });
+
+            window.localStorage.setItem(
+              "eminence_purchase_tracked_session",
+              sessionId
+            );
+            window.localStorage.removeItem("eminence_checkout_snapshot");
+          }
+        } catch {
+          // tracking errors must never break the success page
+        }
+
+        clearCart();
+        setVerifyState(STATE_VERIFIED);
+      } catch {
+        // Network or verification error — do NOT show success or clear the cart
+        // without a confirmed server response. Keep the user in a retryable
+        // failure state instead.
+        setVerifyState(STATE_FAILED);
+      }
+    })();
   }, [sessionId, clearCart]);
 
+  // No session_id in the URL — redirect to home rather than showing a blank page.
+  if (verifyState === STATE_NO_SESSION) {
+    return <Navigate to="/" replace />;
+  }
+
+  // Session verification explicitly failed (payment not complete / unknown session).
+  if (verifyState === STATE_FAILED) {
+    return (
+      <>
+        <SEO title="Session Invalid" noindex={true} />
+        <div className="pt-32 pb-32 bg-[#FBF6ED] text-center px-6">
+          <h1 className="text-2xl font-light mb-4">Unable to confirm order</h1>
+          <p className="text-neutral-600 max-w-md mx-auto mb-8">
+            We could not verify your payment session. If you completed a purchase,
+            your order has been recorded and you will receive a confirmation email.
+          </p>
+          <div className="flex justify-center gap-4 flex-wrap">
+            <Link
+              to="/shop"
+              className="px-8 py-3 rounded-full bg-black text-white text-[11px] tracking-[0.26em]"
+            >
+              Continue Shopping
+            </Link>
+            <Link
+              to="/contact"
+              className="px-8 py-3 rounded-full border border-black text-[11px] tracking-[0.26em]"
+            >
+              Contact Support
+            </Link>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // Loading state while verifying.
+  if (verifyState === STATE_LOADING) {
+    return (
+      <>
+        <SEO title="Confirming Order…" noindex={true} />
+        <div className="pt-32 pb-32 bg-[#FBF6ED] text-center">
+          <p className="text-neutral-500 text-sm tracking-wide">
+            Confirming your order…
+          </p>
+        </div>
+      </>
+    );
+  }
+
+  // STATE_VERIFIED
   return (
     <>
       <SEO
         title="Order Confirmed"
         description="Your Eminence Hair order has been successfully placed."
+        noindex={true}
       />
 
       <div className="pt-32 pb-32 bg-[#FBF6ED] text-center">
-        <h1 className="text-3xl font-light mb-4">
-          Order Confirmed
-        </h1>
+        <h1 className="text-3xl font-light mb-4">Order Confirmed</h1>
 
         <p className="text-neutral-600 max-w-md mx-auto mb-6">
           Thank you for choosing <strong>Eminence Hair</strong>.
@@ -89,7 +202,10 @@ export default function Success() {
                 <Clock className="w-5 h-5 shrink-0 text-amber-600" />
                 <div>
                   <p className="font-medium">
-                    Estimated dispatch: {leadTimeDays ? `${leadTimeDays} business days` : DEFAULT_PREORDER_LEAD_TIME_RANGE}
+                    Estimated dispatch:{" "}
+                    {leadTimeDays
+                      ? `${leadTimeDays} business days`
+                      : DEFAULT_PREORDER_LEAD_TIME_RANGE}
                   </p>
                   <p className="text-xs text-amber-700 mt-0.5">
                     Your order enters the factory queue immediately.
@@ -102,7 +218,8 @@ export default function Success() {
                 <div>
                   <p className="font-medium">Tracking will be sent when shipped</p>
                   <p className="text-xs text-amber-700 mt-0.5">
-                    A tracking number will be emailed once your order has physically shipped.
+                    A tracking number will be emailed once your order has physically
+                    shipped.
                   </p>
                 </div>
               </div>
@@ -112,7 +229,8 @@ export default function Success() {
                 <div>
                   <p className="font-medium">Signature required</p>
                   <p className="text-xs text-amber-700 mt-0.5">
-                    An adult signature is required upon delivery. Ensure someone is available.
+                    An adult signature is required upon delivery. Ensure someone is
+                    available.
                   </p>
                 </div>
               </div>
@@ -120,14 +238,14 @@ export default function Success() {
 
             <p className="text-xs text-neutral-500 leading-relaxed">
               This is a factory drop-ship pre-order. All pre-order sales are final.
-              No returns or exchanges. You'll receive a confirmation email shortly.
+              No returns or exchanges. You&apos;ll receive a confirmation email shortly.
             </p>
           </div>
         ) : (
           /* Standard order confirmation */
           <p className="text-neutral-600 max-w-md mx-auto mb-10">
-            Your payment was successful and your order is now being prepared.
-            A confirmation email has been sent with your order details.
+            Your payment was successful and your order is now being prepared. A
+            confirmation email has been sent with your order details.
           </p>
         )}
 

@@ -24,7 +24,7 @@ function getBearerToken(req) {
 }
 
 function adminEmailAllowlist() {
-  const raw = process.env.ADMIN_EMAILS || process.env.VITE_ADMIN_EMAILS || "";
+  const raw = process.env.ADMIN_EMAILS || "";
   return raw
     .split(",")
     .map((emailAddress) => emailAddress.trim().toLowerCase())

@@ -10,6 +10,9 @@ import cors from "cors";
 import createCheckoutSession from "./api/create-checkout-session.js";
 import stripeWebhook from "./api/stripe-webhook.js";
 import concierge from "./api/concierge.js";
+import verifySession from "./api/verify-session.js";
+import smsStart from "./api/sms-start.js";
+import smsVerify from "./api/sms-verify.js";
 
 const app = express();
 
@@ -31,12 +34,23 @@ app.post(
   createCheckoutSession
 );
 
+// ✅ Session verification route — JSON body
+app.post(
+  "/api/verify-session",
+  express.json(),
+  verifySession
+);
+
 // ✅ Concierge requests — JSON body
 app.post(
   "/api/concierge",
   express.json(),
   concierge
 );
+
+// ✅ SMS OTP routes — JSON body
+app.post("/api/sms-start", express.json(), smsStart);
+app.post("/api/sms-verify", express.json(), smsVerify);
 
 app.listen(3000, () => {
   console.log("✅ Local API running on http://localhost:3000");

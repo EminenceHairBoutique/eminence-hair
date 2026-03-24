@@ -39,3 +39,6 @@ playwright-report/
 
 # Merged backup directory
 merged/
+
+# Compiled Tailwind output (generated at build time, not source-controlled)
+src/output.css
