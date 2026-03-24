@@ -137,53 +137,80 @@ function ProductStructuredData({ product, price }) {
   if (!product) return null;
 
   const images = resolveProductImages(product).slice(0, 6);
+  const siteUrl = "https://www.eminenceluxuryhair.com";
 
   const availability = product.isPreorder
     ? "https://schema.org/PreOrder"
     : "https://schema.org/InStock";
 
+  const breadcrumbItems = [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+    { "@type": "ListItem", position: 2, name: "Shop", item: `${siteUrl}/shop` },
+  ];
+  if (product.collectionSlug) {
+    breadcrumbItems.push({
+      "@type": "ListItem",
+      position: 3,
+      name: product.collection,
+      item: `${siteUrl}/collections/${product.collectionSlug}`,
+    });
+  }
+  breadcrumbItems.push({
+    "@type": "ListItem",
+    position: breadcrumbItems.length + 1,
+    name: product.displayName || product.name,
+  });
+
   const data = {
     "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.displayName || product.name,
-    description: product.description,
-    sku: product.verificationCode,
-    brand: { "@type": "Brand", name: "Eminence Hair Boutique" },
-    image: images,
-    category: product.type === "wig" ? "Wigs" : product.type === "bundle" ? "Hair Bundles" : "Hair Closures",
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "USD",
-      price: Number(price || 0),
-      url: typeof window !== "undefined" ? window.location.href : undefined,
-      availability,
-      itemCondition: "https://schema.org/NewCondition",
-      seller: {
-        "@type": "Organization",
-        name: "Eminence Hair Boutique",
-      },
-    },
-    additionalProperty: [
+    "@graph": [
       {
-        "@type": "PropertyValue",
-        name: "Third-Party Verified",
-        value: "Independently inspected by accredited laboratory",
+        "@type": "BreadcrumbList",
+        itemListElement: breadcrumbItems,
       },
-      ...(product.texture ? [{
-        "@type": "PropertyValue",
-        name: "Texture",
-        value: product.texture,
-      }] : []),
-      ...(product.collection ? [{
-        "@type": "PropertyValue",
-        name: "Collection",
-        value: product.collection,
-      }] : []),
+      {
+        "@type": "Product",
+        name: product.displayName || product.name,
+        description: product.description,
+        sku: product.verificationCode,
+        brand: { "@type": "Brand", name: "Eminence Hair Boutique" },
+        image: images,
+        category: product.type === "wig" ? "Wigs" : product.type === "bundle" ? "Hair Bundles" : "Hair Closures",
+        offers: {
+          "@type": "Offer",
+          priceCurrency: "USD",
+          price: Number(price || 0),
+          url: typeof window !== "undefined" ? window.location.href : undefined,
+          availability,
+          itemCondition: "https://schema.org/NewCondition",
+          seller: {
+            "@type": "Organization",
+            name: "Eminence Hair Boutique",
+          },
+        },
+        additionalProperty: [
+          {
+            "@type": "PropertyValue",
+            name: "Third-Party Verified",
+            value: "Independently inspected by accredited laboratory",
+          },
+          ...(product.texture ? [{
+            "@type": "PropertyValue",
+            name: "Texture",
+            value: product.texture,
+          }] : []),
+          ...(product.collection ? [{
+            "@type": "PropertyValue",
+            name: "Collection",
+            value: product.collection,
+          }] : []),
+        ],
+      },
     ],
   };
 
   // Remove undefined fields (schema.org is picky)
-  if (!data.offers.url) delete data.offers.url;
+  if (!data["@graph"][1].offers.url) delete data["@graph"][1].offers.url;
 
   return (
     <script
@@ -533,6 +560,27 @@ export default function ProductDetail() {
         <ProductStructuredData product={product} price={price} />
 
         <div className="max-w-7xl mx-auto px-6">
+          {/* Breadcrumb navigation */}
+          <nav className="mb-4 text-[11px] tracking-[0.12em] text-neutral-500" aria-label="Breadcrumb">
+            <ol className="flex flex-wrap items-center gap-1">
+              <li><Link to="/" className="hover:text-neutral-800 transition">Home</Link></li>
+              <li aria-hidden="true">/</li>
+              <li><Link to="/shop" className="hover:text-neutral-800 transition">Shop</Link></li>
+              {product.collectionSlug && (
+                <>
+                  <li aria-hidden="true">/</li>
+                  <li>
+                    <Link to={`/collections/${product.collectionSlug}`} className="hover:text-neutral-800 transition">
+                      {product.collection}
+                    </Link>
+                  </li>
+                </>
+              )}
+              <li aria-hidden="true">/</li>
+              <li className="text-neutral-800">{product.displayName || product.name}</li>
+            </ol>
+          </nav>
+
           <button
             onClick={() => navigate(-1)}
             className="flex items-center gap-2 text-xs text-neutral-600 mb-6"
@@ -697,6 +745,11 @@ export default function ProductDetail() {
                   {isCustom && (
                     <p className="mt-1 text-xs text-neutral-500 flex items-center gap-1">
                       <Check className="w-3 h-3" /> Crafted to order
+                    </p>
+                  )}
+                  {price >= 50 && (
+                    <p className="mt-1.5 text-[11px] text-neutral-500">
+                      or {formatMoney(Math.ceil(price / 4))} × 4 interest-free payments at checkout
                     </p>
                   )}
                 </div>
@@ -1136,6 +1189,27 @@ export default function ProductDetail() {
           initialColor={product?.color}
           initialTexture={product?.texture}
         />
+      </div>
+
+      {/* Sticky mobile CTA bar */}
+      <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden bg-white/95 backdrop-blur border-t border-neutral-200 px-4 py-3 safe-area-pb">
+        <div className="flex items-center gap-3 max-w-lg mx-auto">
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium truncate">{product.displayName || product.name}</p>
+            <p className="text-xs text-neutral-600">{formatMoney(price)}</p>
+          </div>
+          <button
+            disabled={!canAdd}
+            onClick={handleAdd}
+            className={`shrink-0 px-6 py-2.5 rounded-full text-[11px] uppercase tracking-[0.22em] ${
+              canAdd
+                ? "bg-black text-white"
+                : "bg-neutral-300 text-neutral-500 cursor-not-allowed"
+            }`}
+          >
+            {product.isPreorder ? "Pre-Order" : "Add to Bag"}
+          </button>
+        </div>
       </div>
     </>
   );
