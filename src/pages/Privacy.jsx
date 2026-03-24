@@ -9,7 +9,7 @@ export default function Privacy() {
     <>
       <SEO
         title="Privacy Policy"
-        description="Privacy Policy for Eminence Hair."
+        description="How Eminence Hair Boutique collects, uses, and protects your personal information. CCPA and privacy rights explained."
       />
 
       <div className="pt-28 pb-24 bg-neutral-50 text-neutral-900">

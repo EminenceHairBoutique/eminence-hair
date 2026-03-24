@@ -230,8 +230,8 @@ export default function Faqs() {
   return (
     <>
       <SEO
-        title="Frequently Asked Questions"
-        description="Quick answers, clear policies, and guidance for choosing your Eminence hair. Shipping, returns, care, and custom order FAQs."
+        title="FAQs — Shipping, Returns, Hair Care & Custom Orders"
+        description="Get answers about Eminence Hair shipping times, return policy, raw hair care, custom orders, medical wigs, and payment options including installments."
       />
       <PageTransition>
       <div className="bg-[#F9F7F4] text-[#111]">

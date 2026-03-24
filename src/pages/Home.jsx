@@ -80,8 +80,8 @@ const Home = () => {
   return (
     <>
       <SEO
-        title="Luxury Raw Hair & HD Lace Wigs"
-        description="Eminence Hair Boutique — ethically sourced Cambodian & SEA hair crafted like couture."
+        title="Raw Cambodian Hair & HD Lace Wigs — Luxury Hair Boutique"
+        description="Shop 100% raw Cambodian & Burmese HD lace wigs, bundles, and closures. 180–250% density, ethically sourced, third-party verified. Free shipping on select orders."
       />
       <PageTransition>
         <div className={`bg-[#F9F7F4] text-[#111] ${isOpen ? "blur-sm" : ""} transition`}>

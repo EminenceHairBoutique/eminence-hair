@@ -9,8 +9,8 @@ export default function Authenticity() {
   return (
     <>
       <SEO
-        title="Authenticity — Third-Party Verified"
-        description="Every Eminence piece is independently inspected to verify composition, integrity, and quality. Transparently sourced, rigorously tested."
+        title="Hair Authenticity — Third-Party Lab Verified Quality"
+        description="Every Eminence piece is independently inspected by a CNAS-accredited laboratory. Verify authenticity, view inspection reports, and scan your QR certificate."
       />
       <div className="pt-20 pb-20 bg-[#FBF6ED]">
       <div className="max-w-5xl mx-auto px-6">
