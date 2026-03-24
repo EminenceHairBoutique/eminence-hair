@@ -30,6 +30,10 @@ import { trackViewItem } from "../utils/track";
 import { resolveProductImages } from "../utils/productMedia";
 import { formatMoney } from "../utils/format";
 
+/* ---------------- BNPL config ---------------- */
+const BNPL_MINIMUM = 50; // minimum price to show installment messaging
+const BNPL_INSTALLMENTS = 4; // number of interest-free installments
+
 /* ---------------- collection PDP copy ---------------- */
 function EssentialLaceCopy({ product }) {
   const isEssential =
@@ -747,9 +751,9 @@ export default function ProductDetail() {
                       <Check className="w-3 h-3" /> Crafted to order
                     </p>
                   )}
-                  {price >= 50 && (
+                  {price >= BNPL_MINIMUM && (
                     <p className="mt-1.5 text-[11px] text-neutral-500">
-                      or {formatMoney(Math.ceil(price / 4))} × 4 interest-free payments at checkout
+                      or {formatMoney(Math.ceil(price / BNPL_INSTALLMENTS))} × {BNPL_INSTALLMENTS} interest-free payments at checkout
                     </p>
                   )}
                 </div>
@@ -1192,7 +1196,11 @@ export default function ProductDetail() {
       </div>
 
       {/* Sticky mobile CTA bar */}
-      <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden bg-white/95 backdrop-blur border-t border-neutral-200 px-4 py-3 safe-area-pb">
+      <div
+        className="fixed bottom-0 inset-x-0 z-50 lg:hidden bg-white/95 backdrop-blur border-t border-neutral-200 px-4 py-3 safe-area-pb"
+        role="region"
+        aria-label="Quick add to cart"
+      >
         <div className="flex items-center gap-3 max-w-lg mx-auto">
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium truncate">{product.displayName || product.name}</p>
