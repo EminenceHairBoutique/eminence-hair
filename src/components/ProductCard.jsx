@@ -50,7 +50,6 @@ const ProductCard = ({ product }) => {
   return (
     <Link
       to={`/products/${product.slug ?? product.id}`}
-      className="group block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 card-hover"
       className="group block bg-white rounded-2xl overflow-hidden shadow-sm card-hover border border-neutral-100"
     >
       <div className="aspect-[3/4] bg-neutral-100 overflow-hidden relative">
@@ -66,14 +65,6 @@ const ProductCard = ({ product }) => {
             <span className="text-[11px] tracking-[0.22em] uppercase text-neutral-400">Eminence</span>
           </div>
         )}
-      </div>
-
-      <div className="px-4 pt-4 pb-5">
-            <span className="text-[11px] tracking-[0.22em] uppercase text-neutral-400">
-              Eminence Hair
-            </span>
-          </div>
-        )}
         {(product.badge || product.readyToShip) && (
           <div className="absolute top-3 left-3 bg-[#111]/80 backdrop-blur-sm text-[#D4AF37] text-[9px] uppercase tracking-[0.22em] px-2.5 py-1 rounded-full">
             {product.badge || (product.readyToShip ? "Ready to Ship" : "")}
@@ -82,6 +73,10 @@ const ProductCard = ({ product }) => {
       </div>
 
       <div className="px-4 pt-4 pb-5">
+        <span className="text-[11px] tracking-[0.22em] uppercase text-neutral-400">
+          Eminence Hair
+        </span>
+
         <h3 className="text-sm text-[#111] mb-1 line-clamp-2">
           {product.name}
         </h3>
@@ -97,7 +92,6 @@ const ProductCard = ({ product }) => {
           </span>
           <button
             onClick={handleQuickAdd}
-            className="text-[10px] uppercase tracking-[0.22em] border border-neutral-300 rounded-full px-3 py-1 text-neutral-600 transition-colors group-hover:border-[#111] hover:bg-[#111] hover:text-[#F9F7F4]"
             className="text-[10px] uppercase tracking-[0.22em] border border-neutral-300 rounded-full px-3 py-1 text-neutral-600 hover:border-[#111] hover:text-[#111] transition"
             type="button"
           >
