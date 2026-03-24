@@ -138,24 +138,48 @@ function ProductStructuredData({ product, price }) {
 
   const images = resolveProductImages(product).slice(0, 6);
 
+  const availability = product.isPreorder
+    ? "https://schema.org/PreOrder"
+    : "https://schema.org/InStock";
+
   const data = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.displayName || product.name,
     description: product.description,
     sku: product.verificationCode,
-    brand: { "@type": "Brand", name: "Eminence Hair" },
+    brand: { "@type": "Brand", name: "Eminence Hair Boutique" },
     image: images,
+    category: product.type === "wig" ? "Wigs" : product.type === "bundle" ? "Hair Bundles" : "Hair Closures",
     offers: {
       "@type": "Offer",
       priceCurrency: "USD",
       price: Number(price || 0),
       url: typeof window !== "undefined" ? window.location.href : undefined,
-    },    additionalProperty: {
-      "@type": "PropertyValue",
-      name: "Third-Party Verified",
-      value: "Independently inspected by accredited laboratory",
+      availability,
+      itemCondition: "https://schema.org/NewCondition",
+      seller: {
+        "@type": "Organization",
+        name: "Eminence Hair Boutique",
+      },
     },
+    additionalProperty: [
+      {
+        "@type": "PropertyValue",
+        name: "Third-Party Verified",
+        value: "Independently inspected by accredited laboratory",
+      },
+      ...(product.texture ? [{
+        "@type": "PropertyValue",
+        name: "Texture",
+        value: product.texture,
+      }] : []),
+      ...(product.collection ? [{
+        "@type": "PropertyValue",
+        name: "Collection",
+        value: product.collection,
+      }] : []),
+    ],
   };
 
   // Remove undefined fields (schema.org is picky)

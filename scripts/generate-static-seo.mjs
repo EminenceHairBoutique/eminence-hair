@@ -212,6 +212,9 @@ function buildOffersForProduct(p) {
       price: low,
       priceCurrency: "USD",
       url,
+      availability: p.isPreorder ? "https://schema.org/PreOrder" : "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+      seller: { "@type": "Organization", name: SITE_NAME },
     };
   }
 
@@ -222,6 +225,8 @@ function buildOffersForProduct(p) {
     offerCount: offerCount || undefined,
     priceCurrency: "USD",
     url,
+    availability: p.isPreorder ? "https://schema.org/PreOrder" : "https://schema.org/InStock",
+    seller: { "@type": "Organization", name: SITE_NAME },
   };
 }
 
@@ -270,34 +275,34 @@ async function main() {
   const staticRoutes = [
     {
       pathname: "/",
-      title: "Luxury Raw Hair & HD Lace Wigs",
+      title: "Raw Cambodian Hair & HD Lace Wigs — Luxury Hair Boutique",
       description:
-        "Eminence Hair Boutique — ethically sourced Cambodian & Myanmar hair crafted like couture.",
+        "Shop 100% raw Cambodian & Burmese HD lace wigs, bundles, and closures. 180–250% density, ethically sourced, third-party verified. Free shipping on select orders.",
       ogType: "website",
     },
     {
       pathname: "/shop",
       title: "Shop Luxury Wigs, Bundles & Closures",
-      description: "Shop luxury wigs, bundles, and textures by Eminence Hair Boutique.",
+      description: "Browse raw Cambodian & Burmese HD lace wigs, virgin hair bundles, and closures. Filter by texture, density, and collection. Secure checkout with Stripe.",
       ogType: "website",
     },
 
     {
       pathname: "/shop/wigs",
-      title: "Shop Wigs",
-      description: "Shop luxury wigs from Eminence Hair Boutique.",
+      title: "Shop HD Lace Wigs — Raw Cambodian & Burmese Hair",
+      description: "Shop luxury HD lace wigs in straight, body wave, deep wave, and curly textures. 180–250% density, raw Cambodian and Burmese hair.",
       ogType: "website",
     },
     {
       pathname: "/shop/bundles",
-      title: "Shop Bundles",
-      description: "Shop raw bundles from Eminence Hair Boutique.",
+      title: "Shop Raw Hair Bundles — Virgin Cambodian & Burmese",
+      description: "Shop raw virgin hair bundles in multiple textures and lengths. Ethically sourced Cambodian and Burmese hair with cuticle alignment.",
       ogType: "website",
     },
     {
       pathname: "/shop/closures",
-      title: "Shop Closures",
-      description: "Shop closures from Eminence Hair Boutique.",
+      title: "Shop HD Lace Closures & Frontals",
+      description: "Shop HD lace closures and frontals designed for seamless installs. Transparent and HD lace options available.",
       ogType: "website",
     },
     {
@@ -309,8 +314,8 @@ async function main() {
 
     {
       pathname: "/collections",
-      title: "Collections",
-      description: "Explore curated collections of Eminence luxury hair.",
+      title: "Hair Collections — SEA, Burmese, Lavish, 613 Blonde & More",
+      description: "Explore Eminence origin-driven collections: raw Cambodian SEA, Burmese deep wave, Lavish wave, 613 blonde, and seasonal editorial edits.",
       ogType: "website",
     },
 
@@ -324,77 +329,77 @@ async function main() {
 
     {
       pathname: "/gallery",
-      title: "Gallery",
-      description: "Explore editorial imagery and real-life texture studies.",
+      title: "Gallery — Editorial Hair Photography & Texture Studies",
+      description: "Explore editorial imagery, real-life texture studies, and campaign photography featuring Eminence luxury hair.",
       ogType: "website",
     },
     {
       pathname: "/authenticity",
-      title: "Authenticity & Verification",
-      description: "Learn how Eminence verifies hair quality and authenticity.",
+      title: "Hair Authenticity — Third-Party Lab Verified Quality",
+      description: "Every Eminence piece is independently inspected by a CNAS-accredited laboratory. Verify authenticity, view inspection reports, and scan your QR certificate.",
       ogType: "website",
     },
     {
       pathname: "/care",
-      title: "Care Guide",
-      description: "How to care for your Eminence hair for longevity and luster.",
+      title: "Raw Hair Care Guide — Wash, Style & Maintain Luxury Hair",
+      description: "Expert care guide for raw Cambodian and Burmese hair. Learn proper wash routines, heat styling tips, storage methods, and maintenance for lasting softness and luster.",
       ogType: "website",
     },
     {
       pathname: "/medical-hair",
-      title: "Medical Hair (HSA/FSA)",
+      title: "Medical Wigs & Cranial Prostheses — HSA/FSA Eligible",
       description:
-        "Information for clients purchasing wigs as cranial prosthesis for potential HSA/FSA reimbursement.",
+        "Luxury medical hair solutions for alopecia, chemotherapy, and hair loss conditions. HSA/FSA reimbursement guidance, private fitting, and compassionate service.",
       ogType: "website",
     },
     {
       pathname: "/faqs",
-      title: "FAQs",
-      description: "Shipping, returns, authenticity, and product questions.",
+      title: "FAQs — Shipping, Returns, Hair Care & Custom Orders",
+      description: "Get answers about Eminence Hair shipping times, return policy, raw hair care, custom orders, medical wigs, and payment options including installments.",
       ogType: "website",
     },
     {
       pathname: "/private-consult",
-      title: "Private Consultation",
+      title: "Book a Private Hair Consultation — Virtual & In-Person",
       description:
-        "Book a private virtual consult to choose the right texture, length, density, and lace.",
+        "Schedule a one-on-one consultation with our concierge team. Get expert guidance on wig selection, density, texture, medical hair, and custom atelier orders.",
       ogType: "website",
     },
     {
       pathname: "/custom-orders",
-      title: "Custom Orders",
-      description: "Request a custom unit tailored to your preferences.",
+      title: "Custom Orders — Bespoke Wigs & Hair Pieces",
+      description: "Request a custom wig or hair piece tailored to your specifications: texture, density, color, lace type, and cap construction.",
       ogType: "website",
     },
     {
       pathname: "/custom-atelier",
-      title: "Custom Atelier",
+      title: "Custom Atelier — Build Your Perfect Wig",
       description:
-        "Build a guided custom request (texture, color, length, lace, and fit) with concierge confirmation.",
+        "Build a guided custom request — choose texture, color, length, lace type, and fit — with concierge confirmation and factory fulfillment.",
       ogType: "website",
     },
     {
       pathname: "/about",
-      title: "About",
-      description: "The story behind Eminence Hair Boutique and our quality standards.",
+      title: "Our Story — Ethically Sourced Raw Cambodian & Burmese Hair",
+      description: "Eminence Hair Boutique sources 100% raw Cambodian and Burmese hair, crafted in our partner atelier with third-party lab verification. Learn about our quality standards.",
       ogType: "website",
     },
     {
       pathname: "/contact",
-      title: "Contact",
-      description: "Contact Eminence Hair Boutique for support and inquiries.",
+      title: "Contact Our Concierge Team — Support & Custom Orders",
+      description: "Reach the Eminence Hair concierge team for order support, custom wig requests, wholesale inquiries, and styling consultations. Response within 24 hours.",
       ogType: "website",
     },
     {
       pathname: "/returns",
-      title: "Returns & Exchanges",
-      description: "Read our returns and exchanges policy.",
+      title: "Shipping & Returns Policy — Domestic & International",
+      description: "Eminence Hair shipping rates, delivery timelines, international options, and our return and exchange policy for wigs, bundles, and closures.",
       ogType: "website",
     },
     {
       pathname: "/privacy",
       title: "Privacy Policy",
-      description: "Read how Eminence Hair Boutique handles your data.",
+      description: "How Eminence Hair Boutique collects, uses, and protects your personal information. CCPA and privacy rights explained.",
       ogType: "website",
     },
 
@@ -408,14 +413,32 @@ async function main() {
     {
       pathname: "/terms",
       title: "Terms & Conditions",
-      description: "Terms and conditions for shopping with Eminence Hair Boutique.",
+      description: "Terms and conditions for shopping with Eminence Hair Boutique, including order policies, intellectual property, and dispute resolution.",
       ogType: "website",
     },
     {
       pathname: "/atelier/try-on",
-      title: "Virtual Try-On",
+      title: "Virtual Try-On — AI-Powered Wig Preview",
       description:
-        "Try on Eminence Hair wigs virtually using AI face detection. Upload a photo and see how you look.",
+        "Try on Eminence Hair wigs virtually using AI face detection. Upload a photo and preview how different styles, textures, and lengths look on you.",
+      ogType: "website",
+    },
+    {
+      pathname: "/ready-to-ship",
+      title: "Ready-to-Ship Wigs & Bundles — Fast 2–3 Day Dispatch",
+      description: "Shop in-stock Eminence wigs and bundles ready for 2–3 day dispatch. No wait times — luxury raw hair prepared for immediate shipping.",
+      ogType: "website",
+    },
+    {
+      pathname: "/consultation",
+      title: "Book a Private Hair Consultation — Virtual & In-Person",
+      description: "Schedule a one-on-one consultation with our concierge team. Get expert guidance on wig selection, density, texture, medical hair, and custom atelier orders.",
+      ogType: "website",
+    },
+    {
+      pathname: "/start-here",
+      title: "Start Here — New to Eminence Hair Boutique",
+      description: "New to luxury raw hair? Start here to understand our collections, textures, lace types, density options, and how to choose your perfect piece.",
       ogType: "website",
     },
 
@@ -574,19 +597,36 @@ async function main() {
 
   // sitemap.xml
   const today = new Date().toISOString().slice(0, 10);
+
+  function sitemapPriority(pathname) {
+    if (pathname === "/") return "1.0";
+    if (pathname.startsWith("/collections")) return "0.8";
+    if (pathname.startsWith("/shop")) return "0.8";
+    if (pathname.startsWith("/products/")) return "0.7";
+    if (["/about", "/care", "/faqs", "/consultation", "/medical-hair", "/authenticity", "/ready-to-ship"].includes(pathname)) return "0.6";
+    return "0.5";
+  }
+
+  function sitemapFreq(pathname) {
+    if (pathname === "/") return "weekly";
+    if (pathname.startsWith("/products/") || pathname.startsWith("/shop")) return "weekly";
+    if (pathname.startsWith("/collections")) return "weekly";
+    return "monthly";
+  }
+
   const sitemapRoutes = routes
     .filter((r) => !r.noindex)
-    .map((r) => ensureSiteUrl(r.pathname))
-    .filter((u) => !u.includes("/account"))
-    .sort();
+    .map((r) => ({ url: ensureSiteUrl(r.pathname), pathname: r.pathname }))
+    .filter((u) => !u.url.includes("/account"))
+    .sort((a, b) => a.url.localeCompare(b.url));
 
   const sitemap =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     sitemapRoutes
       .map(
-        (loc) =>
-          `  <url>\n    <loc>${escapeHtml(loc)}</loc>\n    <lastmod>${today}</lastmod>\n  </url>`
+        (r) =>
+          `  <url>\n    <loc>${escapeHtml(r.url)}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${sitemapFreq(r.pathname)}</changefreq>\n    <priority>${sitemapPriority(r.pathname)}</priority>\n  </url>`
       )
       .join("\n") +
     `\n</urlset>\n`;
