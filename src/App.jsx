@@ -5,6 +5,7 @@ import { useCart } from "./context/CartContext";
 import DiscountModal from "./components/DiscountModal";
 import CookieBanner from "./components/legal/CookieBanner";
 import TrackingScripts from "./components/TrackingScripts";
+import EmailPopup from "./components/EmailPopup";
 const CartDrawer = lazy(() => import("./components/CartDrawer"));
 import useRouteAnalytics from "./hooks/useRouteAnalytics";
 
@@ -181,6 +182,7 @@ export default function App() {
         </ErrorBoundary>
 
         <CookieBanner />
+        <EmailPopup />
         <Footer />
       </div>
     </>
