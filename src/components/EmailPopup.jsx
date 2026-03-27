@@ -20,14 +20,44 @@ export default function EmailPopup() {
       return;
     }
 
-    const timer = setTimeout(() => setVisible(true), DELAY_MS);
-    return () => clearTimeout(timer);
+    // Don't show if DiscountModal already claimed this session
+    try {
+      if (sessionStorage.getItem("eminence_discount_seen")) return;
+    } catch {
+      // ignore
+    }
+
+    // Wait for cookie consent decision before showing marketing popup
+    const consentAlreadyDecided = !!localStorage.getItem("eminence_cookie_consent");
+
+    const scheduleShow = () => {
+      const timer = setTimeout(() => setVisible(true), DELAY_MS);
+      return timer;
+    };
+
+    let timer;
+    if (consentAlreadyDecided) {
+      timer = scheduleShow();
+    } else {
+      const onConsent = () => {
+        timer = scheduleShow();
+        window.removeEventListener("eminence_consent_decided", onConsent);
+      };
+      window.addEventListener("eminence_consent_decided", onConsent);
+      return () => {
+        window.removeEventListener("eminence_consent_decided", onConsent);
+        if (timer) clearTimeout(timer);
+      };
+    }
+
+    return () => { if (timer) clearTimeout(timer); };
   }, []);
 
   const dismiss = useCallback(() => {
     setVisible(false);
     try {
       localStorage.setItem(STORAGE_KEY, "1");
+      sessionStorage.setItem("eminence_email_popup_shown", "1");
     } catch {
       // ignore
     }

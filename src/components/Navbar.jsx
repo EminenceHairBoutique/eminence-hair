@@ -204,7 +204,7 @@ export default function Navbar() {
 
           <button
             onClick={() => setSearchOpen(true)}
-            className="hidden sm:inline-flex items-center justify-center p-2 rounded-full hover:bg-white/60 transition"
+            className="inline-flex items-center justify-center p-2 rounded-full hover:bg-white/60 transition"
             aria-label="Search products"
           >
             <Search size={18} className="text-neutral-800" />

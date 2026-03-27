@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPortal } from "react-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
@@ -73,6 +73,7 @@ function NavLink({ to, onClick, children }) {
 export default function MobileMenuDrawer({ open, onClose, onSearch }) {
   const location = useLocation();
   const closeBtnRef = useRef(null);
+  const drawerRef = useRef(null);
   const [openSection, setOpenSection] = useState(null);
 
   // Close drawer on route change (extra safety)
@@ -112,6 +113,30 @@ export default function MobileMenuDrawer({ open, onClose, onSearch }) {
     const t = setTimeout(() => closeBtnRef.current?.focus?.(), 50);
     return () => clearTimeout(t);
   }, [open]);
+
+  // Focus trap: keep Tab cycling within the drawer while open
+  const handleFocusTrap = useCallback((e) => {
+    if (e.key !== "Tab" || !drawerRef.current) return;
+    const focusable = drawerRef.current.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    document.addEventListener("keydown", handleFocusTrap);
+    return () => document.removeEventListener("keydown", handleFocusTrap);
+  }, [open, handleFocusTrap]);
 
   const groups = useMemo(
     () => ({
@@ -178,6 +203,7 @@ export default function MobileMenuDrawer({ open, onClose, onSearch }) {
 
           {/* Panel */}
           <Motion.aside
+            ref={drawerRef}
             role="dialog"
             aria-modal="true"
             className="absolute inset-0 bg-[#FBF6EE] flex flex-col"

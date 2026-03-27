@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { X, Minus, Plus, Lock } from "lucide-react";
 import { motion as Motion } from "framer-motion";
@@ -16,6 +16,8 @@ export default function CartDrawer() {
     removeItem = () => {},
     updateQuantity = () => {},
   } = useCart();
+
+  const drawerRef = useRef(null);
 
   // Keep a stable reference for key listeners without fighting exhaustive-deps.
   const closeCartRef = useRef(closeCart);
@@ -36,6 +38,37 @@ export default function CartDrawer() {
     return () => document.removeEventListener("keydown", onKey);
   }, [isOpen]);
 
+  // Focus trap: keep Tab cycling within the drawer while open
+  const handleFocusTrap = useCallback((e) => {
+    if (e.key !== "Tab" || !drawerRef.current) return;
+    const focusable = drawerRef.current.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    document.addEventListener("keydown", handleFocusTrap);
+    // Focus the close button when drawer opens
+    const timer = setTimeout(() => {
+      drawerRef.current?.querySelector("button[aria-label='Close cart']")?.focus();
+    }, 100);
+    return () => {
+      document.removeEventListener("keydown", handleFocusTrap);
+      clearTimeout(timer);
+    };
+  }, [isOpen, handleFocusTrap]);
+
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => (document.body.style.overflow = "");
@@ -53,11 +86,15 @@ export default function CartDrawer() {
       )}
 
       <Motion.aside
+        ref={drawerRef}
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
         transition={{ type: "spring", stiffness: 260, damping: 28 }}
         className="fixed right-0 top-0 h-full w-full max-w-[420px] z-50 bg-white"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Shopping bag"
       >
         {/* header */}
         <div className="flex items-center justify-between px-6 py-5 border-b">

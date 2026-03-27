@@ -40,7 +40,7 @@ export default function DiscountModal() {
   }, [countryCode, localNumber]);
 
   useEffect(() => {
-    // Don’t show if logged in (you can change this if you want it to show for everyone)
+    // Don’t show if logged in
     if (user) return;
 
     // Don’t show during checkout
@@ -52,12 +52,39 @@ export default function DiscountModal() {
     // Don’t show if already verified previously
     if (localStorage.getItem("eminence_sms_verified") === "true") return;
 
-    const timer = setTimeout(() => {
-      setOpen(true);
-      sessionStorage.setItem("eminence_discount_seen", "true");
-    }, 5000);
+    // Don’t show if EmailPopup was already shown/dismissed this session
+    if (sessionStorage.getItem("eminence_email_popup_shown")) return;
 
-    return () => clearTimeout(timer);
+    // Wait for cookie consent decision before showing marketing popup
+    const consentAlreadyDecided = !!localStorage.getItem("eminence_cookie_consent");
+
+    const scheduleShow = () => {
+      if (sessionStorage.getItem("eminence_email_popup_shown")) return null;
+      const t = setTimeout(() => {
+        if (!sessionStorage.getItem("eminence_email_popup_shown")) {
+          setOpen(true);
+          sessionStorage.setItem("eminence_discount_seen", "true");
+        }
+      }, 5000);
+      return t;
+    };
+
+    let timer;
+    if (consentAlreadyDecided) {
+      timer = scheduleShow();
+    } else {
+      const onConsent = () => {
+        timer = scheduleShow();
+        window.removeEventListener("eminence_consent_decided", onConsent);
+      };
+      window.addEventListener("eminence_consent_decided", onConsent);
+      return () => {
+        window.removeEventListener("eminence_consent_decided", onConsent);
+        if (timer) clearTimeout(timer);
+      };
+    }
+
+    return () => { if (timer) clearTimeout(timer); };
   }, [user, location.pathname]);
 
   if (!open) return null;

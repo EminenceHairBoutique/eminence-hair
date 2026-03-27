@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import { Link, useSearchParams, useLocation } from "react-router-dom";
 import { products, eminenceEssentials } from "../data/products";
 import { useCart } from "../context/CartContext";
@@ -47,13 +47,7 @@ export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
 
-  // route-based "loading skeleton" feel
-  const [pageLoading, setPageLoading] = useState(true);
-  useEffect(() => {
-    setPageLoading(true);
-    const t = setTimeout(() => setPageLoading(false), 180);
-    return () => clearTimeout(t);
-  }, [location.key]);
+  const pageLoading = false;
 
   /* MODE FROM URL */
   const modeFromPath =
