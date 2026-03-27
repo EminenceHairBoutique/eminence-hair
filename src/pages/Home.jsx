@@ -87,7 +87,7 @@ const Home = () => {
         <div className={`bg-[#F9F7F4] text-[#111] ${isOpen ? "blur-sm" : ""} transition`}>
           {/* SECTION A — IMAGE HERO */}
           <section className="relative h-[80vh] min-h-[520px] w-full overflow-hidden">
-            <img src={hero} alt="Eminence Hair Hero" className="w-full h-full object-cover" />
+            <img src={hero} alt="Eminence Hair Hero" className="w-full h-full object-cover" fetchPriority="high" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-black/40 to-transparent" />
 
             <div className="absolute inset-x-0 bottom-20 px-6 max-w-5xl mx-auto text-[#F9F7F4]">

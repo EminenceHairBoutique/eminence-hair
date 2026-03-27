@@ -13,8 +13,8 @@ export const BRAND = {
 // Keep social links empty until you have final URLs.
 // The UI will automatically hide any socials that are not provided.
 export const SOCIAL = {
-  instagram: "",
-  tiktok: "",
+  instagram: "https://www.instagram.com/eminencehairboutique",
+  tiktok: "https://www.tiktok.com/@emininceluxuryhair",
   youtube: "",
 };
 

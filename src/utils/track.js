@@ -36,6 +36,17 @@ export function trackPixel(event, params = {}) {
   }
 }
 
+export function trackTikTok(event, params = {}) {
+  try {
+    const { marketing } = readConsent();
+    if (!marketing) return;
+    if (typeof window?.ttq?.track !== "function") return;
+    window.ttq.track(event, params);
+  } catch {
+    // ignore
+  }
+}
+
 export function trackViewItem(product, { value } = {}) {
   if (!product) return;
 
@@ -58,6 +69,14 @@ export function trackViewItem(product, { value } = {}) {
     content_ids: [item.item_id],
     content_type: "product",
     value: typeof value === "number" ? value : undefined,
+    currency: "USD",
+  });
+
+  trackTikTok("ViewContent", {
+    content_id: item.item_id,
+    content_name: item.item_name,
+    content_type: "product",
+    value: typeof value === "number" ? value : 0,
     currency: "USD",
   });
 }
@@ -87,6 +106,15 @@ export function trackAddToCart(lineItem) {
     value: Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || undefined,
     currency: "USD",
   });
+
+  trackTikTok("AddToCart", {
+    content_id: item.item_id,
+    content_name: item.item_name,
+    content_type: "product",
+    value: Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || 0,
+    currency: "USD",
+    quantity: Number(lineItem.quantity || 1) || 1,
+  });
 }
 
 export function trackBeginCheckout({ items = [], value } = {}) {
@@ -110,6 +138,11 @@ export function trackBeginCheckout({ items = [], value } = {}) {
     value: typeof value === "number" ? value : undefined,
     currency: "USD",
   });
+
+  trackTikTok("InitiateCheckout", {
+    value: typeof value === "number" ? value : 0,
+    currency: "USD",
+  });
 }
 
 export function trackPurchase({ transaction_id, value, items = [] } = {}) {
@@ -131,6 +164,11 @@ export function trackPurchase({ transaction_id, value, items = [] } = {}) {
 
   trackPixel("Purchase", {
     value: typeof value === "number" ? value : undefined,
+    currency: "USD",
+  });
+
+  trackTikTok("CompletePayment", {
+    value: typeof value === "number" ? value : 0,
     currency: "USD",
   });
 }
