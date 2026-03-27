@@ -30,27 +30,27 @@ export default function EmailPopup() {
     // Wait for cookie consent decision before showing marketing popup
     const consentAlreadyDecided = !!localStorage.getItem("eminence_cookie_consent");
 
+    let timer;
+    let onConsent;
+
     const scheduleShow = () => {
-      const timer = setTimeout(() => setVisible(true), DELAY_MS);
-      return timer;
+      timer = setTimeout(() => setVisible(true), DELAY_MS);
     };
 
-    let timer;
     if (consentAlreadyDecided) {
-      timer = scheduleShow();
+      scheduleShow();
     } else {
-      const onConsent = () => {
-        timer = scheduleShow();
+      onConsent = () => {
+        scheduleShow();
         window.removeEventListener("eminence_consent_decided", onConsent);
       };
       window.addEventListener("eminence_consent_decided", onConsent);
-      return () => {
-        window.removeEventListener("eminence_consent_decided", onConsent);
-        if (timer) clearTimeout(timer);
-      };
     }
 
-    return () => { if (timer) clearTimeout(timer); };
+    return () => {
+      if (timer) clearTimeout(timer);
+      if (onConsent) window.removeEventListener("eminence_consent_decided", onConsent);
+    };
   }, []);
 
   const dismiss = useCallback(() => {
