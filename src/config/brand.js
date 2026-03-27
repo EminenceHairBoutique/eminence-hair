@@ -10,8 +10,8 @@ export const BRAND = {
   supportEmail: "support@eminenceluxuryhair.com",
 };
 
-// Keep social links empty until you have final URLs.
-// The UI will automatically hide any socials that are not provided.
+// Define social links here. Leave a value as an empty string to hide that social in the UI.
+// Existing populated URLs are production links; only change them when updating official profiles.
 export const SOCIAL = {
   instagram: "https://www.instagram.com/eminencehairboutique",
   tiktok: "https://www.tiktok.com/@eminenceluxuryhair",
