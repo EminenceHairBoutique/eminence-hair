@@ -47,26 +47,54 @@ export default function DiscountModal() {
     if (location.pathname.includes("checkout")) return;
 
     // Don’t show repeatedly
-    if (sessionStorage.getItem("eminence_discount_seen")) return;
+    try {
+      if (sessionStorage.getItem("eminence_discount_seen")) return;
+    } catch {
+      // ignore — if storage is unavailable we fall through
+    }
 
     // Don’t show if already verified previously
-    if (localStorage.getItem("eminence_sms_verified") === "true") return;
+    try {
+      if (localStorage.getItem("eminence_sms_verified") === "true") return;
+    } catch {
+      // ignore
+    }
 
     // Don’t show if EmailPopup was already shown/dismissed this session
-    if (sessionStorage.getItem("eminence_email_popup_shown")) return;
+    try {
+      if (sessionStorage.getItem("eminence_email_popup_shown")) return;
+    } catch {
+      // ignore
+    }
 
     // Wait for cookie consent decision before showing marketing popup
-    const consentAlreadyDecided = !!localStorage.getItem("eminence_cookie_consent");
+    let consentAlreadyDecided = false;
+    try {
+      consentAlreadyDecided = !!localStorage.getItem("eminence_cookie_consent");
+    } catch {
+      // ignore
+    }
 
     let timer;
     let onConsent;
 
     const scheduleShow = () => {
-      if (sessionStorage.getItem("eminence_email_popup_shown")) return;
+      try {
+        if (sessionStorage.getItem("eminence_email_popup_shown")) return;
+      } catch {
+        // ignore
+      }
       timer = setTimeout(() => {
-        if (!sessionStorage.getItem("eminence_email_popup_shown")) {
-          setOpen(true);
+        try {
+          if (sessionStorage.getItem("eminence_email_popup_shown")) return;
+        } catch {
+          // ignore — if unreadable, proceed to show
+        }
+        setOpen(true);
+        try {
           sessionStorage.setItem("eminence_discount_seen", "true");
+        } catch {
+          // ignore — if unwritable, still show the modal
         }
       }, 5000);
     };

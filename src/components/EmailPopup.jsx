@@ -1,16 +1,28 @@
 // src/components/EmailPopup.jsx — First-visit email capture modal
 import React, { useState, useEffect, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import { X } from "lucide-react";
 import { subscribeEmail } from "../utils/subscribe";
 
 const STORAGE_KEY = "eminence_email_popup_dismissed";
 const DELAY_MS = 8000; // 8 seconds before showing
 
+// Paths where marketing popups must never appear
+const SUPPRESS_PATHS = /^\/(checkout|success|cancel)(\/|$)/;
+
 export default function EmailPopup() {
+  const location = useLocation();
   const [visible, setVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState("");
+
+  // Auto-close if the user navigates to a checkout/transaction page while visible
+  useEffect(() => {
+    if (visible && SUPPRESS_PATHS.test(location.pathname)) {
+      setVisible(false);
+    }
+  }, [visible, location.pathname]);
 
   useEffect(() => {
     // Don't show if already dismissed or already subscribed
@@ -35,6 +47,9 @@ export default function EmailPopup() {
 
     const scheduleShow = () => {
       timer = setTimeout(() => {
+        // Don't show on checkout/transaction pages — the user may have navigated there
+        if (SUPPRESS_PATHS.test(window.location.pathname)) return;
+
         // Re-check dismissal and discount flags right before showing
         try {
           if (localStorage.getItem(STORAGE_KEY)) return;
