@@ -45,6 +45,7 @@ export function CartProvider({ children }) {
     if (!product?.id) return;
 
     // Base/default options (used when user quick-adds from Shop/Gallery)
+    // Priority: explicit options > product-level selections > array minimum
     const baseLength =
       options.length ??
       product.selectedLength ??

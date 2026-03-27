@@ -4,6 +4,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Sparkles } from "lucide-react";
 import { BRAND, SOCIAL } from "../config/brand";
+import SocialLinks from "./SocialLinks";
 
 const Footer = () => {
   return (
@@ -59,6 +60,8 @@ const Footer = () => {
             <Link to="/returns" className="hover:text-neutral-200 transition block">Shipping & Returns</Link>
             <Link to="/contact" className="hover:text-neutral-200 transition block">Contact</Link>
             <Link to="/private-consult" className="hover:text-neutral-200 transition block">Book a Consult</Link>
+            <Link to="/about" className="hover:text-neutral-200 transition block">About Us</Link>
+            <Link to="/medical-hair" className="hover:text-neutral-200 transition block">Medical Hair</Link>
           </div>
 
           <div className="space-y-2">
@@ -69,7 +72,7 @@ const Footer = () => {
               <a
                 href={SOCIAL.instagram}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="hover:text-neutral-200 transition block"
               >
                 Instagram
@@ -79,10 +82,20 @@ const Footer = () => {
               <a
                 href={SOCIAL.tiktok}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="hover:text-neutral-200 transition block"
               >
                 TikTok
+              </a>
+            )}
+            {SOCIAL.youtube && (
+              <a
+                href={SOCIAL.youtube}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-neutral-200 transition block"
+              >
+                YouTube
               </a>
             )}
             <a
@@ -93,6 +106,12 @@ const Footer = () => {
             </a>
             <Link to="/account" className="hover:text-neutral-200 transition block">My Account</Link>
             <Link to="/partners" className="hover:text-neutral-200 transition block">Partner Program</Link>
+            <SocialLinks
+              variant="icon"
+              iconSize={16}
+              className="mt-3 gap-5"
+              linkClassName="text-neutral-400 hover:text-[#D4AF37]"
+            />
           </div>
 
         </div>
@@ -107,6 +126,9 @@ const Footer = () => {
           </div>
           <p className="text-[11px] tracking-wide text-neutral-500">
             &copy; {new Date().getFullYear()} {BRAND.fullName}. All Rights Reserved.
+          </p>
+          <p className="mt-2 text-[10px] text-neutral-600">
+            Secure checkout powered by Stripe. All transactions encrypted.
           </p>
         </div>
 

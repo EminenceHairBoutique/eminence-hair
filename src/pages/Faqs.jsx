@@ -195,6 +195,47 @@ export default function Faqs() {
     []
   );
 
+  // Build FAQPage JSON-LD from all text-only Q&A items
+  const faqJsonLd = useMemo(() => {
+    const siteUrl = "https://www.eminenceluxuryhair.com";
+    const allItems = categories.flatMap((cat) =>
+      cat.items
+        .filter((i) => typeof i.a === "string")
+        .map((i) => ({
+          "@type": "Question",
+          name: i.q,
+          acceptedAnswer: { "@type": "Answer", text: i.a },
+        }))
+    );
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": `${siteUrl}/#organization`,
+          name: "Eminence Hair Boutique",
+          url: `${siteUrl}/`,
+          logo: `${siteUrl}/assets/eminence_og_banner.jpg`,
+        },
+        {
+          "@type": "WebSite",
+          "@id": `${siteUrl}/#website`,
+          url: `${siteUrl}/`,
+          name: "Eminence Hair Boutique",
+          publisher: { "@id": `${siteUrl}/#organization` },
+        },
+        {
+          "@type": "FAQPage",
+          "@id": `${siteUrl}/faqs#faqpage`,
+          url: `${siteUrl}/faqs`,
+          name: "Frequently Asked Questions",
+          isPartOf: { "@id": `${siteUrl}/#website` },
+          mainEntity: allItems,
+        },
+      ],
+    };
+  }, [categories]);
+
   const [activeCategory, setActiveCategory] = useState("all");
   const [query, setQuery] = useState("");
   const [openIds, setOpenIds] = useState(() => new Set());
@@ -230,8 +271,9 @@ export default function Faqs() {
   return (
     <>
       <SEO
-        title="Frequently Asked Questions"
-        description="Quick answers, clear policies, and guidance for choosing your Eminence hair. Shipping, returns, care, and custom order FAQs."
+        title="FAQs — Shipping, Returns, Hair Care & Custom Orders"
+        description="Get answers about Eminence Hair shipping times, return policy, raw hair care, custom orders, medical wigs, and payment options including installments."
+        jsonLd={faqJsonLd}
       />
       <PageTransition>
       <div className="bg-[#F9F7F4] text-[#111]">

@@ -41,7 +41,12 @@ export function trackTikTok(event, params = {}) {
     const { marketing } = readConsent();
     if (!marketing) return;
     if (typeof window?.ttq?.track !== "function") return;
-    window.ttq.track(event, params);
+    // Filter out NaN/undefined values to avoid bad payloads
+    const safe = {};
+    for (const [k, v] of Object.entries(params)) {
+      if (v != null && v === v) safe[k] = v; // v === v filters NaN
+    }
+    window.ttq.track(event, safe);
   } catch {
     // ignore
   }
@@ -73,10 +78,11 @@ export function trackViewItem(product, { value } = {}) {
   });
 
   trackTikTok("ViewContent", {
-    content_id: item.item_id,
     content_name: item.item_name,
+    content_id: item.item_id,
     content_type: "product",
-    ...(typeof value === "number" ? { value, currency: "USD" } : { currency: "USD" }),
+    value: typeof value === "number" ? value : undefined,
+    currency: "USD",
   });
 }
 
@@ -92,9 +98,11 @@ export function trackAddToCart(lineItem) {
     quantity: Number(lineItem.quantity || 1) || undefined,
   };
 
+  const totalValue = Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || undefined;
+
   trackGA("add_to_cart", {
     currency: "USD",
-    value: Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || undefined,
+    value: totalValue,
     items: [item],
   });
 
@@ -102,7 +110,7 @@ export function trackAddToCart(lineItem) {
     content_name: item.item_name,
     content_ids: [item.item_id],
     content_type: "product",
-    value: Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || undefined,
+    value: totalValue,
     currency: "USD",
   });
 
@@ -134,8 +142,15 @@ export function trackBeginCheckout({ items = [], value } = {}) {
     items: safeItems,
   });
 
+  const numItems = safeItems.reduce((total, it) => total + (it.quantity || 1), 0);
+
   trackPixel("InitiateCheckout", {
-    num_items: safeItems.reduce((total, it) => total + (it.quantity || 1), 0),
+    num_items: numItems,
+    value: typeof value === "number" ? value : undefined,
+    currency: "USD",
+  });
+
+  trackTikTok("InitiateCheckout", {
     value: typeof value === "number" ? value : undefined,
     currency: "USD",
   });
@@ -169,7 +184,7 @@ export function trackPurchase({ transaction_id, value, items = [] } = {}) {
   });
 
   trackTikTok("CompletePayment", {
-    ...(typeof value === "number" ? { value } : {}),
+    value: typeof value === "number" ? value : undefined,
     currency: "USD",
   });
 }

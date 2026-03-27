@@ -9,7 +9,7 @@ export default function Terms() {
     <>
       <SEO
         title="Terms & Conditions"
-        description="Terms & Conditions for Eminence Hair."
+        description="Terms and conditions for shopping with Eminence Hair Boutique, including order policies, intellectual property, and dispute resolution."
       />
 
       <div className="pt-28 pb-24 bg-neutral-50 text-neutral-900">

@@ -10,8 +10,8 @@ export default function Consultation() {
   return (
     <>
       <SEO
-        title="Book a Consultation"
-        description="Schedule a private video consultation for wigs, installs, medical-grade solutions, or custom atelier requests with the Eminence concierge team."
+        title="Book a Private Hair Consultation — Virtual & In-Person"
+        description="Schedule a one-on-one consultation with our concierge team. Get expert guidance on wig selection, density, texture, medical hair, and custom atelier orders."
       />
       <div className="bg-white">
       <div className="mx-auto max-w-6xl px-6 py-14">
