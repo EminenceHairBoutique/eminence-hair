@@ -11,8 +11,8 @@ export default function About() {
   return (
     <>
       <SEO
-        title="About Eminence Hair Boutique"
-        description="Built for women whose standards are as high as their density. Ethically sourced raw hair with atelier-level construction and quality control."
+        title="Our Story — Ethically Sourced Raw Cambodian & Burmese Hair"
+        description="Eminence Hair Boutique sources 100% raw Cambodian and Burmese hair, crafted in our partner atelier with third-party lab verification. Learn about our quality standards."
       />
       <PageTransition>
       <div className="bg-[#F9F7F4] text-[#111]">

@@ -143,8 +143,8 @@ export default function Collections() {
   return (
     <>
       <SEO
-        title="Collections"
-        description="Explore the Eminence universe — origin-driven collections, editorial edits, and colorways designed to perform under every light."
+        title="Hair Collections — SEA, Burmese, Lavish, 613 Blonde & More"
+        description="Explore Eminence origin-driven collections: raw Cambodian SEA, Burmese deep wave, Lavish wave, 613 blonde, and seasonal editorial edits."
       />
       <PageTransition>
       <div className="bg-[#F9F7F4] text-[#111]">

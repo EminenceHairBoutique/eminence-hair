@@ -103,8 +103,8 @@ export default function ReadyToShip() {
   return (
     <>
       <SEO
-        title="Ready to Ship"
-        description="Curated Eminence essentials prepared for fast dispatch — ideal for last-minute installs, travel, or stylists who need premium hair on a timeline."
+        title="Ready-to-Ship Wigs & Bundles — Fast 2–3 Day Dispatch"
+        description="Shop in-stock Eminence wigs and bundles ready for 2–3 day dispatch. No wait times — luxury raw hair prepared for immediate shipping."
       />
       <div className="bg-[#0B0B0C] text-white">
       <div className="mx-auto max-w-6xl px-6 py-14">

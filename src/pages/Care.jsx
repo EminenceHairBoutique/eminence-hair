@@ -112,8 +112,8 @@ export default function Care() {
   return (
     <>
       <SEO
-        title="Hair Care Guide"
-        description="Keep your Eminence hair soft, silky, and camera-ready with our expert care guide. Proper wash, heat, and storage rituals for lasting luxury."
+        title="Raw Hair Care Guide — Wash, Style & Maintain Luxury Hair"
+        description="Expert care guide for raw Cambodian and Burmese hair. Learn proper wash routines, heat styling tips, storage methods, and maintenance for lasting softness and luster."
       />
       <PageTransition>
       <div className="bg-[#F9F7F4] text-[#111]">
