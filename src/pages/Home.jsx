@@ -1,7 +1,7 @@
 // src/pages/Home.jsx — Extended Luxury Homepage
 
-import React, { useRef, useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 import { useCart } from "../context/CartContext";
 import { eminenceEssentials } from "../data/products";
@@ -38,15 +38,8 @@ const Home = () => {
   const [newsletterError, setNewsletterError] = useState("");
 
   const { isOpen } = useCart();
-  const location = useLocation();
 
-  // route-based "loading skeleton" feel
-  const [pageLoading, setPageLoading] = useState(true);
-  useEffect(() => {
-    setPageLoading(true);
-    const t = setTimeout(() => setPageLoading(false), 180);
-    return () => clearTimeout(t);
-  }, [location.key]);
+  const pageLoading = false;
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -138,13 +131,6 @@ const Home = () => {
                   className="px-8 py-3 text-xs tracking-[0.26em] uppercase border border-[#F9F7F4]/70 rounded-full hover:border-[#F9F7F4] hover:bg-white/10 transition"
                 >
                   Start Here
-                </Link>
-
-                <Link
-                  to="/collections"
-                  className="px-8 py-3 text-xs tracking-[0.26em] uppercase border border-[#F9F7F4]/70 rounded-full hover:border-[#F9F7F4] transition"
-                >
-                  View Collections
                 </Link>
               </div>
             </div>
@@ -600,69 +586,6 @@ const Home = () => {
                   width={400}
                   height={208}
                 />
-              </div>
-            </div>
-          </section>
-
-          {/* SECTION F.5 — ATELIER PRE-ORDER CTA */}
-          <section className="py-16 border-t border-neutral-200 bg-[#0B0B0C] text-[#F9F7F4]">
-            <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-[1.3fr,1fr] gap-10 items-center">
-              <Motion.div
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.3 }}
-              >
-                <p className="text-[11px] tracking-[0.32em] uppercase text-[#D4AF37] mb-3">
-                  Atelier Pre-Order
-                </p>
-                <h2 className="text-2xl md:text-3xl font-light font-display leading-tight mb-4">
-                  Factory-direct luxury,<br className="hidden md:block" /> available by pre-order.
-                </h2>
-                <p className="text-sm text-white/75 leading-relaxed max-w-md mb-6">
-                  Select premium bundles and wigs are available via factory drop-ship when not stocked
-                  domestically. Ethically sourced, curated by quality tier — dispatched directly from
-                  our partner atelier.
-                </p>
-
-                <div className="flex flex-wrap gap-3">
-                  <Link
-                    to="/shop/preorders"
-                    className="rounded-full bg-[#D4AF37] text-[#111] px-7 py-3 text-[11px] uppercase tracking-[0.26em] hover:bg-[#c4a030] transition font-medium"
-                  >
-                    Shop Pre-Orders
-                  </Link>
-                  <Link
-                    to="/shop/preorders#how-it-works"
-                    className="rounded-full border border-white/25 px-7 py-3 text-[11px] uppercase tracking-[0.26em] text-white hover:border-white/50 hover:bg-white/5 transition"
-                  >
-                    How Pre-Orders Work
-                  </Link>
-                </div>
-
-                <div className="mt-8 grid grid-cols-3 gap-3">
-                  {[
-                    { t: "Factory-direct", d: "Sourced from our atelier" },
-                    { t: "10–18 day lead", d: "Transparent timeline" },
-                    { t: "Quality-tiered", d: "DD, SDD, True Raw & more" },
-                  ].map((x) => (
-                    <div key={x.t} className="rounded-2xl border border-white/10 bg-white/5 p-3">
-                      <p className="text-xs font-medium text-white">{x.t}</p>
-                      <p className="mt-1 text-[11px] text-white/60">{x.d}</p>
-                    </div>
-                  ))}
-                </div>
-              </Motion.div>
-
-              <div className="hidden md:block">
-                <div className="rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_24px_70px_rgba(212,175,55,0.12)]">
-                  <img
-                    src={firstPage}
-                    alt="Pre-order luxury hair"
-                    className="w-full h-72 object-cover opacity-80"
-                    loading="lazy"
-                  />
-                </div>
               </div>
             </div>
           </section>

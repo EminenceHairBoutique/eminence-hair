@@ -72,6 +72,12 @@ export default function App() {
 
   return (
     <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-white focus:text-neutral-900 focus:rounded-full focus:text-xs focus:tracking-widest focus:uppercase focus:shadow-lg"
+      >
+        Skip to main content
+      </a>
       <TrackingScripts />
       <LiveChat />
       <Suspense fallback={<div className="hidden" aria-hidden="true" />}>
@@ -88,6 +94,7 @@ export default function App() {
         <ScrollToTop />
 
         <ErrorBoundary>
+          <main id="main-content">
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               {[
@@ -174,6 +181,7 @@ export default function App() {
               <Route path="/partner-portal" element={<Navigate to="/partners/portal" replace />} />
             </Routes>
           </AnimatePresence>
+          </main>
         </ErrorBoundary>
 
         <CookieBanner />

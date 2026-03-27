@@ -20,14 +20,61 @@ export default function EmailPopup() {
       return;
     }
 
-    const timer = setTimeout(() => setVisible(true), DELAY_MS);
-    return () => clearTimeout(timer);
+    // Don't show if DiscountModal already claimed this session
+    try {
+      if (sessionStorage.getItem("eminence_discount_seen")) return;
+    } catch {
+      // ignore
+    }
+
+    // Wait for cookie consent decision before showing marketing popup
+    const consentAlreadyDecided = !!localStorage.getItem("eminence_cookie_consent");
+
+    let timer;
+    let onConsent;
+
+    const scheduleShow = () => {
+      timer = setTimeout(() => {
+        // Re-check dismissal and discount flags right before showing
+        try {
+          if (localStorage.getItem(STORAGE_KEY)) return;
+        } catch {
+          // ignore storage errors and fall through; if we can't read, we won't persist dismissal
+        }
+
+        try {
+          if (sessionStorage.getItem("eminence_discount_seen")) return;
+          // Claim this session for EmailPopup so other marketing modals don't show
+          sessionStorage.setItem("eminence_discount_seen", "email");
+        } catch {
+          // ignore storage errors; failing to set the flag should not break the UI
+        }
+
+        setVisible(true);
+      }, DELAY_MS);
+    };
+
+    if (consentAlreadyDecided) {
+      scheduleShow();
+    } else {
+      onConsent = () => {
+        scheduleShow();
+        window.removeEventListener("eminence_consent_decided", onConsent);
+      };
+      window.addEventListener("eminence_consent_decided", onConsent);
+    }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+      if (onConsent) window.removeEventListener("eminence_consent_decided", onConsent);
+    };
   }, []);
 
   const dismiss = useCallback(() => {
     setVisible(false);
     try {
       localStorage.setItem(STORAGE_KEY, "1");
+      sessionStorage.setItem("eminence_email_popup_shown", "1");
     } catch {
       // ignore
     }
