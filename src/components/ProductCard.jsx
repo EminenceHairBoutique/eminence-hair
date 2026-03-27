@@ -22,8 +22,8 @@ const ProductCard = ({ product }) => {
       densities.length ? Math.min(...densities) : (product.defaultDensity ?? null);
 
     const price =
-      typeof product.price === "function" && length != null && density != null
-        ? Number(product.price(length, density) || 0)
+      typeof product.price === "function" && length != null
+        ? Number(product.price(length, density, "Transparent Lace") || 0)
         : Number(product.basePrice ?? product.fromPrice ?? product.price ?? 0);
 
     const variant =
@@ -48,7 +48,7 @@ const ProductCard = ({ product }) => {
     openCart();
   };
 
-  const startingPrice = getStartingPrice(product);
+  const displayPrice = getStartingPrice(product);
 
   return (
     <Link
@@ -87,7 +87,7 @@ const ProductCard = ({ product }) => {
 
         <div className="flex items-center justify-between">
           <span className="text-[15px] font-medium text-[#111]">
-            ${startingPrice.toLocaleString()}
+            {displayPrice ? `$${displayPrice.toLocaleString()}` : ""}
           </span>
           <button
             onClick={handleQuickAdd}

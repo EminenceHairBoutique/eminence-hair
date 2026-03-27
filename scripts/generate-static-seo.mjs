@@ -581,6 +581,76 @@ async function main() {
         "Medical-grade HD lace wigs designed for sensitive scalps — HSA/FSA eligible cranial prosthesis options.",
       ogType: "website",
     },
+    {
+      pathname: "/atelier/mirror",
+      title: "AR Mirror — Live Try-On",
+      description:
+        "Use your camera to try on Eminence wigs in real time with our AR mirror.",
+      ogType: "website",
+    },
+    {
+      pathname: "/atelier/preorder",
+      title: "Atelier Pre-Order",
+      description:
+        "Pre-order luxury hair directly from our partner atelier — factory-direct pricing on premium textures.",
+      ogType: "website",
+    },
+    {
+      pathname: "/start-here",
+      title: "Start Here — New Client Guide",
+      description:
+        "New to Eminence? Start here for a guided introduction to our luxury hair collections and how to order.",
+      ogType: "website",
+    },
+    {
+      pathname: "/ready-to-ship",
+      title: "Ready to Ship — In-Stock Luxury Hair",
+      description:
+        "Shop in-stock luxury wigs, bundles, and closures ready for immediate shipment.",
+      ogType: "website",
+    },
+    {
+      pathname: "/consultation",
+      title: "Book a Consultation",
+      description:
+        "Schedule a consultation with our hair specialists for personalized texture, length, and styling guidance.",
+      ogType: "website",
+    },
+    {
+      pathname: "/shop/medical",
+      title: "Shop Medical Wigs",
+      description:
+        "Browse medical-grade wigs and cranial prostheses from Eminence Hair Boutique — HSA/FSA eligible.",
+      ogType: "website",
+    },
+    {
+      pathname: "/partners",
+      title: "Partner Program",
+      description:
+        "Join the Eminence Partner Program — exclusive perks for stylists, content creators, and salon professionals.",
+      ogType: "website",
+    },
+    {
+      pathname: "/partners/stylists",
+      title: "Stylist Application",
+      description:
+        "Apply to become an Eminence partner stylist and access wholesale pricing and exclusive inventory.",
+      ogType: "website",
+    },
+    {
+      pathname: "/partners/creators",
+      title: "Creator Application",
+      description:
+        "Apply to become an Eminence content creator partner and earn commissions on referrals.",
+      ogType: "website",
+    },
+    {
+      pathname: "/installers",
+      title: "Certified Installers",
+      description:
+        "Find trusted wig installation specialists recommended by Eminence Hair Boutique.",
+      ogType: "website",
+    },
 
     // Noindex routes (not in sitemap)
     {
@@ -615,6 +685,27 @@ async function main() {
       pathname: "/cart",
       title: "Cart",
       description: "Review your cart items.",
+      ogType: "website",
+      noindex: true,
+    },
+    {
+      pathname: "/partner-portal",
+      title: "Partner Portal",
+      description: "Access your Eminence partner dashboard.",
+      ogType: "website",
+      noindex: true,
+    },
+    {
+      pathname: "/admin/partners",
+      title: "Admin — Partner Management",
+      description: "Manage Eminence partner applications and accounts.",
+      ogType: "website",
+      noindex: true,
+    },
+    {
+      pathname: "/verify",
+      title: "Verify Your Account",
+      description: "Complete your Eminence account verification.",
       ogType: "website",
       noindex: true,
     },
@@ -728,6 +819,10 @@ async function main() {
     "Disallow: /cancel",
     "Disallow: /account",
     "Disallow: /cart",
+    "Disallow: /verify",
+    "Disallow: /partner-portal",
+    "Disallow: /partners/portal",
+    "Disallow: /admin/",
     "",
     `Sitemap: ${SITE_URL}/sitemap.xml`,
     "",
@@ -737,43 +832,41 @@ async function main() {
 
   // sitemap.xml
   const today = new Date().toISOString().slice(0, 10);
-
-  function sitemapPriority(pathname) {
-    if (pathname === "/") return "1.0";
-    if (pathname.startsWith("/collections")) return "0.8";
-    if (pathname.startsWith("/shop")) return "0.8";
-    if (pathname.startsWith("/products/")) return "0.7";
-    if (["/about", "/care", "/faqs", "/consultation", "/medical-hair", "/authenticity", "/ready-to-ship"].includes(pathname)) return "0.6";
-    return "0.5";
-  }
-
-  function sitemapFreq(pathname) {
-    if (pathname === "/") return "weekly";
-    if (pathname.startsWith("/products/") || pathname.startsWith("/shop")) return "weekly";
-    if (pathname.startsWith("/collections")) return "weekly";
-    return "monthly";
-  }
-
-  const sitemapRoutes = routes
+  const sitemapEntries = routes
     .filter((r) => !r.noindex)
-    .map((r) => ({
-      loc: ensureSiteUrl(r.pathname),
-      changefreq: r.changefreq || null,
-      priority: r.priority != null ? r.priority : null,
-    }))
-    .filter((u) => !u.loc.includes("/account"))
+    .filter((r) => !r.pathname.includes("/account"))
+    .map((r) => {
+      const loc = ensureSiteUrl(r.pathname);
+      // Assign priority based on page importance
+      let priority = "0.5";
+      let changefreq = "monthly";
+      if (r.pathname === "/") {
+        priority = "1.0";
+        changefreq = "daily";
+      } else if (r.pathname === "/shop" || r.pathname === "/collections") {
+        priority = "0.9";
+        changefreq = "weekly";
+      } else if (r.pathname.startsWith("/shop/") || r.pathname.startsWith("/collections/")) {
+        priority = "0.8";
+        changefreq = "weekly";
+      } else if (r.pathname.startsWith("/products/")) {
+        priority = "0.7";
+        changefreq = "weekly";
+      } else if (["/about", "/contact", "/faqs", "/care", "/authenticity"].includes(r.pathname)) {
+        priority = "0.6";
+        changefreq = "monthly";
+      }
+      return { loc, priority, changefreq };
+    })
     .sort((a, b) => a.loc.localeCompare(b.loc));
 
   const sitemap =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    sitemapRoutes
+    sitemapEntries
       .map(
-        ({ loc, changefreq, priority }) => {
-          const cfTag = changefreq ? `\n    <changefreq>${changefreq}</changefreq>` : "";
-          const prTag = priority != null ? `\n    <priority>${priority}</priority>` : "";
-          return `  <url>\n    <loc>${escapeHtml(loc)}</loc>\n    <lastmod>${today}</lastmod>${cfTag}${prTag}\n  </url>`;
-        }
+        ({ loc, priority, changefreq }) =>
+          `  <url>\n    <loc>${escapeHtml(loc)}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`
       )
       .join("\n") +
     `\n</urlset>\n`;
@@ -782,7 +875,7 @@ async function main() {
 
   // Small log for Vercel builds
   console.log(`[seo] wrote ${routes.length} route HTML files`);
-  console.log(`[seo] wrote sitemap.xml (${sitemapRoutes.length} urls)`);
+  console.log(`[seo] wrote sitemap.xml (${sitemapEntries.length} urls)`);
   console.log(`[seo] wrote robots.txt`);
 }
 
