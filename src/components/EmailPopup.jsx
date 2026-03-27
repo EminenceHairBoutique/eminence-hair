@@ -34,7 +34,24 @@ export default function EmailPopup() {
     let onConsent;
 
     const scheduleShow = () => {
-      timer = setTimeout(() => setVisible(true), DELAY_MS);
+      timer = setTimeout(() => {
+        // Re-check dismissal and discount flags right before showing
+        try {
+          if (localStorage.getItem(STORAGE_KEY)) return;
+        } catch {
+          // ignore storage errors and fall through; if we can't read, we won't persist dismissal
+        }
+
+        try {
+          if (sessionStorage.getItem("eminence_discount_seen")) return;
+          // Claim this session for EmailPopup so other marketing modals don't show
+          sessionStorage.setItem("eminence_discount_seen", "email");
+        } catch {
+          // ignore storage errors; failing to set the flag should not break the UI
+        }
+
+        setVisible(true);
+      }, DELAY_MS);
     };
 
     if (consentAlreadyDecided) {
