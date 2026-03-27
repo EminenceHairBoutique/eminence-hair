@@ -14,7 +14,7 @@ export const BRAND = {
 // The UI will automatically hide any socials that are not provided.
 export const SOCIAL = {
   instagram: "https://www.instagram.com/eminencehairboutique",
-  tiktok: "https://www.tiktok.com/@emininceluxuryhair",
+  tiktok: "https://www.tiktok.com/@eminenceluxuryhair",
   youtube: "",
 };
 
