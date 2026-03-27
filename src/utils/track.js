@@ -76,8 +76,7 @@ export function trackViewItem(product, { value } = {}) {
     content_id: item.item_id,
     content_name: item.item_name,
     content_type: "product",
-    value: typeof value === "number" ? value : 0,
-    currency: "USD",
+    ...(typeof value === "number" ? { value, currency: "USD" } : { currency: "USD" }),
   });
 }
 
@@ -90,7 +89,7 @@ export function trackAddToCart(lineItem) {
     item_category: lineItem.type || "product",
     item_brand: "Eminence Hair Boutique",
     price: Number(lineItem.price || 0) || undefined,
-    quantity: Number(lineItem.quantity || 1) || 1,
+    quantity: Number(lineItem.quantity || 1) || undefined,
   };
 
   trackGA("add_to_cart", {
@@ -107,13 +106,15 @@ export function trackAddToCart(lineItem) {
     currency: "USD",
   });
 
+  const ttAddToCartValue = Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || undefined;
+  const ttAddToCartQty = Number(lineItem.quantity) > 0 ? Number(lineItem.quantity) : undefined;
   trackTikTok("AddToCart", {
     content_id: item.item_id,
     content_name: item.item_name,
     content_type: "product",
-    value: Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || 0,
+    ...(typeof ttAddToCartValue === "number" ? { value: ttAddToCartValue } : {}),
     currency: "USD",
-    quantity: Number(lineItem.quantity || 1) || 1,
+    ...(typeof ttAddToCartQty === "number" ? { quantity: ttAddToCartQty } : {}),
   });
 }
 
@@ -124,7 +125,7 @@ export function trackBeginCheckout({ items = [], value } = {}) {
     item_category: it.type || "product",
     item_brand: "Eminence Hair Boutique",
     price: Number(it.price || 0) || undefined,
-    quantity: Number(it.quantity || 1) || 1,
+    quantity: Number(it.quantity || 1) || undefined,
   }));
 
   trackGA("begin_checkout", {
@@ -140,7 +141,7 @@ export function trackBeginCheckout({ items = [], value } = {}) {
   });
 
   trackTikTok("InitiateCheckout", {
-    value: typeof value === "number" ? value : 0,
+    ...(typeof value === "number" ? { value } : {}),
     currency: "USD",
   });
 }
@@ -152,7 +153,7 @@ export function trackPurchase({ transaction_id, value, items = [] } = {}) {
     item_category: it.type || "product",
     item_brand: "Eminence Hair Boutique",
     price: Number(it.price || 0) || undefined,
-    quantity: Number(it.quantity || 1) || 1,
+    quantity: Number(it.quantity || 1) || undefined,
   }));
 
   trackGA("purchase", {
@@ -168,7 +169,7 @@ export function trackPurchase({ transaction_id, value, items = [] } = {}) {
   });
 
   trackTikTok("CompletePayment", {
-    value: typeof value === "number" ? value : 0,
+    ...(typeof value === "number" ? { value } : {}),
     currency: "USD",
   });
 }
