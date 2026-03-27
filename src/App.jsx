@@ -73,7 +73,7 @@ export default function App() {
     <>
       <TrackingScripts />
       <LiveChat />
-      <Suspense fallback={null}>
+      <Suspense fallback={<div className="hidden" aria-hidden="true" />}>
         <CartDrawer />
       </Suspense>
       {/* Everything except the drawer blurs/locks while cart is open */}
@@ -96,12 +96,6 @@ export default function App() {
                 ["/partners", <PartnerProgram />],
                 ["/partners/stylists", <StylistApplication />],
                 ["/partners/creators", <CreatorApplication />],
-                [
-                  "/partner-portal",
-                  <PartnerRoute>
-                    <PartnerPortal />
-                  </PartnerRoute>,
-                ],
                 [
                   "/partners/portal",
                   <PartnerRoute>
@@ -176,6 +170,7 @@ export default function App() {
               <Route path="/medical" element={<Navigate to="/medical-hair" replace />} />
               <Route path="/help" element={<Navigate to="/faqs" replace />} />
               <Route path="/shipping-returns" element={<Navigate to="/returns" replace />} />
+              <Route path="/partner-portal" element={<Navigate to="/partners/portal" replace />} />
             </Routes>
           </AnimatePresence>
         </ErrorBoundary>

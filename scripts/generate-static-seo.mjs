@@ -274,12 +274,16 @@ async function main() {
       description:
         "Eminence Hair Boutique — ethically sourced Cambodian & Myanmar hair crafted like couture.",
       ogType: "website",
+      changefreq: "weekly",
+      priority: 1.0,
     },
     {
       pathname: "/shop",
       title: "Shop Luxury Wigs, Bundles & Closures",
       description: "Shop luxury wigs, bundles, and textures by Eminence Hair Boutique.",
       ogType: "website",
+      changefreq: "daily",
+      priority: 0.9,
     },
 
     {
@@ -287,24 +291,57 @@ async function main() {
       title: "Shop Wigs",
       description: "Shop luxury wigs from Eminence Hair Boutique.",
       ogType: "website",
+      changefreq: "weekly",
+      priority: 0.8,
     },
     {
       pathname: "/shop/bundles",
       title: "Shop Bundles",
       description: "Shop raw bundles from Eminence Hair Boutique.",
       ogType: "website",
+      changefreq: "weekly",
+      priority: 0.8,
     },
     {
       pathname: "/shop/closures",
       title: "Shop Closures",
       description: "Shop closures from Eminence Hair Boutique.",
       ogType: "website",
+      changefreq: "weekly",
+      priority: 0.8,
+    },
+    {
+      pathname: "/shop/medical",
+      title: "Shop Medical Grade Wigs",
+      description: "Shop medical-grade wigs eligible for HSA/FSA reimbursement from Eminence Hair Boutique.",
+      ogType: "website",
+      changefreq: "weekly",
+      priority: 0.7,
     },
     {
       pathname: "/shop/preorders",
       title: "Pre-Order — Factory-Direct Luxury Hair",
       description: "Shop pre-order bundles and wigs factory drop-shipped directly from our partner atelier. Raw Vietnamese, Double Drawn, Super Double Drawn, and more.",
       ogType: "website",
+      changefreq: "weekly",
+      priority: 0.7,
+    },
+
+    {
+      pathname: "/start-here",
+      title: "Start Here — Your Hair Journey",
+      description: "New to Eminence? Start here — learn how to choose the right texture, length, and lace for your lifestyle.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.8,
+    },
+    {
+      pathname: "/ready-to-ship",
+      title: "Ready-to-Ship — In-Stock Luxury Hair",
+      description: "Shop in-stock luxury wigs and bundles ready for immediate shipping from Eminence Hair Boutique.",
+      ogType: "website",
+      changefreq: "daily",
+      priority: 0.8,
     },
 
     {
@@ -312,6 +349,8 @@ async function main() {
       title: "Collections",
       description: "Explore curated collections of Eminence luxury hair.",
       ogType: "website",
+      changefreq: "weekly",
+      priority: 0.8,
     },
 
     {
@@ -320,6 +359,8 @@ async function main() {
       description:
         "Editorial silhouettes and couture textures curated for Fall/Winter 2025 — a refined lookbook for your next transformation.",
       ogType: "website",
+      changefreq: "monthly",
+      priority: 0.7,
     },
 
     {
@@ -327,18 +368,24 @@ async function main() {
       title: "Gallery",
       description: "Explore editorial imagery and real-life texture studies.",
       ogType: "website",
+      changefreq: "weekly",
+      priority: 0.6,
     },
     {
       pathname: "/authenticity",
       title: "Authenticity & Verification",
       description: "Learn how Eminence verifies hair quality and authenticity.",
       ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
     },
     {
       pathname: "/care",
       title: "Care Guide",
       description: "How to care for your Eminence hair for longevity and luster.",
       ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
     },
     {
       pathname: "/medical-hair",
@@ -346,12 +393,16 @@ async function main() {
       description:
         "Information for clients purchasing wigs as cranial prosthesis for potential HSA/FSA reimbursement.",
       ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
     },
     {
       pathname: "/faqs",
       title: "FAQs",
       description: "Shipping, returns, authenticity, and product questions.",
       ogType: "website",
+      changefreq: "monthly",
+      priority: 0.5,
     },
     {
       pathname: "/private-consult",
@@ -359,12 +410,24 @@ async function main() {
       description:
         "Book a private virtual consult to choose the right texture, length, density, and lace.",
       ogType: "website",
+      changefreq: "monthly",
+      priority: 0.7,
+    },
+    {
+      pathname: "/consultation",
+      title: "Consultation — Expert Hair Guidance",
+      description: "Schedule a consultation with the Eminence Hair concierge team for personalized recommendations.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.7,
     },
     {
       pathname: "/custom-orders",
       title: "Custom Orders",
       description: "Request a custom unit tailored to your preferences.",
       ogType: "website",
+      changefreq: "monthly",
+      priority: 0.7,
     },
     {
       pathname: "/custom-atelier",
@@ -372,30 +435,40 @@ async function main() {
       description:
         "Build a guided custom request (texture, color, length, lace, and fit) with concierge confirmation.",
       ogType: "website",
+      changefreq: "monthly",
+      priority: 0.7,
     },
     {
       pathname: "/about",
       title: "About",
       description: "The story behind Eminence Hair Boutique and our quality standards.",
       ogType: "website",
+      changefreq: "monthly",
+      priority: 0.5,
     },
     {
       pathname: "/contact",
       title: "Contact",
       description: "Contact Eminence Hair Boutique for support and inquiries.",
       ogType: "website",
+      changefreq: "monthly",
+      priority: 0.5,
     },
     {
       pathname: "/returns",
       title: "Returns & Exchanges",
       description: "Read our returns and exchanges policy.",
       ogType: "website",
+      changefreq: "monthly",
+      priority: 0.4,
     },
     {
       pathname: "/privacy",
       title: "Privacy Policy",
       description: "Read how Eminence Hair Boutique handles your data.",
       ogType: "website",
+      changefreq: "yearly",
+      priority: 0.3,
     },
 
     {
@@ -403,6 +476,8 @@ async function main() {
       title: "Your Privacy Choices",
       description: "Manage your privacy preferences and cookie settings for Eminence Hair Boutique.",
       ogType: "website",
+      changefreq: "yearly",
+      priority: 0.3,
     },
 
     {
@@ -410,13 +485,35 @@ async function main() {
       title: "Terms & Conditions",
       description: "Terms and conditions for shopping with Eminence Hair Boutique.",
       ogType: "website",
+      changefreq: "yearly",
+      priority: 0.3,
     },
+
+    {
+      pathname: "/partners",
+      title: "Partner Program — Stylists & Creators",
+      description: "Join the Eminence Hair partner program for stylists, salon owners, and content creators.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
+    },
+    {
+      pathname: "/installers",
+      title: "Certified Installers",
+      description: "Find certified Eminence Hair installers and stylists near you.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.5,
+    },
+
     {
       pathname: "/atelier/try-on",
       title: "Virtual Try-On",
       description:
         "Try on Eminence Hair wigs virtually using AI face detection. Upload a photo and see how you look.",
       ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
     },
 
     // Noindex routes (not in sitemap)
@@ -576,17 +673,24 @@ async function main() {
   const today = new Date().toISOString().slice(0, 10);
   const sitemapRoutes = routes
     .filter((r) => !r.noindex)
-    .map((r) => ensureSiteUrl(r.pathname))
-    .filter((u) => !u.includes("/account"))
-    .sort();
+    .map((r) => ({
+      loc: ensureSiteUrl(r.pathname),
+      changefreq: r.changefreq || null,
+      priority: r.priority != null ? r.priority : null,
+    }))
+    .filter((u) => !u.loc.includes("/account"))
+    .sort((a, b) => a.loc.localeCompare(b.loc));
 
   const sitemap =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     sitemapRoutes
       .map(
-        (loc) =>
-          `  <url>\n    <loc>${escapeHtml(loc)}</loc>\n    <lastmod>${today}</lastmod>\n  </url>`
+        ({ loc, changefreq, priority }) => {
+          const cfTag = changefreq ? `\n    <changefreq>${changefreq}</changefreq>` : "";
+          const prTag = priority != null ? `\n    <priority>${priority}</priority>` : "";
+          return `  <url>\n    <loc>${escapeHtml(loc)}</loc>\n    <lastmod>${today}</lastmod>${cfTag}${prTag}\n  </url>`;
+        }
       )
       .join("\n") +
     `\n</urlset>\n`;

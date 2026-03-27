@@ -45,12 +45,17 @@ export function CartProvider({ children }) {
     if (!product?.id) return;
 
     // Base/default options (used when user quick-adds from Shop/Gallery)
+    // Priority: explicit options > product-level selections > array minimum
     const baseLength =
       options.length ??
+      product.selectedLength ??
+      product.length ??
       (Array.isArray(product.lengths) ? Math.min(...product.lengths) : null);
 
     const baseDensity =
       options.density ??
+      product.selectedDensity ??
+      product.density ??
       (Array.isArray(product.densities) && product.densities.includes(150)
         ? 150
         : Array.isArray(product.densities)

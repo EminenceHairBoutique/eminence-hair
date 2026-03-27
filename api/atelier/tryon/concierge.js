@@ -20,13 +20,9 @@
  */
 
 import { getUserFromReq } from "../../_utils/auth.js";
+import { checkRateLimit } from "../../_utils/rateLimit.js";
 import { supabaseServer } from "../../../lib/supabaseServer.js";
 import { sendConciergeRequestEmail } from "../../../lib/email.js";
-
-// Simple per-IP rate limit: max 5 concierge requests per 10 minutes for guests.
-const guestRateMap = new Map(); // ip → { count, windowStart }
-const GUEST_MAX = 5;
-const GUEST_WINDOW_MS = 10 * 60 * 1000;
 
 function json(res, status, body) {
   res.statusCode = status;
@@ -54,24 +50,6 @@ async function parseJsonBody(req) {
   }
 }
 
-function getClientIp(req) {
-  const forwarded = req.headers?.["x-forwarded-for"];
-  if (forwarded) return String(forwarded).split(",")[0].trim();
-  return req.socket?.remoteAddress || "unknown";
-}
-
-function checkGuestRateLimit(ip) {
-  const now = Date.now();
-  const entry = guestRateMap.get(ip);
-  if (!entry || now - entry.windowStart > GUEST_WINDOW_MS) {
-    guestRateMap.set(ip, { count: 1, windowStart: now });
-    return true; // allowed
-  }
-  if (entry.count >= GUEST_MAX) return false; // blocked
-  entry.count += 1;
-  return true;
-}
-
 export default async function handler(req, res) {
   if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
 
@@ -83,12 +61,14 @@ export default async function handler(req, res) {
 
   const user = await getUserFromReq(req);
 
-  // Rate-limit anonymous requests
+  // Rate-limit anonymous requests using shared distributed limiter
   if (!user) {
-    const ip = getClientIp(req);
-    if (!checkGuestRateLimit(ip)) {
-      return json(res, 429, { error: "Too many requests. Please try again later." });
-    }
+    const allowed = await checkRateLimit(req, res, {
+      max: 5,
+      windowMs: 10 * 60 * 1000,
+      endpoint: "atelier-concierge",
+    });
+    if (!allowed) return; // 429 already sent
   }
 
   // If a sessionId was provided, verify ownership before updating it
