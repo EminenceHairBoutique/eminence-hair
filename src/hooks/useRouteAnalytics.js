@@ -84,6 +84,11 @@ export default function useRouteAnalytics() {
       if (allowMarketing && typeof window?.fbq === "function") {
         window.fbq("track", "PageView");
       }
+
+      // ---- TikTok Pixel page views (manual SPA) ----
+      if (allowMarketing && typeof window?.ttq?.page === "function") {
+        window.ttq.page();
+      }
     } catch {
       // fail closed (no analytics)
     }

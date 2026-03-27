@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import { X, ChevronDown } from "lucide-react";
 import { BRAND } from "../config/brand";
+import SocialLinks from "./SocialLinks";
 
 /**
  * MobileMenuDrawer
@@ -340,6 +341,12 @@ export default function MobileMenuDrawer({ open, onClose, onSearch }) {
               </div>
 
               <div className="mt-10 text-center text-[11px] text-neutral-500">
+                <SocialLinks
+                  variant="icon"
+                  iconSize={18}
+                  className="justify-center mb-4 gap-6"
+                  linkClassName="text-neutral-500 hover:text-[#D4AF37]"
+                />
                 <span className="uppercase tracking-[0.22em]">Eminence Concierge</span>
                 <div className="mt-2">Tap consult for private guidance.</div>
               </div>

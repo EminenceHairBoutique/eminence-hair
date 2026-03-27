@@ -5,6 +5,7 @@ import { useCart } from "./context/CartContext";
 import DiscountModal from "./components/DiscountModal";
 import CookieBanner from "./components/legal/CookieBanner";
 import TrackingScripts from "./components/TrackingScripts";
+import EmailPopup from "./components/EmailPopup";
 const CartDrawer = lazy(() => import("./components/CartDrawer"));
 import useRouteAnalytics from "./hooks/useRouteAnalytics";
 
@@ -73,7 +74,7 @@ export default function App() {
     <>
       <TrackingScripts />
       <LiveChat />
-      <Suspense fallback={null}>
+      <Suspense fallback={<div className="hidden" aria-hidden="true" />}>
         <CartDrawer />
       </Suspense>
       {/* Everything except the drawer blurs/locks while cart is open */}
@@ -96,12 +97,6 @@ export default function App() {
                 ["/partners", <PartnerProgram />],
                 ["/partners/stylists", <StylistApplication />],
                 ["/partners/creators", <CreatorApplication />],
-                [
-                  "/partner-portal",
-                  <PartnerRoute>
-                    <PartnerPortal />
-                  </PartnerRoute>,
-                ],
                 [
                   "/partners/portal",
                   <PartnerRoute>
@@ -176,11 +171,13 @@ export default function App() {
               <Route path="/medical" element={<Navigate to="/medical-hair" replace />} />
               <Route path="/help" element={<Navigate to="/faqs" replace />} />
               <Route path="/shipping-returns" element={<Navigate to="/returns" replace />} />
+              <Route path="/partner-portal" element={<Navigate to="/partners/portal" replace />} />
             </Routes>
           </AnimatePresence>
         </ErrorBoundary>
 
         <CookieBanner />
+        <EmailPopup />
         <Footer />
       </div>
     </>

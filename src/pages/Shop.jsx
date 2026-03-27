@@ -397,7 +397,7 @@ export default function Shop() {
             ? "Luxury Closures & Frontals"
             : "Luxury Wigs & Hair Extensions"
         }
-        description="Shop luxury wigs, bundles, and textures by Eminence Hair."
+        description="Browse raw Cambodian & Burmese HD lace wigs, virgin hair bundles, and closures. Filter by texture, density, and collection. Secure checkout with Stripe."
       />
 
       <div className="pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">

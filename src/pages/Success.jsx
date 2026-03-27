@@ -81,10 +81,7 @@ export default function Success() {
           }
         }
 
-        //  2. Clear the cart (only on verified success)
-        clearCart();
-
-        //  3. Fire purchase tracking once per session
+        //  2. Fire purchase tracking once per session
         try {
           const lastTracked = window.localStorage.getItem(
             "eminence_purchase_tracked_session"

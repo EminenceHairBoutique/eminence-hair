@@ -36,6 +36,22 @@ export function trackPixel(event, params = {}) {
   }
 }
 
+export function trackTikTok(event, params = {}) {
+  try {
+    const { marketing } = readConsent();
+    if (!marketing) return;
+    if (typeof window?.ttq?.track !== "function") return;
+    // Filter out NaN/undefined values to avoid bad payloads
+    const safe = {};
+    for (const [k, v] of Object.entries(params)) {
+      if (v != null && v === v) safe[k] = v; // v === v filters NaN
+    }
+    window.ttq.track(event, safe);
+  } catch {
+    // ignore
+  }
+}
+
 export function trackViewItem(product, { value } = {}) {
   if (!product) return;
 
@@ -60,6 +76,14 @@ export function trackViewItem(product, { value } = {}) {
     value: typeof value === "number" ? value : undefined,
     currency: "USD",
   });
+
+  trackTikTok("ViewContent", {
+    content_name: item.item_name,
+    content_id: item.item_id,
+    content_type: "product",
+    value: typeof value === "number" ? value : undefined,
+    currency: "USD",
+  });
 }
 
 export function trackAddToCart(lineItem) {
@@ -71,12 +95,14 @@ export function trackAddToCart(lineItem) {
     item_category: lineItem.type || "product",
     item_brand: "Eminence Hair Boutique",
     price: Number(lineItem.price || 0) || undefined,
-    quantity: Number(lineItem.quantity || 1) || 1,
+    quantity: Number(lineItem.quantity || 1) || undefined,
   };
+
+  const totalValue = Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || undefined;
 
   trackGA("add_to_cart", {
     currency: "USD",
-    value: Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || undefined,
+    value: totalValue,
     items: [item],
   });
 
@@ -84,8 +110,19 @@ export function trackAddToCart(lineItem) {
     content_name: item.item_name,
     content_ids: [item.item_id],
     content_type: "product",
-    value: Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || undefined,
+    value: totalValue,
     currency: "USD",
+  });
+
+  const ttAddToCartValue = Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || undefined;
+  const ttAddToCartQty = Number(lineItem.quantity) > 0 ? Number(lineItem.quantity) : undefined;
+  trackTikTok("AddToCart", {
+    content_id: item.item_id,
+    content_name: item.item_name,
+    content_type: "product",
+    ...(typeof ttAddToCartValue === "number" ? { value: ttAddToCartValue } : {}),
+    currency: "USD",
+    ...(typeof ttAddToCartQty === "number" ? { quantity: ttAddToCartQty } : {}),
   });
 }
 
@@ -96,7 +133,7 @@ export function trackBeginCheckout({ items = [], value } = {}) {
     item_category: it.type || "product",
     item_brand: "Eminence Hair Boutique",
     price: Number(it.price || 0) || undefined,
-    quantity: Number(it.quantity || 1) || 1,
+    quantity: Number(it.quantity || 1) || undefined,
   }));
 
   trackGA("begin_checkout", {
@@ -105,9 +142,21 @@ export function trackBeginCheckout({ items = [], value } = {}) {
     items: safeItems,
   });
 
+  const numItems = safeItems.reduce((total, it) => total + (it.quantity || 1), 0);
+
   trackPixel("InitiateCheckout", {
-    num_items: safeItems.reduce((total, it) => total + (it.quantity || 1), 0),
+    num_items: numItems,
     value: typeof value === "number" ? value : undefined,
+    currency: "USD",
+  });
+
+  trackTikTok("InitiateCheckout", {
+    value: typeof value === "number" ? value : undefined,
+    currency: "USD",
+  });
+
+  trackTikTok("InitiateCheckout", {
+    ...(typeof value === "number" ? { value } : {}),
     currency: "USD",
   });
 }
@@ -119,7 +168,7 @@ export function trackPurchase({ transaction_id, value, items = [] } = {}) {
     item_category: it.type || "product",
     item_brand: "Eminence Hair Boutique",
     price: Number(it.price || 0) || undefined,
-    quantity: Number(it.quantity || 1) || 1,
+    quantity: Number(it.quantity || 1) || undefined,
   }));
 
   trackGA("purchase", {
@@ -130,6 +179,11 @@ export function trackPurchase({ transaction_id, value, items = [] } = {}) {
   });
 
   trackPixel("Purchase", {
+    value: typeof value === "number" ? value : undefined,
+    currency: "USD",
+  });
+
+  trackTikTok("CompletePayment", {
     value: typeof value === "number" ? value : undefined,
     currency: "USD",
   });

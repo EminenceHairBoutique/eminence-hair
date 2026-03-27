@@ -120,8 +120,8 @@ export default function MedicalHair() {
   return (
     <>
       <SEO
-        title="Medical Hair Concierge | HSA/FSA & Insurance Guidance"
-        description="Luxury medical hair solutions for alopecia and cancer-related hair loss with guidance on HSA/FSA and insurance reimbursement."
+        title="Medical Wigs & Cranial Prostheses — HSA/FSA Eligible"
+        description="Luxury medical hair solutions for alopecia, chemotherapy, and hair loss conditions. HSA/FSA reimbursement guidance, private fitting, and compassionate service."
       />
 
       <div className="pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">

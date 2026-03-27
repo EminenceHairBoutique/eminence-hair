@@ -35,6 +35,7 @@ const ProductCard = ({ product }) => {
       price,
       image: product.image || images?.[0] || product.images?.[0],
 
+      // store option fields for drawer/checkout display
       length,
       density,
       selectedLength: length,
