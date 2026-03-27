@@ -95,7 +95,7 @@ export function trackAddToCart(lineItem) {
     item_category: lineItem.type || "product",
     item_brand: "Eminence Hair Boutique",
     price: Number(lineItem.price || 0) || undefined,
-    quantity: Number(lineItem.quantity || 1) || 1,
+    quantity: Number(lineItem.quantity || 1) || undefined,
   };
 
   const totalValue = Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || undefined;
@@ -114,13 +114,15 @@ export function trackAddToCart(lineItem) {
     currency: "USD",
   });
 
+  const ttAddToCartValue = Number(lineItem.price || 0) * Number(lineItem.quantity || 1) || undefined;
+  const ttAddToCartQty = Number(lineItem.quantity) > 0 ? Number(lineItem.quantity) : undefined;
   trackTikTok("AddToCart", {
-    content_name: item.item_name,
     content_id: item.item_id,
+    content_name: item.item_name,
     content_type: "product",
-    value: totalValue,
+    ...(typeof ttAddToCartValue === "number" ? { value: ttAddToCartValue } : {}),
     currency: "USD",
-    quantity: item.quantity,
+    ...(typeof ttAddToCartQty === "number" ? { quantity: ttAddToCartQty } : {}),
   });
 }
 
@@ -131,7 +133,7 @@ export function trackBeginCheckout({ items = [], value } = {}) {
     item_category: it.type || "product",
     item_brand: "Eminence Hair Boutique",
     price: Number(it.price || 0) || undefined,
-    quantity: Number(it.quantity || 1) || 1,
+    quantity: Number(it.quantity || 1) || undefined,
   }));
 
   trackGA("begin_checkout", {
@@ -152,6 +154,11 @@ export function trackBeginCheckout({ items = [], value } = {}) {
     value: typeof value === "number" ? value : undefined,
     currency: "USD",
   });
+
+  trackTikTok("InitiateCheckout", {
+    ...(typeof value === "number" ? { value } : {}),
+    currency: "USD",
+  });
 }
 
 export function trackPurchase({ transaction_id, value, items = [] } = {}) {
@@ -161,7 +168,7 @@ export function trackPurchase({ transaction_id, value, items = [] } = {}) {
     item_category: it.type || "product",
     item_brand: "Eminence Hair Boutique",
     price: Number(it.price || 0) || undefined,
-    quantity: Number(it.quantity || 1) || 1,
+    quantity: Number(it.quantity || 1) || undefined,
   }));
 
   trackGA("purchase", {

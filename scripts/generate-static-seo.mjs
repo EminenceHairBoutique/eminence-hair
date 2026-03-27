@@ -539,6 +539,49 @@ async function main() {
       priority: 0.6,
     },
 
+    {
+      pathname: "/start-here",
+      title: "Start Here — Your Guide to Eminence Hair",
+      description:
+        "New to Eminence? Start here to find the right texture, length, density, and lace for your lifestyle.",
+      ogType: "website",
+    },
+    {
+      pathname: "/ready-to-ship",
+      title: "Ready-to-Ship Edit — Fast Dispatch Luxury Hair",
+      description:
+        "In-stock bundles, closures, and select HD lace wigs prepared for 2–3 day dispatch.",
+      ogType: "website",
+    },
+    {
+      pathname: "/consultation",
+      title: "Book a Consultation",
+      description:
+        "Schedule a private consultation to choose the right Eminence hair for your needs.",
+      ogType: "website",
+    },
+    {
+      pathname: "/partners",
+      title: "Partner Program — Stylists, Salons & Creators",
+      description:
+        "Apply to become an Eminence Hair wholesale partner, stylist affiliate, or content creator.",
+      ogType: "website",
+    },
+    {
+      pathname: "/installers",
+      title: "Certified Installers",
+      description:
+        "Find certified Eminence Hair installers and stylists near you.",
+      ogType: "website",
+    },
+    {
+      pathname: "/shop/medical",
+      title: "Medical Grade Wigs — Cranial Prosthesis",
+      description:
+        "Medical-grade HD lace wigs designed for sensitive scalps — HSA/FSA eligible cranial prosthesis options.",
+      ogType: "website",
+    },
+
     // Noindex routes (not in sitemap)
     {
       pathname: "/checkout",
