@@ -60,6 +60,8 @@ const Footer = () => {
             <Link to="/returns" className="hover:text-neutral-200 transition block">Shipping & Returns</Link>
             <Link to="/contact" className="hover:text-neutral-200 transition block">Contact</Link>
             <Link to="/private-consult" className="hover:text-neutral-200 transition block">Book a Consult</Link>
+            <Link to="/about" className="hover:text-neutral-200 transition block">About Us</Link>
+            <Link to="/medical-hair" className="hover:text-neutral-200 transition block">Medical Hair</Link>
           </div>
 
           <div className="space-y-2">
@@ -84,6 +86,16 @@ const Footer = () => {
                 className="hover:text-neutral-200 transition block"
               >
                 TikTok
+              </a>
+            )}
+            {SOCIAL.youtube && (
+              <a
+                href={SOCIAL.youtube}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-neutral-200 transition block"
+              >
+                YouTube
               </a>
             )}
             <a
@@ -114,6 +126,9 @@ const Footer = () => {
           </div>
           <p className="text-[11px] tracking-wide text-neutral-500">
             &copy; {new Date().getFullYear()} {BRAND.fullName}. All Rights Reserved.
+          </p>
+          <p className="mt-2 text-[10px] text-neutral-600">
+            Secure checkout powered by Stripe. All transactions encrypted.
           </p>
         </div>
 

@@ -68,8 +68,8 @@ export default function Contact() {
   return (
     <>
       <SEO
-        title="Contact — Concierge"
-        description="Reach out to the Eminence Hair concierge team for order support, custom requests, and editorial inquiries."
+        title="Contact Our Concierge Team — Support & Custom Orders"
+        description="Reach the Eminence Hair concierge team for order support, custom wig requests, wholesale inquiries, and styling consultations. Response within 24 hours."
       />
       <div className="min-h-screen bg-charcoal text-ivory pt-28 pb-20">
       {/* Hero + Layout Shell */}

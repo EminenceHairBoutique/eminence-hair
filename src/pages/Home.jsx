@@ -26,6 +26,7 @@ import db5 from "../assets/db5.png";
 import heroVideo from "../assets/videos/eminence_hero.mp4";
 import PageTransition from "../components/PageTransition.jsx";
 import SEO from "../components/SEO";
+import TrustStrip from "../components/TrustStrip";
 import { subscribeEmail } from "../utils/subscribe";
 
 const Home = () => {
@@ -80,14 +81,22 @@ const Home = () => {
   return (
     <>
       <SEO
-        title="Luxury Raw Hair & HD Lace Wigs"
-        description="Eminence Hair Boutique — ethically sourced Cambodian & SEA hair crafted like couture."
+        title="Raw Cambodian Hair & HD Lace Wigs — Luxury Hair Boutique"
+        description="Shop 100% raw Cambodian & Burmese HD lace wigs, bundles, and closures. 180–250% density, ethically sourced, third-party verified. Free shipping on select orders."
       />
       <PageTransition>
         <div className={`bg-[#F9F7F4] text-[#111] ${isOpen ? "blur-sm" : ""} transition`}>
           {/* SECTION A — IMAGE HERO */}
           <section className="relative h-[80vh] min-h-[520px] w-full overflow-hidden">
-            <img src={hero} alt="Eminence Hair Hero" className="w-full h-full object-cover" />
+            <img
+              src={hero}
+              alt="Luxury raw Cambodian hair styled in editorial body wave"
+              className="w-full h-full object-cover"
+              fetchPriority="high"
+              decoding="async"
+              width={1920}
+              height={1080}
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-black/40 to-transparent" />
 
             <div className="absolute inset-x-0 bottom-20 px-6 max-w-5xl mx-auto text-[#F9F7F4]">
@@ -107,11 +116,11 @@ const Home = () => {
                   animate="visible"
                 >
                   <h1 className="text-3xl md:text-4xl font-light font-display max-w-xl leading-tight">
-                    Raw, silky Cambodian luxury for women who expect their hair to dress like couture.
+                    100% Raw Cambodian Hair. HD Lace. Built Like Couture.
                   </h1>
                   <p className="mt-4 text-sm text-neutral-100 max-w-lg">
-                    Ethically sourced Cambodian &amp; Myanmar hair, crafted in our partner atelier.
-                    High-density HD lace units engineered for flash, studio, and everyday softness.
+                    Third-party verified, 180–250% density wigs and bundles from our partner atelier.
+                    Ethically sourced from Cambodia &amp; Myanmar — engineered for camera, studio, and everyday luxury.
                   </p>
                 </Motion.div>
               )}
@@ -140,6 +149,9 @@ const Home = () => {
               </div>
             </div>
           </section>
+
+          {/* TRUST STRIP — Social proof badges */}
+          <TrustStrip />
 
           {/* SECTION A.5 — READY-TO-SHIP */}
           <section className="py-14 border-t border-neutral-200 bg-[#F9F7F4]">
@@ -199,6 +211,10 @@ const Home = () => {
                       src={firstPage2}
                       alt="Ready to ship Eminence hair"
                       className="absolute inset-0 w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                      width={800}
+                      height={600}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
                     <div className="absolute bottom-6 left-6 right-6">
@@ -253,6 +269,10 @@ const Home = () => {
                       src={resolveProductImages(p)?.[0]}
                       alt={p.displayName || p.name}
                       className="h-64 w-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                      width={400}
+                      height={256}
                     />
                     <div className="p-5">
                       <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-500 mb-1">
@@ -341,13 +361,21 @@ const Home = () => {
               <div className="grid grid-cols-2 gap-4">
                 <img
                   src={firstPage}
-                  alt="Eminence Editorial"
+                  alt="Raw Cambodian hair editorial styling"
                   className="rounded-3xl object-cover h-60 w-full shadow-md"
+                  loading="lazy"
+                  decoding="async"
+                  width={400}
+                  height={240}
                 />
                 <img
                   src={firstPage2}
-                  alt="Eminence Editorial Alternate"
+                  alt="HD lace wig editorial close-up"
                   className="rounded-3xl object-cover h-60 w-full translate-y-6 shadow-md"
+                  loading="lazy"
+                  decoding="async"
+                  width={400}
+                  height={240}
                 />
               </div>
             </div>
@@ -406,6 +434,7 @@ const Home = () => {
               loop
               muted={isMuted}
               playsInline
+              preload="none"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
@@ -455,7 +484,7 @@ const Home = () => {
                 viewport={viewport}
               >
                 <Motion.div variants={staggerChild} className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm flex flex-col card-hover">
-                  <img src={yummy1} alt="Silky Straight" className="h-56 w-full object-cover" />
+                  <img src={yummy1} alt="Silky Straight" className="h-56 w-full object-cover" loading="lazy" decoding="async" width={400} height={224} />
                   <div className="p-4 flex-1 flex flex-col">
                     <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-500 mb-1">
                       Silky Straight
@@ -474,7 +503,7 @@ const Home = () => {
                 </Motion.div>
 
                 <Motion.div variants={staggerChild} className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm flex flex-col card-hover">
-                  <img src={yummy2} alt="Body Wave" className="h-56 w-full object-cover" />
+                  <img src={yummy2} alt="Body Wave" className="h-56 w-full object-cover" loading="lazy" decoding="async" width={400} height={224} />
                   <div className="p-4 flex-1 flex flex-col">
                     <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-500 mb-1">
                       Body Wave
@@ -492,7 +521,7 @@ const Home = () => {
                 </Motion.div>
 
                 <Motion.div variants={staggerChild} className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm flex flex-col card-hover">
-                  <img src={yummy3} alt="Deep Wave / Curly" className="h-56 w-full object-cover" />
+                  <img src={yummy3} alt="Deep Wave / Curly" className="h-56 w-full object-cover" loading="lazy" decoding="async" width={400} height={224} />
                   <div className="p-4 flex-1 flex flex-col">
                     <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-500 mb-1">
                       Deep Wave / Curly
@@ -511,7 +540,7 @@ const Home = () => {
                 </Motion.div>
 
                 <Motion.div variants={staggerChild} className="bg-white border border-neutral-200 rounded-3xl overflow-hidden shadow-sm flex flex-col card-hover">
-                  <img src={yummy} alt="613 / Blonde" className="h-56 w-full object-cover" />
+                  <img src={yummy} alt="613 / Blonde" className="h-56 w-full object-cover" loading="lazy" decoding="async" width={400} height={224} />
                   <div className="p-4 flex-1 flex flex-col">
                     <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-500 mb-1">
                       613 / Blonde
@@ -555,13 +584,21 @@ const Home = () => {
               <div className="grid grid-cols-2 gap-4">
                 <img
                   src={db4}
-                  alt="Collection detail 1"
+                  alt="F/W 2025 Collection body wave texture"
                   className="h-52 w-full rounded-3xl object-cover shadow-md"
+                  loading="lazy"
+                  decoding="async"
+                  width={400}
+                  height={208}
                 />
                 <img
                   src={db3}
-                  alt="Collection detail 2"
+                  alt="F/W 2025 Collection deep wave styling"
                   className="h-52 w-full rounded-3xl object-cover translate-y-6 shadow-md"
+                  loading="lazy"
+                  decoding="async"
+                  width={400}
+                  height={208}
                 />
               </div>
             </div>
@@ -636,18 +673,30 @@ const Home = () => {
               <div className="grid grid-cols-3 gap-4">
                 <img
                   src={db1}
-                  alt="Eminence Detail"
+                  alt="Raw hair quality close-up"
                   className="h-40 w-full rounded-3xl object-cover shadow-md"
+                  loading="lazy"
+                  decoding="async"
+                  width={300}
+                  height={160}
                 />
                 <img
                   src={db2}
-                  alt="Eminence Detail"
+                  alt="Lab-verified hair inspection"
                   className="h-40 w-full rounded-3xl object-cover translate-y-6 shadow-md"
+                  loading="lazy"
+                  decoding="async"
+                  width={300}
+                  height={160}
                 />
                 <img
                   src={db5}
-                  alt="Eminence Documentation"
+                  alt="Third-party verification certificate"
                   className="h-40 w-full rounded-3xl object-cover shadow-md"
+                  loading="lazy"
+                  decoding="async"
+                  width={300}
+                  height={160}
                 />
               </div>
 

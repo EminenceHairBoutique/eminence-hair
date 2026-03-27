@@ -8,8 +8,8 @@ export default function Returns() {
   return (
     <>
       <SEO
-        title="Returns & Exchanges"
-        description="Returns & Exchanges Policy for Eminence Hair."
+        title="Shipping & Returns Policy — Domestic & International"
+        description="Eminence Hair shipping rates, delivery timelines, international options, and our return and exchange policy for wigs, bundles, and closures."
       />
 
       <div className="pt-28 pb-24 bg-neutral-50 text-neutral-900">
