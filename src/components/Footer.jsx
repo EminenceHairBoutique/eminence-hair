@@ -4,6 +4,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Sparkles } from "lucide-react";
 import { BRAND, SOCIAL } from "../config/brand";
+import SocialLinks from "./SocialLinks";
 
 const Footer = () => {
   return (
@@ -71,7 +72,7 @@ const Footer = () => {
               <a
                 href={SOCIAL.instagram}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="hover:text-neutral-200 transition block"
               >
                 Instagram
@@ -81,7 +82,7 @@ const Footer = () => {
               <a
                 href={SOCIAL.tiktok}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="hover:text-neutral-200 transition block"
               >
                 TikTok
@@ -105,6 +106,12 @@ const Footer = () => {
             </a>
             <Link to="/account" className="hover:text-neutral-200 transition block">My Account</Link>
             <Link to="/partners" className="hover:text-neutral-200 transition block">Partner Program</Link>
+            <SocialLinks
+              variant="icon"
+              iconSize={16}
+              className="mt-3 gap-5"
+              linkClassName="text-neutral-400 hover:text-[#D4AF37]"
+            />
           </div>
 
         </div>

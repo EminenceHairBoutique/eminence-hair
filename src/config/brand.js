@@ -10,13 +10,22 @@ export const BRAND = {
   supportEmail: "support@eminenceluxuryhair.com",
 };
 
-// Keep social links empty until you have final URLs.
-// The UI will automatically hide any socials that are not provided.
+// Social links — UI will automatically hide any socials that are not provided.
 export const SOCIAL = {
-  instagram: "",
-  tiktok: "",
+  instagram: "https://www.instagram.com/eminencehairboutique",
+  tiktok: "https://www.tiktok.com/@emininceluxuryhair",
   youtube: "",
 };
+
+/**
+ * Returns only the social entries that have a non-empty URL.
+ * Useful for rendering social links without empty/hidden items.
+ */
+export function activeSocials() {
+  return Object.entries(SOCIAL)
+    .filter(([, url]) => Boolean(url))
+    .map(([platform, url]) => ({ platform, url }));
+}
 
 // Global micro‑copy used across the UI.
 export const MICROCOPY = {

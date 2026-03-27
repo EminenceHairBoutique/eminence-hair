@@ -116,11 +116,24 @@ export async function createHandler(req, res) {
       : "";
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
       line_items,
       mode: "payment",
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cancel`,
+
+      // Let Stripe dynamically offer the best payment methods for the buyer.
+      payment_method_collection: "if_required",
+
+      // Collect shipping + billing details
+      shipping_address_collection: {
+        allowed_countries: [
+          "US", "CA", "GB", "AU", "DE", "FR", "IT", "ES", "NL", "SE",
+          "NO", "DK", "FI", "IE", "AT", "BE", "CH", "NZ", "JP", "SG",
+          "AE", "SA", "JM", "TT", "BB", "BS", "GH", "NG", "KE", "ZA",
+        ],
+      },
+      billing_address_collection: "auto",
+      phone_number_collection: { enabled: true },
 
       // Allows standard Stripe promotion codes (optional but recommended).
       allow_promotion_codes: true,

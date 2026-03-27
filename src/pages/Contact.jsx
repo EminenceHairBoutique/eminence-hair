@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Mail, MapPin, Phone } from "lucide-react";
 import logoWordmark from "../assets/logo_wordmark.svg";
 import SEO from "../components/SEO";
+import SocialLinks from "../components/SocialLinks";
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
@@ -135,6 +136,13 @@ export default function Contact() {
                   <p className="text-ivory">New York, NY</p>
                 </div>
               </div>
+
+              <SocialLinks
+                variant="both"
+                iconSize={16}
+                className="mt-2 gap-5"
+                linkClassName="text-neutral-400 hover:text-[#D4AF37] text-sm"
+              />
             </div>
           </div>
 
