@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useEffect, useRef } from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence, motion as Motion } from "framer-motion";
 import { useCart } from "./context/CartContext";
@@ -70,6 +70,18 @@ export default function App() {
   const location = useLocation();
   const { isOpen: isCartOpen } = useCart();
 
+  const mainRef = useRef(null);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === "#main-content" && mainRef.current) {
+        mainRef.current.focus();
+      }
+    };
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
   return (
     <>
       <a
@@ -94,7 +106,7 @@ export default function App() {
         <ScrollToTop />
 
         <ErrorBoundary>
-          <main id="main-content">
+          <main id="main-content" tabIndex={-1} ref={mainRef}>
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               {[

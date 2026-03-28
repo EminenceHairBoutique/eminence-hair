@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { Button } from "./ui/button";
+import { safeSessionGet, safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
 
 // SMS-only discount modal (Twilio Verify)
 // Reveals a promo code *after* phone verification.
@@ -47,54 +48,26 @@ export default function DiscountModal() {
     if (location.pathname.includes("checkout")) return;
 
     // Don’t show repeatedly
-    try {
-      if (sessionStorage.getItem("eminence_discount_seen")) return;
-    } catch {
-      // ignore — if storage is unavailable we fall through
-    }
+    if (safeSessionGet("eminence_discount_seen")) return;
 
     // Don’t show if already verified previously
-    try {
-      if (localStorage.getItem("eminence_sms_verified") === "true") return;
-    } catch {
-      // ignore
-    }
+    if (safeLocalGet("eminence_sms_verified") === "true") return;
 
     // Don’t show if EmailPopup was already shown/dismissed this session
-    try {
-      if (sessionStorage.getItem("eminence_email_popup_shown")) return;
-    } catch {
-      // ignore
-    }
+    if (safeSessionGet("eminence_email_popup_shown")) return;
 
     // Wait for cookie consent decision before showing marketing popup
-    let consentAlreadyDecided = false;
-    try {
-      consentAlreadyDecided = !!localStorage.getItem("eminence_cookie_consent");
-    } catch {
-      // ignore
-    }
+    const consentAlreadyDecided = !!safeLocalGet("eminence_cookie_consent");
 
     let timer;
     let onConsent;
 
     const scheduleShow = () => {
-      try {
-        if (sessionStorage.getItem("eminence_email_popup_shown")) return;
-      } catch {
-        // ignore
-      }
+      if (safeSessionGet("eminence_email_popup_shown")) return;
       timer = setTimeout(() => {
-        try {
-          if (sessionStorage.getItem("eminence_email_popup_shown")) return;
-        } catch {
-          // ignore — if unreadable, proceed to show
-        }
-        setOpen(true);
-        try {
-          sessionStorage.setItem("eminence_discount_seen", "true");
-        } catch {
-          // ignore — if unwritable, still show the modal
+        if (!safeSessionGet("eminence_email_popup_shown")) {
+          setOpen(true);
+          safeSessionSet("eminence_discount_seen", "true");
         }
       }, 5000);
     };
@@ -184,8 +157,8 @@ export default function DiscountModal() {
       }
 
       setDiscountCode(data?.discountCode || "WELCOME10");
-      localStorage.setItem("eminence_sms_verified", "true");
-      localStorage.setItem("eminence_sms_verified_phone", phone);
+      safeLocalSet("eminence_sms_verified", "true");
+      safeLocalSet("eminence_sms_verified_phone", phone);
       setStep("success");
     } catch (e) {
       setError(e?.message || "Verification failed.");
