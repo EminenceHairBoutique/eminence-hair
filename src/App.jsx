@@ -6,7 +6,7 @@ import DiscountModal from "./components/DiscountModal";
 import CookieBanner from "./components/legal/CookieBanner";
 import TrackingScripts from "./components/TrackingScripts";
 import EmailPopup from "./components/EmailPopup";
-const CartDrawer = lazy(() => import("./components/CartDrawer"));
+import CartDrawer from "./components/CartDrawer";
 import useRouteAnalytics from "./hooks/useRouteAnalytics";
 
 
@@ -80,9 +80,7 @@ export default function App() {
       </a>
       <TrackingScripts />
       <LiveChat />
-      <Suspense fallback={<div className="hidden" aria-hidden="true" />}>
-        <CartDrawer />
-      </Suspense>
+      <CartDrawer />
       {/* Everything except the drawer blurs/locks while cart is open */}
       <div
         className={`transition-all duration-300 ${
