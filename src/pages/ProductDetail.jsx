@@ -231,7 +231,6 @@ function Accordion({ title, children }) {
     <div className="border-t border-neutral-200">
       <button
         onClick={() => setOpen(!open)}
-        aria-expanded={open}
         className="w-full flex items-center justify-between py-4 text-left"
       >
         <span className="text-sm tracking-wide text-neutral-900">{title}</span>

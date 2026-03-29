@@ -2,7 +2,6 @@
 import Stripe from "stripe";
 import { products } from "../src/data/products.js";
 import { applyCustomPricing } from "../src/utils/pricing.js";
-import { checkRateLimit } from "./_utils/rateLimit.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -14,9 +13,6 @@ export async function createHandler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
-
-  const allowed = await checkRateLimit(req, res, { max: 5, windowMs: 60_000, endpoint: "checkout" });
-  if (!allowed) return;
 
   try {
     const { items, userId, customerEmail, referralCode } = req.body || {};

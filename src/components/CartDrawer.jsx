@@ -82,9 +82,6 @@ export default function CartDrawer() {
         <div
           className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
           onClick={closeCart}
-          aria-label="Close shopping bag"
-          role="button"
-          tabIndex={-1}
         />
       )}
 
