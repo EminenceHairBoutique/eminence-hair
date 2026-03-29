@@ -45,7 +45,10 @@ export default function DiscountModal() {
     if (user) return;
 
     // Don’t show during checkout
-    if (location.pathname.includes("checkout")) return;
+    if (location.pathname.includes("checkout")) {
+      setOpen(false);
+      return;
+    }
 
     // Don’t show repeatedly
     if (safeSessionGet("eminence_discount_seen")) return;
