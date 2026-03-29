@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { X } from "lucide-react";
 import { subscribeEmail } from "../utils/subscribe";
+import { safeSessionGet, safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
 
 const STORAGE_KEY = "eminence_email_popup_dismissed";
 const DELAY_MS = 8000; // 8 seconds before showing
@@ -14,21 +15,13 @@ export default function EmailPopup() {
 
   useEffect(() => {
     // Don't show if already dismissed or already subscribed
-    try {
-      if (localStorage.getItem(STORAGE_KEY)) return;
-    } catch {
-      return;
-    }
+    if (safeLocalGet(STORAGE_KEY)) return;
 
     // Don't show if DiscountModal already claimed this session
-    try {
-      if (sessionStorage.getItem("eminence_discount_seen")) return;
-    } catch {
-      // ignore
-    }
+    if (safeSessionGet("eminence_discount_seen")) return;
 
     // Wait for cookie consent decision before showing marketing popup
-    const consentAlreadyDecided = !!localStorage.getItem("eminence_cookie_consent");
+    const consentAlreadyDecided = !!safeLocalGet("eminence_cookie_consent");
 
     let timer;
     let onConsent;
@@ -36,20 +29,10 @@ export default function EmailPopup() {
     const scheduleShow = () => {
       timer = setTimeout(() => {
         // Re-check dismissal and discount flags right before showing
-        try {
-          if (localStorage.getItem(STORAGE_KEY)) return;
-        } catch {
-          // ignore storage errors and fall through; if we can't read, we won't persist dismissal
-        }
-
-        try {
-          if (sessionStorage.getItem("eminence_discount_seen")) return;
-          // Claim this session for EmailPopup so other marketing modals don't show
-          sessionStorage.setItem("eminence_discount_seen", "email");
-        } catch {
-          // ignore storage errors; failing to set the flag should not break the UI
-        }
-
+        if (safeLocalGet(STORAGE_KEY)) return;
+        if (safeSessionGet("eminence_discount_seen")) return;
+        // Claim this session for EmailPopup so other marketing modals don't show
+        safeSessionSet("eminence_discount_seen", "email");
         setVisible(true);
       }, DELAY_MS);
     };
@@ -72,12 +55,8 @@ export default function EmailPopup() {
 
   const dismiss = useCallback(() => {
     setVisible(false);
-    try {
-      localStorage.setItem(STORAGE_KEY, "1");
-      sessionStorage.setItem("eminence_email_popup_shown", "1");
-    } catch {
-      // ignore
-    }
+    safeLocalSet(STORAGE_KEY, "1");
+    safeSessionSet("eminence_email_popup_shown", "1");
   }, []);
 
   const handleSubmit = async (e) => {
@@ -96,11 +75,7 @@ export default function EmailPopup() {
       setErrorMsg("");
       await subscribeEmail({ email: trimmed, source: "popup" });
       setStatus("success");
-      try {
-        localStorage.setItem(STORAGE_KEY, "1");
-      } catch {
-        // ignore
-      }
+      safeLocalSet(STORAGE_KEY, "1");
     } catch (err) {
       setStatus("error");
       setErrorMsg(err?.message || "Something went wrong. Please try again.");

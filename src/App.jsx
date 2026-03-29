@@ -94,7 +94,7 @@ export default function App() {
         <ScrollToTop />
 
         <ErrorBoundary>
-          <main id="main-content">
+          <main id="main-content" tabIndex={-1}>
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               {[
