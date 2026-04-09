@@ -833,35 +833,46 @@ export default function ProductDetail() {
                 {/* options */}
                 <div className="mt-8 space-y-6">
                   {/* ── Catalog product: HD Closure size selector ── */}
-                  {isHdClosure && (
-                    <div>
-                      <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500 mb-3">Closure Size</p>
-                      <div className="flex flex-wrap gap-2">
-                        {(product.closureSizes || []).map((sz) => {
-                          const validSizes = product.hdClosureValidSizes?.[length] || product.closureSizes || [];
-                          const isValid = validSizes.includes(sz);
-                          return (
-                            <button
-                              key={sz}
-                              type="button"
-                              disabled={!isValid}
-                              onClick={() => isValid && setClosureSize(sz)}
-                              className={`px-4 py-2 rounded-full text-xs border transition ${
-                                closureSize === sz
-                                  ? "border-neutral-900 bg-neutral-900 text-white"
-                                  : isValid
-                                  ? "border-neutral-300 bg-white hover:border-neutral-500"
-                                  : "border-neutral-100 bg-neutral-50 text-neutral-300 cursor-not-allowed"
-                              }`}
-                            >
-                              {sz}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
+                  {isHdClosure &&
+                    (() => {
+                      const allClosureSizes = product.closureSizes || [];
+                      const validSizes = product.hdClosureValidSizes?.[length] || allClosureSizes;
+                      const selectedClosureSize = validSizes.includes(closureSize)
+                        ? closureSize
+                        : validSizes[0] || "";
 
+                      if (selectedClosureSize && closureSize !== selectedClosureSize) {
+                        queueMicrotask(() => setClosureSize(selectedClosureSize));
+                      }
+
+                      return (
+                        <div>
+                          <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500 mb-3">Closure Size</p>
+                          <div className="flex flex-wrap gap-2">
+                            {allClosureSizes.map((sz) => {
+                              const isValid = validSizes.includes(sz);
+                              return (
+                                <button
+                                  key={sz}
+                                  type="button"
+                                  disabled={!isValid}
+                                  onClick={() => isValid && setClosureSize(sz)}
+                                  className={`px-4 py-2 rounded-full text-xs border transition ${
+                                    selectedClosureSize === sz
+                                      ? "border-neutral-900 bg-neutral-900 text-white"
+                                      : isValid
+                                      ? "border-neutral-300 bg-white hover:border-neutral-500"
+                                      : "border-neutral-100 bg-neutral-50 text-neutral-300 cursor-not-allowed"
+                                  }`}
+                                >
+                                  {sz}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })()}
                   {/* ── Catalog product: HD Frontal size selector ── */}
                   {isHdFrontal && (
                     <div>
