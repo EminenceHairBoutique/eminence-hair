@@ -1356,11 +1356,6 @@ import {
 } from "./catalogPricing.js";
 import { activeCatalogPrice } from "../utils/launchPricing.js";
 
-// Shared disclaimer for catalog bundle preorders
-const CATALOG_PREORDER_DISCLAIMER =
-  "Pre-order items are factory drop-shipped and are not held in domestic inventory. " +
-  "All pre-order sales are final. Estimated dispatch is 14–21 business days from confirmation.";
-
 // Placeholder image used when dedicated photography is pending
 const CATALOG_PLACEHOLDER = "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_01.webp";
 
