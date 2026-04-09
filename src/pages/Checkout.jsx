@@ -113,6 +113,9 @@ async function buildAndRedirectCheckout({ items, user, filterFn, onError }) {
           customNotes: i.customNotes ?? "",
           customColorTier: i.customColorTier ?? null,
           capSize: i.capSize ?? null,
+          // RTI package fields
+          rtiPackageId: i.rtiPackageId ?? null,
+          rtiMode: i.rtiMode ?? null,
           // Preorder fields
           isPreorder: Boolean(i.isPreorder),
           shipsFrom: i.shipsFrom ?? "Domestic",

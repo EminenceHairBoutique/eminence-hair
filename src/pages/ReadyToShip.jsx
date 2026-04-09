@@ -107,6 +107,8 @@ function RtiPackageRow({ pkg, even, onAddToCart }) {
         price: activePrice,
         hideFromShop: true,
         images: [],
+        rtiPackageId: pkg.id,
+        rtiMode: mode,
       },
       { quantity: 1 }
     );
