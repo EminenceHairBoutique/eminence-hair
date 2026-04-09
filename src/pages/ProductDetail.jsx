@@ -592,9 +592,12 @@ export default function ProductDetail() {
     );
   }
 
+  const closureSizeValid = !isHdClosure || (closureSize && (product.hdClosureValidSizes?.[length] || product.closureSizes || []).includes(closureSize));
+  const frontalSizeValid = !isHdFrontal || (frontalSize && (product.hdFrontalValidSizes?.[length] || product.frontalSizes || []).includes(frontalSize));
+
   const canAdd =
     (isBundle && length) ||
-    (isClosure && length && (!isHdClosure || closureSize) && (!isHdFrontal || frontalSize)) ||
+    (isClosure && length && closureSizeValid && frontalSizeValid) ||
     (isWig && length && density && lace && capSize);
 
   const total = Number(price || 0) * Number(qty || 1);
@@ -874,34 +877,46 @@ export default function ProductDetail() {
                       );
                     })()}
                   {/* ── Catalog product: HD Frontal size selector ── */}
-                  {isHdFrontal && (
-                    <div>
-                      <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500 mb-3">Frontal Size</p>
-                      <div className="flex flex-wrap gap-2">
-                        {(product.frontalSizes || []).map((sz) => {
-                          const validSizes = product.hdFrontalValidSizes?.[length] || product.frontalSizes || [];
-                          const isValid = validSizes.includes(sz);
-                          return (
-                            <button
-                              key={sz}
-                              type="button"
-                              disabled={!isValid}
-                              onClick={() => isValid && setFrontalSize(sz)}
-                              className={`px-4 py-2 rounded-full text-xs border transition ${
-                                frontalSize === sz
-                                  ? "border-neutral-900 bg-neutral-900 text-white"
-                                  : isValid
-                                  ? "border-neutral-300 bg-white hover:border-neutral-500"
-                                  : "border-neutral-100 bg-neutral-50 text-neutral-300 cursor-not-allowed"
-                              }`}
-                            >
-                              {sz}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
+                  {isHdFrontal &&
+                    (() => {
+                      const allFrontalSizes = product.frontalSizes || [];
+                      const validSizes = product.hdFrontalValidSizes?.[length] || allFrontalSizes;
+                      const selectedFrontalSize = validSizes.includes(frontalSize)
+                        ? frontalSize
+                        : validSizes[0] || "";
+
+                      if (selectedFrontalSize && frontalSize !== selectedFrontalSize) {
+                        queueMicrotask(() => setFrontalSize(selectedFrontalSize));
+                      }
+
+                      return (
+                        <div>
+                          <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500 mb-3">Frontal Size</p>
+                          <div className="flex flex-wrap gap-2">
+                            {allFrontalSizes.map((sz) => {
+                              const isValid = validSizes.includes(sz);
+                              return (
+                                <button
+                                  key={sz}
+                                  type="button"
+                                  disabled={!isValid}
+                                  onClick={() => isValid && setFrontalSize(sz)}
+                                  className={`px-4 py-2 rounded-full text-xs border transition ${
+                                    selectedFrontalSize === sz
+                                      ? "border-neutral-900 bg-neutral-900 text-white"
+                                      : isValid
+                                      ? "border-neutral-300 bg-white hover:border-neutral-500"
+                                      : "border-neutral-100 bg-neutral-50 text-neutral-300 cursor-not-allowed"
+                                  }`}
+                                >
+                                  {sz}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })()}
 
                   {/* ── Catalog product: texture selector ── */}
                   {hasCatalogTextures && (

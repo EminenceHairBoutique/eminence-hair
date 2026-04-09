@@ -163,6 +163,25 @@ export const DD_PRICES = {
 };
 
 // ======================
+// SDD (SUPER DOUBLE DRAWN) RAW BUNDLES — GENERIC
+// Texture: Natural Straight / Body Wave
+// Standard SDD tier (below Vietnamese premium)
+// [launch, retail]
+// ======================
+export const SDD_GENERIC_PRICES = {
+  12: [94, 99],
+  14: [104, 109],
+  16: [119, 129],
+  18: [134, 149],
+  20: [154, 169],
+  22: [179, 194],
+  24: [204, 219],
+  26: [229, 249],
+  28: [254, 279],
+  30: [279, 299],
+};
+
+// ======================
 // SDD VIETNAMESE BONE STRAIGHT BUNDLES
 // Texture: Vietnamese Bone Straight (1B)
 // [launch, retail]

@@ -1347,6 +1347,7 @@ import {
   HD_360_PRICES,
   DD_PRICES,
   SDD_VIET_PRICES,
+  SDD_GENERIC_PRICES,
   BRAID_14A_PRICES,
   BRAID_14A_PLUS_PRICES,
   FUNMI_TEXTURES,
@@ -1423,9 +1424,38 @@ products.push({
   ],
 });
 
-// ── 3 / 5. SDD Vietnamese Bone Straight Bundles ────────────────────────────
-// Covers both product #3 (generic SDD) and product #5 (SDD Vietnamese Bone Straight)
-// as a single merged catalog entry, per the "merge intelligently" rule.
+// ── 3. SDD Raw Bundles (Generic) ────────────────────────────────────────────
+products.push({
+  id: "cat-sdd-raw-bundles",
+  slug: "sdd-raw-bundles",
+  name: "SDD Raw Bundles",
+  displayName: "SDD (Super Double Drawn) Raw Bundles",
+  type: "bundle",
+  isMainShopProduct: true,
+  usesLaunchPricing: true,
+  badge: "Catalog",
+  collection: "Luxury Raw",
+  collectionSlug: "luxury-raw",
+  catalogType: "bundle",
+  texture: "Natural Straight / Body Wave",
+  color: "1B",
+  lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+  price(length) {
+    const tuple = SDD_GENERIC_PRICES[length];
+    if (!tuple) return 0;
+    return activeCatalogPrice(tuple);
+  },
+  description:
+    "Super Double Drawn (SDD) raw bundles — premium grade with 90%+ strand uniformity " +
+    "from root to tip. Natural 1B color, cuticle-aligned, and available in straight " +
+    "and body wave textures. Ideal for full, blunt-cut installs.",
+  images: [
+    "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_02.webp",
+    CATALOG_PLACEHOLDER,
+  ],
+});
+
+// ── 5. SDD Vietnamese Bone Straight Bundles ────────────────────────────────
 products.push({
   id: "cat-sdd-viet-straight-bundles",
   slug: "sdd-vietnamese-bone-straight-bundles",
