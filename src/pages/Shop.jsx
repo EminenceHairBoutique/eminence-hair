@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Link, useSearchParams, useLocation } from "react-router-dom";
-import { products, eminenceEssentials } from "../data/products";
+import { products, eminenceEssentials, mainShopProducts } from "../data/products";
 import { useCart } from "../context/CartContext";
 import { prefetchRoute } from "../utils/prefetch";
 import SEO from "../components/SEO";
@@ -99,7 +99,10 @@ export default function Shop() {
     // Hide internal SKUs (e.g., install sets) from the main shop grid.
     const visible = products.filter((p) => !p.hideFromShop);
 
-    if (mode === "all") return visible.filter((p) => !p.isPreorder);
+    // "All" view shows the 12 approved main-shop catalog products.
+    // Existing wig/medical/bundle products remain accessible via their
+    // collection-specific mode routes (/shop/wigs, /shop/closures, etc.)
+    if (mode === "all") return mainShopProducts.filter((p) => !p.isPreorder);
 
     // Pre-orders dedicated view
     if (mode === "preorder") {

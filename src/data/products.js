@@ -1331,6 +1331,601 @@ products.push(
 );
 
 // ======================
+// CATALOG PRODUCTS (12 main-shop products + luxury preorders)
+// Added via comprehensive catalog update.
+// Pricing is delegated to catalogPricing.js matrices + launchPricing.js helper.
+// ======================
+import {
+  TEN_A_TEXTURES,
+  TEN_A_PRICES,
+  A_PLUS_COLORS,
+  A_PLUS_COLOR_PRICES,
+  HD_CLOSURE_PRICES,
+  HD_CLOSURE_VALID,
+  HD_FRONTAL_PRICES,
+  HD_FRONTAL_VALID,
+  HD_360_PRICES,
+  DD_PRICES,
+  SDD_VIET_PRICES,
+  BRAID_14A_PRICES,
+  BRAID_14A_PLUS_PRICES,
+  FUNMI_TEXTURES,
+  FUNMI_PRICES,
+  SDD_BULK_PRICES,
+  preorder10,
+} from "./catalogPricing.js";
+import { activeCatalogPrice } from "../utils/launchPricing.js";
+
+// Shared disclaimer for catalog bundle preorders
+const CATALOG_PREORDER_DISCLAIMER =
+  "Pre-order items are factory drop-shipped and are not held in domestic inventory. " +
+  "All pre-order sales are final. Estimated dispatch is 14–21 business days from confirmation.";
+
+// Placeholder image used when dedicated photography is pending
+const CATALOG_PLACEHOLDER = "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_01.webp";
+
+// ── 1. 10A Natural Bundles ─────────────────────────────────────────────────
+products.push({
+  id: "cat-10a-natural-bundles",
+  slug: "10a-natural-bundles",
+  name: "10A Natural Bundles",
+  displayName: "10A Natural Bundles",
+  type: "bundle",
+  isMainShopProduct: true,
+  usesLaunchPricing: true,
+  badge: "Catalog",
+  collection: "Natural Collection",
+  collectionSlug: "natural",
+  catalogType: "bundle",
+  textures: TEN_A_TEXTURES,
+  defaultTexture: "straight",
+  lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+  price(length, textureKey = "straight") {
+    const k = `${length}::${textureKey || "straight"}`;
+    const tuple = TEN_A_PRICES[k];
+    if (!tuple) return 0;
+    return activeCatalogPrice(tuple);
+  },
+  description:
+    "Premium 10A-grade natural bundles — cuticle-aligned, silky, and full from root to tip. " +
+    "Available in four textures across lengths 12\"–30\". Ideal for natural installs and everyday wear.",
+  images: [
+    "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_01.webp",
+    "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_02.webp",
+    "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_03.webp",
+  ],
+});
+
+// ── 2. A+ Color Bundles ─────────────────────────────────────────────────────
+products.push({
+  id: "cat-a-plus-color-bundles",
+  slug: "a-plus-color-bundles",
+  name: "A+ Color Bundles (Colored / HD Volume)",
+  displayName: "A+ Color Bundles",
+  type: "bundle",
+  isMainShopProduct: true,
+  usesLaunchPricing: true,
+  badge: "Catalog",
+  collection: "Color Collection",
+  collectionSlug: "color",
+  catalogType: "bundle",
+  colors: A_PLUS_COLORS,
+  defaultColor: "shade-1-4",
+  lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+  price(length, colorKey = "shade-1-4") {
+    const k = `${length}::${colorKey || "shade-1-4"}`;
+    const tuple = A_PLUS_COLOR_PRICES[k];
+    if (!tuple) return 0;
+    return activeCatalogPrice(tuple);
+  },
+  description:
+    "A+ grade color bundles in five rich shade groups — from classic natural blacks and bronzes " +
+    "to warm 27/350, bold 613 blonde, and the coveted P4/27 blend. " +
+    "Vibrant, long-lasting color with premium cuticle alignment.",
+  images: [
+    "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_01.webp",
+    CATALOG_PLACEHOLDER,
+  ],
+});
+
+// ── 3 / 5. SDD Vietnamese Bone Straight Bundles ────────────────────────────
+// Covers both product #3 (generic SDD) and product #5 (SDD Vietnamese Bone Straight)
+// as a single merged catalog entry, per the "merge intelligently" rule.
+products.push({
+  id: "cat-sdd-viet-straight-bundles",
+  slug: "sdd-vietnamese-bone-straight-bundles",
+  name: "SDD Vietnamese Bone Straight Bundles",
+  displayName: "SDD (Super Double Drawn) Vietnamese Bone Straight Bundles",
+  type: "bundle",
+  isMainShopProduct: true,
+  usesLaunchPricing: true,
+  badge: "Catalog",
+  collection: "Luxury Raw",
+  collectionSlug: "luxury-raw",
+  catalogType: "bundle",
+  texture: "Vietnamese Bone Straight",
+  color: "1B",
+  lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+  price(length) {
+    const tuple = SDD_VIET_PRICES[length];
+    if (!tuple) return 0;
+    return activeCatalogPrice(tuple);
+  },
+  description:
+    "Super Double Drawn (SDD) Vietnamese bone straight bundles — sourced from a single donor, " +
+    "cuticle-intact, and selected for extraordinary strand uniformity from root to tip. " +
+    "The gold standard for high-volume, blunt-cut installs.",
+  images: [
+    "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_01.webp",
+    "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_02.webp",
+  ],
+});
+
+// ── 4. Double Drawn (DD) First-Grade Bundles ───────────────────────────────
+products.push({
+  id: "cat-dd-first-grade-bundles",
+  slug: "double-drawn-first-grade-bundles",
+  name: "Double Drawn (DD) Raw Bundles",
+  displayName: "Double Drawn (DD) Raw Bundles — First Grade",
+  type: "bundle",
+  isMainShopProduct: true,
+  usesLaunchPricing: true,
+  badge: "Catalog",
+  collection: "Luxury Raw",
+  collectionSlug: "luxury-raw",
+  catalogType: "bundle",
+  texture: "Natural 1B",
+  color: "1B",
+  lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+  price(length) {
+    const tuple = DD_PRICES[length];
+    if (!tuple) return 0;
+    return activeCatalogPrice(tuple);
+  },
+  description:
+    "First-Grade Double Drawn (DD) raw bundles — hand-selected so 80–85% of strands share " +
+    "the full declared length. Exceptional volume from root to tip with a natural 1B finish.",
+  images: [
+    "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_02.webp",
+    CATALOG_PLACEHOLDER,
+  ],
+});
+
+// ── 6. Funmi (FUMI First-Grade Curly) Bundles ─────────────────────────────
+products.push({
+  id: "cat-funmi-curly-bundles",
+  slug: "funmi-curly-bundles",
+  name: "Funmi Bundles",
+  displayName: "Funmi Curly Bundles — FUMI First Grade",
+  type: "bundle",
+  isMainShopProduct: true,
+  usesLaunchPricing: true,
+  badge: "Catalog",
+  collection: "Curly Collection",
+  collectionSlug: "curly",
+  catalogType: "bundle",
+  textures: FUNMI_TEXTURES,
+  defaultTexture: "spring-curl",
+  lengths: [10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+  price(length) {
+    const tuple = FUNMI_PRICES[length];
+    if (!tuple) return 0;
+    return activeCatalogPrice(tuple);
+  },
+  description:
+    "FUMI first-grade curly bundles — springy, defined curl patterns that hold their shape " +
+    "and last through washes. Available in Spring Curl, Romance Curl, and Bouncy Curl. " +
+    "Perfect for natural volume installs and blowout styles.",
+  images: [
+    "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_01.webp",
+    CATALOG_PLACEHOLDER,
+  ],
+});
+
+// ── 7. (already above) A+ Color Bundles — listed as #7 in shop order ──────
+// already pushed as cat-a-plus-color-bundles
+
+// ── 8. 10A Natural Bundles — already pushed above ─────────────────────────
+
+// ── 9. SDD Bulk Hair ───────────────────────────────────────────────────────
+products.push({
+  id: "cat-sdd-bulk-hair",
+  slug: "sdd-bulk-hair",
+  name: "SDD Bulk Hair",
+  displayName: "SDD (Super Double Drawn) Bulk Hair",
+  type: "bundle",
+  isMainShopProduct: true,
+  usesLaunchPricing: true,
+  badge: "Catalog",
+  collection: "Bulk Hair",
+  collectionSlug: "bulk-hair",
+  catalogType: "bundle",
+  texture: "Natural Straight",
+  color: "1B",
+  lengths: [10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+  price(length) {
+    const tuple = SDD_BULK_PRICES[length];
+    if (!tuple) return 0;
+    return activeCatalogPrice(tuple);
+  },
+  description:
+    "Super Double Drawn (SDD) bulk hair — loose weft-free hair for braiding, loc extensions, " +
+    "and creative styling. Maximum strand uniformity with natural 1B color.",
+  images: [
+    CATALOG_PLACEHOLDER,
+  ],
+});
+
+// ── 14A Braids ─────────────────────────────────────────────────────────────
+products.push({
+  id: "cat-14a-braids",
+  slug: "14a-braids",
+  name: "14A Braids",
+  displayName: "14A Braids — Standard Raw Human Hair Bundles",
+  type: "bundle",
+  isMainShopProduct: true,
+  usesLaunchPricing: true,
+  badge: "Catalog",
+  collection: "Braid Collection",
+  collectionSlug: "braids",
+  catalogType: "bundle",
+  texture: "Natural Straight / Body Wave",
+  color: "1B",
+  lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+  price(length) {
+    const tuple = BRAID_14A_PRICES[length];
+    if (!tuple) return 0;
+    return activeCatalogPrice(tuple);
+  },
+  description:
+    "14A standard raw human hair bundles — genuine raw hair selected for braid installs and " +
+    "natural styles. Double drawn technique ensures uniform strand density throughout each weft.",
+  images: [
+    "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_03.webp",
+    CATALOG_PLACEHOLDER,
+  ],
+});
+
+// ── 14A+ Braids ─────────────────────────────────────────────────────────────
+products.push({
+  id: "cat-14a-plus-braids",
+  slug: "14a-plus-braids",
+  name: "14A+ Braids",
+  displayName: "14A+ Braids — True Raw Human Hair Bundles",
+  type: "bundle",
+  isMainShopProduct: true,
+  usesLaunchPricing: true,
+  badge: "Catalog",
+  collection: "Braid Collection",
+  collectionSlug: "braids",
+  catalogType: "bundle",
+  texture: "Natural Straight / Body Wave",
+  color: "1B",
+  lengths: [16, 18, 20, 22, 24, 26, 28],
+  price(length) {
+    const tuple = BRAID_14A_PLUS_PRICES[length];
+    if (!tuple) return 0;
+    return activeCatalogPrice(tuple);
+  },
+  description:
+    "14A+ true raw human hair bundles — our highest-grade braid hair. Single-donor raw strands " +
+    "with superior cuticle alignment and unmatched longevity. For the most demanding luxury installs.",
+  images: [
+    CATALOG_PLACEHOLDER,
+  ],
+});
+
+// ── 10. HD Closure (unified) ──────────────────────────────────────────────
+products.push({
+  id: "cat-hd-closure",
+  slug: "hd-closure",
+  name: "HD Closure",
+  displayName: "HD Lace Closure",
+  type: "closure",
+  isMainShopProduct: true,
+  badge: "Catalog",
+  collection: "HD Lace",
+  collectionSlug: "hd-lace",
+  catalogType: "hd-closure",
+  closureSizes: ["4x4", "5x5", "6x6", "2x6", "7x7"],
+  defaultClosureSize: "4x4",
+  hdClosureValidSizes: HD_CLOSURE_VALID,
+  lengths: [10, 12, 14, 16, 18, 20, 22],
+  price(length, sizeKey = "4x4") {
+    const k = `${length}::${sizeKey || "4x4"}`;
+    const tuple = HD_CLOSURE_PRICES[k];
+    if (!tuple) return 0;
+    return activeCatalogPrice(tuple);
+  },
+  description:
+    "Premium HD lace closures in 4×4, 5×5, 6×6, 2×6, and 7×7 configurations. " +
+    "Ultra-thin HD lace melts seamlessly into any skin tone for an undetectable, " +
+    "natural-looking hairline with maximum parting versatility.",
+  images: [
+    "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_01.webp",
+    "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_02.webp",
+  ],
+});
+
+// ── 11. HD Frontal (unified) ─────────────────────────────────────────────
+products.push({
+  id: "cat-hd-frontal",
+  slug: "hd-frontal",
+  name: "HD Frontal",
+  displayName: "HD Lace Frontal",
+  type: "frontal",
+  isMainShopProduct: true,
+  badge: "Catalog",
+  collection: "HD Lace",
+  collectionSlug: "hd-lace",
+  catalogType: "hd-frontal",
+  frontalSizes: ["13x4", "13x6"],
+  defaultFrontalSize: "13x4",
+  hdFrontalValidSizes: HD_FRONTAL_VALID,
+  lengths: [10, 12, 14, 16, 18, 20, 22],
+  price(length, sizeKey = "13x4") {
+    const k = `${length}::${sizeKey || "13x4"}`;
+    const tuple = HD_FRONTAL_PRICES[k];
+    if (!tuple) return 0;
+    return activeCatalogPrice(tuple);
+  },
+  description:
+    "Premium HD lace frontals in 13×4 and 13×6 configurations. " +
+    "Full hairline coverage with film-thin HD lace that vanishes on all skin tones. " +
+    "Enables versatile parting and styling from ear to ear.",
+  images: [
+    "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_01.webp",
+    "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_02.webp",
+  ],
+});
+
+// ── 12. HD Full 360 ─────────────────────────────────────────────────────
+products.push({
+  id: "cat-hd-360",
+  slug: "hd-full-360",
+  name: "HD Full 360",
+  displayName: "HD Full 360 Lace",
+  type: "closure",
+  isMainShopProduct: true,
+  badge: "Catalog",
+  collection: "HD Lace",
+  collectionSlug: "hd-lace",
+  catalogType: "hd-360",
+  lengths: [14, 16, 18, 20, 22],
+  price(length) {
+    const tuple = HD_360_PRICES[length];
+    if (!tuple) return 0;
+    return activeCatalogPrice(tuple);
+  },
+  description:
+    "HD Full 360 lace — all-around lace construction for the ultimate styling freedom. " +
+    "Wear your hair in high ponytails, updos, or any style that demands a realistic, " +
+    "undetectable perimeter hairline.",
+  images: [
+    "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_01.webp",
+    CATALOG_PLACEHOLDER,
+  ],
+});
+
+// ======================
+// LUXURY PREORDER PRODUCTS (Catalog — 10% off retail)
+// These extend the existing preorder section.
+// ======================
+const LUXURY_PREORDER_DISCLAIMER =
+  "Pre-order items are sourced from our factory partners and are not held in domestic inventory. " +
+  "All pre-order sales are final. No returns or exchanges. " +
+  "Estimated dispatch is 14–21 business days from order confirmation.";
+
+products.push(
+  // FUMI First-Grade Curly Bundles — Luxury Preorder
+  {
+    id: "cat-preorder-funmi-curly",
+    slug: "luxury-preorder-funmi-curly-bundles",
+    name: "FUMI First-Grade Curly Bundles",
+    displayName: "Luxury Pre-Order — FUMI First-Grade Curly Bundles",
+    type: "bundle",
+    isPreorder: true,
+    isLuxuryPreorder: true,
+    shipsFrom: "Factory",
+    leadTimeDays: 21,
+    leadTimeLabel: "14–21 business days",
+    qualityTier: "FUMI Curly",
+    preorderDisclaimer: LUXURY_PREORDER_DISCLAIMER,
+    badge: "Pre-Order",
+    collection: "Luxury Pre-Order",
+    collectionSlug: "luxury-preorder",
+    catalogType: "bundle",
+    textures: FUNMI_TEXTURES,
+    defaultTexture: "spring-curl",
+    lengths: [10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    price(length) {
+      const tuple = FUNMI_PRICES[length];
+      if (!tuple) return 0;
+      return preorder10(tuple[1]); // 10% off retail
+    },
+    description:
+      "FUMI first-grade curly bundles — springy, defined curls with exceptional longevity. " +
+      "Pre-order at 10% off retail. Factory drop-shipped in 14–21 business days.",
+    images: [
+      "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_01.webp",
+      CATALOG_PLACEHOLDER,
+    ],
+  },
+
+  // SDD Vietnamese Bone Straight — Luxury Preorder
+  {
+    id: "cat-preorder-sdd-viet-straight",
+    slug: "luxury-preorder-sdd-vietnamese-bone-straight",
+    name: "SDD Vietnamese Bone Straight Bundles",
+    displayName: "Luxury Pre-Order — SDD Vietnamese Bone Straight Bundles",
+    type: "bundle",
+    isPreorder: true,
+    isLuxuryPreorder: true,
+    shipsFrom: "Factory",
+    leadTimeDays: 21,
+    leadTimeLabel: "14–21 business days",
+    qualityTier: "Super Double Drawn",
+    preorderDisclaimer: LUXURY_PREORDER_DISCLAIMER,
+    badge: "Pre-Order",
+    collection: "Luxury Pre-Order",
+    collectionSlug: "luxury-preorder",
+    catalogType: "bundle",
+    texture: "Vietnamese Bone Straight",
+    color: "1B",
+    lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    price(length) {
+      const tuple = SDD_VIET_PRICES[length];
+      if (!tuple) return 0;
+      return preorder10(tuple[1]);
+    },
+    description:
+      "Super Double Drawn Vietnamese bone straight bundles — 95%+ strand uniformity. " +
+      "Pre-order at 10% off retail. Factory drop-shipped in 14–21 business days.",
+    images: [
+      "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_01.webp",
+      CATALOG_PLACEHOLDER,
+    ],
+  },
+
+  // Double Drawn First-Grade — Luxury Preorder
+  {
+    id: "cat-preorder-dd-first-grade",
+    slug: "luxury-preorder-double-drawn-first-grade",
+    name: "Double Drawn First-Grade Bundles",
+    displayName: "Luxury Pre-Order — Double Drawn First-Grade Bundles",
+    type: "bundle",
+    isPreorder: true,
+    isLuxuryPreorder: true,
+    shipsFrom: "Factory",
+    leadTimeDays: 21,
+    leadTimeLabel: "14–21 business days",
+    qualityTier: "Double Drawn",
+    preorderDisclaimer: LUXURY_PREORDER_DISCLAIMER,
+    badge: "Pre-Order",
+    collection: "Luxury Pre-Order",
+    collectionSlug: "luxury-preorder",
+    catalogType: "bundle",
+    texture: "Natural 1B",
+    color: "1B",
+    lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    price(length) {
+      const tuple = DD_PRICES[length];
+      if (!tuple) return 0;
+      return preorder10(tuple[1]);
+    },
+    description:
+      "First-Grade Double Drawn raw bundles — 80–85% strand uniformity. " +
+      "Pre-order at 10% off retail. Factory drop-shipped in 14–21 business days.",
+    images: [
+      "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_02.webp",
+      CATALOG_PLACEHOLDER,
+    ],
+  },
+
+  // 14A Braid Hair Bundles — Luxury Preorder
+  {
+    id: "cat-preorder-14a-braids",
+    slug: "luxury-preorder-14a-braid-bundles",
+    name: "14A Braid Hair Bundles",
+    displayName: "Luxury Pre-Order — 14A Braid Hair Bundles",
+    type: "bundle",
+    isPreorder: true,
+    isLuxuryPreorder: true,
+    shipsFrom: "Factory",
+    leadTimeDays: 21,
+    leadTimeLabel: "14–21 business days",
+    qualityTier: "14A Raw",
+    preorderDisclaimer: LUXURY_PREORDER_DISCLAIMER,
+    badge: "Pre-Order",
+    collection: "Luxury Pre-Order",
+    collectionSlug: "luxury-preorder",
+    catalogType: "bundle",
+    texture: "Natural Straight / Body Wave",
+    color: "1B",
+    lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    price(length) {
+      const tuple = BRAID_14A_PRICES[length];
+      if (!tuple) return 0;
+      return preorder10(tuple[1]);
+    },
+    description:
+      "14A standard raw braid hair bundles — genuine raw hair for braid installs. " +
+      "Pre-order at 10% off retail. Factory drop-shipped in 14–21 business days.",
+    images: [
+      CATALOG_PLACEHOLDER,
+    ],
+  },
+
+  // 14A+ Braid Hair Bundles — Luxury Preorder
+  {
+    id: "cat-preorder-14a-plus-braids",
+    slug: "luxury-preorder-14a-plus-braid-bundles",
+    name: "14A+ Braid Hair Bundles",
+    displayName: "Luxury Pre-Order — 14A+ Braid Hair Bundles",
+    type: "bundle",
+    isPreorder: true,
+    isLuxuryPreorder: true,
+    shipsFrom: "Factory",
+    leadTimeDays: 21,
+    leadTimeLabel: "14–21 business days",
+    qualityTier: "14A+ Raw",
+    preorderDisclaimer: LUXURY_PREORDER_DISCLAIMER,
+    badge: "Pre-Order",
+    collection: "Luxury Pre-Order",
+    collectionSlug: "luxury-preorder",
+    catalogType: "bundle",
+    texture: "Natural Straight / Body Wave",
+    color: "1B",
+    lengths: [16, 18, 20, 22, 24, 26, 28],
+    price(length) {
+      const tuple = BRAID_14A_PLUS_PRICES[length];
+      if (!tuple) return 0;
+      return preorder10(tuple[1]);
+    },
+    description:
+      "14A+ true raw human hair — the highest braid-grade available. " +
+      "Pre-order at 10% off retail. Factory drop-shipped in 14–21 business days.",
+    images: [
+      CATALOG_PLACEHOLDER,
+    ],
+  },
+
+  // SDD Bulk Hair — Luxury Preorder
+  {
+    id: "cat-preorder-sdd-bulk",
+    slug: "luxury-preorder-sdd-bulk-hair",
+    name: "SDD Bulk Hair",
+    displayName: "Luxury Pre-Order — SDD Bulk Hair",
+    type: "bundle",
+    isPreorder: true,
+    isLuxuryPreorder: true,
+    shipsFrom: "Factory",
+    leadTimeDays: 21,
+    leadTimeLabel: "14–21 business days",
+    qualityTier: "Super Double Drawn",
+    preorderDisclaimer: LUXURY_PREORDER_DISCLAIMER,
+    badge: "Pre-Order",
+    collection: "Luxury Pre-Order",
+    collectionSlug: "luxury-preorder",
+    catalogType: "bundle",
+    texture: "Natural Straight",
+    color: "1B",
+    lengths: [10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    price(length) {
+      const tuple = SDD_BULK_PRICES[length];
+      if (!tuple) return 0;
+      return preorder10(tuple[1]);
+    },
+    description:
+      "Super Double Drawn bulk hair — loose, weft-free for braiding, locs, and creative extensions. " +
+      "Pre-order at 10% off retail. Factory drop-shipped in 14–21 business days.",
+    images: [
+      CATALOG_PLACEHOLDER,
+    ],
+  }
+);
+
+// ======================
 // DERIVED COLLECTIONS
 // ======================
 export const eminenceEssentials = products
@@ -1338,5 +1933,7 @@ export const eminenceEssentials = products
   .sort((a, b) => (a.essentialOrder ?? 99) - (b.essentialOrder ?? 99));
 
 export const preorderProducts = products.filter((p) => p.isPreorder === true);
+
+export const mainShopProducts = products.filter((p) => p.isMainShopProduct === true);
 
 export default products;

@@ -411,6 +411,12 @@ export default function ProductDetail() {
   const isBundle = product?.type === "bundle";
   const isClosure = product?.type === "closure" || product?.type === "frontal";
 
+  // Catalog product flags
+  const hasCatalogTextures = product?.catalogType && Array.isArray(product?.textures) && product.textures.length > 0;
+  const hasCatalogColors = product?.catalogType && Array.isArray(product?.colors) && product.colors.length > 0;
+  const isHdClosure = product?.catalogType === "hd-closure";
+  const isHdFrontal = product?.catalogType === "hd-frontal";
+
   // Luxury-safe: Only advertise customization where it makes sense.
   // Texture/reference items should not feel like bespoke orderables.
   const isCustomizable =
@@ -431,6 +437,12 @@ export default function ProductDetail() {
   const [lace, setLace] = useState(isWig ? "HD Lace" : null);
   const [capSize, setCapSize] = useState(isWig ? "Medium" : null);
 
+  // Catalog-product specific option state
+  const [catalogTexture, setCatalogTexture] = useState(product?.defaultTexture || product?.textures?.[0]?.key || null);
+  const [catalogColor, setCatalogColor] = useState(product?.defaultColor || product?.colors?.[0]?.key || null);
+  const [closureSize, setClosureSize] = useState(product?.defaultClosureSize || product?.closureSizes?.[0] || null);
+  const [frontalSize, setFrontalSize] = useState(product?.defaultFrontalSize || product?.frontalSizes?.[0] || null);
+
   useEffect(() => {
     setActiveImage(0);
     setQty(1);
@@ -441,7 +453,13 @@ export default function ProductDetail() {
     const wig = product?.type === "wig";
     setLace(wig ? "HD Lace" : null);
     setCapSize(wig ? "Medium" : null);
-  }, [product?.slug, product?.lengths, product?.densities, product?.type]);
+
+    // Reset catalog-specific options
+    setCatalogTexture(product?.defaultTexture || product?.textures?.[0]?.key || null);
+    setCatalogColor(product?.defaultColor || product?.colors?.[0]?.key || null);
+    setClosureSize(product?.defaultClosureSize || product?.closureSizes?.[0] || null);
+    setFrontalSize(product?.defaultFrontalSize || product?.frontalSizes?.[0] || null);
+  }, [product?.slug, product?.lengths, product?.densities, product?.type, product?.defaultTexture, product?.textures, product?.defaultColor, product?.colors, product?.defaultClosureSize, product?.closureSizes, product?.defaultFrontalSize, product?.frontalSizes]);
 
   const [isCustom, setIsCustom] = useState(false);
   const [customNotes, setCustomNotes] = useState("");
@@ -471,14 +489,24 @@ export default function ProductDetail() {
 
     if (typeof product.price === "function") {
       try {
-        return Number(product.price(length, density, lace) || 0);
+        // Catalog products use a second argument for texture/color/size key
+        let secondArg = undefined;
+        if (product.catalogType === "hd-closure") secondArg = closureSize;
+        else if (product.catalogType === "hd-frontal") secondArg = frontalSize;
+        else if (Array.isArray(product.textures)) secondArg = catalogTexture;
+        else if (Array.isArray(product.colors)) secondArg = catalogColor;
+
+        const result = secondArg !== undefined
+          ? Number(product.price(length, secondArg) || 0)
+          : Number(product.price(length, density, lace) || 0);
+        return Number.isFinite(result) ? result : Number(product.basePrice || 0);
       } catch {
         return Number(product.basePrice || 0);
       }
     }
 
     return Number(product.basePrice || 0);
-  }, [product, length, density, lace]);
+  }, [product, length, density, lace, catalogTexture, catalogColor, closureSize, frontalSize]);
 
   const customColorSurcharge = useMemo(() => {
     if (!isCustom) return 0;
@@ -498,11 +526,23 @@ export default function ProductDetail() {
 
   // ✅ Must be declared before any early return to satisfy Rules of Hooks
   const handleAdd = useCallback(() => {
+    // Build a human-readable label for catalog options
+    const catalogTextureLabel = catalogTexture && product?.textures
+      ? (product.textures.find((t) => t.key === catalogTexture)?.label || catalogTexture)
+      : null;
+    const catalogColorLabel = catalogColor && product?.colors
+      ? (product.colors.find((c) => c.key === catalogColor)?.label || catalogColor)
+      : null;
+    const laceClosureSizeLabel = closureSize || frontalSize || null;
+
     const variantParts = [
       length != null ? `L${length}` : "",
       density != null ? `D${density}` : "",
       lace ? `Lace:${lace}` : "",
       capSize ? `Cap:${capSize}` : "",
+      catalogTextureLabel ? `Texture:${catalogTextureLabel}` : "",
+      catalogColorLabel ? `Color:${catalogColorLabel}` : "",
+      laceClosureSizeLabel ? `Size:${laceClosureSizeLabel}` : "",
       isCustom ? "Custom" : "",
     ].filter(Boolean);
 
@@ -515,6 +555,13 @@ export default function ProductDetail() {
       selectedLength: length,
       selectedDensity: density,
       laceType: lace,
+      // Catalog-specific options (preserved in cart)
+      catalogTexture,
+      catalogColor,
+      closureSize,
+      frontalSize,
+      catalogTextureLabel,
+      catalogColorLabel,
       isCustom,
       customNotes,
       customColorTier,
@@ -528,7 +575,7 @@ export default function ProductDetail() {
       leadTimeDays: product.leadTimeDays ?? null,
       qualityTier: product.qualityTier ?? null,
     });
-  }, [length, density, lace, capSize, isCustom, customNotes, customColorTier, price, product, images, qty, addToCart]);
+  }, [length, density, lace, capSize, catalogTexture, catalogColor, closureSize, frontalSize, isCustom, customNotes, customColorTier, price, product, images, qty, addToCart]);
 
   // ViewItem tracking (GA4 + Meta Pixel) — only fires after consent.
   useEffect(() => {
@@ -547,7 +594,7 @@ export default function ProductDetail() {
 
   const canAdd =
     (isBundle && length) ||
-    (isClosure && length) ||
+    (isClosure && length && (!isHdClosure || closureSize) && (!isHdFrontal || frontalSize)) ||
     (isWig && length && density && lace && capSize);
 
   const total = Number(price || 0) * Number(qty || 1);
@@ -785,6 +832,112 @@ export default function ProductDetail() {
 
                 {/* options */}
                 <div className="mt-8 space-y-6">
+                  {/* ── Catalog product: HD Closure size selector ── */}
+                  {isHdClosure && (
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500 mb-3">Closure Size</p>
+                      <div className="flex flex-wrap gap-2">
+                        {(product.closureSizes || []).map((sz) => {
+                          const validSizes = product.hdClosureValidSizes?.[length] || product.closureSizes || [];
+                          const isValid = validSizes.includes(sz);
+                          return (
+                            <button
+                              key={sz}
+                              type="button"
+                              disabled={!isValid}
+                              onClick={() => isValid && setClosureSize(sz)}
+                              className={`px-4 py-2 rounded-full text-xs border transition ${
+                                closureSize === sz
+                                  ? "border-neutral-900 bg-neutral-900 text-white"
+                                  : isValid
+                                  ? "border-neutral-300 bg-white hover:border-neutral-500"
+                                  : "border-neutral-100 bg-neutral-50 text-neutral-300 cursor-not-allowed"
+                              }`}
+                            >
+                              {sz}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ── Catalog product: HD Frontal size selector ── */}
+                  {isHdFrontal && (
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500 mb-3">Frontal Size</p>
+                      <div className="flex flex-wrap gap-2">
+                        {(product.frontalSizes || []).map((sz) => {
+                          const validSizes = product.hdFrontalValidSizes?.[length] || product.frontalSizes || [];
+                          const isValid = validSizes.includes(sz);
+                          return (
+                            <button
+                              key={sz}
+                              type="button"
+                              disabled={!isValid}
+                              onClick={() => isValid && setFrontalSize(sz)}
+                              className={`px-4 py-2 rounded-full text-xs border transition ${
+                                frontalSize === sz
+                                  ? "border-neutral-900 bg-neutral-900 text-white"
+                                  : isValid
+                                  ? "border-neutral-300 bg-white hover:border-neutral-500"
+                                  : "border-neutral-100 bg-neutral-50 text-neutral-300 cursor-not-allowed"
+                              }`}
+                            >
+                              {sz}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ── Catalog product: texture selector ── */}
+                  {hasCatalogTextures && (
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500 mb-3">Texture</p>
+                      <div className="flex flex-wrap gap-2">
+                        {product.textures.map((t) => (
+                          <button
+                            key={t.key}
+                            type="button"
+                            onClick={() => setCatalogTexture(t.key)}
+                            className={`px-3 py-2 rounded-full text-xs border transition ${
+                              catalogTexture === t.key
+                                ? "border-neutral-900 bg-neutral-900 text-white"
+                                : "border-neutral-300 bg-white hover:border-neutral-500"
+                            }`}
+                          >
+                            {t.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ── Catalog product: color selector ── */}
+                  {hasCatalogColors && (
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500 mb-3">Color Group</p>
+                      <div className="flex flex-wrap gap-2">
+                        {product.colors.map((c) => (
+                          <button
+                            key={c.key}
+                            type="button"
+                            onClick={() => setCatalogColor(c.key)}
+                            className={`px-3 py-2 rounded-full text-xs border transition ${
+                              catalogColor === c.key
+                                ? "border-neutral-900 bg-neutral-900 text-white"
+                                : "border-neutral-300 bg-white hover:border-neutral-500"
+                            }`}
+                          >
+                            {c.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {product.lengths && (
                     <OptionGroup
                       label="Length"
