@@ -115,6 +115,10 @@ export function CartProvider({ children }) {
       capSize,
       customColorTier,
 
+      // RTI package fields (passthrough to checkout API)
+      rtiPackageId: product.rtiPackageId ?? null,
+      rtiMode: product.rtiMode ?? null,
+
       variant: `${product.id}::${length}::${density}::${lace}::${color || ""}::${capSize || ""}::${isCustom ? 1 : 0}::${customColorTier || ""}::${isCustom ? customNotes.slice(0, 120) : ""}`,
       cartKey: `${product.id}::${length}::${density}::${lace}::${color || ""}::${capSize || ""}::${isCustom ? 1 : 0}::${customColorTier || ""}::${isCustom ? customNotes.slice(0, 120) : ""}`,
     };

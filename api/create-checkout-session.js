@@ -1,6 +1,7 @@
 /* eslint-env node */
 import Stripe from "stripe";
 import { products } from "../src/data/products.js";
+import { RTI_PACKAGES } from "../src/data/catalogPricing.js";
 import { applyCustomPricing } from "../src/utils/pricing.js";
 import { checkRateLimit } from "./_utils/rateLimit.js";
 
@@ -47,6 +48,52 @@ export async function createHandler(req, res) {
       }
 
       const product = products.find((p) => p.id === item.id || p.slug === item.slug);
+
+      // ── RTI Package handling ──────────────────────────────────
+      // RTI items use ad-hoc IDs (e.g. "rti-10a-sbw-121416-bundles") that don't
+      // exist in products.js. Validate them against the RTI_PACKAGES catalog and
+      // re-price server-side so the client can never tamper with the amount.
+      if (!product && item.rtiPackageId) {
+        const rtiPkg = RTI_PACKAGES.find((p) => p.id === item.rtiPackageId);
+        if (!rtiPkg) {
+          throw new Error(`Unknown RTI package: ${item.rtiPackageId}`);
+        }
+
+        const rtiMode = item.rtiMode;
+        const rtiPrice =
+          rtiMode === "closure"
+            ? rtiPkg.closure5x5
+            : rtiMode === "frontal"
+            ? rtiPkg.frontal13x4
+            : rtiMode === "bundles"
+            ? rtiPkg.bundlesPrice
+            : null;
+
+        if (rtiPrice == null || !Number.isFinite(rtiPrice) || rtiPrice <= 0) {
+          throw new Error(`Invalid RTI mode "${rtiMode}" for ${item.rtiPackageId}`);
+        }
+
+        const rtiUnitAmount = Math.round(rtiPrice * 100);
+        const rtiLabel =
+          rtiMode === "closure"
+            ? `${rtiPkg.collection} ${rtiPkg.bundleSet} + 5×5 Closure`
+            : rtiMode === "frontal"
+            ? `${rtiPkg.collection} ${rtiPkg.bundleSet} + 13×4 Frontal`
+            : `${rtiPkg.collection} ${rtiPkg.bundleSet}`;
+
+        return {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: rtiLabel,
+              images: [],
+            },
+            unit_amount: rtiUnitAmount,
+          },
+          quantity: Number(item.quantity),
+        };
+      }
+
       if (!product) {
         throw new Error(`Unknown product: ${item.id || item.slug}`);
       }

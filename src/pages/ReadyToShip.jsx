@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { products } from "../data/products";
+import { RTI_PACKAGES } from "../data/catalogPricing";
 import { useCart } from "../context/CartContext";
 import SEO from "../components/SEO";
 
@@ -26,6 +27,148 @@ function getStartingPrice(p) {
     }
   }
   return Number(p.fromPrice ?? p.basePrice ?? p.price ?? 0);
+}
+
+function RtiCollectionSection({ collection, packages, onAddToCart }) {
+  return (
+    <div className="mb-10">
+      <h3 className="text-lg font-semibold tracking-tight text-neutral-900">
+        {collection}
+      </h3>
+      <p className="mt-1 text-xs text-neutral-500">
+        {packages[0]?.texture}
+      </p>
+
+      <div className="mt-4 overflow-x-auto rounded-2xl border border-neutral-200 bg-white">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-neutral-100">
+              <th className="text-left px-4 py-3 text-[10px] uppercase tracking-[0.18em] text-neutral-500 font-medium">
+                Bundle Set
+              </th>
+              <th className="text-right px-4 py-3 text-[10px] uppercase tracking-[0.18em] text-neutral-500 font-medium">
+                3-Bundle Set
+              </th>
+              <th className="text-right px-4 py-3 text-[10px] uppercase tracking-[0.18em] text-neutral-500 font-medium">
+                + 5×5 Closure
+              </th>
+              <th className="text-right px-4 py-3 text-[10px] uppercase tracking-[0.18em] text-neutral-500 font-medium">
+                + 13×4 Frontal
+              </th>
+              <th className="px-4 py-3" />
+            </tr>
+          </thead>
+          <tbody>
+            {packages.map((pkg, i) => (
+              <RtiPackageRow
+                key={pkg.id}
+                pkg={pkg}
+                even={i % 2 === 0}
+                onAddToCart={onAddToCart}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {packages[0]?.isPreorderEligible && (
+        <p className="mt-2 text-[11px] text-neutral-500 leading-relaxed">
+          Eligible for luxury pre-order pricing (15% off closure/frontal packages).
+        </p>
+      )}
+    </div>
+  );
+}
+
+function RtiPackageRow({ pkg, even, onAddToCart }) {
+  const [mode, setMode] = useState("bundles"); // "bundles" | "closure" | "frontal"
+
+  const activePrice =
+    mode === "closure"
+      ? pkg.closure5x5
+      : mode === "frontal"
+      ? pkg.frontal13x4
+      : pkg.bundlesPrice;
+
+  const label =
+    mode === "closure"
+      ? `${pkg.collection} ${pkg.bundleSet} + 5×5 Closure`
+      : mode === "frontal"
+      ? `${pkg.collection} ${pkg.bundleSet} + 13×4 Frontal`
+      : `${pkg.collection} ${pkg.bundleSet}`;
+
+  const handleAdd = () => {
+    onAddToCart(
+      {
+        id: `${pkg.id}-${mode}`,
+        name: label,
+        displayName: label,
+        type: "bundle",
+        price: activePrice,
+        hideFromShop: true,
+        images: [],
+        rtiPackageId: pkg.id,
+        rtiMode: mode,
+      },
+      { quantity: 1 }
+    );
+  };
+
+  return (
+    <tr className={even ? "bg-neutral-50/50" : ""}>
+      <td className="px-4 py-3 font-medium text-neutral-900 whitespace-nowrap">
+        {pkg.bundleSet}″
+      </td>
+      <td className="px-4 py-3 text-right text-neutral-800">
+        <button
+          type="button"
+          onClick={() => setMode("bundles")}
+          className={`rounded-full px-3 py-1 text-xs border transition ${
+            mode === "bundles"
+              ? "border-neutral-900 bg-neutral-900 text-white"
+              : "border-neutral-300 hover:border-neutral-500"
+          }`}
+        >
+          {money(pkg.bundlesPrice)}
+        </button>
+      </td>
+      <td className="px-4 py-3 text-right text-neutral-800">
+        <button
+          type="button"
+          onClick={() => setMode("closure")}
+          className={`rounded-full px-3 py-1 text-xs border transition ${
+            mode === "closure"
+              ? "border-neutral-900 bg-neutral-900 text-white"
+              : "border-neutral-300 hover:border-neutral-500"
+          }`}
+        >
+          {money(pkg.closure5x5)}
+        </button>
+      </td>
+      <td className="px-4 py-3 text-right text-neutral-800">
+        <button
+          type="button"
+          onClick={() => setMode("frontal")}
+          className={`rounded-full px-3 py-1 text-xs border transition ${
+            mode === "frontal"
+              ? "border-neutral-900 bg-neutral-900 text-white"
+              : "border-neutral-300 hover:border-neutral-500"
+          }`}
+        >
+          {money(pkg.frontal13x4)}
+        </button>
+      </td>
+      <td className="px-4 py-3 text-right">
+        <button
+          type="button"
+          onClick={handleAdd}
+          className="rounded-full bg-neutral-900 text-white px-4 py-1.5 text-xs font-medium hover:bg-neutral-800 transition"
+        >
+          Add to bag
+        </button>
+      </td>
+    </tr>
+  );
 }
 
 export default function ReadyToShip() {
@@ -426,6 +569,38 @@ export default function ReadyToShip() {
               and we’ll build it for you.
             </p>
           </div>
+        </div>
+      </div>
+
+      <div className="bg-[#FBF6ED] text-neutral-900">
+        <div className="mx-auto max-w-6xl px-6 py-14">
+          <div className="mb-10">
+            <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
+              Ready-to-Install
+            </p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight">
+              Catalog Install Packages
+            </h2>
+            <p className="mt-3 text-sm text-neutral-600 leading-relaxed max-w-2xl">
+              Pre-configured bundle sets from every collection — with optional 5×5 closure or
+              13×4 frontal included. Tap a price to select your package type, then add to bag.
+            </p>
+          </div>
+
+          {Object.entries(
+            RTI_PACKAGES.reduce((acc, pkg) => {
+              if (!acc[pkg.collection]) acc[pkg.collection] = [];
+              acc[pkg.collection].push(pkg);
+              return acc;
+            }, {})
+          ).map(([collection, pkgs]) => (
+            <RtiCollectionSection
+              key={collection}
+              collection={collection}
+              packages={pkgs}
+              onAddToCart={addToCart}
+            />
+          ))}
         </div>
       </div>
 

@@ -4,10 +4,26 @@ import { Truck, Clock, ShieldCheck } from "lucide-react";
 import SEO from "../components/SEO";
 import { preorderProducts } from "../data/products";
 
-const TIER_ORDER = ["Elite Raw", "SDD", "DD", "Raw Standard", "Tier-1"];
+const TIER_ORDER = [
+  "Elite Raw",
+  "14A+ Raw",
+  "14A Raw",
+  "Super Double Drawn",
+  "FUMI Curly",
+  "Double Drawn",
+  "SDD",
+  "DD",
+  "Raw Standard",
+  "Tier-1",
+];
 
 const TIER_LABELS = {
   "Elite Raw": "Elite Raw",
+  "14A+ Raw": "14A+ True Raw",
+  "14A Raw": "14A Standard Raw",
+  "Super Double Drawn": "Super Double Drawn (SDD)",
+  "FUMI Curly": "FUMI First-Grade Curly",
+  "Double Drawn": "Double Drawn (DD)",
   SDD: "Super Double Drawn",
   DD: "Double Drawn",
   "Raw Standard": "Raw Standard",
@@ -244,11 +260,14 @@ export default function AtelierPreorder() {
               </thead>
               <tbody>
                 {[
-                  { tier: "Elite Raw", draw: "Single donor · 100% raw", best: "Color work, longevity, reuse", from: 249 },
-                  { tier: "SDD", draw: "95%+ full-length strands", best: "Max volume installs", from: 219 },
-                  { tier: "DD", draw: "80–85% full-length strands", best: "Everyday fullness", from: 199 },
-                  { tier: "Raw Standard", draw: "Cuticle-intact, lightly sorted", best: "Quality at value", from: 179 },
-                  { tier: "Tier-1", draw: "Cuticle-aligned, blended draw", best: "Accessible factory quality", from: 149 },
+                  { tier: "Elite Raw",           draw: "Single donor · 100% raw",          best: "Color work, longevity, reuse",   from: 249 },
+                  { tier: "14A+ True Raw",        draw: "True raw · highest braid grade",   best: "Luxury braid installs",          from: 134 },
+                  { tier: "14A Standard Raw",     draw: "Raw · standard braid grade",       best: "Natural braid styles",           from: 98 },
+                  { tier: "SDD / Vietnamese",     draw: "95%+ full-length strands",         best: "Max volume · bone straight",     from: 134 },
+                  { tier: "FUMI First-Grade",     draw: "First-grade curly selection",      best: "Springy defined curl installs",  from: 104 },
+                  { tier: "DD",                   draw: "80–85% full-length strands",       best: "Everyday fullness",              from: 89 },
+                  { tier: "Raw Standard",         draw: "Cuticle-intact, lightly sorted",   best: "Quality at value",               from: 179 },
+                  { tier: "Tier-1",               draw: "Cuticle-aligned, blended draw",    best: "Accessible factory quality",     from: 149 },
                 ].map((row, i) => (
                   <tr key={row.tier} className={i % 2 === 0 ? "bg-neutral-50/50" : ""}>
                     <td className="px-5 py-3 font-medium text-neutral-900">{row.tier}</td>
