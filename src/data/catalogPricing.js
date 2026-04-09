@@ -1,7 +1,9 @@
 // src/data/catalogPricing.js
 // Centralized pricing matrices derived from the approved source tables.
 // All prices in USD (whole numbers).
-// Each matrix object key is `${length}::${textureOrColorKey}` or `${length}::${sizeKey}`.
+// Matrix keys vary by catalog: some use composite keys like
+// `${length}::${textureOrColorKey}` or `${length}::${sizeKey}`, while others
+// are keyed by `${length}` only.
 
 // ======================
 // 10A NATURAL BUNDLES
