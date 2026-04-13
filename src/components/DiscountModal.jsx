@@ -168,7 +168,12 @@ export default function DiscountModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-black/60 flex items-center justify-center px-4">
+    <div
+      className="fixed inset-0 z-[9999] bg-black/60 flex items-center justify-center px-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Unlock your first-order gift"
+    >
       <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-[0_30px_90px_rgba(0,0,0,0.35)] overflow-hidden">
         <button
           onClick={close}

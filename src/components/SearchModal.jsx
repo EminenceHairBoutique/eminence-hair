@@ -68,6 +68,7 @@ export default function SearchModal({ open, onClose }) {
           className="fixed inset-0 z-[60]"
           aria-modal="true"
           role="dialog"
+          aria-label="Product search"
         >
           <div
             className="absolute inset-0 bg-black/40 backdrop-blur-sm"
@@ -89,6 +90,7 @@ export default function SearchModal({ open, onClose }) {
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="Search wigs, bundles, textures, colorways…"
                 className="flex-1 bg-transparent outline-none text-sm text-neutral-900 placeholder:text-neutral-500"
+                aria-label="Search products"
               />
               <button
                 type="button"
