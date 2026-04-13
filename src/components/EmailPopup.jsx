@@ -2,10 +2,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { X } from "lucide-react";
 import { subscribeEmail } from "../utils/subscribe";
-import { safeSessionGet, safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
+import { safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
+import useFocusTrap from "../hooks/useFocusTrap";
 
 const STORAGE_KEY = "eminence_email_popup_dismissed";
-const DELAY_MS = 8000; // 8 seconds before showing
+const EMAIL_POPUP_DELAY_MS = 45000; // 45 seconds after consent resolved
 
 export default function EmailPopup() {
   const [visible, setVisible] = useState(false);
@@ -14,44 +15,34 @@ export default function EmailPopup() {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    // Don't show if already dismissed or already subscribed
     if (safeLocalGet(STORAGE_KEY)) return;
 
-    // Don't show if DiscountModal already claimed this session
-    if (safeSessionGet("eminence_discount_seen")) return;
-
-    // Wait for cookie consent decision before showing marketing popup
-    const consentAlreadyDecided = !!safeLocalGet("eminence_cookie_consent");
-
+    const DELAY = EMAIL_POPUP_DELAY_MS;
     let timer;
-    let onConsent;
 
-    const scheduleShow = () => {
+    const startTimer = () => {
       timer = setTimeout(() => {
-        // Re-check dismissal and discount flags right before showing
-        if (safeLocalGet(STORAGE_KEY)) return;
-        if (safeSessionGet("eminence_discount_seen")) return;
-        // Claim this session for EmailPopup so other marketing modals don't show
-        safeSessionSet("eminence_discount_seen", "email");
+        // Skip if user already verified via SMS discount flow
+        if (safeLocalGet("eminence_sms_verified") === "true") return;
         setVisible(true);
-      }, DELAY_MS);
+      }, DELAY);
     };
 
-    if (consentAlreadyDecided) {
-      scheduleShow();
-    } else {
-      onConsent = () => {
-        scheduleShow();
-        window.removeEventListener("eminence_consent_decided", onConsent);
-      };
-      window.addEventListener("eminence_consent_decided", onConsent);
+    if (safeLocalGet("eminence_cookie_consent")) {
+      startTimer();
+      return () => clearTimeout(timer);
     }
 
+    const onConsent = () => startTimer();
+    window.addEventListener("eminence_consent_resolved", onConsent, { once: true });
+
     return () => {
-      if (timer) clearTimeout(timer);
-      if (onConsent) window.removeEventListener("eminence_consent_decided", onConsent);
+      window.removeEventListener("eminence_consent_resolved", onConsent);
+      clearTimeout(timer);
     };
   }, []);
+
+  const trapRef = useFocusTrap(visible);
 
   const dismiss = useCallback(() => {
     setVisible(false);
@@ -86,6 +77,7 @@ export default function EmailPopup() {
 
   return (
     <div
+      ref={trapRef}
       className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"

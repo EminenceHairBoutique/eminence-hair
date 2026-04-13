@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { Button } from "./ui/button";
 import { safeSessionGet, safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
+import useFocusTrap from "../hooks/useFocusTrap";
 
 // SMS-only discount modal (Twilio Verify)
 // Reveals a promo code *after* phone verification.
@@ -14,6 +15,8 @@ const DEFAULT_COUNTRIES = [
   { label: "NG", code: "+234" },
   { label: "SA", code: "+27" },
 ];
+
+const DISCOUNT_MODAL_DELAY_MS = 30000; // 30 seconds after consent resolved
 
 export default function DiscountModal() {
   const { user } = useUser();
@@ -41,52 +44,38 @@ export default function DiscountModal() {
   }, [countryCode, localNumber]);
 
   useEffect(() => {
-    // Don’t show if logged in
     if (user) return;
-
-    // Don’t show during checkout
     if (location.pathname.includes("checkout")) return;
-
-    // Don’t show repeatedly
     if (safeSessionGet("eminence_discount_seen")) return;
-
-    // Don’t show if already verified previously
     if (safeLocalGet("eminence_sms_verified") === "true") return;
 
-    // Don’t show if EmailPopup was already shown/dismissed this session
-    if (safeSessionGet("eminence_email_popup_shown")) return;
-
-    // Wait for cookie consent decision before showing marketing popup
-    const consentAlreadyDecided = !!safeLocalGet("eminence_cookie_consent");
-
+    const DELAY = DISCOUNT_MODAL_DELAY_MS;
     let timer;
-    let onConsent;
 
-    const scheduleShow = () => {
-      if (safeSessionGet("eminence_email_popup_shown")) return;
+    const startTimer = () => {
       timer = setTimeout(() => {
-        if (!safeSessionGet("eminence_email_popup_shown")) {
-          setOpen(true);
-          safeSessionSet("eminence_discount_seen", "true");
-        }
-      }, 5000);
+        setOpen(true);
+        safeSessionSet("eminence_discount_seen", "true");
+      }, DELAY);
     };
 
-    if (consentAlreadyDecided) {
-      scheduleShow();
-    } else {
-      onConsent = () => {
-        scheduleShow();
-        window.removeEventListener("eminence_consent_decided", onConsent);
-      };
-      window.addEventListener("eminence_consent_decided", onConsent);
+    // If consent already stored (returning visitor), start immediately
+    if (safeLocalGet("eminence_cookie_consent")) {
+      startTimer();
+      return () => clearTimeout(timer);
     }
 
+    // First visit: wait for consent banner dismissal
+    const onConsent = () => startTimer();
+    window.addEventListener("eminence_consent_resolved", onConsent, { once: true });
+
     return () => {
-      if (timer) clearTimeout(timer);
-      if (onConsent) window.removeEventListener("eminence_consent_decided", onConsent);
+      window.removeEventListener("eminence_consent_resolved", onConsent);
+      clearTimeout(timer);
     };
   }, [user, location.pathname]);
+
+  const trapRef = useFocusTrap(open);
 
   if (!open) return null;
 
@@ -168,7 +157,7 @@ export default function DiscountModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-black/60 flex items-center justify-center px-4">
+    <div ref={trapRef} className="fixed inset-0 z-[9999] bg-black/60 flex items-center justify-center px-4">
       <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-[0_30px_90px_rgba(0,0,0,0.35)] overflow-hidden">
         <button
           onClick={close}
