@@ -32,6 +32,7 @@ export default function CookieBanner() {
         setVisible(false);
     try { window.dispatchEvent(new Event("eminence_consent_updated")); } catch (_e) { /* ignore */ }
     try { window.dispatchEvent(new Event("eminence_consent_decided")); } catch (_e) { /* ignore */ }
+    try { window.dispatchEvent(new Event("eminence_consent_resolved")); } catch (_e) { /* ignore */ }
       }
     } catch {
       // ignore
@@ -51,6 +52,7 @@ export default function CookieBanner() {
     setVisible(false);
     try { window.dispatchEvent(new Event("eminence_consent_updated")); } catch (_e) { /* ignore */ }
     try { window.dispatchEvent(new Event("eminence_consent_decided")); } catch (_e) { /* ignore */ }
+    try { window.dispatchEvent(new Event("eminence_consent_resolved")); } catch (_e) { /* ignore */ }
   };
 
   const acceptEssential = () => {
@@ -66,6 +68,7 @@ export default function CookieBanner() {
     setVisible(false);
     try { window.dispatchEvent(new Event("eminence_consent_updated")); } catch (_e) { /* ignore */ }
     try { window.dispatchEvent(new Event("eminence_consent_decided")); } catch (_e) { /* ignore */ }
+    try { window.dispatchEvent(new Event("eminence_consent_resolved")); } catch (_e) { /* ignore */ }
   };
 
   if (!visible) return null;

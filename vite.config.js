@@ -42,6 +42,9 @@ export default defineConfig({
       },
     },
   },
+  optimizeDeps: {
+    exclude: ['@mediapipe/tasks-vision']
+  },
   server: {
     proxy: {
       "/api": {

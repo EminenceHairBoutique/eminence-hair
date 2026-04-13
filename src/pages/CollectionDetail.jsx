@@ -313,6 +313,19 @@ export default function CollectionDetail() {
         title={`${header.title} | Collections`}
         description={header.subtitle}
         image={heroImage}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.eminenceluxuryhair.com/" },
+                { "@type": "ListItem", "position": 2, "name": "Collections", "item": "https://www.eminenceluxuryhair.com/collections" },
+                { "@type": "ListItem", "position": 3, "name": header.title }
+              ]
+            }
+          ]
+        }}
       />
 
       <div className="pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">
