@@ -6,6 +6,7 @@ import { safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
 import useFocusTrap from "../hooks/useFocusTrap";
 
 const STORAGE_KEY = "eminence_email_popup_dismissed";
+const EMAIL_POPUP_DELAY_MS = 45000; // 45 seconds after consent resolved
 
 export default function EmailPopup() {
   const [visible, setVisible] = useState(false);
@@ -16,7 +17,7 @@ export default function EmailPopup() {
   useEffect(() => {
     if (safeLocalGet(STORAGE_KEY)) return;
 
-    const DELAY = 45000; // 45 seconds after consent resolved
+    const DELAY = EMAIL_POPUP_DELAY_MS;
     let timer;
 
     const startTimer = () => {

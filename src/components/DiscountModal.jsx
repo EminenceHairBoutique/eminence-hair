@@ -16,6 +16,8 @@ const DEFAULT_COUNTRIES = [
   { label: "SA", code: "+27" },
 ];
 
+const DISCOUNT_MODAL_DELAY_MS = 30000; // 30 seconds after consent resolved
+
 export default function DiscountModal() {
   const { user } = useUser();
   const location = useLocation();
@@ -47,7 +49,7 @@ export default function DiscountModal() {
     if (safeSessionGet("eminence_discount_seen")) return;
     if (safeLocalGet("eminence_sms_verified") === "true") return;
 
-    const DELAY = 30000; // 30 seconds after consent resolved
+    const DELAY = DISCOUNT_MODAL_DELAY_MS;
     let timer;
 
     const startTimer = () => {
