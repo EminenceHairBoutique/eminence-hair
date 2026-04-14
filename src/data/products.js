@@ -1961,4 +1961,6 @@ export const preorderProducts = products.filter((p) => p.isPreorder === true);
 
 export const mainShopProducts = products.filter((p) => p.isMainShopProduct === true);
 
+export const readyToShip = products.filter((p) => p.readyToShip === true);
+
 export default products;
