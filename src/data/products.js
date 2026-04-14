@@ -206,7 +206,7 @@ export const products = [
     collectionSlug: "sea",
     texture: "WaterWave",
     description:
-      "A naturally defined water-wave pattern sourced from SEA donors. Soft, airy curls with beautiful bounce and movement.",
+      "Raw Cambodian water-wave hair with a naturally defined, airy curl pattern sourced from SEA donors. Pairs seamlessly with HD lace for invisible installs. Versatile enough for wet-and-go or heat-styled looks. Retains its bounce wash after wash with a gentle, sulfate-free routine.",
     lengths: [16, 18, 20, 22, 24, 26],
     densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
@@ -228,7 +228,7 @@ export const products = [
     collectionSlug: "burmese",
     texture: "DeepWave",
     description:
-      "Authentic Burmese DeepWave with extraordinary definition and richness. A luxurious curl with unmatched density and longevity.",
+      "Sourced from Myanmar donors with minimal processing, this DeepWave holds its defined curl pattern through daily wear and editorial shoots alike. Available in densities from 150% to 250% for full, rich volume. A wash-friendly texture that air-dries beautifully and maintains its shape over time.",
     lengths: [16, 18, 20, 22, 24, 26, 28],
     densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
@@ -251,7 +251,7 @@ export const products = [
     collectionSlug: "lavish",
     texture: "LooseWave",
     description:
-      "Our Lavish LooseWave features a polished, flowing wave pattern with refined texture and a glossy finish. Perfect for effortless luxury.",
+      "From our Lavish Collection, this loose-wave silhouette delivers a polished, camera-ready finish with soft body and natural movement. Available in multiple density options for tailored fullness. Maintain its glossy sheen with a sulfate-free wash routine and minimal heat styling.",
     lengths: [16, 18, 20, 22, 24, 26],
     densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
@@ -273,7 +273,7 @@ export const products = [
     collectionSlug: "straight",
     texture: "Straight",
     description:
-      "Ultra-sleek raw Silky Straight with a soft, natural sheen. Sourced ethically for maximum longevity and premium flow.",
+      "Raw Cambodian bone-straight hair with a silky, light-reflecting finish. Designed for flawless HD lace melting and versatile styling — flat iron, wrap, or wear as-is. Heat-friendly up to 180°C without compromising strand integrity. A lasting investment in sleek, premium texture.",
     lengths: [16, 18, 20, 22, 24, 26, 30, 32],
     densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
@@ -304,7 +304,7 @@ export const products = [
     color: "1B",
     assetKey: "wig_bodywave_1b",
     description:
-      "Rich, natural 1B tone with soft depth and dimension. Designed to blend seamlessly with natural dark hair.",
+      "Natural 1B colorway body-wave bundles crafted from raw, cuticle-aligned hair. The soft depth and warm dimension of this tone blend effortlessly with most natural dark hair. Low-maintenance care with a sulfate-free wash keeps the wave pattern defined and the color rich over time.",
     lengths: [16, 18, 20, 22, 24, 26],
     densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
@@ -332,7 +332,7 @@ export const products = [
     collectionSlug: "natural",
     texture: "Straight",
     description:
-      "Pure natural tone with a sleek, smooth straight texture. Ideal for polished minimal looks.",
+      "Natural 1B straight texture sourced from raw Cambodian donors — sleek, smooth, and refined for professional or everyday wear. Heat-style with confidence up to 180°C or wear bone-straight out of the pack. A versatile staple that pairs with closures and frontals for a polished, seamless finish.",
     lengths: [16, 18, 20, 22, 24, 26],
     densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
@@ -363,7 +363,7 @@ export const products = [
     color: "613",
     assetKey: "wig_deepwave_613",
     description:
-      "Our luminous 613 blonde colorway offers a bright, even lift with ultra-soft texture — perfect for dyeing, toning, or wearing as-is.",
+      "613 blonde colorway on a raw hair base — evenly lifted for a luminous, toner-friendly canvas. Dye it, tone it to ash or honey, or wear the platinum shade as-is. Maintain vibrancy with a color-safe, sulfate-free routine and minimal heat. A creative staple for bold, editorial looks.",
     lengths: [16, 18, 20, 22, 24, 26, 28],
     densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
@@ -393,7 +393,7 @@ export const products = [
     collectionSlug: "textures",
     texture: "BodyWave",
     description:
-      "A detailed reference of our BodyWave pattern — soft, dimensional, and naturally voluminous.",
+      "Our signature body-wave texture — soft, dimensional, and naturally voluminous from raw, cuticle-aligned hair. Available in densities from 150% to 200% for customized fullness. Style with low heat or air-dry for effortless movement. A sulfate-free wash routine preserves the wave pattern and luster.",
     lengths: [16, 18, 20, 22, 24, 26, 28],
     densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
@@ -424,7 +424,7 @@ export const products = [
     texture: "Straight",
     color: "1B",
     description:
-      "A sleek, jet-black straight wig from our core Eminence Collection. Timeless elegance with premium HD lace.",
+      "1B jet-black straight wig built on premium HD lace with pre-bleached knots for an undetectable hairline. Available in 150–250% density for editorial or everyday wear. The bone-straight texture holds its sheen through heat styling and pairs with a gentle, sulfate-free care routine.",
     lengths: [16, 18, 20, 22, 24, 26, 30, 32],
     densities: UI_DENSITIES,
     assetKey: "wig_straight_1b",
@@ -460,7 +460,7 @@ export const products = [
     color: "1",
     assetKey: "wig_straight_1",
     description:
-      "True jet black, bone-straight finish with premium HD lace. Designed for a seamless melt and high-shine movement.",
+      "HD lace wig in true jet black with a bone-straight, high-shine finish. Pre-plucked hairline melts seamlessly on all skin tones. Available in 150–250% density for a natural or full-glam look. Heat-safe for flat-iron or roller styling, and camera-ready straight from the box.",
     lengths: [16, 18, 20, 22, 24, 26, 30, 32],
     densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
@@ -493,7 +493,7 @@ export const products = [
     color: "Burgundy",
     assetKey: "wig_loosewave_burgundy",
     description:
-      "A rich burgundy tone with soft, polished loose waves. HD lace crafted to melt cleanly with natural movement.",
+      "Deep burgundy colorway with a soft, polished loose-wave pattern set on HD lace construction. Designed for editorial shoots and statement everyday wear. The rich tone holds its depth with color-safe, sulfate-free care. Pre-plucked hairline ensures a clean melt and natural movement.",
     lengths: [16, 18, 20, 22, 24, 26, 28, 30],
     densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
@@ -520,7 +520,7 @@ export const products = [
     color: "1B",
     assetKey: "bundle_bodywave_1",
     description:
-      "Soft, bouncy body-wave bundles in a natural 1B tone. Ideal for sew-ins, custom units, and versatile styling.",
+      "Raw, cuticle-aligned body-wave bundles in natural 1B with soft bounce and dimensional movement. Machine-weft construction for secure sew-ins and custom unit builds. Holds its wave pattern through sulfate-free washes and low-heat styling. A versatile foundation for any install.",
     lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
     // Bundles are priced by length (density not applicable)
     price(length) {
@@ -557,7 +557,7 @@ export const products = [
     color: "1B",
     assetKey: "bundle_deepcurly_1",
     description:
-      "Defined deep-curl bundles with high texture definition and a natural finish. Designed for volume and curl retention.",
+      "Deep-curl bundles with defined spirals sourced from raw, cuticle-aligned hair. Full volume from root to tip with excellent curl retention through wash cycles. Ideal for textured sew-ins and custom units. Maintain definition with a curl-safe routine — co-wash, air-dry, and avoid heavy sulfates.",
     lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
     // Bundles are priced by length (density not applicable)
     price(length) {
@@ -621,7 +621,7 @@ export const products = [
     texture: "BodyWave",
     color: "1B",
     description:
-      "Soft body-wave movement with medical-grade comfort. Designed to look luxurious while remaining gentle and breathable for sensitive scalps.",
+      "Medical-grade cap construction with a soft body-wave texture — breathable, lightweight, and gentle on sensitive or thinning scalps. Eligible as a cranial prosthesis under qualifying insurance plans. Designed for all-day comfort with a natural finish that moves and feels like your own hair.",
     lengths: [16, 18, 20, 22, 24, 26],
     densities: UI_DENSITIES,
     price(length, density, lace = "Transparent Lace") {
@@ -672,7 +672,7 @@ export const products = [
     color: "1B",
     assetKey: "bundle_straight_1",
     description:
-      "Polished natural-straight weft bundles in a seamless 1B tone — soft, lightweight, and designed for a clean, luxury finish.",
+      "Raw, cuticle-aligned straight weft bundles in a seamless 1B tone. Lightweight machine-weft construction for sew-ins, closures, or custom wig builds. Heat-friendly up to 180°C for versatile styling. Wash with a sulfate-free shampoo to preserve the smooth, high-shine finish.",
     lengths: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
     price(length) {
       const PRICE = {
@@ -711,7 +711,7 @@ export const products = [
     color: "613",
     assetKey: "bundle_bodywave_613",
     description:
-      "Luminous 613 blonde body-wave bundles with clean color and soft movement — a premium, salon-ready blonde.",
+      "613 blonde body-wave bundles crafted from raw, cuticle-aligned hair with clean, even color and soft movement. Toner- and dye-friendly for custom shades or wear the platinum blonde as-is. Preserve color vibrancy with a sulfate-free, color-safe wash routine. Salon-ready straight from the pack.",
     lengths: [16, 18, 20, 22, 24],
     price(length) {
       const PRICE = {
@@ -744,7 +744,7 @@ export const products = [
     texture: "Closure",
     color: "1B",
     description:
-      "4×4 HD lace closure — seamless melt, refined parting, and a natural finish designed for luxury installs.",
+      "4×4 HD lace closure with film-thin transparency that melts into any skin tone. Offers refined middle or side parting on bleach-friendly knots. Pairs with bundles for sew-in or custom unit installs. A compact, natural-finish piece that completes any luxury build.",
     lengths: [14, 16, 18],
     price(length) {
       const PRICE = {
@@ -774,7 +774,7 @@ export const products = [
     texture: "Closure",
     color: "1B",
     description:
-      "5×5 HD lace closure — enhanced coverage and parting space for a more elevated, ultra-realistic finish.",
+      "5×5 HD lace closure with extended parting space for a wider, more natural-looking part line. Ultra-thin lace disappears on all skin tones with bleach-friendly knots. Ideal for installs that need extra coverage and styling versatility without a full frontal.",
     lengths: [16, 18],
     price(length) {
       const PRICE = {
@@ -803,7 +803,7 @@ export const products = [
     texture: "Frontal",
     color: "1B",
     description:
-      "13×4 HD lace frontal — premium hairline realism with styling versatility and an editorial finish.",
+      "13×4 HD lace frontal offering full ear-to-ear hairline coverage with film-thin transparency. Pre-plucked for a natural hairline and versatile parting in any direction. Camera-ready finish that melts seamlessly on all skin tones — the definitive piece for editorial and everyday installs.",
     lengths: [16, 18],
     price(length) {
       const PRICE = {
@@ -840,7 +840,7 @@ export const products = [
     color: "1B",
     basePrice: 447,
     description:
-      "A complete, install-ready straight set: 3 bundles (14\"/16\"/18\"). Added to bag as a single set item.",
+      "Three raw Cambodian straight bundles (14\"/16\"/18\") curated for layered fullness and a seamless blend. Sew-in ready and added to your bag as a single set for streamlined checkout. A complete foundation for clean, polished installs at set-exclusive value.",
     images: [
       "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_01.webp",
       "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_02.webp",
@@ -862,7 +862,7 @@ export const products = [
     color: "1B",
     basePrice: 477,
     description:
-      "A complete, install-ready body wave set: 3 bundles (14\"/16\"/18\"). Added to bag as a single set item.",
+      "Three raw body-wave bundles (14\"/16\"/18\") curated for natural movement and layered dimension. Install-ready and added to your bag as a single set for streamlined checkout. Soft, flowing texture that air-dries with defined waves — a complete foundation at set-exclusive value.",
     images: [
       "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_01.webp",
       "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_02.webp",
@@ -884,7 +884,7 @@ export const products = [
     color: "1B",
     basePrice: 646,
     description:
-      "Install set includes 3 straight bundles (14\"/16\"/18\") + 4×4 HD closure (16\"). Added to bag as one set item.",
+      "Complete install solution: 3 raw straight bundles (14\"/16\"/18\") paired with a 4×4 HD lace closure (16\") for a seamless finish. Curated as one set item for simplified checkout. HD closure melts invisibly for a natural part line — everything you need in a single package.",
     images: [
       "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_01.webp",
       "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_01.webp",
@@ -906,7 +906,7 @@ export const products = [
     color: "1B",
     basePrice: 676,
     description:
-      "Install set includes 3 body wave bundles (14\"/16\"/18\") + 4×4 HD closure (16\"). Added to bag as one set item.",
+      "Complete body-wave install: 3 raw bundles (14\"/16\"/18\") with a 4×4 HD lace closure (16\") included. Soft, dimensional movement paired with an invisible part line. Added to your bag as one ready-to-install set item — no separate matching needed, just book your stylist.",
     images: [
       "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_01.webp",
       "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_01.webp",
@@ -928,7 +928,7 @@ export const products = [
     color: "1B",
     basePrice: 856,
     description:
-      "Premium install set includes 3 straight bundles (16\"/18\"/20\") + 13×4 HD frontal (18\"). Added to bag as one set item.",
+      "Premium install set: 3 raw straight bundles (16\"/18\"/20\") plus a 13×4 HD frontal (18\") for full ear-to-ear hairline coverage. Longer lengths deliver editorial-grade drama with a bone-straight finish. Bundled as one set item for a complete, ready-to-install solution.",
     images: [
       "/gallery/collections/Straight/Eminence_Straight_SilkyStraight_Natural_01.webp",
       "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_02.webp",
@@ -950,7 +950,7 @@ export const products = [
     color: "1B",
     basePrice: 886,
     description:
-      "Premium install set includes 3 body wave bundles (16\"/18\"/20\") + 13×4 HD frontal (18\"). Added to bag as one set item.",
+      "Premium body-wave install set: 3 raw bundles (16\"/18\"/20\") with a 13×4 HD frontal (18\") for full hairline coverage and natural movement. Longer lengths add volume and flow for a statement finish. Bundled as one set item — a complete solution from hairline to ends.",
     images: [
       "/gallery/collections/SEA/Eminence_SEA_BodyWave_Natural_01.webp",
       "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_02.webp",
@@ -1040,7 +1040,7 @@ export const products = [
     preorderBadgeText: "Pre-Order",
     preorderDisclaimer: "This item is fulfilled directly from our factory partner and is not part of current domestic inventory.",
     basePrice: 219,
-    description: "Our highest-grade bundles — Tier-1 classification for strand uniformity, luster, and longevity. Factory-selected from premium donor batches.",
+    description: "Tier-1 classified bundles factory-selected from premium donor batches for exceptional strand uniformity, luster, and longevity. Pre-order to reserve your grade — each batch is quality-verified before shipping. A guaranteed standard of excellence backed by our raw hair promise.",
     lengths: [14, 16, 18, 20, 22, 24, 26, 28, 30],
     price(length) {
       const P = { 14: 199, 16: 219, 18: 239, 20: 259, 22: 279, 24: 299, 26: 319, 28: 339, 30: 359 };
@@ -1069,7 +1069,7 @@ export const products = [
     preorderBadgeText: "Pre-Order",
     preorderDisclaimer: "This item is fulfilled directly from our factory partner and is not part of current domestic inventory.",
     basePrice: 169,
-    description: "True raw hair at its standard tier — cuticle-aligned, unprocessed, and ethically sourced. The right entry point into genuine raw hair.",
+    description: "Unprocessed, cuticle-aligned raw hair ethically sourced from single-donor collections. The ideal entry point into genuine raw hair — versatile enough to curl, straighten, or color. Pre-order pricing makes premium accessible without compromising on strand integrity or longevity.",
     lengths: [12, 14, 16, 18, 20, 22, 24, 26],
     price(length) {
       const P = { 12: 139, 14: 149, 16: 169, 18: 189, 20: 209, 22: 229, 24: 249, 26: 269 };
@@ -1099,7 +1099,7 @@ export const products = [
     preorderBadgeText: "Pre-Order",
     preorderDisclaimer: "This item is fulfilled directly from our factory partner and is not part of current domestic inventory.",
     basePrice: 249,
-    description: "Double drawn (DD) bundles — hand-selected for strand length uniformity from root to tip. Ultra-full, ultra-dense finish at every length.",
+    description: "Double drawn bundles hand-selected for 80–85% strand length uniformity from root to tip, delivering an ultra-full, ultra-dense finish at every length. Factory-direct quality with pre-order savings — each bundle is inspected for consistent density before it ships.",
     lengths: [14, 16, 18, 20, 22, 24, 26, 28],
     price(length) {
       const P = { 14: 229, 16: 249, 18: 269, 20: 289, 22: 309, 24: 329, 26: 349, 28: 369 };
@@ -1839,8 +1839,8 @@ products.push(
       return preorder10(tuple[1]);
     },
     description:
-      "First-Grade Double Drawn raw bundles — 80–85% strand uniformity. " +
-      "Pre-order at 10% off retail. Factory drop-shipped in 14–21 business days.",
+      "First-Grade Double Drawn raw bundles with 80–85% strand uniformity from root to tip. Raw, cuticle-aligned hair at pre-order savings of 10% off retail. " +
+      "Factory drop-shipped in 14–21 business days — inspected for consistent density before dispatch.",
     images: [
       "/gallery/colorways/Natural/Eminence_Colorways_Straight_Natural_02.webp",
       CATALOG_PLACEHOLDER,
@@ -1874,8 +1874,8 @@ products.push(
       return preorder10(tuple[1]);
     },
     description:
-      "14A standard raw braid hair bundles — genuine raw hair for braid installs. " +
-      "Pre-order at 10% off retail. Factory drop-shipped in 14–21 business days.",
+      "14A-grade raw human hair bundles selected for braid installs and natural protective styles. Genuine cuticle-aligned quality at 10% off retail with pre-order. " +
+      "Factory drop-shipped in 14–21 business days — a reliable foundation for long-lasting braids.",
     images: [
       CATALOG_PLACEHOLDER,
     ],
@@ -1908,8 +1908,8 @@ products.push(
       return preorder10(tuple[1]);
     },
     description:
-      "14A+ true raw human hair — the highest braid-grade available. " +
-      "Pre-order at 10% off retail. Factory drop-shipped in 14–21 business days.",
+      "14A+ premium single-donor raw hair — our highest braid-grade with superior cuticle alignment and lasting softness. Pre-order at 10% off retail. " +
+      "Factory drop-shipped in 14–21 business days. Built for the most demanding luxury braid installs.",
     images: [
       CATALOG_PLACEHOLDER,
     ],
