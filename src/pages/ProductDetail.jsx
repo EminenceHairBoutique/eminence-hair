@@ -29,6 +29,9 @@ import VirtualPreviewModal from "../components/VirtualPreviewModal";
 import { trackViewItem } from "../utils/track";
 import { resolveProductImages } from "../utils/productMedia";
 import { formatMoney } from "../utils/format";
+import RelatedProducts from "../components/RelatedProducts";
+import RecentlyViewed from "../components/RecentlyViewed";
+import { useRecentlyViewed } from "../hooks/useRecentlyViewed";
 
 /* ---------------- BNPL config ---------------- */
 const BNPL_MINIMUM = 50; // minimum price to show installment messaging
@@ -396,6 +399,7 @@ export default function ProductDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { recentIds, trackView } = useRecentlyViewed();
 
   // route-based "loading skeleton" feel
   const [pageLoading, setPageLoading] = useState(true);
@@ -406,6 +410,10 @@ export default function ProductDetail() {
   }, [slug]);
 
   const product = useMemo(() => products.find((p) => p.slug === slug), [slug]);
+
+  useEffect(() => {
+    if (product?.id) trackView(product.id);
+  }, [product?.id, trackView]);
 
   const isWig = product?.type === "wig";
   const isBundle = product?.type === "bundle";
@@ -1329,6 +1337,8 @@ export default function ProductDetail() {
               </div>
 
               <RecommendedGrid current={product} />
+              <RelatedProducts currentProduct={product} />
+              <RecentlyViewed recentIds={recentIds} currentProductId={product?.id} />
             </div>
           )}
         </div>

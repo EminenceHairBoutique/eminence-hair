@@ -13,7 +13,7 @@ export default function CartDrawer() {
     closeCart,
     items = [],
     total = 0,
-    removeItem = () => {},
+    removeFromCart: removeItem = () => {},
     updateQuantity = () => {},
   } = useCart();
 

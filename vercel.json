@@ -54,5 +54,11 @@
   ],
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/post-purchase-emails",
+      "schedule": "0 10 * * *"
+    }
   ]
 }

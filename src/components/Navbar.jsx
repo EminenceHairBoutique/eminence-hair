@@ -14,7 +14,7 @@ export default function Navbar() {
   const { user } = useUser();
   const location = useLocation();
 
-  const [activeMenu, setActiveMenu] = useState(null); // 'shop' | 'about' | null
+  const [activeMenu, setActiveMenu] = useState(null); // 'shop' | 'about' | 'services' | null
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const headerRef = useRef(null);
@@ -42,98 +42,77 @@ export default function Navbar() {
     };
   }, []);
 
-  const shopSections = useMemo(
-    () => [
-      {
-        title: "Shop",
-        items: [
-          { label: "All Products", href: "/shop" },
-          { label: "Ready-to-Ship Edit", href: "/ready-to-ship" },
-          { label: "Eminence Essentials", href: "/shop?collection=eminence-essentials" },
-          { label: "HD Lace Wigs", href: "/shop/wigs" },
-          { label: "Medical Grade Wigs", href: "/shop/medical" },
-          { label: "Bundles", href: "/shop/bundles" },
-          { label: "Pre-Orders", href: "/shop/preorders" },
-        ],
-      },
-      {
-        title: "Collections",
-        items: [
-          { label: "Eminence Collection", href: "/collections/eminence" },
-          { label: "SEA Collection", href: "/collections/sea" },
-          { label: "Burmese Collection", href: "/collections/burmese" },
-          { label: "Lavish Collection", href: "/collections/lavish" },
-        ],
-      },
-      {
-        title: "Colorways",
-        items: [
-          { label: "Natural", href: "/collections/natural" },
-          { label: "613 Blonde", href: "/collections/613" },
-          { label: "Burgundy", href: "/collections/burgundy" },
-          { label: "Blended", href: "/collections/blended" },
-        ],
-      },
-      {
-        title: "Services",
-        items: [
-          { label: "Private Consult", href: "/private-consult" },
-          { label: "Medical Hair", href: "/medical-hair" },
-          { label: "Custom Atelier", href: "/custom-atelier" },
-          { label: "Authenticity", href: "/authenticity" },
-        ],
-      },
-    ],
-    []
-  );
+  const shopSections = useMemo(() => [
+    {
+      title: "By Type",
+      items: [
+        { label: "All Products", href: "/shop" },
+        { label: "HD Lace Wigs", href: "/shop/wigs" },
+        { label: "Bundles", href: "/shop/bundles" },
+        { label: "Closures & Frontals", href: "/shop/closures" },
+      ],
+    },
+    {
+      title: "Featured",
+      items: [
+        { label: "Eminence Essentials", href: "/shop?collection=eminence-essentials" },
+        { label: "Pre-Orders", href: "/shop/preorders" },
+      ],
+    },
+    {
+      title: "Quick Access",
+      items: [
+        { label: "Ready-to-Ship", href: "/ready-to-ship" },
+        { label: "Medical Grade", href: "/shop/medical" },
+      ],
+    },
+  ], []);
 
-  const aboutSections = useMemo(
-    () => [
-      {
-        title: "About Us",
-        items: [
-          { label: "Our Story", href: "/about" },
-          { label: "Authenticity", href: "/authenticity" },
-          { label: "Care Guide", href: "/care" },
-        ],
-      },
-      {
-        title: "Support",
-        items: [
-          { label: "FAQs", href: "/faqs" },
-          { label: "Contact", href: "/contact" },
-          { label: "Consult", href: "/private-consult" },
-          { label: "Custom Atelier", href: "/custom-atelier" },
-        ],
-      },
-      {
-        title: "Specialty",
-        items: [
-          { label: "Medical Hair", href: "/medical-hair" },
-          { label: "Book a Consult", href: "/private-consult" },
-          { label: "Verify Your Unit", href: "/authenticity" },
-        ],
-      },
-      {
-        title: "Quick Links",
-        items: [
-          { label: "Collections", href: "/collections" },
-          { label: "Shop Essentials", href: "/shop?collection=eminence-essentials" },
-          { label: "Shop All", href: "/shop" },
-          { label: "Partner Program", href: "/partners" },
-          { label: "Stylist Program", href: "/partners/stylists" },
-          { label: "Creator Program", href: "/partners/creators" },
-          { label: "Partner Portal", href: "/partner-portal" },
-        ],
-      },
-    ],
-    []
-  );
+  const servicesSections = useMemo(() => [
+    {
+      title: "Concierge",
+      items: [
+        { label: "Book a Consult", href: "/private-consult" },
+        { label: "Medical Hair", href: "/medical-hair" },
+        { label: "Private Fitting", href: "/private-consult" },
+      ],
+    },
+    {
+      title: "Atelier",
+      items: [
+        { label: "Custom Wig Builder", href: "/custom-atelier" },
+        { label: "Custom Orders", href: "/custom-orders" },
+        { label: "Partner Program", href: "/partners" },
+      ],
+    },
+  ], []);
+
+  const aboutSections = useMemo(() => [
+    {
+      title: "Our Brand",
+      items: [
+        { label: "Our Story", href: "/about" },
+        { label: "Authenticity", href: "/authenticity" },
+        { label: "Gallery", href: "/gallery" },
+      ],
+    },
+    {
+      title: "Help",
+      items: [
+        { label: "FAQs", href: "/faqs" },
+        { label: "Care Guide", href: "/care" },
+        { label: "Shipping & Returns", href: "/shipping" },
+        { label: "Contact", href: "/contact" },
+      ],
+    },
+  ], []);
 
   const menuImage =
     activeMenu === "shop"
       ? "/gallery/editorial/brand/Eminence_Editorial_BrandHero_Neutral_01.webp"
-      : "/gallery/editorial/campaign2025/Eminence_Editorial_AICampaign2025_Neutral_06.webp";
+      : activeMenu === "services"
+        ? "/gallery/editorial/campaign2025/Eminence_Editorial_AICampaign2025_Neutral_06.webp"
+        : "/gallery/editorial/campaign2025/Eminence_Editorial_AICampaign2025_Neutral_06.webp";
 
   return (
     <header
@@ -169,13 +148,15 @@ export default function Navbar() {
             Collections
           </Link>
 
-          <Link to="/start-here" className="hover:text-black transition">
-            Start Here
-          </Link>
-
-          <Link to="/ready-to-ship" className="hover:text-black transition">
-            Ready-to-Ship
-          </Link>
+          <button
+            type="button"
+            onClick={() => setActiveMenu((m) => (m === "services" ? null : "services"))}
+            className={`inline-flex items-center gap-2 hover:text-black transition ${
+              activeMenu === "services" ? "text-black" : ""
+            }`}
+          >
+            Services <ChevronDown size={14} className="opacity-70" />
+          </button>
 
           <button
             type="button"
@@ -184,7 +165,7 @@ export default function Navbar() {
               activeMenu === "about" ? "text-black" : ""
             }`}
           >
-            About Us <ChevronDown size={14} className="opacity-70" />
+            About <ChevronDown size={14} className="opacity-70" />
           </button>
         </nav>
 
@@ -260,6 +241,12 @@ export default function Navbar() {
         sections={aboutSections}
         image={menuImage}
       />
+      <MegaMenu
+        open={activeMenu === "services"}
+        onClose={() => setActiveMenu(null)}
+        sections={servicesSections}
+        image={menuImage}
+      />
 
       {/* Search */}
       <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
@@ -272,7 +259,7 @@ export default function Navbar() {
           setMobileOpen(false);
           setSearchOpen(true);
         }}
-        sections={[...shopSections.slice(0, 2), ...aboutSections.slice(0, 2)]}
+        sections={[...shopSections, ...servicesSections, ...aboutSections]}
       />
 
     </header>

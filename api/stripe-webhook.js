@@ -2,7 +2,7 @@
 import Stripe from "stripe";
 import { supabaseServer } from "../lib/supabaseServer.js";
 import { generateOrderNumber } from "../lib/orderNumber.js";
-import { sendOrderConfirmationEmail } from "../lib/email.js";
+import { sendOrderConfirmationEmail, sendAbandonedCartEmail } from "../lib/email.js";
 import { LOYALTY, pointsForPurchaseCents } from "../src/utils/loyalty.js";
 
 export const config = {
@@ -233,6 +233,28 @@ export default async function handler(req, res) {
       case "payment_intent.succeeded": {
         const intent = event.data.object;
         console.log("💰 PaymentIntent succeeded:", intent.id);
+        break;
+      }
+
+      case "checkout.session.expired": {
+        const expiredSession = event.data.object;
+        const customerEmail =
+          expiredSession.customer_details?.email ||
+          expiredSession.customer_email ||
+          expiredSession.metadata?.customer_email ||
+          null;
+
+        if (customerEmail) {
+          try {
+            await sendAbandonedCartEmail({
+              to: customerEmail,
+              sessionUrl: expiredSession.url || null,
+            });
+            console.log("📧 Abandoned cart email sent to:", customerEmail);
+          } catch (err) {
+            console.error("❌ Abandoned cart email failed:", err.message);
+          }
+        }
         break;
       }
 

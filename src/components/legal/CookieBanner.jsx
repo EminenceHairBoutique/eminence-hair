@@ -8,8 +8,12 @@ export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) setVisible(true);
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) setVisible(true);
+    } catch {
+      setVisible(true);
+    }
   }, []);
 
   // If the browser sends Global Privacy Control, default to essential-only unless

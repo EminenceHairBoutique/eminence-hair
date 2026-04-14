@@ -67,6 +67,7 @@ export default function SearchModal({ open, onClose }) {
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[60]"
           aria-modal="true"
+          aria-label="Search products"
           role="dialog"
         >
           <div
