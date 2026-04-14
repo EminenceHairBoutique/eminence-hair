@@ -865,25 +865,28 @@ async function main() {
     .map((r) => {
       const loc = ensureSiteUrl(r.pathname);
       // Use route-level priority/changefreq when defined; otherwise fall back to heuristic
-      let priority = r.priority != null ? String(r.priority) : "0.5";
-      let changefreq = r.changefreq || "monthly";
-      if (r.priority == null) {
-        if (r.pathname === "/") {
-          priority = "1.0";
-          changefreq = "daily";
-        } else if (r.pathname === "/shop" || r.pathname === "/collections") {
-          priority = "0.9";
-          changefreq = "weekly";
-        } else if (r.pathname.startsWith("/shop/") || r.pathname.startsWith("/collections/")) {
-          priority = "0.8";
-          changefreq = "weekly";
-        } else if (r.pathname.startsWith("/products/")) {
-          priority = "0.7";
-          changefreq = "weekly";
-        } else if (["/about", "/contact", "/faqs", "/care", "/authenticity"].includes(r.pathname)) {
-          priority = "0.6";
-          changefreq = "monthly";
-        }
+      let priority, changefreq;
+      if (r.priority != null) {
+        priority = String(r.priority);
+        changefreq = r.changefreq || "monthly";
+      } else if (r.pathname === "/") {
+        priority = "1.0";
+        changefreq = "daily";
+      } else if (r.pathname === "/shop" || r.pathname === "/collections") {
+        priority = "0.9";
+        changefreq = "weekly";
+      } else if (r.pathname.startsWith("/shop/") || r.pathname.startsWith("/collections/")) {
+        priority = "0.8";
+        changefreq = "weekly";
+      } else if (r.pathname.startsWith("/products/")) {
+        priority = "0.7";
+        changefreq = "weekly";
+      } else if (["/about", "/contact", "/faqs", "/care", "/authenticity"].includes(r.pathname)) {
+        priority = "0.6";
+        changefreq = "monthly";
+      } else {
+        priority = "0.5";
+        changefreq = "monthly";
       }
       return { loc, priority, changefreq };
     })
