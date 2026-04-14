@@ -85,3 +85,34 @@ This build supports:
   - InitiateCheckout / `begin_checkout`
   - Purchase / `purchase` (fired on Success page using a checkout snapshot)
 
+## 7) Apple Pay domain verification
+1. Go to **Stripe Dashboard → Settings → Payments → Apple Pay**
+2. Click "Add new domain" and enter `www.eminenceluxuryhair.com`
+3. Download the verification file from Stripe
+4. Replace the placeholder file at `public/.well-known/apple-developer-merchantid-domain-association` with the downloaded file
+5. Deploy and verify Apple Pay is available at checkout
+
+## 8) TikTok Pixel
+- Add `VITE_TIKTOK_PIXEL_ID` to Vercel environment variables (Production + Preview)
+- The pixel script is consent-gated via `TrackingScripts.jsx`
+
+## 9) Post-purchase email automation
+- Run SQL migration:
+  ```sql
+  ALTER TABLE orders ADD COLUMN IF NOT EXISTS care_email_sent timestamptz;
+  ALTER TABLE orders ADD COLUMN IF NOT EXISTS review_email_sent timestamptz;
+  ```
+- Set `CRON_SECRET` in Vercel environment variables
+- Cron job runs daily at 10:00 UTC (`/api/cron/post-purchase-emails`)
+- Sends care guide email 3 days after purchase
+- Sends review request email 14 days after purchase
+
+## 10) Abandoned cart recovery
+- Add `checkout.session.expired` to your Stripe webhook events:
+  **Stripe Dashboard → Developers → Webhooks → Select endpoint → Add events**
+- The webhook handler sends a branded recovery email automatically
+
+## 11) Google Shopping feed
+- After deployment, submit `https://www.eminenceluxuryhair.com/feed.xml` to Google Merchant Center
+- Feed auto-generates during each build
+
