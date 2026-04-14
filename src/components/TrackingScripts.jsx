@@ -1,11 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
+import { getConsentMemory } from "../lib/consentStore";
 
 const STORAGE_KEY = "eminence_cookie_consent";
 
 function readConsent() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
+    if (!raw) {
+      // Fall back to in-memory consent (Safari Private Browsing)
+      const mem = getConsentMemory();
+      if (mem.necessary) return mem;
+      return null;
+    }
     const parsed = JSON.parse(raw);
     return {
       necessary: Boolean(parsed?.necessary),
@@ -14,6 +20,8 @@ function readConsent() {
       timestamp: parsed?.timestamp,
     };
   } catch {
+    const mem = getConsentMemory();
+    if (mem.necessary) return mem;
     return null;
   }
 }
