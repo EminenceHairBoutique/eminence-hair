@@ -1,0 +1,5 @@
+# Apple Pay domain verification
+# Replace this file with the actual verification file from your Stripe Dashboard:
+# Stripe Dashboard → Settings → Payments → Apple Pay → Download verification file
+# Then upload to: https://yourdomain.com/.well-known/apple-developer-merchantid-domain-association
+PLACEHOLDER — REPLACE WITH ACTUAL VERIFICATION FILE FROM STRIPE
