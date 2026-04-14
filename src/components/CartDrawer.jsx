@@ -13,7 +13,7 @@ export default function CartDrawer() {
     closeCart,
     items = [],
     total = 0,
-    removeFromCart = () => {},
+    removeItem = () => {},
     updateQuantity = () => {},
   } = useCart();
 
@@ -178,7 +178,7 @@ export default function CartDrawer() {
                     </div>
 
                     <button
-                      onClick={() => removeFromCart(item.id, item.variant)}
+                      onClick={() => removeItem(item.id, item.variant)}
                       className="text-xs text-neutral-500 hover:text-neutral-900"
                     >
                       Remove

@@ -204,33 +204,15 @@ export default function SEO({
       content: ogImageAbs,
     });
 
-    // JSON-LD — build the default graph, then merge any page-specific nodes
-    const defaultSchema = buildDefaultJsonLd({
-      url: canonicalUrl,
-      name: finalTitle,
-      description: finalDescription,
-      image: ogImageAbs,
-    });
-
-    let schema;
-    if (jsonLd) {
-      // If the page passes a full @graph, merge its nodes into the default graph
-      // so we never lose Organization / WebSite / WebPage.
-      const extraNodes = Array.isArray(jsonLd["@graph"])
-        ? jsonLd["@graph"]
-        : [jsonLd];
-
-      // Deduplicate by @id — page-specific nodes with matching @id override defaults
-      const defaultIds = new Set(defaultSchema["@graph"].map((n) => n["@id"]).filter(Boolean));
-      const novel = extraNodes.filter((n) => !n["@id"] || !defaultIds.has(n["@id"]));
-
-      schema = {
-        ...defaultSchema,
-        "@graph": [...defaultSchema["@graph"], ...novel],
-      };
-    } else {
-      schema = defaultSchema;
-    }
+    // JSON-LD
+    const schema =
+      jsonLd ||
+      buildDefaultJsonLd({
+        url: canonicalUrl,
+        name: finalTitle,
+        description: finalDescription,
+        image: ogImageAbs,
+      });
 
     setJsonLd(schema);
   }, [title, description, image, JSON.stringify(images || []), type, noindex, location.pathname]);

@@ -483,6 +483,14 @@ export default function ProductDetail() {
   const [zoomOpen, setZoomOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
 
+  // Sticky mobile add-to-bag bar
+  const [sticky, setSticky] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setSticky(window.scrollY > 520);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [slug]);
 
   const basePrice = useMemo(() => {
     if (!product) return 0;
@@ -599,6 +607,8 @@ export default function ProductDetail() {
     (isBundle && length) ||
     (isClosure && length && closureSizeValid && frontalSizeValid) ||
     (isWig && length && density && lace && capSize);
+
+  const total = Number(price || 0) * Number(qty || 1);
 
   return (
     <>
@@ -1332,6 +1342,32 @@ export default function ProductDetail() {
             </div>
           )}
         </div>
+
+        {/* Sticky mobile bar */}
+        {sticky && (
+          <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden">
+            <div className="mx-auto max-w-7xl px-4 pb-4">
+              <div className="rounded-2xl border bg-white/90 backdrop-blur shadow-[0_18px_40px_rgba(15,10,5,0.22)] p-3 flex items-center gap-3">
+                <div className="min-w-0 flex-1">
+                  <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">Total</p>
+                  <p className="text-sm font-medium text-neutral-900 truncate">{formatMoney(total)}</p>
+                </div>
+
+                <button
+                  disabled={!canAdd}
+                  onClick={handleAdd}
+                  className={`px-6 py-3 rounded-full text-[11px] uppercase tracking-[0.26em] ${
+                    canAdd
+                      ? "bg-neutral-900 text-[#F9F7F4] hover:bg-black"
+                      : "bg-neutral-300 text-neutral-500 cursor-not-allowed"
+                  }`}
+                >
+                  {product.isPreorder ? "Pre-Order" : "Add to Bag"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Zoom modal */}
         <ImageZoomModal

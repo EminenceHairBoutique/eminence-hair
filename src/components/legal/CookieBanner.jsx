@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
-import { safeLocalGet, safeLocalSet } from "../../utils/storage";
 
 const STORAGE_KEY = "eminence_cookie_consent";
 
@@ -9,7 +8,7 @@ export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const stored = safeLocalGet(STORAGE_KEY);
+    const stored = localStorage.getItem(STORAGE_KEY);
     if (!stored) setVisible(true);
   }, []);
 
@@ -17,10 +16,10 @@ export default function CookieBanner() {
   // the user has already saved a preference.
   useEffect(() => {
     try {
-      const stored = safeLocalGet(STORAGE_KEY);
+      const stored = localStorage.getItem(STORAGE_KEY);
       const gpc = typeof navigator !== "undefined" && Boolean(navigator.globalPrivacyControl);
       if (!stored && gpc) {
-        safeLocalSet(
+        localStorage.setItem(
           STORAGE_KEY,
           JSON.stringify({
             necessary: true,
@@ -40,7 +39,7 @@ export default function CookieBanner() {
   }, []);
 
   const acceptAll = () => {
-    safeLocalSet(
+    localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({
         necessary: true,
@@ -55,7 +54,7 @@ export default function CookieBanner() {
   };
 
   const acceptEssential = () => {
-    safeLocalSet(
+    localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({
         necessary: true,
