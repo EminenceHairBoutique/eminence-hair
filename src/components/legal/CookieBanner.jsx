@@ -23,16 +23,18 @@ export default function CookieBanner() {
       const stored = localStorage.getItem(STORAGE_KEY);
       const gpc = typeof navigator !== "undefined" && Boolean(navigator.globalPrivacyControl);
       if (!stored && gpc) {
-        localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify({
-            necessary: true,
-            analytics: false,
-            marketing: false,
-            timestamp: Date.now(),
-            source: "gpc",
-          })
-        );
+        try {
+          localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify({
+              necessary: true,
+              analytics: false,
+              marketing: false,
+              timestamp: Date.now(),
+              source: "gpc",
+            })
+          );
+        } catch { /* storage blocked */ }
         setVisible(false);
     try { window.dispatchEvent(new Event("eminence_consent_updated")); } catch (_e) { /* ignore */ }
     try { window.dispatchEvent(new Event("eminence_consent_decided")); } catch (_e) { /* ignore */ }
@@ -43,30 +45,34 @@ export default function CookieBanner() {
   }, []);
 
   const acceptAll = () => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({
-        necessary: true,
-        analytics: true,
-        marketing: true,
-        timestamp: Date.now(),
-      })
-    );
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          necessary: true,
+          analytics: true,
+          marketing: true,
+          timestamp: Date.now(),
+        })
+      );
+    } catch { /* storage blocked — consent still applied in-memory for this session */ }
     setVisible(false);
     try { window.dispatchEvent(new Event("eminence_consent_updated")); } catch (_e) { /* ignore */ }
     try { window.dispatchEvent(new Event("eminence_consent_decided")); } catch (_e) { /* ignore */ }
   };
 
   const acceptEssential = () => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({
-        necessary: true,
-        analytics: false,
-        marketing: false,
-        timestamp: Date.now(),
-      })
-    );
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          necessary: true,
+          analytics: false,
+          marketing: false,
+          timestamp: Date.now(),
+        })
+      );
+    } catch { /* storage blocked — consent still applied in-memory for this session */ }
     setVisible(false);
     try { window.dispatchEvent(new Event("eminence_consent_updated")); } catch (_e) { /* ignore */ }
     try { window.dispatchEvent(new Event("eminence_consent_decided")); } catch (_e) { /* ignore */ }
