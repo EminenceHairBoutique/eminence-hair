@@ -5,7 +5,7 @@ import { subscribeEmail } from "../utils/subscribe";
 import { safeSessionGet, safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
 
 const STORAGE_KEY = "eminence_email_popup_dismissed";
-const DELAY_MS = 8000; // 8 seconds before showing
+const DELAY_MS = 35000; // 35 seconds — well after cookie + discount modals
 
 export default function EmailPopup() {
   const [visible, setVisible] = useState(false);
@@ -19,6 +19,9 @@ export default function EmailPopup() {
 
     // Don't show if DiscountModal already claimed this session
     if (safeSessionGet("eminence_discount_seen")) return;
+
+    // Don't show if SMS discount already verified
+    if (safeLocalGet("eminence_sms_verified") === "true") return;
 
     // Wait for cookie consent decision before showing marketing popup
     const consentAlreadyDecided = !!safeLocalGet("eminence_cookie_consent");

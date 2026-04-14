@@ -483,13 +483,38 @@ export default function ProductDetail() {
   const [zoomOpen, setZoomOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
 
-  // Sticky mobile add-to-bag bar
+  // Sticky mobile add-to-bag bar (rAF-throttled to avoid scroll jank)
   const [sticky, setSticky] = useState(false);
   useEffect(() => {
-    const onScroll = () => setSticky(window.scrollY > 520);
+    let ticking = false;
+    let frameId = null;
+    let isMounted = true;
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        frameId = window.requestAnimationFrame(() => {
+          frameId = null;
+          if (!isMounted) {
+            ticking = false;
+            return;
+          }
+          setSticky(window.scrollY > 520);
+          ticking = false;
+        });
+      }
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+
+    return () => {
+      isMounted = false;
+      window.removeEventListener("scroll", onScroll);
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+    };
   }, [slug]);
 
   const basePrice = useMemo(() => {

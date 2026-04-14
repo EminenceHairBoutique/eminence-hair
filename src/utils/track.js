@@ -1,15 +1,24 @@
+import { getConsentMemory } from "../lib/consentStore";
+
 const CONSENT_KEY = "eminence_cookie_consent";
 
 function readConsent() {
   try {
     const raw = window?.localStorage?.getItem?.(CONSENT_KEY);
-    if (!raw) return { analytics: false, marketing: false };
+    if (!raw) {
+      // Fall back to in-memory consent (Safari Private Browsing)
+      const mem = getConsentMemory();
+      if (mem.necessary) return mem;
+      return { analytics: false, marketing: false };
+    }
     const consent = JSON.parse(raw);
     return {
       analytics: Boolean(consent?.analytics),
       marketing: Boolean(consent?.marketing),
     };
   } catch {
+    const mem = getConsentMemory();
+    if (mem.necessary) return mem;
     return { analytics: false, marketing: false };
   }
 }

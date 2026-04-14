@@ -313,7 +313,7 @@ async function main() {
       description: "Shop HD lace closures and frontals designed for seamless installs. Transparent and HD lace options available.",
       ogType: "website",
       changefreq: "weekly",
-      priority: 0.8,
+      priority: 0.7,
     },
     {
       pathname: "/shop/medical",
@@ -355,7 +355,7 @@ async function main() {
       description: "Explore Eminence origin-driven collections: raw Cambodian SEA, Burmese deep wave, Lavish wave, 613 blonde, and seasonal editorial edits.",
       ogType: "website",
       changefreq: "weekly",
-      priority: 0.8,
+      priority: 0.7,
     },
 
     {
@@ -365,7 +365,34 @@ async function main() {
         "Editorial silhouettes and couture textures curated for Fall/Winter 2025 — a refined lookbook for your next transformation.",
       ogType: "website",
       changefreq: "monthly",
-      priority: 0.7,
+      priority: 0.6,
+    },
+    {
+      pathname: "/collections/sea",
+      title: "SEA Collection — Raw Cambodian Hair",
+      description:
+        "Explore the SEA collection featuring raw Cambodian hair wigs and bundles in body wave, straight, and deep wave textures.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
+    },
+    {
+      pathname: "/collections/burmese",
+      title: "Burmese Collection — Natural Deep Wave & Curly",
+      description:
+        "Shop the Burmese collection — raw Burmese deep wave and curly hair wigs and bundles from Eminence Hair Boutique.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
+    },
+    {
+      pathname: "/collections/lavish",
+      title: "Lavish Collection — Premium Luxury Hair",
+      description:
+        "The Lavish collection — ultra-premium raw hair wigs and bundles with the highest density and cuticle alignment.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
     },
 
     {
@@ -390,7 +417,7 @@ async function main() {
       description: "Expert care guide for raw Cambodian and Burmese hair. Learn proper wash routines, heat styling tips, storage methods, and maintenance for lasting softness and luster.",
       ogType: "website",
       changefreq: "monthly",
-      priority: 0.6,
+      priority: 0.5,
     },
     {
       pathname: "/medical-hair",
@@ -399,7 +426,7 @@ async function main() {
         "Luxury medical hair solutions for alopecia, chemotherapy, and hair loss conditions. HSA/FSA reimbursement guidance, private fitting, and compassionate service.",
       ogType: "website",
       changefreq: "monthly",
-      priority: 0.6,
+      priority: 0.5,
     },
     {
       pathname: "/faqs",
@@ -416,7 +443,7 @@ async function main() {
         "Schedule a one-on-one consultation with our concierge team. Get expert guidance on wig selection, density, texture, medical hair, and custom atelier orders.",
       ogType: "website",
       changefreq: "monthly",
-      priority: 0.7,
+      priority: 0.5,
     },
     {
       pathname: "/consultation",
@@ -424,7 +451,7 @@ async function main() {
       description: "Schedule a consultation with the Eminence Hair concierge team for personalized recommendations.",
       ogType: "website",
       changefreq: "monthly",
-      priority: 0.7,
+      priority: 0.5,
     },
     {
       pathname: "/custom-orders",
@@ -500,7 +527,7 @@ async function main() {
       description: "Join the Eminence Hair partner program for stylists, salon owners, and content creators.",
       ogType: "website",
       changefreq: "monthly",
-      priority: 0.6,
+      priority: 0.4,
     },
     {
       pathname: "/installers",
@@ -837,10 +864,12 @@ async function main() {
     .filter((r) => !r.pathname.includes("/account"))
     .map((r) => {
       const loc = ensureSiteUrl(r.pathname);
-      // Assign priority based on page importance
-      let priority = "0.5";
-      let changefreq = "monthly";
-      if (r.pathname === "/") {
+      // Use route-level priority/changefreq when defined; otherwise fall back to heuristic
+      let priority, changefreq;
+      if (r.priority != null) {
+        priority = String(r.priority);
+        changefreq = r.changefreq || "monthly";
+      } else if (r.pathname === "/") {
         priority = "1.0";
         changefreq = "daily";
       } else if (r.pathname === "/shop" || r.pathname === "/collections") {
@@ -854,6 +883,9 @@ async function main() {
         changefreq = "weekly";
       } else if (["/about", "/contact", "/faqs", "/care", "/authenticity"].includes(r.pathname)) {
         priority = "0.6";
+        changefreq = "monthly";
+      } else {
+        priority = "0.5";
         changefreq = "monthly";
       }
       return { loc, priority, changefreq };

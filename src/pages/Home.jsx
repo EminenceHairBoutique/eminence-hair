@@ -99,7 +99,7 @@ const Home = () => {
               loop
               muted={isMuted}
               playsInline
-              preload="none"
+              preload="metadata"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
@@ -278,7 +278,7 @@ const Home = () => {
               <div className="relative rounded-3xl overflow-hidden">
                 <img
                   src={db5}
-                  alt="F/W 2025 Eminence collection"
+                  alt="The Eminence Edit collection — body wave texture editorial styling"
                   className="w-full h-[420px] object-cover"
                   loading="lazy"
                   decoding="async"
@@ -295,7 +295,7 @@ const Home = () => {
                     viewport={viewport}
                   >
                     <p className="text-[11px] tracking-[0.28em] uppercase text-neutral-300 mb-2">
-                      F/W 2025
+                      The Eminence Edit
                     </p>
                     <h2 className="text-2xl md:text-3xl font-light font-display mb-4">
                       The Eminence Edit
@@ -376,6 +376,8 @@ const Home = () => {
                     value={newsletterEmail}
                     onChange={(e) => setNewsletterEmail(e.target.value)}
                     className="flex-1 min-w-0 bg-white/10 border border-white/20 rounded-full px-4 py-2.5 text-sm text-white placeholder:text-white/40 outline-none focus:border-white/50"
+                    aria-label="Email address for newsletter signup"
+                    autoComplete="email"
                   />
                   <button
                     onClick={handleNewsletterSignup}
