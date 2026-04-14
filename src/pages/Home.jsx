@@ -278,7 +278,7 @@ const Home = () => {
               <div className="relative rounded-3xl overflow-hidden">
                 <img
                   src={db5}
-                  alt="Eminence collection body wave texture — editorial styling"
+                  alt="The Eminence Edit collection — body wave texture editorial styling"
                   className="w-full h-[420px] object-cover"
                   loading="lazy"
                   decoding="async"
