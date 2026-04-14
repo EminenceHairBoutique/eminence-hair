@@ -65,12 +65,12 @@ const Home = () => {
     <>
       <SEO
         title="Raw Cambodian Hair & HD Lace Wigs — Luxury Hair Boutique"
-        description="Shop 100% raw Cambodian & Burmese HD lace wigs, bundles, and closures. 180\u2013250% density, ethically sourced, third-party verified. Free shipping on select orders."
+        description="Shop 100% raw Cambodian & Burmese HD lace wigs, bundles, and closures. 180–250% density, ethically sourced, third-party verified. Free shipping on select orders."
       />
       <PageTransition>
         <div className={`bg-[#F9F7F4] text-[#111] ${isOpen ? "blur-sm" : ""} transition`}>
 
-          {/* \u2500\u2500 SECTION 1 \u2014 HERO (Video) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
+          {/* ── SECTION 1 — HERO (Video) ──────────────────────────── */}
           <section className="relative h-[80vh] min-h-[520px] w-full overflow-hidden bg-black">
             <video
               ref={videoRef}
@@ -105,8 +105,8 @@ const Home = () => {
                     100% Raw Cambodian Hair. HD Lace. Built Like Couture.
                   </h1>
                   <p className="mt-4 text-sm text-neutral-100 max-w-lg">
-                    Third-party verified, 180\u2013250% density wigs and bundles from our partner atelier.
-                    Ethically sourced from Cambodia &amp; Myanmar \u2014 engineered for camera, studio, and everyday luxury.
+                    Third-party verified, 180–250% density wigs and bundles from our partner atelier.
+                    Ethically sourced from Cambodia &amp; Myanmar — engineered for camera, studio, and everyday luxury.
                   </p>
                 </Motion.div>
               )}
@@ -135,7 +135,7 @@ const Home = () => {
             </button>
           </section>
 
-          {/* \u2500\u2500 SECTION 2 \u2014 TRUST STRIP + SOCIAL PROOF \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
+          {/* ── SECTION 2 — TRUST STRIP + SOCIAL PROOF ──────────── */}
           <TrustStrip />
           <div className="bg-white border-b border-neutral-200 py-3">
             <p className="text-center text-[11px] tracking-[0.18em] uppercase text-neutral-500">
@@ -143,7 +143,7 @@ const Home = () => {
             </p>
           </div>
 
-          {/* \u2500\u2500 SECTION 3 \u2014 EDITORIAL PRODUCT SHOWCASE \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
+          {/* ── SECTION 3 — EDITORIAL PRODUCT SHOWCASE ──────────── */}
           <section className="py-16 border-t border-neutral-200 bg-[#F9F7F4]">
             <div className="max-w-6xl mx-auto px-6">
               <Motion.div
@@ -159,7 +159,7 @@ const Home = () => {
                     The Essentials Edit
                   </p>
                   <h2 className="text-2xl font-light font-display mb-3">
-                    Our most requested pieces \u2014 edited for everyday luxury.
+                    Our most requested pieces — edited for everyday luxury.
                   </h2>
                   <p className="text-sm text-neutral-700 mb-6 leading-relaxed">
                     A focused selection of wigs and bundles chosen for versatility, longevity, and natural wear.
@@ -217,7 +217,7 @@ const Home = () => {
             </div>
           </section>
 
-          {/* \u2500\u2500 SECTION 4 \u2014 BRAND STORY (Why Eminence + Authenticity) \u2500\u2500 */}
+          {/* ── SECTION 4 — BRAND STORY (Why Eminence + Authenticity) ── */}
           <section className="py-16 border-t border-neutral-900 bg-[#111] text-[#F9F7F4]">
             <div className="max-w-6xl mx-auto px-6">
               <Motion.div
@@ -227,7 +227,7 @@ const Home = () => {
                 whileInView="visible"
                 viewport={viewport}
               >
-                {/* Left \u2014 editorial images */}
+                {/* Left — editorial images */}
                 <div className="grid grid-cols-2 gap-4">
                   <img
                     src={firstPage}
@@ -249,7 +249,7 @@ const Home = () => {
                   />
                 </div>
 
-                {/* Right \u2014 value props */}
+                {/* Right — value props */}
                 <div>
                   <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-400 mb-2">
                     Why Eminence
@@ -264,7 +264,7 @@ const Home = () => {
                         Honest Density
                       </h3>
                       <p>
-                        180\u2013250% density that matches the label, not just staged photos. What you see is
+                        180–250% density that matches the label, not just staged photos. What you see is
                         what you unbox.
                       </p>
                     </div>
@@ -282,7 +282,7 @@ const Home = () => {
                         Longevity Focused
                       </h3>
                       <p>
-                        Built to be washed, styled, and reworn \u2014 not disposable hair for a single event.
+                        Built to be washed, styled, and reworn — not disposable hair for a single event.
                       </p>
                     </div>
                   </div>
@@ -298,7 +298,7 @@ const Home = () => {
             </div>
           </section>
 
-          {/* \u2500\u2500 SECTION 5 \u2014 COLLECTION MOMENT (F/W 2025) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
+          {/* ── SECTION 5 — COLLECTION MOMENT (F/W 2025) ────────── */}
           <section className="relative py-16 border-t border-neutral-200 bg-[#F3EFE8]">
             <div className="max-w-6xl mx-auto px-6">
               <Motion.div
@@ -340,7 +340,7 @@ const Home = () => {
             </div>
           </section>
 
-          {/* \u2500\u2500 SECTION 6 \u2014 PRE-ORDER + NEWSLETTER (combined) \u2500\u2500\u2500\u2500\u2500\u2500 */}
+          {/* ── SECTION 6 — PRE-ORDER + NEWSLETTER (combined) ────── */}
           <section className="py-16 border-t border-neutral-900 bg-[#0B0B0C] text-white">
             <div className="max-w-6xl mx-auto px-6">
               <Motion.div
@@ -350,7 +350,7 @@ const Home = () => {
                 whileInView="visible"
                 viewport={viewport}
               >
-                {/* Left \u2014 Atelier Pre-Order */}
+                {/* Left — Atelier Pre-Order */}
                 <div>
                   <p className="text-[11px] uppercase tracking-[0.32em] text-white/55 mb-4">
                     Atelier Pre-Order
@@ -360,7 +360,7 @@ const Home = () => {
                   </h2>
                   <p className="text-sm text-white/70 leading-relaxed max-w-md mb-6">
                     Select premium bundles and wigs can be fulfilled directly
-                    from our partner atelier when not held in domestic stock \u2014
+                    from our partner atelier when not held in domestic stock —
                     giving you access to the full range at true factory quality.
                   </p>
 
@@ -396,7 +396,7 @@ const Home = () => {
                   </div>
                 </div>
 
-                {/* Right \u2014 Newsletter */}
+                {/* Right — Newsletter */}
                 <div className="flex flex-col justify-center">
                   <div className="rounded-3xl border border-white/10 bg-white/5 p-8 md:p-10">
                     <p className="text-[11px] tracking-[0.26em] uppercase text-white/55 mb-2">
@@ -429,10 +429,10 @@ const Home = () => {
 
                     <p className="mt-3 text-[11px] text-white/40">
                       {newsletterStatus === "success"
-                        ? "You're on the list \u2014 watch your inbox for early access."
+                        ? "You're on the list — watch your inbox for early access."
                         : newsletterStatus === "error"
                         ? newsletterError
-                        : "No spam \u2014 just launches, drops, and things worth knowing."}
+                        : "No spam — just launches, drops, and things worth knowing."}
                     </p>
                   </div>
                 </div>
@@ -440,7 +440,7 @@ const Home = () => {
             </div>
           </section>
 
-          {/* \u2500\u2500 SECTION 7 \u2014 READY-TO-SHIP (compact, light) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
+          {/* ── SECTION 7 — READY-TO-SHIP (compact, light) ───────── */}
           <section className="py-14 border-t border-neutral-200 bg-[#F9F7F4]">
             <div className="max-w-6xl mx-auto px-6">
               <Motion.div
@@ -452,7 +452,7 @@ const Home = () => {
                 <div className="flex items-end justify-between mb-8">
                   <div>
                     <p className="text-[11px] tracking-[0.26em] uppercase text-neutral-500 mb-1">
-                      Ready\u2011to\u2011Ship
+                      Ready‑to‑Ship
                     </p>
                     <h2 className="text-xl font-light font-display">
                       Fast dispatch. Zero compromise.
@@ -492,8 +492,8 @@ const Home = () => {
 
                     <div className="grid grid-cols-3 gap-3 mb-6">
                       {[
-                        { t: "2\u20133 day dispatch", d: "Domestic (U.S.)" },
-                        { t: "Install\u2011ready", d: "Soft, refined, dense" },
+                        { t: "2–3 day dispatch", d: "Domestic (U.S.)" },
+                        { t: "Install‑ready", d: "Soft, refined, dense" },
                         { t: "Concierge", d: "Help choosing pieces" },
                       ].map((x) => (
                         <div key={x.t} className="rounded-2xl border border-neutral-200 bg-white p-3">
@@ -508,7 +508,7 @@ const Home = () => {
                         to="/ready-to-ship"
                         className="rounded-full bg-[#111] text-[#F9F7F4] px-6 py-2.5 text-[11px] uppercase tracking-[0.26em] hover:bg-[#111]/90 transition"
                       >
-                        Shop Ready\u2011to\u2011Ship
+                        Shop Ready‑to‑Ship
                       </Link>
                       <Link
                         to="/custom-atelier"
