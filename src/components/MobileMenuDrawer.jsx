@@ -142,12 +142,13 @@ export default function MobileMenuDrawer({ open, onClose, onSearch }) {
     () => ({
       shop: [
         { label: "All Products", href: "/shop" },
-        { label: "Ready-to-Ship", href: "/ready-to-ship" },
-        { label: "Eminence Essentials", href: "/shop?collection=eminence-essentials" },
         { label: "HD Lace Wigs", href: "/shop/wigs" },
-        { label: "Medical Grade Wigs", href: "/shop/medical" },
         { label: "Bundles", href: "/shop/bundles" },
         { label: "Closures & Frontals", href: "/shop/closures" },
+        { label: "Eminence Essentials", href: "/shop?collection=eminence-essentials" },
+        { label: "Ready-to-Ship", href: "/ready-to-ship" },
+        { label: "Medical Grade Wigs", href: "/shop/medical" },
+        { label: "Pre-Orders", href: "/shop/preorders" },
       ],
       collections: [
         { label: "Eminence Collection", href: "/collections/eminence" },
@@ -157,22 +158,18 @@ export default function MobileMenuDrawer({ open, onClose, onSearch }) {
         { label: "All Collections", href: "/collections" },
       ],
       services: [
-        { label: "Custom Atelier", href: "/custom-atelier" },
+        { label: "Book a Consult", href: "/private-consult" },
         { label: "Medical Hair", href: "/medical-hair" },
-        { label: "Private Consult", href: "/private-consult" },
-        { label: "Authenticity", href: "/authenticity" },
-        { label: "Care Guide", href: "/care" },
-      ],
-      partners: [
+        { label: "Custom Wig Builder", href: "/custom-atelier" },
+        { label: "Custom Orders", href: "/custom-orders" },
         { label: "Partner Program", href: "/partners" },
-        { label: "Stylist Program", href: "/partners/stylists" },
-        { label: "Creator Program", href: "/partners/creators" },
-        { label: "Partner Portal", href: "/partner-portal" },
       ],
       about: [
-        { label: "About Us", href: "/about" },
-        { label: "Start Here", href: "/start-here" },
+        { label: "Our Story", href: "/about" },
+        { label: "Authenticity", href: "/authenticity" },
+        { label: "Gallery", href: "/gallery" },
         { label: "FAQs", href: "/faqs" },
+        { label: "Care Guide", href: "/care" },
         { label: "Contact", href: "/contact" },
       ],
     }),
@@ -315,19 +312,6 @@ export default function MobileMenuDrawer({ open, onClose, onSearch }) {
                 </NavSection>
 
                 <NavSection
-                  id="partners"
-                  title="Partners"
-                  openId={openSection}
-                  setOpenId={setOpenSection}
-                >
-                  {groups.partners.map((x) => (
-                    <NavLink key={x.href} to={x.href} onClick={onClose}>
-                      {x.label}
-                    </NavLink>
-                  ))}
-                </NavSection>
-
-                <NavSection
                   id="about"
                   title="About"
                   openId={openSection}
@@ -352,7 +336,7 @@ export default function MobileMenuDrawer({ open, onClose, onSearch }) {
                     { label: "Wigs", href: "/shop/wigs" },
                     { label: "Bundles", href: "/shop/bundles" },
                     { label: "Medical", href: "/medical-hair" },
-                    { label: "Authenticity", href: "/authenticity" },
+                    { label: "Consult", href: "/private-consult" },
                   ].map((x) => (
                     <Link
                       key={x.label}
