@@ -633,6 +633,7 @@ export default function Contact() {
                         onClick={() => {
                           setSubmitted(false);
                           setForm(EMPTY_FORM);
+                          setStatus({ state: "idle", message: "" });
                         }}
                         className="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-[11px] uppercase tracking-[0.22em] border border-black/15 hover:border-black/30 transition"
                       >
