@@ -128,6 +128,7 @@ export default function Contact() {
         throw new Error(txt || "Unable to send your message. Please try again.");
       }
 
+      setStatus({ state: "idle", message: "" });
       setSubmitted(true);
     } catch (err) {
       setStatus({
