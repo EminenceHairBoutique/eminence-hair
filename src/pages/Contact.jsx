@@ -129,7 +129,6 @@ export default function Contact() {
       }
 
       setSubmitted(true);
-      setStatus({ state: "idle", message: "" });
     } catch (err) {
       setStatus({
         state: "error",
@@ -222,7 +221,7 @@ export default function Contact() {
                 >
                   Order Assistance
                 </h2>
-                <div className="h-px flex-1 bg-black/8" />
+                <div className="h-px flex-1 bg-black/10" />
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
@@ -284,7 +283,7 @@ export default function Contact() {
                 >
                   Product Guidance
                 </h2>
-                <div className="h-px flex-1 bg-black/8" />
+                <div className="h-px flex-1 bg-black/10" />
               </div>
               <div className="grid lg:grid-cols-2 gap-8 items-start">
                 <div className="rounded-3xl bg-[#F3EFE8] border border-black/5 p-8">
@@ -369,7 +368,7 @@ export default function Contact() {
                 >
                   Send a Message
                 </h2>
-                <div className="h-px flex-1 bg-black/8" />
+                <div className="h-px flex-1 bg-black/10" />
               </div>
 
               <div className="grid lg:grid-cols-[0.85fr,1.15fr] gap-10 items-start">
@@ -653,7 +652,7 @@ export default function Contact() {
                 >
                   Frequently Asked Questions
                 </h2>
-                <div className="h-px flex-1 bg-black/8" />
+                <div className="h-px flex-1 bg-black/10" />
               </div>
               <div className="grid lg:grid-cols-[1fr,auto] gap-8 items-start">
                 <div className="bg-white rounded-3xl border border-black/5 shadow-sm divide-y divide-black/5 px-6 py-2">
@@ -696,7 +695,7 @@ export default function Contact() {
                 >
                   Personalized Services
                 </h2>
-                <div className="h-px flex-1 bg-black/8" />
+                <div className="h-px flex-1 bg-black/10" />
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
