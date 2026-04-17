@@ -154,7 +154,7 @@ export default function Contact() {
             subtitle="We're here to help with orders, product guidance, and personalized support. For questions regarding shipping, returns, consultations, or product selection, our team would be happy to assist."
             image="/gallery/editorial/campaign2025/Eminence_Editorial_AICampaign2025_Neutral_06.webp"
             ctas={[
-              { label: "Send a Message", href: "/contact#contact-form", variant: "primary" },
+              { label: "Send a Message", href: "#contact-form", variant: "primary" },
               { label: "Browse FAQs", href: "/faqs", variant: "ghost" },
             ]}
           />
