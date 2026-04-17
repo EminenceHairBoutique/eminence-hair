@@ -1,27 +1,99 @@
+// src/pages/Contact.jsx — Client Services Hub
+
 import React, { useState } from "react";
-import { Mail, MapPin, Phone } from "lucide-react";
-import logoWordmark from "../assets/logo_wordmark.svg";
+import { Link } from "react-router-dom";
+import { ArrowRight, ChevronDown, HelpCircle, MessageSquare, Package, Sparkles } from "lucide-react";
+import PageTransition from "../components/PageTransition";
+import PageHero from "../components/PageHero";
 import SEO from "../components/SEO";
-import SocialLinks from "../components/SocialLinks";
+import { BRAND } from "../config/brand";
+
+const inputBase =
+  "w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:border-black/25 transition";
+
+const EMPTY_FORM = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  orderNumber: "",
+  preferredContact: "",
+  reason: "",
+  message: "",
+  website: "", // honeypot
+};
+
+const FAQ_PREVIEW = [
+  {
+    id: "faq-ship",
+    q: "When will my order ship?",
+    a: "Most ready-to-ship orders are processed within 2–3 business days. Custom and made-to-order pieces require additional production time. You will receive a tracking notification once your order has dispatched.",
+  },
+  {
+    id: "faq-return",
+    q: "What is your return policy?",
+    a: "Due to the hygienic nature of hair products, all sales are final unless your order arrives damaged, defective, or incorrect. Please contact us within 48 hours of delivery with clear photos and your order number.",
+  },
+  {
+    id: "faq-density",
+    q: "I'm not sure which texture or density is right for me.",
+    a: "Our concierge team is here to help. Send us a message below or request a private consultation — we'll guide you through origin, texture, density, and lace based on your lifestyle and desired look.",
+  },
+  {
+    id: "faq-change",
+    q: "Can I change or cancel my order after checkout?",
+    a: "Order processing begins immediately. If you need to make changes, please contact us as soon as possible. We will do our best to assist, though modifications cannot be guaranteed once production or packing has begun.",
+  },
+  {
+    id: "faq-custom",
+    q: "Do you offer custom wigs or color services?",
+    a: "Yes. We offer custom orders including lace options, density preferences, and curated color services. Visit our Custom Atelier to begin your request.",
+  },
+];
+
+function FaqAccordion({ id, q, a, open, onToggle }) {
+  return (
+    <div className="border-b border-black/5 last:border-0">
+      <button
+        type="button"
+        onClick={() => onToggle(id)}
+        className="w-full flex items-center justify-between gap-4 py-4 text-left"
+        aria-expanded={open}
+        aria-controls={`faq-answer-${id}`}
+      >
+        <span className="text-sm text-neutral-900">{q}</span>
+        <ChevronDown
+          className={`h-4 w-4 flex-shrink-0 text-neutral-500 transition-transform ${open ? "rotate-180" : ""}`}
+          aria-hidden="true"
+        />
+      </button>
+      <div
+        id={`faq-answer-${id}`}
+        role="region"
+        hidden={!open}
+        className="pb-4 text-sm text-neutral-600 leading-relaxed"
+      >
+        {a}
+      </div>
+    </div>
+  );
+}
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
-
-  const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    orderNumber: "",
-    reason: "",
-    message: "",
-    website: "", // honeypot
-  });
-
+  const [form, setForm] = useState(EMPTY_FORM);
   const [status, setStatus] = useState({ state: "idle", message: "" });
+  const [openFaqs, setOpenFaqs] = useState(() => new Set());
 
-  const update = (key) => (e) => {
-    setForm((p) => ({ ...p, [key]: e.target.value }));
+  const update = (key) => (e) => setForm((p) => ({ ...p, [key]: e.target.value }));
+
+  const toggleFaq = (id) => {
+    setOpenFaqs((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -39,6 +111,7 @@ export default function Contact() {
         email: form.email,
         phone: form.phone,
         orderNumber: form.orderNumber,
+        preferredContact: form.preferredContact,
         reason: form.reason,
         message: form.message,
         website: form.website,
@@ -52,10 +125,10 @@ export default function Contact() {
 
       if (!res.ok) {
         const txt = await res.text();
-        throw new Error(txt || "Unable to send message.");
+        throw new Error(txt || "Unable to send your message. Please try again.");
       }
 
-      setStatus({ state: "success", message: "Message sent." });
+      setStatus({ state: "idle", message: "" });
       setSubmitted(true);
     } catch (err) {
       setStatus({
@@ -68,254 +141,631 @@ export default function Contact() {
   return (
     <>
       <SEO
-        title="Contact Our Concierge Team — Support & Custom Orders"
-        description="Reach the Eminence Hair concierge team for order support, custom wig requests, wholesale inquiries, and styling consultations. Response within 24 hours."
+        title="Client Services — Order Assistance, Product Guidance & Support"
+        description="Contact Eminence Hair for order assistance, product guidance, returns, shipping questions, and personalized consultation. Our team responds within 24 hours."
       />
-      <div className="min-h-screen bg-charcoal text-ivory pt-28 pb-20">
-      {/* Hero + Layout Shell */}
-      <section className="max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-goldGlow relative bg-charcoal">
-        {/* Background – Soft Editorial Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#FDFBF7] via-[#FBF5EC] to-[#E8D8B9] opacity-90" />
+      <PageTransition>
+        <div className="bg-[#F9F7F4] text-[#111]">
 
-        {/* Content */}
-        <div className="relative grid md:grid-cols-[1.1fr,1fr] gap-10 px-8 md:px-12 py-12 md:py-16">
-          {/* Left: Editorial copy + contact info */}
-          <div className="flex flex-col justify-between gap-10">
-            <div>
-              <div className="mb-8">
-                <img
-                  src={logoWordmark}
-                  alt="Eminence Hair"
-                  className="h-10 md:h-12 w-auto mb-4"
-                />
-                <p className="uppercase tracking-[0.28em] text-[10px] md:text-[11px] text-softGray">
-                  Eminence Hair Boutique
-                </p>
+          {/* ── HERO ──────────────────────────────────────────────────────── */}
+          <PageHero
+            eyebrow="Client Services"
+            title="How can we assist you today?"
+            subtitle="We're here to help with orders, product guidance, and personalized support. For questions regarding shipping, returns, consultations, or product selection, our team would be happy to assist."
+            image="/gallery/editorial/campaign2025/Eminence_Editorial_AICampaign2025_Neutral_06.webp"
+            ctas={[
+              { label: "Send a Message", href: "#contact-form", variant: "primary" },
+              { label: "Browse FAQs", href: "/faqs", variant: "ghost" },
+            ]}
+          />
+
+          <div className="max-w-6xl mx-auto px-6 py-14 space-y-20">
+
+            {/* ── SERVICES GRID ─────────────────────────────────────────── */}
+            <section aria-label="Service areas">
+              <p className="text-[11px] tracking-[0.32em] uppercase text-neutral-500 mb-6">
+                How we can help
+              </p>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                  {
+                    icon: <Package className="h-5 w-5 text-[#D4AF37]" aria-hidden="true" />,
+                    title: "Order Assistance",
+                    desc: "Track your order, manage returns, and get shipping updates.",
+                    href: "#order-assistance",
+                    cta: "Order help",
+                  },
+                  {
+                    icon: <Sparkles className="h-5 w-5 text-[#D4AF37]" aria-hidden="true" />,
+                    title: "Product Guidance",
+                    desc: "Expert guidance on texture, density, lace, and custom selection.",
+                    href: "#product-guidance",
+                    cta: "Get guidance",
+                  },
+                  {
+                    icon: <MessageSquare className="h-5 w-5 text-[#D4AF37]" aria-hidden="true" />,
+                    title: "Send a Message",
+                    desc: "Reach our concierge team directly. We respond within 24 hours.",
+                    href: "#contact-form",
+                    cta: "Contact us",
+                  },
+                  {
+                    icon: <HelpCircle className="h-5 w-5 text-[#D4AF37]" aria-hidden="true" />,
+                    title: "FAQs",
+                    desc: "Quick answers to our most common shipping, care, and policy questions.",
+                    to: "/faqs",
+                    cta: "Browse FAQs",
+                  },
+                ].map((card) =>
+                  card.to ? (
+                    <Link
+                      key={card.title}
+                      to={card.to}
+                      className="group rounded-3xl border border-black/5 bg-white p-6 shadow-sm hover:shadow-md hover:border-black/10 transition block"
+                    >
+                      <div className="mb-4">{card.icon}</div>
+                      <p className="text-sm font-medium text-neutral-900 mb-1">{card.title}</p>
+                      <p className="text-xs text-neutral-500 leading-relaxed mb-4">{card.desc}</p>
+                      <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.22em] text-neutral-700 group-hover:text-neutral-900 transition">
+                        {card.cta} <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                      </span>
+                    </Link>
+                  ) : (
+                    <a
+                      key={card.title}
+                      href={card.href}
+                      className="group rounded-3xl border border-black/5 bg-white p-6 shadow-sm hover:shadow-md hover:border-black/10 transition block"
+                    >
+                      <div className="mb-4">{card.icon}</div>
+                      <p className="text-sm font-medium text-neutral-900 mb-1">{card.title}</p>
+                      <p className="text-xs text-neutral-500 leading-relaxed mb-4">{card.desc}</p>
+                      <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.22em] text-neutral-700 group-hover:text-neutral-900 transition">
+                        {card.cta} <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                      </span>
+                    </a>
+                  )
+                )}
               </div>
+            </section>
 
-              <div className="space-y-4 max-w-md">
-                <h1 className="font-header text-3xl md:text-4xl tracking-tight">
-                  We're here with{" "}
-                  <span className="text-gold">absolute care.</span>
-                </h1>
-                <p className="font-body text-sm md:text-base text-softGray leading-relaxed">
-                  Whether you&apos;re inquiring about a luxury custom piece,
-                  an existing order, or editorial requests, our concierge team
-                  will respond with the same attention to detail we give every strand.
-                </p>
-              </div>
-            </div>
-
-            <div className="grid gap-3 text-sm md:text-[15px] font-body">
-              <div className="flex items-start gap-3">
-                <Mail className="w-4 h-4 mt-0.5 text-gold" />
-                <div>
-                  <p className="uppercase tracking-[0.22em] text-[10px] text-softGray">
-                    Email
-                  </p>
-                  <p className="text-ivory">support@eminenceluxuryhair.com</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <Phone className="w-4 h-4 mt-0.5 text-gold" />
-                <div>
-                  <p className="uppercase tracking-[0.22em] text-[10px] text-softGray">
-                    Concierge
-                  </p>
-                  <p className="text-ivory">By appointment only</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 mt-0.5 text-gold" />
-                <div>
-                  <p className="uppercase tracking-[0.22em] text-[10px] text-softGray">
-                    Location
-                  </p>
-                  <p className="text-ivory">New York, NY</p>
-                </div>
-              </div>
-
-              <SocialLinks
-                variant="both"
-                iconSize={16}
-                className="mt-2 gap-5"
-                linkClassName="text-neutral-400 hover:text-[#D4AF37] text-sm"
-              />
-            </div>
-          </div>
-
-          {/* Right: Form card */}
-          <div className="bg-ivory/95 text-charcoal rounded-3xl px-6 md:px-7 py-7 md:py-8 backdrop-blur-sm border border-softGray/60">
-            {!submitted ? (
-              <>
-                <h2 className="font-header text-xl md:text-2xl mb-1">
-                  Contact Concierge
+            {/* ── ORDER ASSISTANCE ──────────────────────────────────────── */}
+            <section id="order-assistance" aria-labelledby="order-assistance-heading">
+              <div className="flex items-baseline gap-6 mb-6">
+                <h2
+                  id="order-assistance-heading"
+                  className="text-2xl font-light font-display text-neutral-900 whitespace-nowrap"
+                >
+                  Order Assistance
                 </h2>
-                <p className="font-body text-xs md:text-sm text-neutral-600 mb-5">
-                  Share a few details below and we&apos;ll be in touch within 1–2 business days.
-                </p>
-
-                <form onSubmit={handleSubmit} className="space-y-4 text-sm font-body">
-                  {/* honeypot */}
-                  <input
-                    tabIndex={-1}
-                    autoComplete="off"
-                    value={form.website}
-                    onChange={update("website")}
-                    className="hidden"
-                    aria-hidden="true"
-                  />
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1">
-                        First Name
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={form.firstName}
-                        onChange={update("firstName")}
-                        className="w-full bg-transparent border-b border-neutral-300 focus:outline-none focus:border-gold/80 py-1.5 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1">
-                        Last Name
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={form.lastName}
-                        onChange={update("lastName")}
-                        className="w-full bg-transparent border-b border-neutral-300 focus:outline-none focus:border-gold/80 py-1.5 text-sm"
-                      />
-                    </div>
+                <div className="h-px flex-1 bg-black/10" />
+              </div>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[
+                  {
+                    title: "Order Tracking",
+                    desc: "Once your order ships, you'll receive a tracking notification by email. Carrier scans can take 24–48 hours to appear after dispatch.",
+                  },
+                  {
+                    title: "Shipping Information",
+                    desc: "Most ready-to-ship orders dispatch within 2–3 business days. International orders may be subject to customs duties, which are the customer's responsibility.",
+                  },
+                  {
+                    title: "Returns & Exchanges",
+                    desc: "All sales are final due to the hygienic nature of our products. If your order arrives damaged or incorrect, contact us within 48 hours of delivery.",
+                    link: { label: "View full policy", href: "/returns" },
+                  },
+                  {
+                    title: "Order Changes",
+                    desc: "Order processing begins immediately. Contact us as soon as possible if you need to modify or cancel — we will do everything we can to help.",
+                  },
+                  {
+                    title: "Custom & Made-to-Order",
+                    desc: "Custom pieces require additional production time. Timeline and specifications are confirmed at the time of your order.",
+                    link: { label: "Custom Atelier", href: "/custom-atelier" },
+                  },
+                  {
+                    title: "Payment & Installments",
+                    desc: "Installment options may be available at checkout depending on your region and payment provider.",
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.title}
+                    className="rounded-3xl border border-black/5 bg-white p-6"
+                  >
+                    <p className="text-[11px] tracking-[0.28em] uppercase text-neutral-500 mb-2">
+                      {item.title}
+                    </p>
+                    <p className="text-sm text-neutral-700 leading-relaxed">{item.desc}</p>
+                    {item.link && (
+                      <Link
+                        to={item.link.href}
+                        className="mt-3 inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.22em] text-neutral-700 hover:text-neutral-900 transition"
+                      >
+                        {item.link.label}
+                        <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                      </Link>
+                    )}
                   </div>
+                ))}
+              </div>
+            </section>
 
-                  <div>
-                    <label className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={form.email}
-                      onChange={update("email")}
-                      className="w-full bg-transparent border-b border-neutral-300 focus:outline-none focus:border-gold/80 py-1.5 text-sm"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1">
-                        Phone (optional)
-                      </label>
-                      <input
-                        type="tel"
-                        value={form.phone}
-                        onChange={update("phone")}
-                        className="w-full bg-transparent border-b border-neutral-300 focus:outline-none focus:border-gold/80 py-1.5 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1">
-                        Order Number (optional)
-                      </label>
-                      <input
-                        type="text"
-                        value={form.orderNumber}
-                        onChange={update("orderNumber")}
-                        className="w-full bg-transparent border-b border-neutral-300 focus:outline-none focus:border-gold/80 py-1.5 text-sm"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1">
-                      Reason for contacting
-                    </label>
-                    <select
-                      className="w-full bg-transparent border-b border-neutral-300 focus:outline-none focus:border-gold/80 py-1.5 text-sm"
-                      value={form.reason}
-                      onChange={update("reason")}
-                      required
+            {/* ── PRODUCT GUIDANCE ──────────────────────────────────────── */}
+            <section id="product-guidance" aria-labelledby="product-guidance-heading">
+              <div className="flex items-baseline gap-6 mb-6">
+                <h2
+                  id="product-guidance-heading"
+                  className="text-2xl font-light font-display text-neutral-900 whitespace-nowrap"
+                >
+                  Product Guidance
+                </h2>
+                <div className="h-px flex-1 bg-black/10" />
+              </div>
+              <div className="grid lg:grid-cols-2 gap-8 items-start">
+                <div className="rounded-3xl bg-[#F3EFE8] border border-black/5 p-8">
+                  <p className="text-[11px] tracking-[0.32em] uppercase text-neutral-600">
+                    Personalized guidance
+                  </p>
+                  <h3 className="mt-2 text-xl font-light font-display text-neutral-900">
+                    Not sure where to begin?
+                  </h3>
+                  <p className="mt-3 text-sm text-neutral-700 leading-relaxed">
+                    Choosing the right hair takes more than browsing. Our concierge team is here to
+                    help you navigate texture, density, lace options, and cap fit — based on your
+                    lifestyle, not just your preference.
+                  </p>
+                  <p className="mt-3 text-sm text-neutral-700 leading-relaxed">
+                    Whether you're looking for everyday wear, a special event, or a medical-grade
+                    solution, we'd be happy to guide your selection.
+                  </p>
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    <Link
+                      to="/private-consult"
+                      className="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-[11px] uppercase tracking-[0.26em] bg-black text-white hover:bg-black/90 transition"
                     >
-                      <option value="" disabled>
-                        Select an option
-                      </option>
-                      <option value="general">General inquiry</option>
-                      <option value="order">Order support</option>
-                      <option value="returns">Returns / exchanges</option>
-                      <option value="custom">Custom wig order</option>
-                      <option value="wholesale">Wholesale inquiry</option>
-                    </select>
+                      Private Consultation
+                    </Link>
+                    <Link
+                      to="/start-here"
+                      className="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-[11px] uppercase tracking-[0.26em] border border-black/15 hover:border-black/30 transition"
+                    >
+                      Start Here
+                    </Link>
                   </div>
+                </div>
 
-                  <div>
-                    <label className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1">
-                      Message
-                    </label>
-                    <textarea
-                      rows={4}
-                      required
-                      value={form.message}
-                      onChange={update("message")}
-                      className="w-full bg-transparent border border-neutral-300 rounded-xl focus:outline-none focus:border-gold/80 px-3 py-2 text-sm resize-none"
-                      placeholder="Share as much detail as you&apos;d like about your request."
-                    />
-                  </div>
-
-                  {status.state !== "idle" && !submitted && (
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    {
+                      label: "Texture",
+                      desc: "Straight, body wave, loose wave, deep wave — we'll help you match texture to your routine and climate.",
+                    },
+                    {
+                      label: "Length & Cap Fit",
+                      desc: "From 14\" to 30\"+, cap sizing, and adjustment band guidance. Comfortable wear starts with the right fit.",
+                    },
+                    {
+                      label: "Density",
+                      desc: "150% or 200%? Natural or full glam? Density affects both the look and the install complexity.",
+                    },
+                    {
+                      label: "Lace Type",
+                      desc: "HD lace melts seamlessly. Transparent lace offers durability. We'll help you choose based on your skin tone and install preference.",
+                    },
+                    {
+                      label: "Customization",
+                      desc: "Custom density, color, lace tinting, and baby hairs. Our atelier handles bespoke requests with care.",
+                    },
+                    {
+                      label: "Special Needs",
+                      desc: "Medical hair, sensitive scalp, alopecia support — discreet, dignified, and thoughtfully guided.",
+                    },
+                  ].map((item) => (
                     <div
-                      className={
-                        "rounded-xl px-3 py-2 text-sm border " +
-                        (status.state === "success"
-                          ? "bg-emerald-50 border-emerald-200 text-emerald-900"
-                          : status.state === "error"
-                          ? "bg-red-50 border-red-200 text-red-900"
-                          : "bg-neutral-50 border-neutral-200 text-neutral-700")
-                      }
+                      key={item.label}
+                      className="rounded-2xl border border-black/5 bg-white p-5"
                     >
-                      {status.message || (status.state === "loading" ? "Sending…" : "")}
+                      <p className="text-[11px] tracking-[0.28em] uppercase text-neutral-500 mb-2">
+                        {item.label}
+                      </p>
+                      <p className="text-xs text-neutral-700 leading-relaxed">{item.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* ── CONTACT FORM ──────────────────────────────────────────── */}
+            <section id="contact-form" aria-labelledby="contact-form-heading">
+              <div className="flex items-baseline gap-6 mb-6">
+                <h2
+                  id="contact-form-heading"
+                  className="text-2xl font-light font-display text-neutral-900 whitespace-nowrap"
+                >
+                  Send a Message
+                </h2>
+                <div className="h-px flex-1 bg-black/10" />
+              </div>
+
+              <div className="grid lg:grid-cols-[0.85fr,1.15fr] gap-10 items-start">
+                {/* Left: contact info */}
+                <div className="space-y-6">
+                  <div>
+                    <p className="text-[11px] tracking-[0.32em] uppercase text-neutral-500">
+                      Response time
+                    </p>
+                    <p className="mt-2 text-sm text-neutral-700 leading-relaxed">
+                      Our team will respond within 24 hours. For urgent order changes, please reply
+                      directly to your order confirmation email.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[11px] tracking-[0.32em] uppercase text-neutral-500">
+                      Email
+                    </p>
+                    <a
+                      href={`mailto:${BRAND.supportEmail}`}
+                      className="mt-1 block text-sm text-neutral-900 hover:text-neutral-700 transition"
+                    >
+                      {BRAND.supportEmail}
+                    </a>
+                  </div>
+                  <div className="rounded-3xl bg-[#F3EFE8] border border-black/5 p-6">
+                    <p className="text-[11px] tracking-[0.32em] uppercase text-neutral-600">
+                      Prefer a consultation?
+                    </p>
+                    <p className="mt-2 text-sm text-neutral-800 leading-relaxed">
+                      For personalized product guidance or a custom order, our Private Consultation
+                      is the best starting point.
+                    </p>
+                    <Link
+                      to="/private-consult"
+                      className="mt-4 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-neutral-700 hover:text-neutral-900 transition"
+                    >
+                      Book a Private Consult
+                      <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Right: form */}
+                <div className="bg-white rounded-3xl border border-black/5 shadow-sm px-6 py-7 md:px-8 md:py-8">
+                  {!submitted ? (
+                    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                      {/* honeypot */}
+                      <input
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={form.website}
+                        onChange={update("website")}
+                        className="hidden"
+                        aria-hidden="true"
+                      />
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label
+                            htmlFor="cs-firstName"
+                            className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1.5"
+                          >
+                            First Name <span aria-hidden="true">*</span>
+                          </label>
+                          <input
+                            id="cs-firstName"
+                            type="text"
+                            required
+                            value={form.firstName}
+                            onChange={update("firstName")}
+                            autoComplete="given-name"
+                            className={inputBase}
+                          />
+                        </div>
+                        <div>
+                          <label
+                            htmlFor="cs-lastName"
+                            className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1.5"
+                          >
+                            Last Name <span aria-hidden="true">*</span>
+                          </label>
+                          <input
+                            id="cs-lastName"
+                            type="text"
+                            required
+                            value={form.lastName}
+                            onChange={update("lastName")}
+                            autoComplete="family-name"
+                            className={inputBase}
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="cs-email"
+                          className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1.5"
+                        >
+                          Email <span aria-hidden="true">*</span>
+                        </label>
+                        <input
+                          id="cs-email"
+                          type="email"
+                          required
+                          value={form.email}
+                          onChange={update("email")}
+                          autoComplete="email"
+                          className={inputBase}
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label
+                            htmlFor="cs-phone"
+                            className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1.5"
+                          >
+                            Phone{" "}
+                            <span className="text-neutral-400 normal-case tracking-normal">
+                              (optional)
+                            </span>
+                          </label>
+                          <input
+                            id="cs-phone"
+                            type="tel"
+                            value={form.phone}
+                            onChange={update("phone")}
+                            autoComplete="tel"
+                            className={inputBase}
+                          />
+                        </div>
+                        <div>
+                          <label
+                            htmlFor="cs-orderNumber"
+                            className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1.5"
+                          >
+                            Order Number{" "}
+                            <span className="text-neutral-400 normal-case tracking-normal">
+                              (optional)
+                            </span>
+                          </label>
+                          <input
+                            id="cs-orderNumber"
+                            type="text"
+                            value={form.orderNumber}
+                            onChange={update("orderNumber")}
+                            className={inputBase}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label
+                            htmlFor="cs-reason"
+                            className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1.5"
+                          >
+                            Subject <span aria-hidden="true">*</span>
+                          </label>
+                          <select
+                            id="cs-reason"
+                            value={form.reason}
+                            onChange={update("reason")}
+                            required
+                            className={inputBase}
+                          >
+                            <option value="" disabled>
+                              Select a subject
+                            </option>
+                            <option value="order">Order Assistance</option>
+                            <option value="returns">Returns &amp; Exchanges</option>
+                            <option value="product">Product Guidance</option>
+                            <option value="custom">Custom Order</option>
+                            <option value="consultation">Private Consultation</option>
+                            <option value="wholesale">Wholesale &amp; Partnerships</option>
+                            <option value="general">General Inquiry</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label
+                            htmlFor="cs-preferredContact"
+                            className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1.5"
+                          >
+                            Preferred Contact{" "}
+                            <span className="text-neutral-400 normal-case tracking-normal">
+                              (optional)
+                            </span>
+                          </label>
+                          <select
+                            id="cs-preferredContact"
+                            value={form.preferredContact}
+                            onChange={update("preferredContact")}
+                            className={inputBase}
+                          >
+                            <option value="">No preference</option>
+                            <option value="Email">Email</option>
+                            <option value="Phone">Phone</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="cs-message"
+                          className="block text-[11px] uppercase tracking-[0.18em] text-neutral-500 mb-1.5"
+                        >
+                          Message <span aria-hidden="true">*</span>
+                        </label>
+                        <textarea
+                          id="cs-message"
+                          rows={5}
+                          required
+                          value={form.message}
+                          onChange={update("message")}
+                          placeholder="Share any relevant details — order number, product of interest, or questions. We'd be happy to assist."
+                          className={`${inputBase} min-h-[120px] resize-none`}
+                        />
+                      </div>
+
+                      {status.state === "error" && (
+                        <div
+                          role="status"
+                          aria-live="polite"
+                          className="rounded-2xl px-4 py-3 text-sm border bg-red-50 border-red-200 text-red-900"
+                        >
+                          {status.message}
+                        </div>
+                      )}
+                      {status.state === "loading" && (
+                        <div
+                          role="status"
+                          aria-live="polite"
+                          className="rounded-2xl px-4 py-3 text-sm border bg-neutral-50 border-black/10 text-neutral-700"
+                        >
+                          Sending your message…
+                        </div>
+                      )}
+
+                      <button
+                        type="submit"
+                        disabled={status.state === "loading"}
+                        className="w-full sm:w-auto inline-flex items-center justify-center rounded-full px-8 py-3 text-[11px] uppercase tracking-[0.26em] bg-black text-white hover:bg-black/90 disabled:opacity-60 transition"
+                      >
+                        {status.state === "loading" ? "Sending…" : "Send Message"}
+                      </button>
+                    </form>
+                  ) : (
+                    <div className="py-4 space-y-4">
+                      <p className="text-[11px] tracking-[0.32em] uppercase text-neutral-500">
+                        Message received
+                      </p>
+                      <h3 className="text-2xl font-light font-display text-neutral-900">
+                        Thank you for reaching out.
+                      </h3>
+                      <p className="text-sm text-neutral-600 leading-relaxed max-w-md">
+                        Our team has received your message and will respond within 24 hours. For
+                        urgent order changes, please reply directly to your order confirmation email.
+                      </p>
+                      <button
+                        onClick={() => {
+                          setSubmitted(false);
+                          setForm(EMPTY_FORM);
+                          setStatus({ state: "idle", message: "" });
+                        }}
+                        className="inline-flex items-center justify-center rounded-full px-6 py-2.5 text-[11px] uppercase tracking-[0.22em] border border-black/15 hover:border-black/30 transition"
+                      >
+                        Send another message
+                      </button>
                     </div>
                   )}
-
-                  <button
-                    type="submit"
-                    disabled={status.state === "loading"}
-                    className="mt-2 w-full md:w-auto inline-flex items-center justify-center px-7 py-2.5 rounded-full bg-gold text-charcoal text-xs md:text-sm font-medium tracking-[0.18em] uppercase hover:bg-gold/90 transition"
-                  >
-                    {status.state === "loading" ? "Sending…" : "Send message"}
-                  </button>
-                </form>
-              </>
-            ) : (
-              <div className="h-full flex flex-col items-start justify-center gap-4">
-                <p className="text-[11px] uppercase tracking-[0.24em] text-neutral-500">
-                  Thank you
-                </p>
-                <h2 className="font-header text-2xl md:text-3xl">
-                  Your message has been received.
-                </h2>
-                <p className="font-body text-sm text-neutral-600 max-w-md">
-                  Our concierge team will review your note and respond to the email provided.
-                  For urgent order changes, please reply directly to your order confirmation email.
-                </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="mt-2 inline-flex items-center justify-center px-6 py-2.5 rounded-full border border-neutral-300 text-xs md:text-sm tracking-[0.18em] uppercase hover:border-gold/80 hover:text-gold transition"
-                >
-                  Send another message
-                </button>
+                </div>
               </div>
-            )}
+            </section>
+
+            {/* ── FAQ PREVIEW ───────────────────────────────────────────── */}
+            <section aria-labelledby="faq-preview-heading">
+              <div className="flex items-baseline gap-6 mb-6">
+                <h2
+                  id="faq-preview-heading"
+                  className="text-2xl font-light font-display text-neutral-900 whitespace-nowrap"
+                >
+                  Frequently Asked Questions
+                </h2>
+                <div className="h-px flex-1 bg-black/10" />
+              </div>
+              <div className="grid lg:grid-cols-[1fr,auto] gap-8 items-start">
+                <div className="bg-white rounded-3xl border border-black/5 shadow-sm divide-y divide-black/5 px-6 py-2">
+                  {FAQ_PREVIEW.map((item) => (
+                    <FaqAccordion
+                      key={item.id}
+                      id={item.id}
+                      q={item.q}
+                      a={item.a}
+                      open={openFaqs.has(item.id)}
+                      onToggle={toggleFaq}
+                    />
+                  ))}
+                </div>
+                <div className="lg:w-72 rounded-3xl border border-black/5 bg-[#F3EFE8] p-6">
+                  <p className="text-[11px] tracking-[0.32em] uppercase text-neutral-600">
+                    More answers
+                  </p>
+                  <p className="mt-2 text-sm text-neutral-800 leading-relaxed">
+                    Visit our full FAQ page for complete shipping, care, installation, and custom
+                    order guidance.
+                  </p>
+                  <Link
+                    to="/faqs"
+                    className="mt-4 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-neutral-700 hover:text-neutral-900 transition"
+                  >
+                    Browse all FAQs
+                    <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                  </Link>
+                </div>
+              </div>
+            </section>
+
+            {/* ── PERSONALIZED SERVICES CROSS-LINKS ─────────────────────── */}
+            <section aria-labelledby="services-crosslink-heading">
+              <div className="flex items-baseline gap-6 mb-6">
+                <h2
+                  id="services-crosslink-heading"
+                  className="text-2xl font-light font-display text-neutral-900 whitespace-nowrap"
+                >
+                  Personalized Services
+                </h2>
+                <div className="h-px flex-1 bg-black/10" />
+              </div>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                  {
+                    title: "Private Consultation",
+                    desc: "One-on-one guidance on texture, density, lace, and styling — tailored to your lifestyle and goals.",
+                    href: "/private-consult",
+                    cta: "Request a Consult",
+                  },
+                  {
+                    title: "Custom Atelier",
+                    desc: "Bespoke wig design, custom density, color services, and made-to-order creations from our atelier.",
+                    href: "/custom-atelier",
+                    cta: "Start a Custom Order",
+                  },
+                  {
+                    title: "Medical Hair",
+                    desc: "Discreet, compassionate guidance for medical-grade hair solutions and alopecia support.",
+                    href: "/medical-hair",
+                    cta: "Learn More",
+                  },
+                  {
+                    title: "Book a Consultation",
+                    desc: "Schedule a video consultation to confirm fit, density, lace, and shipping timeline.",
+                    href: "/consultation",
+                    cta: "Book Now",
+                  },
+                ].map((service) => (
+                  <div
+                    key={service.title}
+                    className="rounded-3xl border border-black/5 bg-white p-6 flex flex-col"
+                  >
+                    <p className="text-[11px] tracking-[0.28em] uppercase text-neutral-500 mb-2">
+                      {service.title}
+                    </p>
+                    <p className="text-sm text-neutral-700 leading-relaxed flex-1">
+                      {service.desc}
+                    </p>
+                    <Link
+                      to={service.href}
+                      className="mt-5 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.22em] text-neutral-700 hover:text-neutral-900 transition"
+                    >
+                      {service.cta}
+                      <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </section>
+
           </div>
         </div>
-      </section>
-    </div>
+      </PageTransition>
     </>
   );
 }

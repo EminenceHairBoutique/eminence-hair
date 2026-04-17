@@ -177,6 +177,7 @@ export default function App() {
               <Route path="/help" element={<Navigate to="/faqs" replace />} />
               <Route path="/shipping-returns" element={<Navigate to="/returns" replace />} />
               <Route path="/partner-portal" element={<Navigate to="/partners/portal" replace />} />
+              <Route path="/client-services" element={<Navigate to="/contact" replace />} />
             </Routes>
           </AnimatePresence>
           </main>
