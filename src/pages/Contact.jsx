@@ -193,23 +193,38 @@ export default function Contact() {
                     icon: <HelpCircle className="h-5 w-5 text-[#D4AF37]" aria-hidden="true" />,
                     title: "FAQs",
                     desc: "Quick answers to our most common shipping, care, and policy questions.",
-                    href: "/faqs",
+                    to: "/faqs",
                     cta: "Browse FAQs",
                   },
-                ].map((card) => (
-                  <a
-                    key={card.title}
-                    href={card.href}
-                    className="group rounded-3xl border border-black/5 bg-white p-6 shadow-sm hover:shadow-md hover:border-black/10 transition block"
-                  >
-                    <div className="mb-4">{card.icon}</div>
-                    <p className="text-sm font-medium text-neutral-900 mb-1">{card.title}</p>
-                    <p className="text-xs text-neutral-500 leading-relaxed mb-4">{card.desc}</p>
-                    <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.22em] text-neutral-700 group-hover:text-neutral-900 transition">
-                      {card.cta} <ArrowRight className="h-3 w-3" aria-hidden="true" />
-                    </span>
-                  </a>
-                ))}
+                ].map((card) =>
+                  card.to ? (
+                    <Link
+                      key={card.title}
+                      to={card.to}
+                      className="group rounded-3xl border border-black/5 bg-white p-6 shadow-sm hover:shadow-md hover:border-black/10 transition block"
+                    >
+                      <div className="mb-4">{card.icon}</div>
+                      <p className="text-sm font-medium text-neutral-900 mb-1">{card.title}</p>
+                      <p className="text-xs text-neutral-500 leading-relaxed mb-4">{card.desc}</p>
+                      <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.22em] text-neutral-700 group-hover:text-neutral-900 transition">
+                        {card.cta} <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                      </span>
+                    </Link>
+                  ) : (
+                    <a
+                      key={card.title}
+                      href={card.href}
+                      className="group rounded-3xl border border-black/5 bg-white p-6 shadow-sm hover:shadow-md hover:border-black/10 transition block"
+                    >
+                      <div className="mb-4">{card.icon}</div>
+                      <p className="text-sm font-medium text-neutral-900 mb-1">{card.title}</p>
+                      <p className="text-xs text-neutral-500 leading-relaxed mb-4">{card.desc}</p>
+                      <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.22em] text-neutral-700 group-hover:text-neutral-900 transition">
+                        {card.cta} <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                      </span>
+                    </a>
+                  )
+                )}
               </div>
             </section>
 
