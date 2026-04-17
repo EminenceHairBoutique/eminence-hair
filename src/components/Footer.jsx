@@ -53,12 +53,12 @@ const Footer = () => {
 
           <div className="space-y-2">
             <p className="text-neutral-500 tracking-[0.22em] uppercase text-[10px] mb-3">
-              Help
+              Client Services
             </p>
             <Link to="/care" className="hover:text-neutral-200 transition block">Care Guide</Link>
             <Link to="/faqs" className="hover:text-neutral-200 transition block">FAQs</Link>
             <Link to="/returns" className="hover:text-neutral-200 transition block">Shipping & Returns</Link>
-            <Link to="/contact" className="hover:text-neutral-200 transition block">Contact</Link>
+            <Link to="/contact" className="hover:text-neutral-200 transition block">Client Services</Link>
             <Link to="/private-consult" className="hover:text-neutral-200 transition block">Book a Consult</Link>
             <Link to="/about" className="hover:text-neutral-200 transition block">About Us</Link>
             <Link to="/medical-hair" className="hover:text-neutral-200 transition block">Medical Hair</Link>

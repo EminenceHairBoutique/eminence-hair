@@ -102,7 +102,7 @@ export default function Navbar() {
         { label: "FAQs", href: "/faqs" },
         { label: "Care Guide", href: "/care" },
         { label: "Shipping & Returns", href: "/shipping" },
-        { label: "Contact", href: "/contact" },
+        { label: "Client Services", href: "/contact" },
       ],
     },
   ], []);
