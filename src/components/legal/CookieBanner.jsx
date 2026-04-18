@@ -13,6 +13,7 @@ export default function CookieBanner() {
   const location = useLocation();
 
   useEffect(() => {
+    let opened = false;
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (!stored) {
@@ -21,13 +22,20 @@ export default function CookieBanner() {
         // Braces: use coordinator
         if (requestOpen(MODAL_IDS.COOKIE, MODAL_PRIORITIES[MODAL_IDS.COOKIE])) {
           setVisible(true);
+          opened = true;
         }
       }
     } catch {
       if (requestOpen(MODAL_IDS.COOKIE, MODAL_PRIORITIES[MODAL_IDS.COOKIE])) {
         setVisible(true);
+        opened = true;
       }
     }
+
+    return () => {
+      // Release the coordinator slot if we opened but the effect is cleaning up
+      if (opened) close(MODAL_IDS.COOKIE);
+    };
   }, [location.pathname]);
 
   // If the browser sends Global Privacy Control, default to essential-only unless

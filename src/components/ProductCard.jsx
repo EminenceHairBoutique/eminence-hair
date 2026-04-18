@@ -73,7 +73,7 @@ const ProductCard = ({ product }) => {
             </div>
           )}
           {(product.badge || product.readyToShip) && (
-            <div className="absolute top-3 left-3 bg-[#111]/80 backdrop-blur-sm text-[#D4AF37] text-[9px] uppercase tracking-[0.22em] px-2.5 py-1 rounded-full">
+            <div className="absolute top-3 left-3 bg-[#111]/80 backdrop-blur-sm text-[#D4AF37] text-[10px] uppercase tracking-[0.22em] px-2.5 py-1 rounded-full">
               {product.badge || (product.readyToShip ? "Ready to Ship" : "")}
             </div>
           )}

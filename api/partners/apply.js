@@ -122,7 +122,7 @@ export default async function handler(req, res) {
 
     return json(res, 200, { ok: true });
   } catch (e) {
-    console.error("Partner apply: unhandled error", e);
+    console.error("Partner apply: unhandled error", e?.message || e);
     return json(res, 500, { error: "Server error" });
   }
 }

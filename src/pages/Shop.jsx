@@ -722,12 +722,12 @@ export default function Shop() {
                           decoding="async"
                         />
 
-                        <span className="absolute top-3 left-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
+                        <span className="absolute top-3 left-3 px-3 py-1 text-[10px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
                           Essential
                         </span>
 
                         {p.readyToShip && (
-                          <span className="absolute top-3 right-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-white/80 text-neutral-900 border border-white/60">
+                          <span className="absolute top-3 right-3 px-3 py-1 text-[10px] tracking-[0.28em] uppercase rounded-full bg-white/80 text-neutral-900 border border-white/60">
                             Ready to ship
                           </span>
                         )}
@@ -893,12 +893,12 @@ export default function Shop() {
                           decoding="async"
                         />
 
-                        <span className="absolute top-3 left-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
+                        <span className="absolute top-3 left-3 px-3 py-1 text-[10px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
                           {p.type === "wig" ? "Wig" : p.type === "bundle" ? "Bundle" : "Closure"}
                         </span>
 
                         {p.readyToShip && (
-                          <span className="absolute top-3 right-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-white/80 text-neutral-900 border border-white/60">
+                          <span className="absolute top-3 right-3 px-3 py-1 text-[10px] tracking-[0.28em] uppercase rounded-full bg-white/80 text-neutral-900 border border-white/60">
                             Ready to ship
                           </span>
                         )}

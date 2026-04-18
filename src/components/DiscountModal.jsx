@@ -105,7 +105,12 @@ export default function DiscountModal() {
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        close(MODAL_IDS.DISCOUNT);
+      }
+    };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
@@ -250,6 +255,7 @@ export default function DiscountModal() {
                     value={localNumber}
                     onChange={(e) => setLocalNumber(e.target.value)}
                     className="flex-1 border border-neutral-300 rounded-full px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-black"
+                    aria-label="Phone number"
                   />
                 </div>
 
@@ -288,6 +294,7 @@ export default function DiscountModal() {
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
                   className="w-full border border-neutral-300 rounded-full px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-black"
+                  aria-label="Verification code"
                 />
 
                 <div className="flex gap-3">

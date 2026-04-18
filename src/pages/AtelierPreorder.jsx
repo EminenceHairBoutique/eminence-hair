@@ -91,7 +91,7 @@ function PreorderCard({ product }) {
           Pre-Order
         </span>
         {/* Factory drop-ship badge */}
-        <span className="absolute top-4 right-4 rounded-full bg-white/90 backdrop-blur border border-neutral-200 text-[9px] uppercase tracking-[0.18em] px-2 py-1 flex items-center gap-1 text-neutral-700">
+        <span className="absolute top-4 right-4 rounded-full bg-white/90 backdrop-blur border border-neutral-200 text-[10px] uppercase tracking-[0.18em] px-2 py-1 flex items-center gap-1 text-neutral-700">
           <Truck className="w-3 h-3" />
           Factory Drop-Ship
         </span>

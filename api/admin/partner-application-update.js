@@ -154,7 +154,7 @@ export default async function handler(req, res) {
 
     return json(res, 200, { ok: true, status: nextStatus, targetUserId: targetUserId || null });
   } catch (e) {
-    console.error("Admin partner update: unhandled error", e);
+    console.error("Admin partner update: unhandled error", e?.message || e);
     return json(res, 500, { error: "Server error" });
   }
 }

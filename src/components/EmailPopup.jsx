@@ -158,6 +158,7 @@ export default function EmailPopup() {
                 className="w-full bg-white border border-neutral-300 rounded-full px-4 py-2.5 text-sm outline-none focus:border-[#111] transition"
                 autoComplete="email"
                 required
+                aria-label="Email address"
               />
               <button
                 type="submit"

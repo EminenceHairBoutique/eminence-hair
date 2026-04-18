@@ -652,7 +652,7 @@ export default function CollectionDetail() {
                               />
 
                               {isWig && (
-                                <span className="absolute top-3 left-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
+                                <span className="absolute top-3 left-3 px-3 py-1 text-[10px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
                                   Wig
                                 </span>
                               )}
