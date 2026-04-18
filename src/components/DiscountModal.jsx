@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { Button } from "./ui/button";
 import { safeSessionGet, safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
 import { requestOpen, close, MODAL_IDS, MODAL_PRIORITIES } from "../utils/modalCoordinator";
+import useFocusTrap from "../hooks/useFocusTrap";
 
 // SMS-only discount modal (Twilio Verify)
 // Reveals a promo code *after* phone verification.
@@ -41,6 +42,8 @@ export default function DiscountModal() {
   const [error, setError] = useState("");
 
   const [discountCode, setDiscountCode] = useState("WELCOME10");
+  const dialogRef = useRef(null);
+  useFocusTrap(dialogRef, open, { onEscape: () => { setOpen(false); close(MODAL_IDS.DISCOUNT); } });
 
   const phone = useMemo(() => {
     const digits = String(localNumber || "").replace(/\D/g, "");
@@ -199,10 +202,11 @@ export default function DiscountModal() {
       onClick={handleClose}
     >
       <div
+        ref={dialogRef}
         className="relative w-full max-w-3xl bg-white rounded-3xl shadow-[0_30px_90px_rgba(0,0,0,0.35)] overflow-hidden"
         role="dialog"
         aria-modal="true"
-        aria-label="Unlock your first-order gift"
+        aria-labelledby="discount-modal-title"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -219,7 +223,7 @@ export default function DiscountModal() {
             <p className="text-xs tracking-[0.28em] uppercase text-neutral-500 mb-3">
               Want to save big?
             </p>
-            <h2 className="text-3xl font-light leading-tight mb-3">
+            <h2 id="discount-modal-title" className="text-3xl font-light leading-tight mb-3">
               Unlock your first-order gift
             </h2>
             <p className="text-sm text-neutral-600 mb-6">

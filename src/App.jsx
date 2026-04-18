@@ -63,6 +63,9 @@ const Cart = lazy(() => import("./pages/Cart"));
 const AtelierTryOn = lazy(() => import("./pages/AtelierTryOn"));
 const AtelierMirror = lazy(() => import("./pages/AtelierMirror"));
 const AtelierPreorder = lazy(() => import("./pages/AtelierPreorder"));
+const ForProfessionals = lazy(() => import("./pages/ForProfessionals"));
+const Journal = lazy(() => import("./pages/Journal"));
+const JournalPost = lazy(() => import("./pages/JournalPost"));
 
 
 export default function App() {
@@ -151,6 +154,9 @@ export default function App() {
                 ["/atelier/mirror", <AtelierMirror />],
                 ["/atelier/preorder", <AtelierPreorder />],
                 ["/preorder", <AtelierPreorder />],
+                ["/for-professionals", <ForProfessionals />],
+                ["/journal", <Journal />],
+                ["/journal/:slug", <JournalPost />],
                 ["/verify", <Verify />],
                 ["*", <NotFound />],
               ].map(([path, element]) => (
