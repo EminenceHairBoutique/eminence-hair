@@ -14,7 +14,7 @@ export default function Navbar() {
   const { user } = useUser();
   const location = useLocation();
 
-  const [activeMenu, setActiveMenu] = useState(null); // 'shop' | 'about' | 'services' | null
+  const [activeMenu, setActiveMenu] = useState(null); // 'shop' | 'atelier' | 'about' | null
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const headerRef = useRef(null);
@@ -68,21 +68,21 @@ export default function Navbar() {
     },
   ], []);
 
-  const servicesSections = useMemo(() => [
+  const atelierSections = useMemo(() => [
     {
-      title: "Concierge",
+      title: "Atelier Services",
       items: [
-        { label: "Book a Consult", href: "/private-consult" },
-        { label: "Medical Hair", href: "/medical-hair" },
-        { label: "Private Fitting", href: "/private-consult" },
+        { label: "Private Consult", href: "/private-consult" },
+        { label: "Custom Atelier", href: "/custom-atelier" },
+        { label: "Atelier Try-On", href: "/atelier/try-on" },
+        { label: "Atelier Pre-Order", href: "/atelier/preorder" },
       ],
     },
     {
-      title: "Atelier",
+      title: "Resources",
       items: [
-        { label: "Custom Wig Builder", href: "/custom-atelier" },
-        { label: "Custom Orders", href: "/custom-orders" },
-        { label: "Partner Program", href: "/partners" },
+        { label: "Medical Hair", href: "/medical-hair" },
+        { label: "Authenticity", href: "/authenticity" },
       ],
     },
   ], []);
@@ -92,7 +92,6 @@ export default function Navbar() {
       title: "Our Brand",
       items: [
         { label: "Our Story", href: "/about" },
-        { label: "Authenticity", href: "/authenticity" },
         { label: "Gallery", href: "/gallery" },
       ],
     },
@@ -110,7 +109,7 @@ export default function Navbar() {
   const menuImage =
     activeMenu === "shop"
       ? "/gallery/editorial/brand/Eminence_Editorial_BrandHero_Neutral_01.webp"
-      : activeMenu === "services"
+      : activeMenu === "atelier"
         ? "/gallery/editorial/campaign2025/Eminence_Editorial_AICampaign2025_Neutral_06.webp"
         : "/gallery/editorial/campaign2025/Eminence_Editorial_AICampaign2025_Neutral_06.webp";
 
@@ -150,12 +149,12 @@ export default function Navbar() {
 
           <button
             type="button"
-            onClick={() => setActiveMenu((m) => (m === "services" ? null : "services"))}
+            onClick={() => setActiveMenu((m) => (m === "atelier" ? null : "atelier"))}
             className={`inline-flex items-center gap-2 hover:text-black transition ${
-              activeMenu === "services" ? "text-black" : ""
+              activeMenu === "atelier" ? "text-black" : ""
             }`}
           >
-            Services <ChevronDown size={14} className="opacity-70" />
+            Atelier <ChevronDown size={14} className="opacity-70" />
           </button>
 
           <button
@@ -165,8 +164,12 @@ export default function Navbar() {
               activeMenu === "about" ? "text-black" : ""
             }`}
           >
-            About <ChevronDown size={14} className="opacity-70" />
+            About Us <ChevronDown size={14} className="opacity-70" />
           </button>
+
+          <Link to="/journal" className="hover:text-black transition">
+            Journal
+          </Link>
         </nav>
 
         {/* Right controls */}
@@ -242,9 +245,9 @@ export default function Navbar() {
         image={menuImage}
       />
       <MegaMenu
-        open={activeMenu === "services"}
+        open={activeMenu === "atelier"}
         onClose={() => setActiveMenu(null)}
-        sections={servicesSections}
+        sections={atelierSections}
         image={menuImage}
       />
 
@@ -259,7 +262,7 @@ export default function Navbar() {
           setMobileOpen(false);
           setSearchOpen(true);
         }}
-        sections={[...shopSections, ...servicesSections, ...aboutSections]}
+        sections={[...shopSections, ...atelierSections, ...aboutSections]}
       />
 
     </header>
