@@ -1,10 +1,6 @@
 {
   "name": "Eminence Hair Boutique",
-  "short_name": "Eminence Hair",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#F9F7F4",
-  "theme_color": "#F9F7F4",
+  "short_name": "Eminence",
   "icons": [
     {
       "src": "/assets/favicon-192.png",
@@ -15,6 +11,17 @@
       "src": "/assets/favicon-512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "/assets/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
-  ]
+  ],
+  "theme_color": "#111111",
+  "background_color": "#F9F7F4",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/"
 }
