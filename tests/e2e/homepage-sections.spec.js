@@ -11,14 +11,15 @@ import { test, expect } from "@playwright/test";
 test.describe("Homepage sections", () => {
   test("has exactly 7 top-level sections", async ({ page }) => {
     await page.goto("/");
-    // Wait for any section to appear, skip if app didn't render
+    // Wait for the last section (newsletter) to render
     try {
       await page.waitForSelector("section", { timeout: 10000 });
     } catch {
       test.skip(true, "App did not render — likely missing env vars");
       return;
     }
-    await page.waitForTimeout(1000);
+    // Wait for the 7th section to be present by counting
+    await expect(page.locator("section").nth(6)).toBeVisible({ timeout: 5000 });
 
     const sectionCount = await page.locator("section").count();
     expect(sectionCount).toBe(7);
