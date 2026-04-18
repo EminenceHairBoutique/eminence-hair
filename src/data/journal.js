@@ -1,0 +1,36 @@
+export const journalPosts = [
+  {
+    slug: "raw-vs-virgin-hair",
+    title: "The Difference Between Raw and Virgin Hair",
+    excerpt: "Understanding the distinction between raw and virgin hair is essential for making an informed purchase. Here's what sets them apart.",
+    heroImage: "/gallery/editorial/brand/Eminence_Editorial_BrandHero_Neutral_01.webp",
+    publishedAt: "2026-03-15",
+    body: [
+      { type: "p", content: "When shopping for luxury hair extensions, two terms come up constantly: raw hair and virgin hair. While they're often used interchangeably, they represent fundamentally different levels of quality and processing." },
+      { type: "h2", content: "What Is Virgin Hair?" },
+      { type: "p", content: "Virgin hair refers to hair that has never been chemically processed — no dyes, no perms, no relaxers. It retains its original cuticle layer and can come from multiple donors, which means the cuticle direction may not be uniformly aligned." },
+      { type: "h2", content: "What Is Raw Hair?" },
+      { type: "p", content: "Raw hair is a step above virgin. It is completely unprocessed — not even steamed to create a texture pattern. Every strand comes from a single donor, ensuring that all cuticles run in the same direction. This is what gives raw hair its signature silky feel and tangle-free performance." },
+      { type: "h2", content: "Why Eminence Uses Raw Cambodian Hair" },
+      { type: "p", content: "At Eminence Hair Boutique, we exclusively source raw Cambodian and Burmese hair from our partner atelier. Each batch is third-party verified by a CNAS-accredited lab to ensure authenticity, cuticle integrity, and ethical sourcing. The result is hair that lasts longer, styles easier, and looks indistinguishable from your own." },
+      { type: "p", content: "When you invest in raw hair, you're investing in longevity. Our clients regularly report 2-3 years of wear from a single unit with proper care — making it not just a luxury purchase, but a smart one." },
+    ],
+  },
+  {
+    slug: "inside-the-atelier",
+    title: "Inside the Atelier",
+    excerpt: "A founder's perspective on how Eminence pieces are crafted, from raw material selection to the final quality check.",
+    heroImage: "/gallery/editorial/campaign2025/Eminence_Editorial_AICampaign2025_Neutral_06.webp",
+    publishedAt: "2026-04-01",
+    body: [
+      { type: "p", content: "Every Eminence piece begins its journey long before it reaches our studio. It starts in the villages of Cambodia and Myanmar, where hair is ethically sourced from individual donors who choose to participate." },
+      { type: "h2", content: "The Selection Process" },
+      { type: "p", content: "Not every batch makes the cut. Our atelier partner inspects each ponytail for cuticle alignment, strand thickness consistency, and overall health. Only about 30% of submitted hair passes our quality threshold — and that selectivity is exactly what makes Eminence different." },
+      { type: "h2", content: "Craftsmanship in Every Knot" },
+      { type: "p", content: "Our HD lace wigs are hand-tied knot by knot. A single wig can take 40-60 hours to construct. The lace is Swiss or HD grade, chosen for its transparency against all skin tones. Each unit is inspected twice before shipping — once by the atelier team and once by our quality lead." },
+      { type: "h2", content: "From Chino's Desk" },
+      { type: "p", content: "I started Eminence because I was tired of the gap between what luxury hair brands promised and what they delivered. Our standard is simple: if I wouldn't wear it, we don't sell it. Every piece that leaves our studio has my name behind it — and that's a responsibility I take seriously." },
+      { type: "p", content: "— Chino, Founder" },
+    ],
+  },
+];

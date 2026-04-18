@@ -12,6 +12,7 @@ import useRouteAnalytics from "./hooks/useRouteAnalytics";
 
 // Layout (unchanged)
 import Navbar from "./components/Navbar";
+import Breadcrumbs from "./components/Breadcrumbs";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -63,6 +64,9 @@ const Cart = lazy(() => import("./pages/Cart"));
 const AtelierTryOn = lazy(() => import("./pages/AtelierTryOn"));
 const AtelierMirror = lazy(() => import("./pages/AtelierMirror"));
 const AtelierPreorder = lazy(() => import("./pages/AtelierPreorder"));
+const Journal = lazy(() => import("./pages/Journal"));
+const JournalPost = lazy(() => import("./pages/JournalPost"));
+const ForProfessionals = lazy(() => import("./pages/ForProfessionals"));
 
 
 export default function App() {
@@ -88,6 +92,7 @@ export default function App() {
         }`}
       >
         <Navbar />
+        <Breadcrumbs />
         <DiscountModal />
         <ScrollToTop />
 
@@ -152,6 +157,9 @@ export default function App() {
                 ["/atelier/preorder", <AtelierPreorder />],
                 ["/preorder", <AtelierPreorder />],
                 ["/verify", <Verify />],
+                ["/journal", <Journal />],
+                ["/journal/:slug", <JournalPost />],
+                ["/for-professionals", <ForProfessionals />],
                 ["*", <NotFound />],
               ].map(([path, element]) => (
                 <Route
