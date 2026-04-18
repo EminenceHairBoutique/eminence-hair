@@ -1,23 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+const IS_DEBUG =
+  typeof window !== "undefined" &&
+  (import.meta.env.DEV ||
+    new URLSearchParams(window.location.search).has("debug"));
+
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false, error: null };
+    this.state = { hasError: false, error: null, errorInfo: null };
   }
 
   static getDerivedStateFromError(error) {
     return { hasError: true, error };
   }
 
-  componentDidCatch(_error, _info) {
-    // Optional: send to logging later (Sentry/LogRocket)
-    // console.error("ErrorBoundary caught:", error, info);
+  componentDidCatch(error, info) {
+    this.setState({ errorInfo: info });
   }
 
   handleReset = () => {
-    this.setState({ hasError: false, error: null });
+    this.setState({ hasError: false, error: null, errorInfo: null });
   };
 
   render() {
@@ -53,7 +57,22 @@ export default class ErrorBoundary extends React.Component {
             </Link>
           </div>
 
-          {/* Keep details hidden unless you want dev info */}
+          {IS_DEBUG && this.state.error && (
+            <details className="mt-10 text-left text-xs text-neutral-600 bg-white/60 rounded-xl p-4 border border-neutral-200">
+              <summary className="cursor-pointer font-medium text-neutral-800 mb-2">
+                Debug Info (visible in dev or ?debug=1)
+              </summary>
+              <pre className="whitespace-pre-wrap break-words text-red-700 mb-2">
+                {String(this.state.error)}
+              </pre>
+              {this.state.errorInfo?.componentStack && (
+                <pre className="whitespace-pre-wrap break-words text-neutral-500">
+                  {this.state.errorInfo.componentStack}
+                </pre>
+              )}
+            </details>
+          )}
+
           <p className="mt-8 text-[11px] text-neutral-400">
             If this keeps happening, contact support.
           </p>

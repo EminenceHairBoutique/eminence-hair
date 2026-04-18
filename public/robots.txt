@@ -1,11 +1,11 @@
 User-agent: *
 Allow: /
-
-Disallow: /api/
+Disallow: /admin
+Disallow: /account
+Disallow: /partners/portal
+Disallow: /cart
 Disallow: /checkout
 Disallow: /success
 Disallow: /cancel
-Disallow: /account
-Disallow: /cart
 
 Sitemap: https://www.eminenceluxuryhair.com/sitemap.xml
