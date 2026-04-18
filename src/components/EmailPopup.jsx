@@ -4,13 +4,9 @@ import { useLocation } from "react-router-dom";
 import { X } from "lucide-react";
 import { subscribeEmail } from "../utils/subscribe";
 import { safeSessionGet, safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
-import { requestOpen, close, MODAL_IDS, MODAL_PRIORITIES } from "../utils/modalCoordinator";
+import { requestOpen, close, MODAL_IDS, MODAL_PRIORITIES, SUPPRESSED_PATHS } from "../utils/modalCoordinator";
 import useFocusTrap from "../hooks/useFocusTrap";
 
-const SUPPRESSED_PATHS = [
-  /^\/checkout/, /^\/cart/, /^\/success/, /^\/cancel/,
-  /^\/account/, /^\/partners\/portal/, /^\/admin/, /^\/atelier\//,
-];
 
 const STORAGE_KEY = "eminence_email_popup_dismissed";
 const DELAY_MS = 35000; // 35 seconds — well after cookie + discount modals

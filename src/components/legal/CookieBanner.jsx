@@ -3,14 +3,10 @@ import { useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { setConsentMemory } from "../../lib/consentStore";
-import { requestOpen, close, MODAL_IDS, MODAL_PRIORITIES } from "../../utils/modalCoordinator";
+import { requestOpen, close, MODAL_IDS, MODAL_PRIORITIES, SUPPRESSED_PATHS } from "../../utils/modalCoordinator";
 
 const STORAGE_KEY = "eminence_cookie_consent";
 
-const SUPPRESSED_PATHS = [
-  /^\/checkout/, /^\/cart/, /^\/success/, /^\/cancel/,
-  /^\/account/, /^\/partners\/portal/, /^\/admin/, /^\/atelier\//,
-];
 
 export default function CookieBanner() {
   const [visible, setVisible] = useState(false);

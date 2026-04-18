@@ -1,7 +1,7 @@
 // src/utils/modalCoordinator.js
 // Single-source-of-truth for mutually exclusive promotional modals.
 
-const SUPPRESSED_PATHS = [
+export const SUPPRESSED_PATHS = [
   /^\/checkout/, /^\/cart/, /^\/success/, /^\/cancel/,
   /^\/account/, /^\/partners\/portal/, /^\/admin/, /^\/atelier\//,
 ];
@@ -9,7 +9,7 @@ const SUPPRESSED_PATHS = [
 const listeners = new Set();
 let current = null;          // { id, priority }
 let lastClosedAt = 0;
-const MIN_GAP_MS = 15000;    // minimum seconds between one modal closing and another opening
+const MIN_GAP_MS = 15000;    // 15 seconds between one modal closing and another opening
 
 function isSuppressed() {
   const path = typeof window !== 'undefined' ? window.location.pathname : '';

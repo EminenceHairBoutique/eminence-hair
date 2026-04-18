@@ -3,16 +3,12 @@ import { useLocation } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { Button } from "./ui/button";
 import { safeSessionGet, safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
-import { requestOpen, close, MODAL_IDS, MODAL_PRIORITIES } from "../utils/modalCoordinator";
+import { requestOpen, close, MODAL_IDS, MODAL_PRIORITIES, SUPPRESSED_PATHS } from "../utils/modalCoordinator";
 import useFocusTrap from "../hooks/useFocusTrap";
 
 // SMS-only discount modal (Twilio Verify)
 // Reveals a promo code *after* phone verification.
 
-const SUPPRESSED_PATHS = [
-  /^\/checkout/, /^\/cart/, /^\/success/, /^\/cancel/,
-  /^\/account/, /^\/partners\/portal/, /^\/admin/, /^\/atelier\//,
-];
 
 const SUPPRESS_DURATION_MS = 72 * 60 * 60 * 1000; // 72 hours
 
