@@ -1,13 +1,21 @@
 // src/components/EmailPopup.jsx — First-visit email capture modal
 import React, { useState, useEffect, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import { X } from "lucide-react";
 import { subscribeEmail } from "../utils/subscribe";
 import { safeSessionGet, safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
+import { requestOpen, close, MODAL_IDS, MODAL_PRIORITIES } from "../utils/modalCoordinator";
+
+const SUPPRESSED_PATHS = [
+  /^\/checkout/, /^\/cart/, /^\/success/, /^\/cancel/,
+  /^\/account/, /^\/partners\/portal/, /^\/admin/, /^\/atelier\//,
+];
 
 const STORAGE_KEY = "eminence_email_popup_dismissed";
 const DELAY_MS = 35000; // 35 seconds — well after cookie + discount modals
 
 export default function EmailPopup() {
+  const location = useLocation();
   const [visible, setVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
@@ -16,6 +24,9 @@ export default function EmailPopup() {
   useEffect(() => {
     // Don't show if already dismissed or already subscribed
     if (safeLocalGet(STORAGE_KEY)) return;
+
+    // Belt: don't show on suppressed paths
+    if (SUPPRESSED_PATHS.some(rx => rx.test(location.pathname))) return;
 
     // Don't show if DiscountModal already claimed this session
     if (safeSessionGet("eminence_discount_seen")) return;
@@ -34,9 +45,12 @@ export default function EmailPopup() {
         // Re-check dismissal and discount flags right before showing
         if (safeLocalGet(STORAGE_KEY)) return;
         if (safeSessionGet("eminence_discount_seen")) return;
-        // Claim this session for EmailPopup so other marketing modals don't show
-        safeSessionSet("eminence_discount_seen", "email");
-        setVisible(true);
+        // Braces: use coordinator
+        if (requestOpen(MODAL_IDS.EMAIL, MODAL_PRIORITIES[MODAL_IDS.EMAIL])) {
+          // Claim this session for EmailPopup so other marketing modals don't show
+          safeSessionSet("eminence_discount_seen", "email");
+          setVisible(true);
+        }
       }, DELAY_MS);
     };
 
@@ -54,10 +68,11 @@ export default function EmailPopup() {
       if (timer) clearTimeout(timer);
       if (onConsent) window.removeEventListener("eminence_consent_decided", onConsent);
     };
-  }, []);
+  }, [location.pathname]);
 
   const dismiss = useCallback(() => {
     setVisible(false);
+    close(MODAL_IDS.EMAIL);
     safeLocalSet(STORAGE_KEY, "1");
     safeSessionSet("eminence_email_popup_shown", "1");
   }, []);

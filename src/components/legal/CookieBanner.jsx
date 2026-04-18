@@ -1,21 +1,38 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { setConsentMemory } from "../../lib/consentStore";
+import { requestOpen, close, MODAL_IDS, MODAL_PRIORITIES } from "../../utils/modalCoordinator";
 
 const STORAGE_KEY = "eminence_cookie_consent";
 
+const SUPPRESSED_PATHS = [
+  /^\/checkout/, /^\/cart/, /^\/success/, /^\/cancel/,
+  /^\/account/, /^\/partners\/portal/, /^\/admin/, /^\/atelier\//,
+];
+
 export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      if (!stored) setVisible(true);
+      if (!stored) {
+        // Belt: check suppressed paths before showing
+        if (SUPPRESSED_PATHS.some(rx => rx.test(location.pathname))) return;
+        // Braces: use coordinator
+        if (requestOpen(MODAL_IDS.COOKIE, MODAL_PRIORITIES[MODAL_IDS.COOKIE])) {
+          setVisible(true);
+        }
+      }
     } catch {
-      setVisible(true);
+      if (requestOpen(MODAL_IDS.COOKIE, MODAL_PRIORITIES[MODAL_IDS.COOKIE])) {
+        setVisible(true);
+      }
     }
-  }, []);
+  }, [location.pathname]);
 
   // If the browser sends Global Privacy Control, default to essential-only unless
   // the user has already saved a preference.
@@ -47,6 +64,7 @@ export default function CookieBanner() {
       setConsentMemory(consent);
     }
     setVisible(false);
+    close(MODAL_IDS.COOKIE);
     try { window.dispatchEvent(new Event("eminence_consent_updated")); } catch (_e) { /* ignore */ }
     try { window.dispatchEvent(new Event("eminence_consent_decided")); } catch (_e) { /* ignore */ }
   };
@@ -59,6 +77,7 @@ export default function CookieBanner() {
       setConsentMemory(consent);
     }
     setVisible(false);
+    close(MODAL_IDS.COOKIE);
     try { window.dispatchEvent(new Event("eminence_consent_updated")); } catch (_e) { /* ignore */ }
     try { window.dispatchEvent(new Event("eminence_consent_decided")); } catch (_e) { /* ignore */ }
   };

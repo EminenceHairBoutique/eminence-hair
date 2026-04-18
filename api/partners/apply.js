@@ -1,6 +1,7 @@
 /* eslint-env node */
 import { sendConciergeRequestEmail } from "../../lib/email.js";
 import { supabaseServer } from "../../lib/supabaseServer.js";
+import { checkRateLimit } from "../_utils/rateLimit.js";
 
 function json(res, status, body) {
   res.statusCode = status;
@@ -53,6 +54,9 @@ async function getUserFromReq(req) {
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
+
+  const allowed = await checkRateLimit(req, res, { endpoint: "partner_apply", max: 3, windowMs: 60_000 });
+  if (!allowed) return;
 
   const body = await parseJsonBody(req);
   if (!body) return json(res, 400, { error: "Invalid JSON" });
