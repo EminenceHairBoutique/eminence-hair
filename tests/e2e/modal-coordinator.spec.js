@@ -22,6 +22,8 @@ test.describe("Modal Coordinator", () => {
   });
 
   test("no modals appear on checkout page", async ({ page }) => {
+    // Navigate to a page first to get a valid origin before clearing storage
+    await page.goto("/");
     await page.evaluate(() => {
       localStorage.clear();
       sessionStorage.clear();

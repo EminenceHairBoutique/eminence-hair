@@ -10,9 +10,9 @@ test.describe("Homepage Sections", () => {
     // Wait for content to load
     await expect(page.locator("h1")).toBeVisible();
 
-    // Count <section> and Motion.section (rendered as <section>) elements
-    // inside the main page content wrapper
-    const sections = page.locator("section");
+    // Count <section> elements inside the main content area only
+    // (excludes nav, footer, or other outer sections)
+    const sections = page.locator("main section");
     const count = await sections.count();
     expect(count).toBe(7);
   });

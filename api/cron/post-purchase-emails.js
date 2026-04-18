@@ -79,7 +79,7 @@ export default async function handler(req, res) {
     }
   } catch (err) {
     console.error("Cron: unexpected error", err?.message || err);
-    results.errors.push(`unexpected: ${err.message}`);
+    results.errors.push(`unexpected: ${err?.message || String(err)}`);
   }
 
   console.log("Cron results:", results);

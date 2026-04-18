@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
@@ -11,9 +11,10 @@ const STORAGE_KEY = "eminence_cookie_consent";
 export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
   const location = useLocation();
+  // Track whether we currently own the coordinator slot so cleanup is safe
+  const ownsSlotRef = useRef(false);
 
   useEffect(() => {
-    let opened = false;
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (!stored) {
@@ -22,20 +23,15 @@ export default function CookieBanner() {
         // Braces: use coordinator
         if (requestOpen(MODAL_IDS.COOKIE, MODAL_PRIORITIES[MODAL_IDS.COOKIE])) {
           setVisible(true);
-          opened = true;
+          ownsSlotRef.current = true;
         }
       }
     } catch {
       if (requestOpen(MODAL_IDS.COOKIE, MODAL_PRIORITIES[MODAL_IDS.COOKIE])) {
         setVisible(true);
-        opened = true;
+        ownsSlotRef.current = true;
       }
     }
-
-    return () => {
-      // Release the coordinator slot if we opened but the effect is cleaning up
-      if (opened) close(MODAL_IDS.COOKIE);
-    };
   }, [location.pathname]);
 
   // If the browser sends Global Privacy Control, default to essential-only unless
@@ -52,6 +48,11 @@ export default function CookieBanner() {
           setConsentMemory(gpcConsent);
         }
         setVisible(false);
+        // Release coordinator slot if we own it
+        if (ownsSlotRef.current) {
+          close(MODAL_IDS.COOKIE);
+          ownsSlotRef.current = false;
+        }
     try { window.dispatchEvent(new Event("eminence_consent_updated")); } catch (_e) { /* ignore */ }
     try { window.dispatchEvent(new Event("eminence_consent_decided")); } catch (_e) { /* ignore */ }
       }
@@ -69,6 +70,7 @@ export default function CookieBanner() {
     }
     setVisible(false);
     close(MODAL_IDS.COOKIE);
+    ownsSlotRef.current = false;
     try { window.dispatchEvent(new Event("eminence_consent_updated")); } catch (_e) { /* ignore */ }
     try { window.dispatchEvent(new Event("eminence_consent_decided")); } catch (_e) { /* ignore */ }
   };
@@ -82,6 +84,7 @@ export default function CookieBanner() {
     }
     setVisible(false);
     close(MODAL_IDS.COOKIE);
+    ownsSlotRef.current = false;
     try { window.dispatchEvent(new Event("eminence_consent_updated")); } catch (_e) { /* ignore */ }
     try { window.dispatchEvent(new Event("eminence_consent_decided")); } catch (_e) { /* ignore */ }
   };
