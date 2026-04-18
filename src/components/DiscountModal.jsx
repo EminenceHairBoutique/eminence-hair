@@ -3,6 +3,13 @@ import { useLocation } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { Button } from "./ui/button";
 import { safeSessionGet, safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
+import {
+  requestOpen,
+  close as closeModal,
+  MODAL_IDS,
+  MODAL_PRIORITIES,
+  SUPPRESSED_PATH_PATTERNS,
+} from "../utils/modalCoordinator";
 
 // SMS-only discount modal (Twilio Verify)
 // Reveals a promo code *after* phone verification.
@@ -44,6 +51,12 @@ export default function DiscountModal() {
     // Don’t show if logged in
     if (user) return;
 
+    // Route-level guard
+    const isSuppressedRoute = SUPPRESSED_PATH_PATTERNS.some((rx) =>
+      rx.test(location.pathname)
+    );
+    if (isSuppressedRoute) return;
+
     // Don’t show during checkout
     if (location.pathname.includes("checkout")) return;
 
@@ -56,6 +69,10 @@ export default function DiscountModal() {
     // Don’t show if EmailPopup was already shown/dismissed this session
     if (safeSessionGet("eminence_email_popup_shown")) return;
 
+    // 72-hour suppression after last show
+    const lastShownAt = safeLocalGet("eminence_discount_last_shown");
+    if (lastShownAt && Date.now() - Number(lastShownAt) < 72 * 60 * 60 * 1000) return;
+
     // Wait for cookie consent decision before showing marketing popup
     const consentAlreadyDecided = !!safeLocalGet("eminence_cookie_consent");
 
@@ -66,8 +83,15 @@ export default function DiscountModal() {
       if (safeSessionGet("eminence_email_popup_shown")) return;
       timer = setTimeout(() => {
         if (!safeSessionGet("eminence_email_popup_shown")) {
-          setOpen(true);
-          safeSessionSet("eminence_discount_seen", "true");
+          const granted = requestOpen(
+            MODAL_IDS.DISCOUNT,
+            MODAL_PRIORITIES[MODAL_IDS.DISCOUNT]
+          );
+          if (granted) {
+            setOpen(true);
+            safeSessionSet("eminence_discount_seen", "true");
+            safeLocalSet("eminence_discount_last_shown", String(Date.now()));
+          }
         }
       }, 5000);
     };
@@ -90,14 +114,22 @@ export default function DiscountModal() {
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        closeModal(MODAL_IDS.DISCOUNT);
+      }
+    };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
   if (!open) return null;
 
-  const close = () => setOpen(false);
+  const close = () => {
+    setOpen(false);
+    closeModal(MODAL_IDS.DISCOUNT);
+  };
 
   const startVerification = async () => {
     setError("");
