@@ -204,6 +204,41 @@ export default function CollectionDetail() {
     return header?.shopCta || "Shop the boutique";
   }, [collectionProducts.length, header]);
 
+  // Build CollectionPage JSON-LD
+  const siteUrl = import.meta?.env?.VITE_SITE_URL || "https://www.eminenceluxuryhair.com";
+  const collectionJsonLd = useMemo(() => {
+    const canonicalUrl = `${siteUrl}/collections/${slug}`;
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+            { "@type": "ListItem", position: 2, name: "Collections", item: `${siteUrl}/collections` },
+            { "@type": "ListItem", position: 3, name: header?.title || slug },
+          ],
+        },
+        {
+          "@type": "CollectionPage",
+          name: header?.title || slug,
+          description: header?.subtitle || "",
+          url: canonicalUrl,
+          mainEntity: {
+            "@type": "ItemList",
+            numberOfItems: collectionProducts.length,
+            itemListElement: collectionProducts.slice(0, 20).map((p, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              url: `${siteUrl}/products/${p.slug}`,
+              name: p.displayName || p.name,
+            })),
+          },
+        },
+      ],
+    };
+  }, [slug, header, collectionProducts, siteUrl]);
+
   // filters from URL (shareable)
   const typeFilter = searchParams.get("type") || "All";
   const textureFilter = searchParams.get("texture") || "All";
@@ -313,6 +348,7 @@ export default function CollectionDetail() {
         title={`${header.title} | Collections`}
         description={header.subtitle}
         image={heroImage}
+        jsonLd={collectionJsonLd}
       />
 
       <div className="pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">

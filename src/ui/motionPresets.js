@@ -68,3 +68,19 @@ export const hoverLift = {
 
 // ─── Viewport defaults (trigger when 15 % of element is visible) ────
 export const viewport = { once: true, amount: 0.15 };
+
+// ─── Reduced-motion helper ──────────────────────────────────────────
+// Returns opacity-only versions of variants for users who prefer
+// reduced motion. Use with framer-motion's useReducedMotion() hook.
+export function reducedMotionVariants(variants) {
+  const reduced = {};
+  for (const [key, value] of Object.entries(variants)) {
+    if (typeof value === "object" && value !== null) {
+      const { y: _y, x: _x, scale: _scale, ...rest } = value;
+      reduced[key] = rest;
+    } else {
+      reduced[key] = value;
+    }
+  }
+  return reduced;
+}

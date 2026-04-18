@@ -78,6 +78,8 @@ export default function RelatedProducts({ currentProduct }) {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     loading="lazy"
                     decoding="async"
+                    width={400}
+                    height={500}
                   />
                 </div>
                 <div className="p-4">

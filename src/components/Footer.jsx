@@ -25,11 +25,11 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* MIDDLE SECTION — 4 COLUMNS */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center text-[12px] tracking-wide">
+        {/* MIDDLE SECTION — 5 COLUMNS */}
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-8 text-center text-[12px] tracking-wide">
 
           <div className="space-y-2">
-            <p className="text-neutral-500 tracking-[0.22em] uppercase text-[10px] mb-3">
+            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[10px] mb-3">
               Shop
             </p>
             <Link to="/shop" className="hover:text-neutral-200 transition block">All Products</Link>
@@ -40,7 +40,7 @@ const Footer = () => {
           </div>
 
           <div className="space-y-2">
-            <p className="text-neutral-500 tracking-[0.22em] uppercase text-[10px] mb-3">
+            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[10px] mb-3">
               Collections
             </p>
             <Link to="/collections/fw-2025" className="hover:text-neutral-200 transition block">F/W 2025</Link>
@@ -52,7 +52,7 @@ const Footer = () => {
           </div>
 
           <div className="space-y-2">
-            <p className="text-neutral-500 tracking-[0.22em] uppercase text-[10px] mb-3">
+            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[10px] mb-3">
               Client Services
             </p>
             <Link to="/care" className="hover:text-neutral-200 transition block">Care Guide</Link>
@@ -65,7 +65,19 @@ const Footer = () => {
           </div>
 
           <div className="space-y-2">
-            <p className="text-neutral-500 tracking-[0.22em] uppercase text-[10px] mb-3">
+            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[10px] mb-3">
+              For Professionals
+            </p>
+            <Link to="/for-professionals" className="hover:text-neutral-200 transition block">Overview</Link>
+            <Link to="/partners" className="hover:text-neutral-200 transition block">Partner Program</Link>
+            <Link to="/partners/stylists" className="hover:text-neutral-200 transition block">Stylist Program</Link>
+            <Link to="/partners/creators" className="hover:text-neutral-200 transition block">Creator Program</Link>
+            <Link to="/installers" className="hover:text-neutral-200 transition block">Installer Directory</Link>
+            <Link to="/partners/portal" className="hover:text-neutral-200 transition block">Partner Portal</Link>
+          </div>
+
+          <div className="space-y-2">
+            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[10px] mb-3">
               Connect
             </p>
             {SOCIAL.instagram && (
@@ -105,7 +117,6 @@ const Footer = () => {
               {BRAND.supportEmail}
             </a>
             <Link to="/account" className="hover:text-neutral-200 transition block">My Account</Link>
-            <Link to="/partners" className="hover:text-neutral-200 transition block">Partner Program</Link>
             <SocialLinks
               variant="icon"
               iconSize={16}

@@ -215,6 +215,14 @@ export default function CartDrawer() {
             Secure Checkout
           </Link>
 
+          <Link
+            to="/installers"
+            onClick={closeCart}
+            className="block text-center text-[11px] text-neutral-500 hover:text-neutral-900 underline underline-offset-4 transition"
+          >
+            Need a stylist? See our installer directory &rarr;
+          </Link>
+
           <div className="flex items-center justify-center gap-2 text-xs text-neutral-500">
             <Lock className="w-3 h-3" />
             Secure & encrypted checkout

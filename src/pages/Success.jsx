@@ -267,6 +267,15 @@ export default function Success() {
             View Orders
           </Link>
         </div>
+
+        <div className="mt-8 text-center">
+          <Link
+            to="/installers"
+            className="text-[11px] text-neutral-500 hover:text-neutral-900 underline underline-offset-4 transition"
+          >
+            Need professional installation? Browse our installer directory &rarr;
+          </Link>
+        </div>
       </div>
     </>
   );

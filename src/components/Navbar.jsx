@@ -72,17 +72,17 @@ export default function Navbar() {
     {
       title: "Concierge",
       items: [
-        { label: "Book a Consult", href: "/private-consult" },
+        { label: "Private Consult", href: "/private-consult" },
         { label: "Medical Hair", href: "/medical-hair" },
-        { label: "Private Fitting", href: "/private-consult" },
       ],
     },
     {
       title: "Atelier",
       items: [
-        { label: "Custom Wig Builder", href: "/custom-atelier" },
-        { label: "Custom Orders", href: "/custom-orders" },
-        { label: "Partner Program", href: "/partners" },
+        { label: "Custom Atelier", href: "/custom-atelier" },
+        { label: "Atelier Try-On", href: "/atelier/try-on" },
+        { label: "Atelier Pre-Order", href: "/atelier/preorder" },
+        { label: "Authenticity", href: "/authenticity" },
       ],
     },
   ], []);
@@ -92,8 +92,8 @@ export default function Navbar() {
       title: "Our Brand",
       items: [
         { label: "Our Story", href: "/about" },
-        { label: "Authenticity", href: "/authenticity" },
         { label: "Gallery", href: "/gallery" },
+        { label: "Installers", href: "/installers" },
       ],
     },
     {
@@ -127,7 +127,7 @@ export default function Navbar() {
           <span className="text-[15px] tracking-[0.28em] uppercase text-neutral-900">
             {BRAND.name}
           </span>
-          <span className="text-[10px] tracking-[0.24em] uppercase text-neutral-500 mt-1">
+          <span className="text-[10px] tracking-[0.24em] uppercase text-neutral-600 mt-1">
             {BRAND.tagline}
           </span>
         </Link>
@@ -155,7 +155,7 @@ export default function Navbar() {
               activeMenu === "services" ? "text-black" : ""
             }`}
           >
-            Services <ChevronDown size={14} className="opacity-70" />
+            Atelier <ChevronDown size={14} className="opacity-70" />
           </button>
 
           <button
@@ -165,8 +165,12 @@ export default function Navbar() {
               activeMenu === "about" ? "text-black" : ""
             }`}
           >
-            About <ChevronDown size={14} className="opacity-70" />
+            About Us <ChevronDown size={14} className="opacity-70" />
           </button>
+
+          <Link to="/journal" className="hover:text-black transition">
+            Journal
+          </Link>
         </nav>
 
         {/* Right controls */}

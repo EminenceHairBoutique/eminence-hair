@@ -1,11 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { Button } from "./ui/button";
 import { safeSessionGet, safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
+import { requestOpen, close, MODAL_IDS, MODAL_PRIORITIES, SUPPRESSED_PATHS } from "../utils/modalCoordinator";
+import useFocusTrap from "../hooks/useFocusTrap";
 
 // SMS-only discount modal (Twilio Verify)
 // Reveals a promo code *after* phone verification.
+
+
+const SUPPRESS_DURATION_MS = 72 * 60 * 60 * 1000; // 72 hours
 
 const DEFAULT_COUNTRIES = [
   { label: "US", code: "+1" },
@@ -33,6 +38,8 @@ export default function DiscountModal() {
   const [error, setError] = useState("");
 
   const [discountCode, setDiscountCode] = useState("WELCOME10");
+  const dialogRef = useRef(null);
+  useFocusTrap(dialogRef, open, { onEscape: () => { setOpen(false); close(MODAL_IDS.DISCOUNT); } });
 
   const phone = useMemo(() => {
     const digits = String(localNumber || "").replace(/\D/g, "");
@@ -44,8 +51,8 @@ export default function DiscountModal() {
     // Don’t show if logged in
     if (user) return;
 
-    // Don’t show during checkout
-    if (location.pathname.includes("checkout")) return;
+    // Belt: don’t show on suppressed paths
+    if (SUPPRESSED_PATHS.some(rx => rx.test(location.pathname))) return;
 
     // Don’t show repeatedly
     if (safeSessionGet("eminence_discount_seen")) return;
@@ -55,6 +62,10 @@ export default function DiscountModal() {
 
     // Don’t show if EmailPopup was already shown/dismissed this session
     if (safeSessionGet("eminence_email_popup_shown")) return;
+
+    // 72-hour suppression after last shown
+    const lastShown = safeLocalGet("eminence_discount_last_shown");
+    if (lastShown && (Date.now() - Number(lastShown)) < SUPPRESS_DURATION_MS) return;
 
     // Wait for cookie consent decision before showing marketing popup
     const consentAlreadyDecided = !!safeLocalGet("eminence_cookie_consent");
@@ -66,8 +77,12 @@ export default function DiscountModal() {
       if (safeSessionGet("eminence_email_popup_shown")) return;
       timer = setTimeout(() => {
         if (!safeSessionGet("eminence_email_popup_shown")) {
-          setOpen(true);
-          safeSessionSet("eminence_discount_seen", "true");
+          // Braces: use coordinator
+          if (requestOpen(MODAL_IDS.DISCOUNT, MODAL_PRIORITIES[MODAL_IDS.DISCOUNT])) {
+            setOpen(true);
+            safeSessionSet("eminence_discount_seen", "true");
+            safeLocalSet("eminence_discount_last_shown", String(Date.now()));
+          }
         }
       }, 5000);
     };
@@ -97,7 +112,10 @@ export default function DiscountModal() {
 
   if (!open) return null;
 
-  const close = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    close(MODAL_IDS.DISCOUNT);
+  };
 
   const startVerification = async () => {
     setError("");
@@ -177,17 +195,18 @@ export default function DiscountModal() {
   return (
     <div
       className="fixed inset-0 z-[9999] bg-black/60 flex items-center justify-center px-4"
-      onClick={close}
+      onClick={handleClose}
     >
       <div
+        ref={dialogRef}
         className="relative w-full max-w-3xl bg-white rounded-3xl shadow-[0_30px_90px_rgba(0,0,0,0.35)] overflow-hidden"
         role="dialog"
         aria-modal="true"
-        aria-label="Unlock your first-order gift"
+        aria-labelledby="discount-modal-title"
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          onClick={close}
+          onClick={handleClose}
           className="absolute top-4 right-4 z-10 h-10 w-10 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-neutral-700 hover:text-black hover:bg-white transition"
           aria-label="Close"
         >
@@ -200,7 +219,7 @@ export default function DiscountModal() {
             <p className="text-xs tracking-[0.28em] uppercase text-neutral-500 mb-3">
               Want to save big?
             </p>
-            <h2 className="text-3xl font-light leading-tight mb-3">
+            <h2 id="discount-modal-title" className="text-3xl font-light leading-tight mb-3">
               Unlock your first-order gift
             </h2>
             <p className="text-sm text-neutral-600 mb-6">
@@ -335,7 +354,7 @@ export default function DiscountModal() {
 
                   <Button
                     className="flex-1 rounded-full text-xs tracking-[0.25em] uppercase"
-                    onClick={close}
+                    onClick={handleClose}
                   >
                     Start shopping
                   </Button>

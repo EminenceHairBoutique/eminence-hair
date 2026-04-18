@@ -4,24 +4,28 @@ import { Link } from "react-router-dom";
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false, error: null };
+    this.state = { hasError: false, error: null, errorInfo: null };
   }
 
   static getDerivedStateFromError(error) {
     return { hasError: true, error };
   }
 
-  componentDidCatch(_error, _info) {
-    // Optional: send to logging later (Sentry/LogRocket)
-    // console.error("ErrorBoundary caught:", error, info);
+  componentDidCatch(error, errorInfo) {
+    this.setState({ errorInfo });
   }
 
   handleReset = () => {
-    this.setState({ hasError: false, error: null });
+    this.setState({ hasError: false, error: null, errorInfo: null });
   };
 
   render() {
     if (!this.state.hasError) return this.props.children;
+
+    const showDebug =
+      (typeof import.meta !== "undefined" && import.meta.env?.DEV) ||
+      (typeof window !== "undefined" &&
+        new URLSearchParams(window.location.search).has("debug"));
 
     return (
       <div className="min-h-[70vh] pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">
@@ -53,7 +57,19 @@ export default class ErrorBoundary extends React.Component {
             </Link>
           </div>
 
-          {/* Keep details hidden unless you want dev info */}
+          {showDebug && this.state.error && (
+            <div className="mt-8 text-left bg-white/60 rounded-2xl border border-neutral-200 p-6 overflow-auto max-h-80">
+              <p className="text-xs font-mono text-red-700 mb-2">
+                {String(this.state.error)}
+              </p>
+              {this.state.errorInfo?.componentStack && (
+                <pre className="text-[11px] font-mono text-neutral-600 whitespace-pre-wrap">
+                  {this.state.errorInfo.componentStack}
+                </pre>
+              )}
+            </div>
+          )}
+
           <p className="mt-8 text-[11px] text-neutral-400">
             If this keeps happening, contact support.
           </p>
