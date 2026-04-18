@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion as Motion } from "framer-motion";
 import { useCart } from "../context/CartContext";
-import { eminenceEssentials, readyToShip } from "../data/products";
+import { eminenceEssentials } from "../data/products";
 import { resolveProductImages } from "../utils/productMedia";
 import {
   fadeUp,
@@ -78,7 +78,6 @@ const Home = () => {
   };
 
   const essentialsCards = eminenceEssentials.slice(0, 4);
-  const readyToShipCards = readyToShip.slice(0, 4);
 
   return (
     <>
@@ -149,13 +148,13 @@ const Home = () => {
             </button>
           </section>
 
-          {/* \u2500\u2500 SECTION 2 \u2014 TRUST STRIP \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
+          {/* \u2500\u2500 TRUST STRIP \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
           <TrustStrip />
           <p className="text-center text-[11px] tracking-[0.18em] text-neutral-500 mt-3">
             Trusted by stylists, creators, and clients nationwide.
           </p>
 
-          {/* \u2500\u2500 SECTION 3 \u2014 EDITORIAL ESSENTIALS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
+          {/* \u2500\u2500 SECTION 2 \u2014 BESTSELLER SHELF \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
           <Motion.section
             className="py-16 bg-[#FAF8F5]"
             variants={staggerContainer}
@@ -220,7 +219,7 @@ const Home = () => {
             </div>
           </Motion.section>
 
-          {/* \u2500\u2500 SECTION 4 \u2014 BRAND STORY \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
+          {/* \u2500\u2500 SECTION 3 \u2014 AUTHENTICITY RAIL \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
           <Motion.section
             className="py-20 bg-[#0B0B0C] text-white"
             variants={staggerContainer}
@@ -272,7 +271,7 @@ const Home = () => {
             </div>
           </Motion.section>
 
-          {/* \u2500\u2500 SECTION 5 \u2014 COLLECTION MOMENT \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
+          {/* \u2500\u2500 SECTION 4 \u2014 COLLECTION TRIPTYCH \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
           <section className="py-16 bg-[#F9F7F4]">
             <div className="max-w-6xl mx-auto px-6">
               <div className="relative rounded-3xl overflow-hidden">
@@ -312,16 +311,15 @@ const Home = () => {
             </div>
           </section>
 
-          {/* \u2500\u2500 SECTION 6 \u2014 PRE-ORDER + NEWSLETTER \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
+          {/* \u2500\u2500 SECTION 5 \u2014 ATELIER PRE-ORDER \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
           <section className="py-20 bg-[#0B0B0C] text-white">
-            <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16">
-              {/* Left \u2014 Atelier Pre-Order */}
+            <div className="max-w-6xl mx-auto px-6">
               <Motion.div
                 variants={fadeUp}
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewport}
-                className="space-y-5"
+                className="max-w-xl mx-auto text-center space-y-5"
               >
                 <p className="text-[11px] tracking-[0.32em] uppercase text-white/55">
                   Atelier Pre-Order
@@ -329,12 +327,12 @@ const Home = () => {
                 <h2 className="text-2xl md:text-3xl font-light font-display leading-tight">
                   Factory-direct luxury, available by pre-order.
                 </h2>
-                <p className="text-sm text-white/70 leading-relaxed max-w-md">
+                <p className="text-sm text-white/70 leading-relaxed">
                   Select premium bundles and wigs fulfilled directly from our
                   partner atelier &mdash; giving you access to the full range at
                   true factory quality.
                 </p>
-                <div className="flex flex-wrap gap-3 pt-2">
+                <div className="flex flex-wrap gap-3 justify-center pt-2">
                   <Link
                     to="/custom-orders"
                     className="rounded-full bg-white text-[#1B1B1B] px-7 py-2.5 text-[11px] uppercase tracking-[0.26em] hover:bg-white/90 transition"
@@ -349,8 +347,43 @@ const Home = () => {
                   </Link>
                 </div>
               </Motion.div>
+            </div>
+          </section>
 
-              {/* Right \u2014 Newsletter */}
+          {/* \u2500\u2500 SECTION 6 \u2014 EDITORIAL CARD \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
+          <section className="py-16 bg-[#F9F7F4]">
+            <div className="max-w-6xl mx-auto px-6">
+              <Link to="/journal/raw-vs-virgin-hair" className="group block">
+                <div className="relative rounded-3xl overflow-hidden">
+                  <img
+                    src={db5}
+                    alt="Inside the Eminence editorial"
+                    className="w-full h-[400px] object-cover group-hover:scale-[1.02] transition-transform duration-700"
+                    loading="lazy"
+                    decoding="async"
+                    width={1200}
+                    height={400}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-10 px-8 text-white">
+                    <p className="text-[11px] tracking-[0.28em] uppercase text-neutral-300 mb-2">
+                      From the Journal
+                    </p>
+                    <h2 className="text-2xl md:text-3xl font-light font-display mb-2">
+                      The Difference Between Raw and Virgin Hair
+                    </h2>
+                    <span className="text-[11px] uppercase tracking-[0.22em] text-white/80 underline underline-offset-4 group-hover:text-white transition">
+                      Read the Guide
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </section>
+
+          {/* \u2500\u2500 SECTION 7 \u2014 NEWSLETTER \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
+          <section className="py-20 bg-[#0B0B0C] text-white">
+            <div className="max-w-xl mx-auto px-6 text-center">
               <Motion.div
                 variants={fadeUp}
                 initial="hidden"
@@ -364,12 +397,12 @@ const Home = () => {
                 <h2 className="text-2xl md:text-3xl font-light font-display leading-tight">
                   Be the first to know.
                 </h2>
-                <p className="text-sm text-white/70 leading-relaxed max-w-md">
+                <p className="text-sm text-white/70 leading-relaxed max-w-md mx-auto">
                   Early access to capsules, priority restocks, and care guides.
                   Your 10% welcome code will meet you at checkout.
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-3 max-w-md">
+                <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
                   <input
                     type="email"
                     placeholder="Email address"
@@ -402,68 +435,6 @@ const Home = () => {
               </Motion.div>
             </div>
           </section>
-
-          {/* \u2500\u2500 SECTION 7 \u2014 READY-TO-SHIP \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
-          <Motion.section
-            className="py-14 border-t border-neutral-200 bg-[#F9F7F4]"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-          >
-            <div className="max-w-6xl mx-auto px-6">
-              <div className="flex items-end justify-between mb-8">
-                <h2 className="text-xl md:text-2xl font-light font-display">
-                  Ready-to-Ship Edit
-                </h2>
-                <Link
-                  to="/ready-to-ship"
-                  className="text-[11px] uppercase tracking-[0.2em] text-neutral-700 underline underline-offset-4"
-                >
-                  View All
-                </Link>
-              </div>
-
-              <Motion.div
-                className="grid grid-cols-2 md:grid-cols-4 gap-5"
-                variants={staggerContainer}
-              >
-                {readyToShipCards.map((p) => (
-                  <Motion.div
-                    key={p.id}
-                    variants={staggerChild}
-                    className="bg-white border border-neutral-200 rounded-2xl overflow-hidden shadow-sm"
-                  >
-                    <div className="relative">
-                      <img
-                        src={resolveProductImages(p)?.[0]}
-                        alt={p.displayName || p.name}
-                        className="h-44 w-full object-cover"
-                        loading="lazy"
-                        decoding="async"
-                        width={400}
-                        height={176}
-                      />
-                    </div>
-                    <div className="p-4">
-                      <span className="inline-block text-[10px] tracking-[0.18em] uppercase text-[#D4AF37] bg-[#D4AF37]/10 rounded-full px-2.5 py-0.5 mb-2">
-                        Ready to Ship
-                      </span>
-                      <p className="text-sm text-neutral-800 mb-1 line-clamp-1">
-                        {p.displayName || p.name}
-                      </p>
-                      <Link
-                        to={`/products/${p.slug}`}
-                        className="text-[11px] uppercase tracking-[0.22em] underline underline-offset-4 text-neutral-600"
-                      >
-                        Shop Now
-                      </Link>
-                    </div>
-                  </Motion.div>
-                ))}
-              </Motion.div>
-            </div>
-          </Motion.section>
         </div>
       </PageTransition>
     </>
