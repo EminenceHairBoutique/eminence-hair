@@ -219,7 +219,7 @@ export default function MobileMenuDrawer({ open, onClose, onSearch }) {
                 <p className="text-[13px] uppercase tracking-[0.28em] text-neutral-900">
                   {BRAND.name}
                 </p>
-                <p className="mt-1 text-[10px] uppercase tracking-[0.24em] text-neutral-500">
+                <p className="mt-1 text-[11px] uppercase tracking-[0.24em] text-neutral-500">
                   {BRAND.tagline}
                 </p>
               </Link>
@@ -327,7 +327,7 @@ export default function MobileMenuDrawer({ open, onClose, onSearch }) {
 
               {/* Quick chips */}
               <div className="mt-8">
-                <p className="text-[10px] uppercase tracking-[0.28em] text-neutral-500">
+                <p className="text-[11px] uppercase tracking-[0.28em] text-neutral-500">
                   Quick Shop
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -342,7 +342,7 @@ export default function MobileMenuDrawer({ open, onClose, onSearch }) {
                       key={x.label}
                       to={x.href}
                       onClick={onClose}
-                      className="rounded-full border border-black/10 bg-white/70 hover:bg-white px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-neutral-800"
+                      className="rounded-full border border-black/10 bg-white/70 hover:bg-white px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-neutral-800"
                     >
                       {x.label}
                     </Link>

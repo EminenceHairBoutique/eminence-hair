@@ -172,7 +172,7 @@ export default function EmailPopup() {
               <p className="mt-2 text-xs text-red-600 text-center">{errorMsg}</p>
             )}
 
-            <p className="mt-4 text-[10px] text-neutral-500 text-center">
+            <p className="mt-4 text-[11px] text-neutral-500 text-center">
               No spam — just launches, drops, and things worth knowing.
             </p>
           </>

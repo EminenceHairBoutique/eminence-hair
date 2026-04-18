@@ -293,7 +293,7 @@ export default function AccountDashboard() {
 
                 {partnerApproved && partnerPricingPreview && (
                   <div className="mt-4 rounded-2xl border border-neutral-200 bg-neutral-50 p-4">
-                    <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                       Partner pricing preview
                     </p>
 

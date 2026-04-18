@@ -224,7 +224,7 @@ export default async function handler(req, res) {
 
           console.log("📧 Email send call completed");
         } catch (err) {
-          console.error("❌ Email send failed:", err);
+          console.error("❌ Email send failed:", err?.message || err);
         }
 
         break;
@@ -264,7 +264,7 @@ export default async function handler(req, res) {
 
     res.json({ received: true });
   } catch (err) {
-    console.error("❌ Webhook handler error:", err);
+    console.error("❌ Webhook handler error:", err?.message || err);
     res.status(500).json({ error: "Webhook handler failed" });
   }
 }

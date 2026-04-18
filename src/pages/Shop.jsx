@@ -17,7 +17,7 @@ const prefetchCheckout = () => import("./Checkout");
 function Pill({ active, children }) {
   return (
     <span
-      className={`px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border transition ${
+      className={`px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border transition ${
         active
           ? "border-neutral-900 bg-neutral-900 text-[#F9F7F4]"
           : "border-neutral-300 bg-white/40 hover:bg-white/60 text-neutral-800"
@@ -33,7 +33,7 @@ function ActiveChip({ label, onRemove }) {
     <button
       type="button"
       onClick={onRemove}
-      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/50 hover:bg-white"
+      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/50 hover:bg-white"
       aria-label={`Remove filter ${label}`}
     >
       {label}
@@ -469,14 +469,14 @@ export default function Shop() {
                 <button
                   type="button"
                   onClick={() => setDrawerOpen(true)}
-                  className="md:hidden px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/40 hover:bg-white/60"
+                  className="md:hidden px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/40 hover:bg-white/60"
                 >
                   Filters
                 </button>
 
                 {/* Desktop sort */}
                 <div className="hidden md:flex lg:hidden items-center gap-2">
-                  <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                  <label className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                     Sort
                   </label>
                   <select
@@ -496,7 +496,7 @@ export default function Shop() {
             {/* Desktop filters row */}
             <div className="hidden md:flex lg:hidden flex-wrap items-center gap-3 rounded-3xl border border-white/60 bg-white/40 backdrop-blur px-4 py-3">
               <div className="flex items-center gap-2">
-                <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                <label className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                   Collection
                 </label>
                 <select
@@ -514,7 +514,7 @@ export default function Shop() {
               </div>
 
               <div className="flex items-center gap-2">
-                <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                <label className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                   Texture
                 </label>
                 <select
@@ -531,7 +531,7 @@ export default function Shop() {
               </div>
 
               <div className="flex items-center gap-2">
-                <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                <label className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                   Color
                 </label>
                 <select
@@ -550,7 +550,7 @@ export default function Shop() {
               <button
                 type="button"
                 onClick={clearAllFilters}
-                className="ml-auto px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/40 hover:bg-white/60"
+                className="ml-auto px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/40 hover:bg-white/60"
               >
                 Clear
               </button>
@@ -581,7 +581,7 @@ export default function Shop() {
                   </p>
                   <button
                     type="button"
-                    className="px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/50"
+                    className="px-3 py-1.5 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/50"
                     onClick={() => setDrawerOpen(false)}
                   >
                     Done
@@ -590,7 +590,7 @@ export default function Shop() {
 
                 <div className="mt-6 space-y-5">
                   <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                    <label className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                       Collection
                     </label>
                     <select
@@ -608,7 +608,7 @@ export default function Shop() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                    <label className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                       Texture
                     </label>
                     <select
@@ -625,7 +625,7 @@ export default function Shop() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                    <label className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                       Color
                     </label>
                     <select
@@ -642,7 +642,7 @@ export default function Shop() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                    <label className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                       Sort
                     </label>
                     <select
@@ -722,12 +722,12 @@ export default function Shop() {
                           decoding="async"
                         />
 
-                        <span className="absolute top-3 left-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
+                        <span className="absolute top-3 left-3 px-3 py-1 text-[11px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
                           Essential
                         </span>
 
                         {p.readyToShip && (
-                          <span className="absolute top-3 right-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-white/80 text-neutral-900 border border-white/60">
+                          <span className="absolute top-3 right-3 px-3 py-1 text-[11px] tracking-[0.28em] uppercase rounded-full bg-white/80 text-neutral-900 border border-white/60">
                             Ready to ship
                           </span>
                         )}
@@ -749,7 +749,7 @@ export default function Shop() {
                           <button
                             type="button"
                             onClick={() => setQuickViewProduct(p)}
-                            className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/70 hover:bg-white"
+                            className="px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/70 hover:bg-white"
                           >
                             View
                           </button>
@@ -781,7 +781,7 @@ export default function Shop() {
 
                     <div className="mt-5 space-y-4">
                       <div>
-                        <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                        <label className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                           Collection
                         </label>
                         <select
@@ -799,7 +799,7 @@ export default function Shop() {
                       </div>
 
                       <div>
-                        <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                        <label className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                           Texture
                         </label>
                         <select
@@ -816,7 +816,7 @@ export default function Shop() {
                       </div>
 
                       <div>
-                        <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                        <label className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                           Color
                         </label>
                         <select
@@ -833,7 +833,7 @@ export default function Shop() {
                       </div>
 
                       <div>
-                        <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                        <label className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                           Sort
                         </label>
                         <select
@@ -851,13 +851,13 @@ export default function Shop() {
                       <button
                         type="button"
                         onClick={clearAllFilters}
-                        className="w-full mt-2 px-4 py-2.5 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/60 hover:bg-white"
+                        className="w-full mt-2 px-4 py-2.5 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/60 hover:bg-white"
                       >
                         Clear all
                       </button>
 
                       <div className="rounded-2xl border border-black/5 bg-white/60 p-4">
-                        <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                        <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                           Concierge tip
                         </p>
                         <p className="mt-2 text-xs text-neutral-700 leading-relaxed">
@@ -893,18 +893,18 @@ export default function Shop() {
                           decoding="async"
                         />
 
-                        <span className="absolute top-3 left-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
+                        <span className="absolute top-3 left-3 px-3 py-1 text-[11px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
                           {p.type === "wig" ? "Wig" : p.type === "bundle" ? "Bundle" : "Closure"}
                         </span>
 
                         {p.readyToShip && (
-                          <span className="absolute top-3 right-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-white/80 text-neutral-900 border border-white/60">
+                          <span className="absolute top-3 right-3 px-3 py-1 text-[11px] tracking-[0.28em] uppercase rounded-full bg-white/80 text-neutral-900 border border-white/60">
                             Ready to ship
                           </span>
                         )}
 
                         {p.isPreorder && (
-                          <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] uppercase tracking-[0.2em] bg-[#D4AF37] text-[#111] font-medium shadow-sm">
+                          <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[11px] uppercase tracking-[0.2em] bg-[#D4AF37] text-[#111] font-medium shadow-sm">
                             Pre-Order
                           </span>
                         )}
@@ -941,7 +941,7 @@ export default function Shop() {
                             <button
                               type="button"
                               onClick={() => setQuickViewProduct(p)}
-                              className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/70 hover:bg-white"
+                              className="px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/70 hover:bg-white"
                             >
                               View
                             </button>
@@ -949,7 +949,7 @@ export default function Shop() {
                             {p.type === "wig" ? (
                               <Link
                                 to={`/products/${p.slug}`}
-                                className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
+                                className="px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
                               >
                                 Select
                               </Link>
@@ -958,7 +958,7 @@ export default function Shop() {
                                 type="button"
                                 onClick={() => handleQuickAdd(p)}
                                 disabled={addingId === p.id}
-                                className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900 disabled:bg-neutral-500"
+                                className="px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900 disabled:bg-neutral-500"
                               >
                                 {addingId === p.id ? "Added" : "Add"}
                               </button>

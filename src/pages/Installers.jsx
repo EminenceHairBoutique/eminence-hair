@@ -55,7 +55,7 @@ function StylistCard({ stylist }) {
             {specs.slice(0, 4).map((s) => (
               <span
                 key={s}
-                className="inline-block text-[10px] uppercase tracking-wider text-neutral-600 bg-[#F5EFE6] border border-black/[0.06] rounded-full px-2.5 py-0.5"
+                className="inline-block text-[11px] uppercase tracking-wider text-neutral-600 bg-[#F5EFE6] border border-black/[0.06] rounded-full px-2.5 py-0.5"
               >
                 {s}
               </span>

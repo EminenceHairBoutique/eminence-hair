@@ -198,11 +198,11 @@ export default function Collections() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent opacity-90" />
                   <div className="absolute left-5 right-5 bottom-5">
                     <div className="flex items-center justify-between">
-                      <p className="text-[10px] uppercase tracking-[0.32em] text-white/80">
+                      <p className="text-[11px] uppercase tracking-[0.32em] text-white/80">
                         {c.eyebrow}
                       </p>
                       {c.tag && (
-                        <span className="text-[10px] uppercase tracking-[0.26em] text-white/90 border border-white/30 px-3 py-1 rounded-full">
+                        <span className="text-[11px] uppercase tracking-[0.26em] text-white/90 border border-white/30 px-3 py-1 rounded-full">
                           {c.tag}
                         </span>
                       )}
