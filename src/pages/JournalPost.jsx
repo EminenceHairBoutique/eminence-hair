@@ -36,7 +36,7 @@ export default function JournalPost() {
           {/* Article */}
           <article className="max-w-2xl mx-auto px-6 py-16">
             <Motion.div variants={fadeUp} initial="hidden" animate="visible">
-              <p className="text-[10px] tracking-[0.22em] uppercase text-neutral-500 mb-3">
+              <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-500 mb-3">
                 {new Date(post.publishedAt).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",

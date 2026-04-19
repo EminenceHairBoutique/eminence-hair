@@ -38,7 +38,7 @@ export default function RecentlyViewed({ recentIds = [], currentProductId }) {
                   decoding="async"
                 />
               </div>
-              <p className="mt-2 text-[10px] text-neutral-700 line-clamp-1">
+              <p className="mt-2 text-[11px] text-neutral-700 line-clamp-1">
                 {p.displayName || p.name}
               </p>
             </Link>

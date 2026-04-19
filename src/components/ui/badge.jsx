@@ -11,7 +11,7 @@ export function Badge({ className = "", variant = "default", ...props }) {
   };
 
   const base =
-    "inline-flex items-center rounded-md px-2 py-1 text-[10px] leading-none font-medium";
+    "inline-flex items-center rounded-md px-2 py-1 text-[11px] leading-none font-medium";
 
   const resolved =
     variants[variant] || variants.default;

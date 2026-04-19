@@ -304,7 +304,7 @@ export default function VirtualPreviewModal({
                       />
                       <HairSilhouette color={selectedColor.hex} opacity={opacity} />
                       <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/40 to-transparent">
-                        <p className="text-[10px] uppercase tracking-[0.22em] text-white/90">
+                        <p className="text-[11px] uppercase tracking-[0.22em] text-white/90">
                           {TEXTURES.find((textureOption) => textureOption.id === texture)?.label || texture} • {selectedColor.label}
                         </p>
                       </div>
@@ -321,7 +321,7 @@ export default function VirtualPreviewModal({
 
                 <div className="p-4 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">Overlay intensity</p>
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">Overlay intensity</p>
                     <input
                       type="range"
                       min={0.12}

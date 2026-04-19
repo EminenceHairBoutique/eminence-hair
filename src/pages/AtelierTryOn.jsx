@@ -556,7 +556,7 @@ export default function AtelierTryOn() {
                   <button
                     type="button"
                     onClick={() => setAdj({ ...DEFAULT_ADJUSTMENTS, ...(overlay.defaults || {}) })}
-                    className="text-[10px] uppercase tracking-wider text-neutral-400 hover:text-black transition"
+                    className="text-[11px] uppercase tracking-wider text-neutral-400 hover:text-black transition"
                   >
                     Reset adjustments
                   </button>
@@ -597,7 +597,7 @@ export default function AtelierTryOn() {
                       </button>
 
                       {!user && (
-                        <p className="text-[10px] text-neutral-400 text-center">
+                        <p className="text-[11px] text-neutral-400 text-center">
                           <Link to="/account" className="underline">Sign in</Link> to save sessions to your account.
                         </p>
                       )}
@@ -624,13 +624,13 @@ export default function AtelierTryOn() {
               <div className="text-center space-y-2">
                 <Link
                   to="/shop"
-                  className="block text-[10px] uppercase tracking-wider text-neutral-400 hover:text-black transition"
+                  className="block text-[11px] uppercase tracking-wider text-neutral-400 hover:text-black transition"
                 >
                   Browse all wigs →
                 </Link>
                 <Link
                   to="/custom-atelier"
-                  className="block text-[10px] uppercase tracking-wider text-neutral-400 hover:text-black transition"
+                  className="block text-[11px] uppercase tracking-wider text-neutral-400 hover:text-black transition"
                 >
                   Custom atelier order →
                 </Link>

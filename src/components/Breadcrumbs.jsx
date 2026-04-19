@@ -62,7 +62,7 @@ export default function Breadcrumbs({ current }) {
       aria-label="Breadcrumb"
       className="max-w-6xl mx-auto px-6 pt-24 pb-2"
     >
-      <ol className="flex flex-wrap items-center gap-1 text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+      <ol className="flex flex-wrap items-center gap-1 text-[11px] uppercase tracking-[0.22em] text-neutral-500">
         <li>
           <Link to="/" className="hover:text-neutral-900 transition">
             Home

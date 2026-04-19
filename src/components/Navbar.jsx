@@ -127,7 +127,7 @@ export default function Navbar() {
           <span className="text-[15px] tracking-[0.28em] uppercase text-neutral-900">
             {BRAND.name}
           </span>
-          <span className="text-[10px] tracking-[0.24em] uppercase text-neutral-600 mt-1">
+          <span className="text-[11px] tracking-[0.24em] uppercase text-neutral-600 mt-1">
             {BRAND.tagline}
           </span>
         </Link>
@@ -197,7 +197,7 @@ export default function Navbar() {
 
           <Link
             to="/private-consult"
-            className="hidden sm:inline-flex items-center px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/40 hover:bg-white/70 transition"
+            className="hidden sm:inline-flex items-center px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/40 hover:bg-white/70 transition"
           >
             Consult
           </Link>
@@ -224,7 +224,7 @@ export default function Navbar() {
           >
             <ShoppingBag size={20} className="text-neutral-800" />
             {items.length > 0 && (
-              <span className="absolute -top-1 -right-1 bg-neutral-900 text-[#FBF6EE] text-[10px] rounded-full h-5 w-5 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-neutral-900 text-[#FBF6EE] text-[11px] rounded-full h-5 w-5 flex items-center justify-center">
                 {items.length}
               </span>
             )}

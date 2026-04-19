@@ -21,7 +21,7 @@ const MegaMenu = ({ open, onClose, sections, image }) => {
             {/* MENU COLUMNS */}
             {sections.map((section, i) => (
               <div key={i} className="space-y-4">
-                <p className="text-[10px] uppercase tracking-[0.28em] text-neutral-500">
+                <p className="text-[11px] uppercase tracking-[0.28em] text-neutral-500">
                   {section.title}
                 </p>
                 <div className="flex flex-col gap-2.5">
@@ -68,7 +68,7 @@ const MegaMenu = ({ open, onClose, sections, image }) => {
                 </div>
 
                 <div className="mt-5 rounded-2xl border border-black/10 bg-white/50 p-4">
-                  <p className="text-[10px] uppercase tracking-[0.28em] text-neutral-500">
+                  <p className="text-[11px] uppercase tracking-[0.28em] text-neutral-500">
                     New to wigs?
                   </p>
                   <p className="mt-2 text-sm text-neutral-900">

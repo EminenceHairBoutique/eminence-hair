@@ -152,8 +152,8 @@ function CompareSlider({ beforeDataUrl, afterDataUrl, width, height }) {
         </div>
       </div>
       {/* Labels */}
-      <span className="absolute top-2 left-3 text-[10px] uppercase tracking-wider text-white bg-black/40 px-2 py-0.5 rounded-full">Before</span>
-      <span className="absolute top-2 right-3 text-[10px] uppercase tracking-wider text-white bg-black/40 px-2 py-0.5 rounded-full">After</span>
+      <span className="absolute top-2 left-3 text-[11px] uppercase tracking-wider text-white bg-black/40 px-2 py-0.5 rounded-full">Before</span>
+      <span className="absolute top-2 right-3 text-[11px] uppercase tracking-wider text-white bg-black/40 px-2 py-0.5 rounded-full">After</span>
     </div>
   );
 }
@@ -173,20 +173,20 @@ function LookCard({ look, selected, onSelect, onRemove }) {
         className="w-full aspect-[3/4] object-cover"
       />
       {selected && (
-        <div className="absolute top-2 left-2 bg-black text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]">
+        <div className="absolute top-2 left-2 bg-black text-white rounded-full w-5 h-5 flex items-center justify-center text-[11px]">
           ✓
         </div>
       )}
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); onRemove(look.id); }}
-        className="absolute top-2 right-2 bg-white/80 rounded-full w-5 h-5 text-[10px] flex items-center justify-center hover:bg-white transition"
+        className="absolute top-2 right-2 bg-white/80 rounded-full w-5 h-5 text-[11px] flex items-center justify-center hover:bg-white transition"
         aria-label="Remove look"
       >
         ×
       </button>
       <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-2">
-        <p className="text-white text-[10px] uppercase tracking-wider truncate">{look.productName}</p>
+        <p className="text-white text-[11px] uppercase tracking-wider truncate">{look.productName}</p>
       </div>
     </div>
   );
@@ -779,7 +779,7 @@ export default function AtelierMirror() {
                       <button
                         type="button"
                         onClick={() => setAdj({ ...DEFAULT_ADJUSTMENTS, ...(overlay.defaults || {}) })}
-                        className="text-[10px] uppercase tracking-wider text-neutral-400 hover:text-black transition"
+                        className="text-[11px] uppercase tracking-wider text-neutral-400 hover:text-black transition"
                       >
                         Reset adjustments
                       </button>
@@ -827,7 +827,7 @@ export default function AtelierMirror() {
                       )}
 
                       {!user && (
-                        <p className="text-[10px] text-neutral-400 text-center pt-1">
+                        <p className="text-[11px] text-neutral-400 text-center pt-1">
                           <Link to="/account" className="underline">Sign in</Link> to save looks to your profile.
                         </p>
                       )}
@@ -845,10 +845,10 @@ export default function AtelierMirror() {
 
                   {/* Navigation links */}
                   <div className="text-center space-y-2 pt-2">
-                    <Link to="/shop" className="block text-[10px] uppercase tracking-wider text-neutral-400 hover:text-black transition">
+                    <Link to="/shop" className="block text-[11px] uppercase tracking-wider text-neutral-400 hover:text-black transition">
                       Browse all wigs →
                     </Link>
-                    <Link to="/custom-atelier" className="block text-[10px] uppercase tracking-wider text-neutral-400 hover:text-black transition">
+                    <Link to="/custom-atelier" className="block text-[11px] uppercase tracking-wider text-neutral-400 hover:text-black transition">
                       Custom atelier order →
                     </Link>
                   </div>
@@ -1125,7 +1125,7 @@ export default function AtelierMirror() {
                                 <p className="text-[11px] uppercase tracking-wider text-charcoal">{look.productName}</p>
                                 <Link
                                   to={`/products/${look.productId}`}
-                                  className="text-[10px] text-neutral-400 hover:text-black transition"
+                                  className="text-[11px] text-neutral-400 hover:text-black transition"
                                 >
                                   Shop this look →
                                 </Link>
@@ -1149,7 +1149,7 @@ export default function AtelierMirror() {
                               {conciergeStatus === "sending" ? "Sending…" : "Send these looks to my Concierge"}
                             </button>
                           )}
-                          <p className="mt-2 text-[10px] text-neutral-400">
+                          <p className="mt-2 text-[11px] text-neutral-400">
                             Your personal Eminence concierge will review and guide your selection.
                           </p>
                         </div>

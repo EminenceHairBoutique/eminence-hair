@@ -113,7 +113,7 @@ function Chip({ active, children, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className={`px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border transition ${
+      className={`px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border transition ${
         active
           ? "bg-black text-white border-black"
           : "border-neutral-800/30 bg-white/60 hover:bg-white"
@@ -469,7 +469,7 @@ export default function CollectionDetail() {
                     <button
                       type="button"
                       onClick={clearFilters}
-                      className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800/30 bg-white/60 hover:bg-white transition inline-flex items-center gap-2"
+                      className="px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-800/30 bg-white/60 hover:bg-white transition inline-flex items-center gap-2"
                       title="Clear filters"
                     >
                       Clear <X className="w-3 h-3" />
@@ -647,7 +647,7 @@ export default function CollectionDetail() {
                               />
 
                               {isWig && (
-                                <span className="absolute top-3 left-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
+                                <span className="absolute top-3 left-3 px-3 py-1 text-[11px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
                                   Wig
                                 </span>
                               )}
@@ -683,7 +683,7 @@ export default function CollectionDetail() {
                                   <button
                                     type="button"
                                     onClick={() => setQuickViewProduct(p)}
-                                    className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-white/70 hover:bg-white"
+                                    className="px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-800 bg-white/70 hover:bg-white"
                                   >
                                     View
                                   </button>
@@ -691,7 +691,7 @@ export default function CollectionDetail() {
                                   {isWig ? (
                                     <Link
                                       to={`/products/${p.slug}`}
-                                      className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
+                                      className="px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
                                     >
                                       Select
                                     </Link>
@@ -707,7 +707,7 @@ export default function CollectionDetail() {
                                         }
                                         addToCart(payload);
                                       }}
-                                      className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
+                                      className="px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
                                     >
                                       Add
                                     </button>

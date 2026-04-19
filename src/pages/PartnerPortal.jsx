@@ -70,7 +70,7 @@ function CopyButton({ value }) {
     <button
       type="button"
       onClick={copy}
-      className="ml-2 px-3 py-1 text-[10px] uppercase tracking-[0.18em] rounded-full border border-black/20 hover:border-black/40 transition"
+      className="ml-2 px-3 py-1 text-[11px] uppercase tracking-[0.18em] rounded-full border border-black/20 hover:border-black/40 transition"
     >
       {copied ? "Copied!" : "Copy"}
     </button>
@@ -611,7 +611,7 @@ function LinkPill({ href, label }) {
   return (
     <Link
       to={href}
-      className="inline-flex items-center px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/40 hover:bg-white/70 transition"
+      className="inline-flex items-center px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/40 hover:bg-white/70 transition"
     >
       {label}
     </Link>

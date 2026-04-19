@@ -139,7 +139,7 @@ export default function SearchModal({ open, onClose }) {
                         />
                       </div>
                       <div className="p-4">
-                        <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                        <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                           {p.type === "bundle" ? "Bundle" : p.type === "closure" ? "Closure" : "Wig"}
                           {p.texture ? ` • ${p.texture}` : ""}
                         </p>
@@ -157,7 +157,7 @@ export default function SearchModal({ open, onClose }) {
             </div>
 
             <div className="px-6 pb-6">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+              <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                 Tip: search "body", "613", "deep wave", or "essentials".
               </p>
             </div>
