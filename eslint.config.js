@@ -33,6 +33,11 @@ export default defineConfig([
           caughtErrorsIgnorePattern: "^_",
         },
       ],
+      "no-use-before-define": ["error", {
+        functions: false,
+        classes: true,
+        variables: true,
+      }],
     },
   },
 
@@ -57,6 +62,11 @@ export default defineConfig([
           caughtErrorsIgnorePattern: "^_",
         },
       ],
+      "no-use-before-define": ["error", {
+        functions: false,
+        classes: true,
+        variables: true,
+      }],
     },
   },
 

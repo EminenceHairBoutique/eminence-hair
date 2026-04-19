@@ -91,7 +91,6 @@ export default function App() {
         }`}
       >
         <Navbar />
-        <DiscountModal />
         <ScrollToTop />
 
         <ErrorBoundary>
@@ -187,11 +186,11 @@ export default function App() {
             </Routes>
           </AnimatePresence>
           </main>
+          <CookieBanner />
+          <EmailPopup />
+          <DiscountModal />
+          <Footer />
         </ErrorBoundary>
-
-        <CookieBanner />
-        <EmailPopup />
-        <Footer />
       </div>
     </>
   );

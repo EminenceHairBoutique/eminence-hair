@@ -315,6 +315,12 @@ export default function AtelierTryOn() {
     }
   };
 
+  const stopCam = () => {
+    streamRef.current?.getTracks().forEach((t) => t.stop());
+    streamRef.current = null;
+    setCamActive(false);
+  };
+
   const captureFromCam = () => {
     const video = videoRef.current;
     if (!video) return;
@@ -324,12 +330,6 @@ export default function AtelierTryOn() {
     tmpCanvas.getContext("2d").drawImage(video, 0, 0);
     setSrcDataUrl(tmpCanvas.toDataURL("image/jpeg", 0.9));
     stopCam();
-  };
-
-  const stopCam = () => {
-    streamRef.current?.getTracks().forEach((t) => t.stop());
-    streamRef.current = null;
-    setCamActive(false);
   };
 
   useEffect(() => () => stopCam(), []); // cleanup on unmount

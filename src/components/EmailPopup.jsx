@@ -18,6 +18,14 @@ export default function EmailPopup() {
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState("");
   const dialogRef = useRef(null);
+
+  const dismiss = useCallback(() => {
+    setVisible(false);
+    close(MODAL_IDS.EMAIL);
+    safeLocalSet(STORAGE_KEY, "1");
+    safeSessionSet("eminence_email_popup_shown", "1");
+  }, []);
+
   useFocusTrap(dialogRef, visible, { onEscape: dismiss });
 
   useEffect(() => {
@@ -68,13 +76,6 @@ export default function EmailPopup() {
       if (onConsent) window.removeEventListener("eminence_consent_decided", onConsent);
     };
   }, [location.pathname]);
-
-  const dismiss = useCallback(() => {
-    setVisible(false);
-    close(MODAL_IDS.EMAIL);
-    safeLocalSet(STORAGE_KEY, "1");
-    safeSessionSet("eminence_email_popup_shown", "1");
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
