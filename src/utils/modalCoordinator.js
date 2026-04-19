@@ -26,7 +26,7 @@ export function canOpen() {
 export function requestOpen(id) {
   if (!canOpen()) return false;
   current = { id };
-  listeners.forEach(fn => { try { fn({ type: 'open', id }); } catch {} });
+  listeners.forEach(fn => { try { fn({ type: 'open', id }); } catch (_e) { /* listener error isolated */ } });
   return true;
 }
 
