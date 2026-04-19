@@ -133,3 +133,11 @@ button:focus-visible {
   animation: modalIn 300ms ease-out forwards;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .animate-modal-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+

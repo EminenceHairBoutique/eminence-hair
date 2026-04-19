@@ -67,7 +67,7 @@ export default function ShippingRegions({ compact = false }) {
                   <p className="text-sm text-neutral-900">
                     {r.title}{" "}
                     {r.active && (
-                      <span className="ml-2 text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                      <span className="ml-2 text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                         Your region
                       </span>
                     )}

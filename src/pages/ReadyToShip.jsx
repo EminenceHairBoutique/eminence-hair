@@ -43,16 +43,16 @@ function RtiCollectionSection({ collection, packages, onAddToCart }) {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-neutral-100">
-              <th className="text-left px-4 py-3 text-[10px] uppercase tracking-[0.18em] text-neutral-500 font-medium">
+              <th className="text-left px-4 py-3 text-[11px] uppercase tracking-[0.18em] text-neutral-500 font-medium">
                 Bundle Set
               </th>
-              <th className="text-right px-4 py-3 text-[10px] uppercase tracking-[0.18em] text-neutral-500 font-medium">
+              <th className="text-right px-4 py-3 text-[11px] uppercase tracking-[0.18em] text-neutral-500 font-medium">
                 3-Bundle Set
               </th>
-              <th className="text-right px-4 py-3 text-[10px] uppercase tracking-[0.18em] text-neutral-500 font-medium">
+              <th className="text-right px-4 py-3 text-[11px] uppercase tracking-[0.18em] text-neutral-500 font-medium">
                 + 5×5 Closure
               </th>
-              <th className="text-right px-4 py-3 text-[10px] uppercase tracking-[0.18em] text-neutral-500 font-medium">
+              <th className="text-right px-4 py-3 text-[11px] uppercase tracking-[0.18em] text-neutral-500 font-medium">
                 + 13×4 Frontal
               </th>
               <th className="px-4 py-3" />

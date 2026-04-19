@@ -210,7 +210,7 @@ const Home = () => {
                         to={`/products/${p.slug}`}
                         className="text-[11px] uppercase tracking-[0.22em] underline underline-offset-4 text-neutral-600"
                       >
-                        Shop Now
+                        View
                       </Link>
                     </div>
                   </Motion.div>

@@ -54,7 +54,7 @@ export default function Journal() {
                       />
                     </div>
                     <div className="p-6">
-                      <p className="text-[10px] tracking-[0.22em] uppercase text-neutral-500 mb-2">
+                      <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-500 mb-2">
                         {new Date(post.publishedAt).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "long",

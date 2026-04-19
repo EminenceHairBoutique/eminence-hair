@@ -73,7 +73,7 @@ const ProductCard = ({ product }) => {
             </div>
           )}
           {(product.badge || product.readyToShip) && (
-            <div className="absolute top-3 left-3 bg-[#111]/80 backdrop-blur-sm text-[#D4AF37] text-[9px] uppercase tracking-[0.22em] px-2.5 py-1 rounded-full">
+            <div className="absolute top-3 left-3 bg-[#111]/80 backdrop-blur-sm text-[#D4AF37] text-[11px] uppercase tracking-[0.22em] px-2.5 py-1 rounded-full">
               {product.badge || (product.readyToShip ? "Ready to Ship" : "")}
             </div>
           )}
@@ -98,7 +98,7 @@ const ProductCard = ({ product }) => {
         type="button"
         onClick={handleQuickAdd}
         aria-label={`Add ${product.name} to cart`}
-        className="absolute bottom-5 right-4 text-[10px] uppercase tracking-[0.22em] border border-neutral-300 rounded-full px-3 py-1 text-neutral-600 hover:border-[#111] hover:text-[#111] transition"
+        className="absolute bottom-5 right-4 text-[11px] uppercase tracking-[0.22em] border border-neutral-300 rounded-full px-3 py-1 text-neutral-600 hover:border-[#111] hover:text-[#111] transition"
       >
         Add
       </button>

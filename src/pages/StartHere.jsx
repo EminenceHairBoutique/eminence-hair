@@ -274,7 +274,7 @@ export default function StartHere() {
 function Field({ label, children }) {
   return (
     <div>
-      <p className="text-[10px] uppercase tracking-[0.28em] text-neutral-500">{label}</p>
+      <p className="text-[11px] uppercase tracking-[0.28em] text-neutral-500">{label}</p>
       <div className="mt-2">{children}</div>
     </div>
   );
@@ -286,7 +286,7 @@ function Pill({ active, onClick, children }) {
       type="button"
       onClick={onClick}
       className={
-        "px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border transition " +
+        "px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border transition " +
         (active
           ? "border-neutral-900 bg-neutral-900 text-[#F9F7F4]"
           : "border-neutral-300 bg-white/40 hover:bg-white/70 text-neutral-800")
@@ -312,7 +312,7 @@ function ProductMiniCard({ p }) {
         />
       </div>
       <div className="p-5">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
           {p.type === "bundle" ? "Bundle" : "Wig"}
           {p.texture ? ` • ${p.texture}` : ""}
         </p>

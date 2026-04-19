@@ -655,7 +655,7 @@ export default function CustomAtelier() {
                             <button
                               type="button"
                               onClick={() => fileInputRef.current?.click?.()}
-                              className="shrink-0 inline-flex items-center justify-center rounded-full px-4 py-2 text-[10px] uppercase tracking-[0.22em] border border-black/15 hover:border-black/30 bg-white"
+                              className="shrink-0 inline-flex items-center justify-center rounded-full px-4 py-2 text-[11px] uppercase tracking-[0.22em] border border-black/15 hover:border-black/30 bg-white"
                               disabled={uploading}
                             >
                               {uploading ? "Uploading…" : "Add photos"}
@@ -663,7 +663,7 @@ export default function CustomAtelier() {
                           ) : (
                             <Link
                               to="/account"
-                              className="shrink-0 inline-flex items-center justify-center rounded-full px-4 py-2 text-[10px] uppercase tracking-[0.22em] border border-black/15 hover:border-black/30 bg-white"
+                              className="shrink-0 inline-flex items-center justify-center rounded-full px-4 py-2 text-[11px] uppercase tracking-[0.22em] border border-black/15 hover:border-black/30 bg-white"
                             >
                               Sign in to upload
                             </Link>
@@ -768,7 +768,7 @@ export default function CustomAtelier() {
                                 )}
 
                                 {!u.uploading && !u.error && u.path && (
-                                  <div className="pointer-events-none absolute bottom-2 left-2 rounded-full bg-black/70 px-2 py-1 text-[10px] uppercase tracking-[0.22em] text-white">
+                                  <div className="pointer-events-none absolute bottom-2 left-2 rounded-full bg-black/70 px-2 py-1 text-[11px] uppercase tracking-[0.22em] text-white">
                                     Private
                                   </div>
                                 )}
@@ -819,7 +819,7 @@ export default function CustomAtelier() {
                                   </div>
 
                                   <div>
-                                    <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                                    <label className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                                       Label
                                     </label>
                                     <select
@@ -1007,7 +1007,7 @@ export default function CustomAtelier() {
                         key={label}
                         type="button"
                         onClick={() => setStep(n)}
-                        className={`px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.22em] border transition ${
+                        className={`px-3 py-1.5 rounded-full text-[11px] uppercase tracking-[0.22em] border transition ${
                           active
                             ? "bg-black text-white border-black"
                             : "border-neutral-300 bg-white/60 hover:bg-white"

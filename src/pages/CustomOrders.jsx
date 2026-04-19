@@ -581,7 +581,7 @@ export default function CustomOrders() {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click?.()}
-                    className="shrink-0 inline-flex items-center justify-center rounded-full px-4 py-2 text-[10px] uppercase tracking-[0.22em] border border-black/15 hover:border-black/30 bg-white"
+                    className="shrink-0 inline-flex items-center justify-center rounded-full px-4 py-2 text-[11px] uppercase tracking-[0.22em] border border-black/15 hover:border-black/30 bg-white"
                     disabled={uploading}
                   >
                     {uploading ? "Processing…" : "Add photos"}
@@ -689,7 +689,7 @@ export default function CustomOrders() {
                           </div>
 
                           <div>
-                            <label className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                            <label className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                               Label
                             </label>
                             <select
