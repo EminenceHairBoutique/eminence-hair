@@ -16,16 +16,24 @@ export default class ErrorBoundary extends React.Component {
   }
 
   handleReset = () => {
-    this.setState({ hasError: false, error: null, errorInfo: null });
+    const isChunkError =
+      this.state.error?.name === 'ChunkLoadError' ||
+      /loading chunk \d+ failed/i.test(this.state.error?.message || '');
+
+    if (isChunkError) {
+      window.location.href = window.location.pathname + '?t=' + Date.now();
+    } else {
+      this.setState({ hasError: false, error: null, errorInfo: null });
+    }
   };
 
   render() {
     if (!this.state.hasError) return this.props.children;
 
+    const debugParam = new URLSearchParams(window.location.search).get('debug');
     const showDebug =
-      (typeof import.meta !== "undefined" && import.meta.env?.DEV) ||
-      (typeof window !== "undefined" &&
-        new URLSearchParams(window.location.search).has("debug"));
+      (typeof import.meta !== 'undefined' && import.meta.env?.DEV) ||
+      debugParam === '1' || debugParam === 'true';
 
     return (
       <div className="min-h-[70vh] pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">
@@ -59,11 +67,14 @@ export default class ErrorBoundary extends React.Component {
 
           {showDebug && this.state.error && (
             <div className="mt-8 text-left bg-white/60 rounded-2xl border border-neutral-200 p-6 overflow-auto max-h-80">
-              <p className="text-xs font-mono text-red-700 mb-2">
-                {String(this.state.error)}
-              </p>
+              <p className="text-xs font-mono text-red-700 mb-1"><b>name:</b> {this.state.error.name}</p>
+              <p className="text-xs font-mono text-red-700 mb-1"><b>message:</b> {this.state.error.message}</p>
+              {this.state.error.cause && (
+                <p className="text-xs font-mono text-red-700 mb-2"><b>cause:</b> {String(this.state.error.cause)}</p>
+              )}
+              <pre className="text-[11px] font-mono text-neutral-600 whitespace-pre-wrap">{this.state.error.stack}</pre>
               {this.state.errorInfo?.componentStack && (
-                <pre className="text-[11px] font-mono text-neutral-600 whitespace-pre-wrap">
+                <pre className="text-[11px] font-mono text-neutral-500 whitespace-pre-wrap mt-2">
                   {this.state.errorInfo.componentStack}
                 </pre>
               )}
