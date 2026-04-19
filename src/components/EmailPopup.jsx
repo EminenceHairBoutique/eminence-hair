@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { X } from "lucide-react";
 import { subscribeEmail } from "../utils/subscribe";
 import { safeSessionGet, safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
-import { requestOpen, close, MODAL_IDS, MODAL_PRIORITIES, SUPPRESSED_PATHS } from "../utils/modalCoordinator";
+import { requestOpen, close, MODAL_IDS, SUPPRESSED_PATHS } from "../utils/modalCoordinator";
 import useFocusTrap from "../hooks/useFocusTrap";
 
 
@@ -45,7 +45,7 @@ export default function EmailPopup() {
         if (safeLocalGet(STORAGE_KEY)) return;
         if (safeSessionGet("eminence_discount_seen")) return;
         // Braces: use coordinator
-        if (requestOpen(MODAL_IDS.EMAIL, MODAL_PRIORITIES[MODAL_IDS.EMAIL])) {
+        if (requestOpen(MODAL_IDS.EMAIL)) {
           // Claim this session for EmailPopup so other marketing modals don't show
           safeSessionSet("eminence_discount_seen", "email");
           setVisible(true);

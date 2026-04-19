@@ -7,7 +7,7 @@ export const SUPPRESSED_PATHS = [
 ];
 
 const listeners = new Set();
-let current = null;          // { id, priority }
+let current = null;          // { id }
 let lastClosedAt = 0;
 const MIN_GAP_MS = 15000;    // 15 seconds between one modal closing and another opening
 
@@ -16,17 +16,17 @@ function isSuppressed() {
   return SUPPRESSED_PATHS.some(rx => rx.test(path));
 }
 
-export function canOpen(_id, _priority) {
+export function canOpen() {
   if (isSuppressed()) return false;
   if (current) return false;
   if (Date.now() - lastClosedAt < MIN_GAP_MS) return false;
   return true;
 }
 
-export function requestOpen(id, priority) {
-  if (!canOpen(id, priority)) return false;
-  current = { id, priority };
-  listeners.forEach(fn => fn({ type: 'open', id }));
+export function requestOpen(id) {
+  if (!canOpen()) return false;
+  current = { id };
+  listeners.forEach(fn => { try { fn({ type: 'open', id }); } catch {} });
   return true;
 }
 
@@ -46,10 +46,4 @@ export const MODAL_IDS = {
   COOKIE: 'cookie',
   DISCOUNT: 'discount',
   EMAIL: 'email',
-};
-
-export const MODAL_PRIORITIES = {
-  [MODAL_IDS.COOKIE]: 1000,
-  [MODAL_IDS.DISCOUNT]: 500,
-  [MODAL_IDS.EMAIL]: 100,
 };

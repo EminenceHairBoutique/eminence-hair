@@ -64,7 +64,7 @@ export default async function handler(req, res) {
     await sendConciergeRequestEmail({ type, payload });
     res.status(200).json({ ok: true });
   } catch (err) {
-    console.error("concierge error", err);
-    res.status(500).send(err?.message || "Failed to send concierge request");
+    console.error("concierge error", err instanceof Error ? err.message : String(err));
+    res.status(500).send("Failed to send concierge request");
   }
 }

@@ -44,7 +44,7 @@ PRs #21–#31 and #51 were already closed/merged by prior engineering passes. Th
 | `src/components/EmailPopup.jsx` L7 | `DELAY_MS = 8000` | `DELAY_MS = 35000` (35 seconds) | **CHANGED** — delay increased |
 | `src/components/legal/CookieBanner.jsx` L10–13 | `setVisible(true)` immediately | Conditional: `if (!stored) setVisible(true)` | **CHANGED** — now conditional |
 | `src/components/Navbar.jsx` L117–127,172 | Partner links in aboutSections, "Start Here" top-level | Partner Program in servicesSections L85. No "Start Here" in nav. | **CHANGED** — restructured |
-| `src/components/ProductCard.jsx` L53–101 | `<button>` nested in `<Link>` | `<button>` at L92–98 inside `<Link>` at L54 | **MATCHES** — needs fix |
+| `src/components/ProductCard.jsx` L53–101 | `<button>` nested in `<Link>` | `<button>` at L92–98 inside `<Link>` at L54 | **RESOLVED** — button moved outside Link in PR #62 |
 | `src/pages/Home.jsx` L617,739 | Two duplicate Atelier Pre-Order sections | Single Atelier section at L316. Only 473 lines total. | **CHANGED** — duplicate already removed |
 | `api/create-checkout-session.js` | No `checkRateLimit` call | `checkRateLimit` already present at L19 | **CHANGED** — already rate-limited |
 | `vercel.json` crons | `/api/cron/post-purchase-emails` at `0 10 * * *` | Matches | **MATCHES** |

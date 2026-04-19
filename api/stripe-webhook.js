@@ -224,7 +224,7 @@ export default async function handler(req, res) {
 
           console.log("📧 Email send call completed");
         } catch (err) {
-          console.error("❌ Email send failed:", err);
+          console.error("❌ Email send failed:", err instanceof Error ? err.message : String(err));
         }
 
         break;
@@ -252,7 +252,7 @@ export default async function handler(req, res) {
             });
             console.log("📧 Abandoned cart email sent to:", customerEmail);
           } catch (err) {
-            console.error("❌ Abandoned cart email failed:", err.message);
+            console.error("❌ Abandoned cart email failed:", err instanceof Error ? err.message : String(err));
           }
         }
         break;
@@ -264,7 +264,7 @@ export default async function handler(req, res) {
 
     res.json({ received: true });
   } catch (err) {
-    console.error("❌ Webhook handler error:", err);
+    console.error("❌ Webhook handler error:", err instanceof Error ? err.message : String(err));
     res.status(500).json({ error: "Webhook handler failed" });
   }
 }

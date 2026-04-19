@@ -109,7 +109,7 @@ export default async function handler(req, res) {
       const { data } = await supabaseServer.auth.admin.getUserByEmail(targetEmail);
       targetUserId = data?.user?.id || null;
     } catch (e) {
-      console.warn("Admin approve: getUserByEmail failed", e);
+      console.warn("Admin approve: getUserByEmail failed", e instanceof Error ? e.message : String(e));
     }
   }
 
@@ -148,13 +148,13 @@ export default async function handler(req, res) {
         .eq("id", targetUserId);
 
       if (profErr) {
-        console.warn("Admin approve: profile update failed", profErr);
+        console.warn("Admin approve: profile update failed", profErr instanceof Error ? profErr.message : String(profErr));
       }
     }
 
     return json(res, 200, { ok: true, status: nextStatus, targetUserId: targetUserId || null });
   } catch (e) {
-    console.error("Admin partner update: unhandled error", e);
+    console.error("Admin partner update: unhandled error", e instanceof Error ? e.message : String(e));
     return json(res, 500, { error: "Server error" });
   }
 }

@@ -28,7 +28,7 @@ export default async function handler(req, res) {
       .limit(50);
 
     if (careErr) {
-      console.error("Cron: care query error", careErr);
+      console.error("Cron: care query error", careErr instanceof Error ? careErr.message : String(careErr));
       results.errors.push(`care query: ${careErr.message}`);
     }
 
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
       .limit(50);
 
     if (reviewErr) {
-      console.error("Cron: review query error", reviewErr);
+      console.error("Cron: review query error", reviewErr instanceof Error ? reviewErr.message : String(reviewErr));
       results.errors.push(`review query: ${reviewErr.message}`);
     }
 
@@ -78,7 +78,7 @@ export default async function handler(req, res) {
       }
     }
   } catch (err) {
-    console.error("Cron: unexpected error", err);
+    console.error("Cron: unexpected error", err instanceof Error ? err.message : String(err));
     results.errors.push(`unexpected: ${err.message}`);
   }
 

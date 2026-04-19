@@ -95,7 +95,7 @@ export default async function handler(req, res) {
 
     if (upsertErr) {
       // If the SQL migration isn't run yet, this will fail.
-      console.warn("Partner apply: DB upsert failed", upsertErr);
+      console.warn("Partner apply: DB upsert failed", upsertErr instanceof Error ? upsertErr.message : String(upsertErr));
     }
 
     // Mark profile as pending (if logged in + columns exist).
@@ -106,7 +106,7 @@ export default async function handler(req, res) {
         .eq("id", user.id);
 
       if (profErr) {
-        console.warn("Partner apply: profile update failed", profErr);
+        console.warn("Partner apply: profile update failed", profErr instanceof Error ? profErr.message : String(profErr));
       }
     }
 
@@ -122,7 +122,7 @@ export default async function handler(req, res) {
 
     return json(res, 200, { ok: true });
   } catch (e) {
-    console.error("Partner apply: unhandled error", e);
+    console.error("Partner apply: unhandled error", e instanceof Error ? e.message : String(e));
     return json(res, 500, { error: "Server error" });
   }
 }

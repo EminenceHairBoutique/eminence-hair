@@ -4,6 +4,7 @@ import { motion as Motion } from "framer-motion";
 import { fadeUp } from "../ui/motionPresets";
 import PageTransition from "../components/PageTransition";
 import SEO from "../components/SEO";
+import Breadcrumbs from "../components/Breadcrumbs";
 import { journalPosts } from "../data/journal";
 
 export default function JournalPost() {
@@ -19,9 +20,9 @@ export default function JournalPost() {
         description={post.excerpt}
         image={post.heroImage}
       />
+      <Breadcrumbs current={post?.title} />
       <PageTransition>
         <div className="bg-[#F9F7F4] text-[#1B1B1B]">
-          {/* Hero image */}
           <div className="w-full max-h-[50vh] overflow-hidden">
             <img
               src={post.heroImage}

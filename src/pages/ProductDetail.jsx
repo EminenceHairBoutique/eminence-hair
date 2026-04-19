@@ -32,6 +32,7 @@ import { formatMoney } from "../utils/format";
 import RelatedProducts from "../components/RelatedProducts";
 import RecentlyViewed from "../components/RecentlyViewed";
 import { useRecentlyViewed } from "../hooks/useRecentlyViewed";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 /* ---------------- BNPL config ---------------- */
 const BNPL_MINIMUM = 50; // minimum price to show installment messaging
@@ -644,30 +645,12 @@ export default function ProductDetail() {
         image={images?.[0]}
       />
 
+      <Breadcrumbs current={product?.name} />
+
       <div className="pt-28 pb-24 bg-[#FBF6ED]">
         <ProductStructuredData product={product} price={price} />
 
         <div className="max-w-7xl mx-auto px-6">
-          {/* Breadcrumb navigation */}
-          <nav className="mb-4 text-[11px] tracking-[0.12em] text-neutral-500" aria-label="Breadcrumb">
-            <ol className="flex flex-wrap items-center gap-1">
-              <li><Link to="/" className="hover:text-neutral-800 transition">Home</Link></li>
-              <li aria-hidden="true">/</li>
-              <li><Link to="/shop" className="hover:text-neutral-800 transition">Shop</Link></li>
-              {product.collectionSlug && (
-                <>
-                  <li aria-hidden="true">/</li>
-                  <li>
-                    <Link to={`/collections/${product.collectionSlug}`} className="hover:text-neutral-800 transition">
-                      {product.collection}
-                    </Link>
-                  </li>
-                </>
-              )}
-              <li aria-hidden="true">/</li>
-              <li className="text-neutral-800">{product.displayName || product.name}</li>
-            </ol>
-          </nav>
 
           <button
             onClick={() => navigate(-1)}

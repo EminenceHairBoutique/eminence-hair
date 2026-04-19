@@ -11,6 +11,8 @@ import { useEffect, useRef } from "react";
  */
 export default function useFocusTrap(ref, enabled, options = {}) {
   const previouslyFocused = useRef(null);
+  const onEscapeRef = useRef(options.onEscape);
+  useEffect(() => { onEscapeRef.current = options.onEscape; });
 
   useEffect(() => {
     if (!enabled) return;
@@ -39,7 +41,7 @@ export default function useFocusTrap(ref, enabled, options = {}) {
     const onKeyDown = (e) => {
       if (e.key === "Escape") {
         e.stopPropagation();
-        options.onEscape?.();
+        onEscapeRef.current?.();
         return;
       }
 
@@ -74,5 +76,5 @@ export default function useFocusTrap(ref, enabled, options = {}) {
         previouslyFocused.current.focus();
       }
     };
-  }, [ref, enabled, options]);
+  }, [ref, enabled]); // stable deps only
 }
