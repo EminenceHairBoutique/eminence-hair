@@ -31,11 +31,8 @@ test.describe("Modal Coordinator", () => {
 
     await page.goto("/checkout");
 
-    // Wait a moment
-    await page.waitForTimeout(2000);
-
     // Cookie banner should NOT appear on suppressed path
-    await expect(page.locator("text=We use cookies")).not.toBeVisible();
+    await expect(page.locator("text=We use cookies")).not.toBeVisible({ timeout: 3000 });
   });
 
   test("cookie banner and discount modal do not appear simultaneously", async ({ page }) => {

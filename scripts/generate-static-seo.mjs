@@ -842,6 +842,8 @@ async function main() {
     robotsTemplate = await fs.readFile(publicRobotsPath, "utf8");
     // Remove any existing Sitemap: lines from the template to avoid duplicates
     robotsTemplate = robotsTemplate.replace(/^Sitemap:.*$/gm, "").trimEnd();
+    // Normalize any resulting excess blank lines
+    robotsTemplate = robotsTemplate.replace(/\n{3,}/g, "\n\n");
   } catch {
     // Fallback if public/robots.txt is missing
     robotsTemplate = [
