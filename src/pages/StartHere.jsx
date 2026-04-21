@@ -1,7 +1,11 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion as Motion } from "framer-motion";
+import { fadeUp, viewport } from "../ui/motionPresets";
 import PageTransition from "../components/PageTransition";
 import PageHero from "../components/PageHero";
+import SEO from "../components/SEO";
+import JournalCTA from "../components/JournalCTA";
 import { products, eminenceEssentials } from "../data/products";
 import { resolveProductImages } from "../utils/productMedia";
 
@@ -10,7 +14,6 @@ const normalizeString = (str) =>
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "")
     .trim();
-import SEO from "../components/SEO";
 
 const TEXTURE_OPTIONS = [
   { label: "Straight", value: "Straight" },
@@ -239,31 +242,92 @@ export default function StartHere() {
                 </div>
               )}
 
-              {/* Education */}
+              {/* Education quick-reference cards */}
               <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <InfoCard
                   title="Density"
-                  body="For everyday, 180–200% is the sweet spot. Higher densities are bold and photo-forward, but require more styling." 
-                  link={{ label: "Medical hair", href: "/medical-hair" }}
+                  body="For everyday, 180–200% is the sweet spot. Higher densities are bold and photo-forward, but require more styling."
+                  link={{ label: "Read the density guide", href: "/journal/how-to-choose-density-and-length" }}
                 />
                 <InfoCard
                   title="Lace"
-                  body="HD lace melts under flash and daylight. Transparent lace is more forgiving for first installs and lighter maintenance." 
-                  link={{ label: "Authenticity", href: "/authenticity" }}
+                  body="HD lace melts under flash and daylight. Transparent lace is more forgiving for first installs and lighter maintenance."
+                  link={{ label: "HD vs transparent lace", href: "/journal/hd-lace-vs-transparent-lace" }}
                 />
                 <InfoCard
                   title="Care"
-                  body="Treat it like couture: gentle wash schedule, low heat, and proper storage. Your longevity depends on your ritual." 
-                  link={{ label: "Care guide", href: "/care" }}
+                  body="Treat it like couture: gentle wash schedule, low heat, and proper storage. Your longevity depends on your ritual."
+                  link={{ label: "Full care guide", href: "/care" }}
                 />
                 <InfoCard
                   title="Custom Atelier"
-                  body="Need a specific color, density, lace, or fit? Build a request and let our concierge confirm the best construction." 
+                  body="Need a specific color, density, lace, or fit? Build a request and let our concierge confirm the best construction."
                   link={{ label: "Build your custom wig", href: "/custom-atelier" }}
                 />
               </div>
+
+              {/* First-time buyer education strip */}
+              <Motion.div
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewport}
+                className="mt-14 rounded-3xl border border-black/10 bg-white/70 p-8"
+              >
+                <p className="text-[11px] uppercase tracking-[0.32em] text-neutral-500 mb-2">
+                  First-Time Buyer Guide
+                </p>
+                <h3 className="text-xl font-display font-light mb-4">
+                  What should I buy first?
+                </h3>
+                <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
+                  {[
+                    {
+                      label: "Best first texture",
+                      detail: "Body wave or straight. Both are easy to maintain and style daily.",
+                    },
+                    {
+                      label: "Best first length",
+                      detail: "18\"–22\". Long enough to feel luxurious, short enough to manage easily.",
+                    },
+                    {
+                      label: "Best first density",
+                      detail: "180%. Natural-looking for everyday wear, and the most forgiving choice.",
+                    },
+                    {
+                      label: "Best first lace",
+                      detail: "Transparent lace. More forgiving during installation while you develop your routine.",
+                    },
+                  ].map(({ label, detail }) => (
+                    <div key={label}>
+                      <p className="text-[10px] uppercase tracking-[0.26em] text-[#D4AF37] mb-1">{label}</p>
+                      <p className="text-xs text-neutral-700 leading-relaxed">{detail}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-6 flex flex-col sm:flex-row gap-3">
+                  <Link
+                    to="/journal/first-wig-guide"
+                    className="inline-block text-[11px] uppercase tracking-[0.22em] underline underline-offset-4 text-neutral-700 hover:text-neutral-900"
+                  >
+                    Read the full guide →
+                  </Link>
+                  <Link
+                    to="/journal"
+                    className="inline-block text-[11px] uppercase tracking-[0.22em] underline underline-offset-4 text-neutral-500 hover:text-neutral-700"
+                  >
+                    Explore the Journal
+                  </Link>
+                </div>
+              </Motion.div>
             </section>
           </div>
+        </div>
+
+        {/* Bottom CTAs */}
+        <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-6">
+          <JournalCTA theme="consult" compact />
+          <JournalCTA theme="results" compact />
         </div>
       </div>
     </PageTransition>

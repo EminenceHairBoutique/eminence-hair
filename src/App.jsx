@@ -66,6 +66,7 @@ const AtelierPreorder = lazy(() => import("./pages/AtelierPreorder"));
 const ForProfessionals = lazy(() => import("./pages/ForProfessionals"));
 const Journal = lazy(() => import("./pages/Journal"));
 const JournalPost = lazy(() => import("./pages/JournalPost"));
+const ClientResults = lazy(() => import("./pages/ClientResults"));
 
 
 export default function App() {
@@ -156,6 +157,7 @@ export default function App() {
                 ["/for-professionals", <ForProfessionals />],
                 ["/journal", <Journal />],
                 ["/journal/:slug", <JournalPost />],
+                ["/client-results", <ClientResults />],
                 ["/verify", <Verify />],
                 ["*", <NotFound />],
               ].map(([path, element]) => (

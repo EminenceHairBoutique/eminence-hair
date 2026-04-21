@@ -679,6 +679,102 @@ async function main() {
       ogType: "website",
     },
 
+    // Journal hub + individual article pages
+    {
+      pathname: "/journal",
+      title: "Journal — Hair Education, Guides & Founder Stories",
+      description:
+        "Expert guides, founder perspective, and honest education about raw hair, HD lace craftsmanship, density, texture, and luxury hair care.",
+      ogType: "website",
+      changefreq: "weekly",
+      priority: 0.7,
+    },
+    {
+      pathname: "/journal/first-wig-guide",
+      title: "Your First Wig: A No-Pressure Guide — Eminence Journal",
+      description:
+        "Choosing your first wig doesn't have to be overwhelming. A clear, honest guide to texture, length, density, and lace — so your first purchase feels considered.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
+    },
+    {
+      pathname: "/journal/hd-lace-vs-transparent-lace",
+      title: "HD Lace vs Transparent Lace — Eminence Journal",
+      description:
+        "Both give you an undetectable hairline — but they're not interchangeable. A clear guide to choosing the right lace type for your install style.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
+    },
+    {
+      pathname: "/journal/how-to-choose-density-and-length",
+      title: "How to Choose Density and Length — Eminence Journal",
+      description:
+        "Density and length affect how your wig feels every day — not just in photos. A practical guide to finding your sweet spot across everyday and editorial wear.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
+    },
+    {
+      pathname: "/journal/luxury-hair-longevity",
+      title: "The Longevity Guide: How to Make Luxury Hair Last — Eminence Journal",
+      description:
+        "A well-maintained raw hair wig can last years. The care routine that makes the difference — from wash day protocol to heat styling and storage.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
+    },
+    {
+      pathname: "/journal/raw-vs-virgin-hair",
+      title: "Raw Hair vs Virgin Hair: What's the Difference? — Eminence Journal",
+      description:
+        "The terms are used interchangeably — but they're not the same. Understanding the difference can save you hundreds and months of frustration.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
+    },
+    {
+      pathname: "/journal/inside-the-atelier",
+      title: "Inside the Atelier — Eminence Journal",
+      description:
+        "A founder's look at how Eminence pieces are crafted — from raw material selection to the final quality check.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.5,
+    },
+    {
+      pathname: "/journal/hair-loss-shopping-guide",
+      title: "Navigating Hair Loss: What to Know Before You Shop — Eminence Journal",
+      description:
+        "Shopping for hair during a period of hair loss is a deeply personal experience. A clear, pressure-free guide to cap construction, comfort, and HSA/FSA options.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
+    },
+
+    // Professional programs
+    {
+      pathname: "/for-professionals",
+      title: "For Professionals — Stylist, Creator & Installer Programs",
+      description:
+        "Three programs for stylists, content creators, and wig installers. Wholesale pricing, affiliate commission, and client referrals — built around how you actually work.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
+    },
+
+    // Client results / proof gallery
+    {
+      pathname: "/client-results",
+      title: "Results — Real Hair, Real Styling — Eminence Hair",
+      description:
+        "A gallery of Eminence Hair installs, editorial looks, and versatility studies. See how the hair performs across textures, lengths, and occasions.",
+      ogType: "website",
+      changefreq: "monthly",
+      priority: 0.6,
+    },
+
     // Noindex routes (not in sitemap)
     {
       pathname: "/checkout",
