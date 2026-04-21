@@ -62,6 +62,7 @@ const Footer = () => {
             <Link to="/private-consult" className="hover:text-neutral-200 transition block">Book a Consult</Link>
             <Link to="/about" className="hover:text-neutral-200 transition block">About Us</Link>
             <Link to="/medical-hair" className="hover:text-neutral-200 transition block">Medical Hair</Link>
+            <Link to="/client-results" className="hover:text-neutral-200 transition block">Results</Link>
           </div>
 
           <div className="space-y-2">
@@ -117,6 +118,7 @@ const Footer = () => {
               {BRAND.supportEmail}
             </a>
             <Link to="/account" className="hover:text-neutral-200 transition block">My Account</Link>
+            <Link to="/journal" className="hover:text-neutral-200 transition block">Journal</Link>
             <SocialLinks
               variant="icon"
               iconSize={16}
