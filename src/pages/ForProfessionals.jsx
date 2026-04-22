@@ -4,6 +4,7 @@ import { motion as Motion } from "framer-motion";
 import { fadeUp, staggerContainer, staggerChild, viewport } from "../ui/motionPresets";
 import PageTransition from "../components/PageTransition";
 import SEO from "../components/SEO";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 const PROGRAMS = [
   {
@@ -39,6 +40,7 @@ export default function ForProfessionals() {
         title="For Professionals — Partner, Stylist & Creator Programs"
         description="Join Eminence Hair Boutique's professional programs. Wholesale pricing for stylists, affiliate commissions for creators, and client referrals for installers."
       />
+      <Breadcrumbs current="For Professionals" />
       <PageTransition>
         <div className="bg-[#F9F7F4] text-[#1B1B1B]">
           {/* Hero */}

@@ -39,7 +39,7 @@ export default function TrustStrip() {
               <p className="text-[11px] tracking-[0.18em] uppercase font-medium text-neutral-800">
                 {item.label}
               </p>
-              <p className="text-[10px] text-neutral-500">{item.sub}</p>
+              <p className="text-[11px] text-neutral-500">{item.sub}</p>
             </div>
           ))}
         </div>

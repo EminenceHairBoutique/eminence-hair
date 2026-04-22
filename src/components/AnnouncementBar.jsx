@@ -16,11 +16,11 @@ export default function AnnouncementBar() {
   return (
     <div className="w-full bg-[#111] text-[#FBF6EE] border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
-        <p className="text-[10px] uppercase tracking-[0.24em] text-white/80">
+        <p className="text-[11px] uppercase tracking-[0.24em] text-white/80">
           {MICROCOPY.shippingLabel}
         </p>
 
-        <div className="hidden sm:flex items-center gap-3 text-[10px] uppercase tracking-[0.22em]">
+        <div className="hidden sm:flex items-center gap-3 text-[11px] uppercase tracking-[0.22em]">
           {items.map((it, idx) => (
             <React.Fragment key={it.href}>
               <Link
@@ -34,7 +34,7 @@ export default function AnnouncementBar() {
           ))}
         </div>
 
-        <div className="hidden md:block text-[10px] uppercase tracking-[0.22em] text-white/70">
+        <div className="hidden md:block text-[11px] uppercase tracking-[0.22em] text-white/70">
           {MICROCOPY.secureCheckout}
         </div>
       </div>

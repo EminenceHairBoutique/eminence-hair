@@ -4,6 +4,7 @@ import { motion as Motion } from "framer-motion";
 import { fadeUp } from "../ui/motionPresets";
 import PageTransition from "../components/PageTransition";
 import SEO from "../components/SEO";
+import Breadcrumbs from "../components/Breadcrumbs";
 import { journalPosts } from "../data/journal";
 
 export default function JournalPost() {
@@ -19,9 +20,9 @@ export default function JournalPost() {
         description={post.excerpt}
         image={post.heroImage}
       />
+      <Breadcrumbs current={post?.title} />
       <PageTransition>
         <div className="bg-[#F9F7F4] text-[#1B1B1B]">
-          {/* Hero image */}
           <div className="w-full max-h-[50vh] overflow-hidden">
             <img
               src={post.heroImage}
@@ -35,7 +36,7 @@ export default function JournalPost() {
           {/* Article */}
           <article className="max-w-2xl mx-auto px-6 py-16">
             <Motion.div variants={fadeUp} initial="hidden" animate="visible">
-              <p className="text-[10px] tracking-[0.22em] uppercase text-neutral-500 mb-3">
+              <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-500 mb-3">
                 {new Date(post.publishedAt).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",

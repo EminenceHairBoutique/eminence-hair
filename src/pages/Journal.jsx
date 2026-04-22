@@ -4,6 +4,7 @@ import { motion as Motion } from "framer-motion";
 import { fadeUp, staggerContainer, staggerChild, viewport } from "../ui/motionPresets";
 import PageTransition from "../components/PageTransition";
 import SEO from "../components/SEO";
+import Breadcrumbs from "../components/Breadcrumbs";
 import { journalPosts } from "../data/journal";
 
 export default function Journal() {
@@ -13,6 +14,7 @@ export default function Journal() {
         title="Journal — Eminence Hair Boutique"
         description="Expert guides, founder stories, and behind-the-scenes looks at raw Cambodian hair, HD lace craftsmanship, and luxury hair care."
       />
+      <Breadcrumbs current="Journal" />
       <PageTransition>
         <div className="bg-[#F9F7F4] text-[#1B1B1B]">
           {/* Header */}
@@ -54,7 +56,7 @@ export default function Journal() {
                       />
                     </div>
                     <div className="p-6">
-                      <p className="text-[10px] tracking-[0.22em] uppercase text-neutral-500 mb-2">
+                      <p className="text-[11px] tracking-[0.22em] uppercase text-neutral-500 mb-2">
                         {new Date(post.publishedAt).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "long",

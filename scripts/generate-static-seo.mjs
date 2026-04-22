@@ -835,25 +835,34 @@ async function main() {
     await fs.writeFile(outFile, finalHtml, "utf8");
   }
 
-  // robots.txt (override)
-  const robots = [
-    "User-agent: *",
-    "Allow: /",
-    "",
-    "Disallow: /api/",
-    "Disallow: /checkout",
-    "Disallow: /success",
-    "Disallow: /cancel",
-    "Disallow: /account",
-    "Disallow: /cart",
-    "Disallow: /verify",
-    "Disallow: /partner-portal",
-    "Disallow: /partners/portal",
-    "Disallow: /admin/",
-    "",
-    `Sitemap: ${SITE_URL}/sitemap.xml`,
-    "",
-  ].join("\n");
+  // robots.txt — read template from public/robots.txt and append Sitemap: line
+  const publicRobotsPath = path.join(ROOT, "public", "robots.txt");
+  let robotsTemplate;
+  try {
+    robotsTemplate = await fs.readFile(publicRobotsPath, "utf8");
+    // Remove any existing Sitemap: lines from the template to avoid duplicates
+    robotsTemplate = robotsTemplate.replace(/^Sitemap:.*$/gm, "").trimEnd();
+    // Normalize any resulting excess blank lines
+    robotsTemplate = robotsTemplate.replace(/\n{3,}/g, "\n\n");
+  } catch {
+    // Fallback if public/robots.txt is missing
+    robotsTemplate = [
+      "User-agent: *",
+      "Allow: /",
+      "",
+      "Disallow: /api/",
+      "Disallow: /checkout",
+      "Disallow: /success",
+      "Disallow: /cancel",
+      "Disallow: /account",
+      "Disallow: /cart",
+      "Disallow: /verify",
+      "Disallow: /partner-portal",
+      "Disallow: /partners/portal",
+      "Disallow: /admin/",
+    ].join("\n");
+  }
+  const robots = `${robotsTemplate}\n\nSitemap: ${SITE_URL}/sitemap.xml\n`;
 
   await fs.writeFile(path.join(DIST_DIR, "robots.txt"), robots, "utf8");
 

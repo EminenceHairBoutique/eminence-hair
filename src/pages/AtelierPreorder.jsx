@@ -87,18 +87,18 @@ function PreorderCard({ product }) {
           }}
         />
         {/* Pre-Order badge */}
-        <span className="absolute top-4 left-4 rounded-full bg-neutral-900 text-[#F9F7F4] text-[10px] uppercase tracking-[0.22em] px-3 py-1">
+        <span className="absolute top-4 left-4 rounded-full bg-neutral-900 text-[#F9F7F4] text-[11px] uppercase tracking-[0.22em] px-3 py-1">
           Pre-Order
         </span>
         {/* Factory drop-ship badge */}
-        <span className="absolute top-4 right-4 rounded-full bg-white/90 backdrop-blur border border-neutral-200 text-[9px] uppercase tracking-[0.18em] px-2 py-1 flex items-center gap-1 text-neutral-700">
+        <span className="absolute top-4 right-4 rounded-full bg-white/90 backdrop-blur border border-neutral-200 text-[11px] uppercase tracking-[0.18em] px-2 py-1 flex items-center gap-1 text-neutral-700">
           <Truck className="w-3 h-3" />
           Factory Drop-Ship
         </span>
       </div>
 
       <div className="p-5">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
           {TIER_LABELS[product.qualityTier] || product.qualityTier}
           {product.texture ? ` · ${product.texture}` : ""}
         </p>
@@ -174,7 +174,7 @@ export default function AtelierPreorder() {
 
           {/* Non-negotiables notice */}
           <div className="mt-6 max-w-2xl mx-auto rounded-2xl border border-amber-200 bg-amber-50 p-4 text-left text-xs text-amber-900 leading-relaxed">
-            <p className="font-semibold mb-1 uppercase tracking-[0.14em] text-[10px]">
+            <p className="font-semibold mb-1 uppercase tracking-[0.14em] text-[11px]">
               Pre-Order Non-Negotiables
             </p>
             <ul className="list-disc pl-4 space-y-1">
@@ -252,10 +252,10 @@ export default function AtelierPreorder() {
             <table className="w-full text-xs">
               <thead>
                 <tr className="border-b border-neutral-100">
-                  <th className="text-left px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-neutral-500 font-medium">Tier</th>
-                  <th className="text-left px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-neutral-500 font-medium">Draw</th>
-                  <th className="text-left px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-neutral-500 font-medium">Best For</th>
-                  <th className="text-right px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-neutral-500 font-medium">From (16″)</th>
+                  <th className="text-left px-5 py-3 text-[11px] uppercase tracking-[0.18em] text-neutral-500 font-medium">Tier</th>
+                  <th className="text-left px-5 py-3 text-[11px] uppercase tracking-[0.18em] text-neutral-500 font-medium">Draw</th>
+                  <th className="text-left px-5 py-3 text-[11px] uppercase tracking-[0.18em] text-neutral-500 font-medium">Best For</th>
+                  <th className="text-right px-5 py-3 text-[11px] uppercase tracking-[0.18em] text-neutral-500 font-medium">From (16″)</th>
                 </tr>
               </thead>
               <tbody>

@@ -90,7 +90,7 @@ const Home = () => {
           className={`bg-[#F9F7F4] text-[#1B1B1B] ${isOpen ? "blur-sm" : ""} transition`}
         >
           {/* \u2500\u2500 SECTION 1 \u2014 HERO \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
-          <section className="relative h-[80vh] min-h-[520px] w-full overflow-hidden">
+          <section data-chapter="true" className="relative h-[80vh] min-h-[520px] w-full overflow-hidden">
             <video
               ref={videoRef}
               src={heroVideo}
@@ -156,6 +156,7 @@ const Home = () => {
 
           {/* \u2500\u2500 SECTION 2 \u2014 BESTSELLER SHELF \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
           <Motion.section
+            data-chapter="true"
             className="py-16 bg-[#FAF8F5]"
             variants={staggerContainer}
             initial="hidden"
@@ -210,7 +211,7 @@ const Home = () => {
                         to={`/products/${p.slug}`}
                         className="text-[11px] uppercase tracking-[0.22em] underline underline-offset-4 text-neutral-600"
                       >
-                        Shop Now
+                        View
                       </Link>
                     </div>
                   </Motion.div>
@@ -221,6 +222,7 @@ const Home = () => {
 
           {/* \u2500\u2500 SECTION 3 \u2014 AUTHENTICITY RAIL \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
           <Motion.section
+            data-chapter="true"
             className="py-20 bg-[#0B0B0C] text-white"
             variants={staggerContainer}
             initial="hidden"
@@ -272,7 +274,7 @@ const Home = () => {
           </Motion.section>
 
           {/* \u2500\u2500 SECTION 4 \u2014 COLLECTION TRIPTYCH \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
-          <section className="py-16 bg-[#F9F7F4]">
+          <section data-chapter="true" className="py-16 bg-[#F9F7F4]">
             <div className="max-w-6xl mx-auto px-6">
               <div className="relative rounded-3xl overflow-hidden">
                 <img
@@ -312,7 +314,7 @@ const Home = () => {
           </section>
 
           {/* \u2500\u2500 SECTION 5 \u2014 ATELIER PRE-ORDER \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
-          <section className="py-20 bg-[#0B0B0C] text-white">
+          <section data-chapter="true" className="py-20 bg-[#0B0B0C] text-white">
             <div className="max-w-6xl mx-auto px-6">
               <Motion.div
                 variants={fadeUp}
@@ -351,7 +353,7 @@ const Home = () => {
           </section>
 
           {/* \u2500\u2500 SECTION 6 \u2014 EDITORIAL CARD \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
-          <section className="py-16 bg-[#F9F7F4]">
+          <section data-chapter="true" className="py-16 bg-[#F9F7F4]">
             <div className="max-w-6xl mx-auto px-6">
               <Link to="/journal/raw-vs-virgin-hair" className="group block">
                 <div className="relative rounded-3xl overflow-hidden">
@@ -382,7 +384,7 @@ const Home = () => {
           </section>
 
           {/* \u2500\u2500 SECTION 7 \u2014 NEWSLETTER \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 */}
-          <section className="py-20 bg-[#0B0B0C] text-white">
+          <section data-chapter="true" className="py-20 bg-[#0B0B0C] text-white">
             <div className="max-w-xl mx-auto px-6 text-center">
               <Motion.div
                 variants={fadeUp}

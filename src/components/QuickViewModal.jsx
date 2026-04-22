@@ -178,7 +178,7 @@ export default function QuickViewModal({ open, onClose, product }) {
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-black/10">
               <div className="min-w-0">
-                <p className="text-[10px] uppercase tracking-[0.26em] text-neutral-500">
+                <p className="text-[11px] uppercase tracking-[0.26em] text-neutral-500">
                   Quick View
                 </p>
                 <p className="mt-1 text-sm text-neutral-900 truncate">
@@ -246,7 +246,7 @@ export default function QuickViewModal({ open, onClose, product }) {
                     {product.displayName || product.name}
                   </h2>
 
-                  <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                  <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                     <span>{isWig ? "HD Lace Wig" : isBundle ? "Hair Bundle" : isClosure ? "Closure" : "Piece"}</span>
                     {product.texture ? (
                       <>
@@ -345,7 +345,7 @@ export default function QuickViewModal({ open, onClose, product }) {
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                      <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                         Total: <span className="text-neutral-900">{formatMoney(total)}</span>
                       </p>
                       <p className="text-xs text-neutral-600 flex items-center gap-1">

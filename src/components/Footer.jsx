@@ -29,7 +29,7 @@ const Footer = () => {
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-8 text-center text-[12px] tracking-wide">
 
           <div className="space-y-2">
-            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[10px] mb-3">
+            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[11px] mb-3">
               Shop
             </p>
             <Link to="/shop" className="hover:text-neutral-200 transition block">All Products</Link>
@@ -40,7 +40,7 @@ const Footer = () => {
           </div>
 
           <div className="space-y-2">
-            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[10px] mb-3">
+            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[11px] mb-3">
               Collections
             </p>
             <Link to="/collections/fw-2025" className="hover:text-neutral-200 transition block">F/W 2025</Link>
@@ -52,7 +52,7 @@ const Footer = () => {
           </div>
 
           <div className="space-y-2">
-            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[10px] mb-3">
+            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[11px] mb-3">
               Client Services
             </p>
             <Link to="/care" className="hover:text-neutral-200 transition block">Care Guide</Link>
@@ -65,7 +65,7 @@ const Footer = () => {
           </div>
 
           <div className="space-y-2">
-            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[10px] mb-3">
+            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[11px] mb-3">
               For Professionals
             </p>
             <Link to="/for-professionals" className="hover:text-neutral-200 transition block">Overview</Link>
@@ -77,7 +77,7 @@ const Footer = () => {
           </div>
 
           <div className="space-y-2">
-            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[10px] mb-3">
+            <p className="text-neutral-600 tracking-[0.22em] uppercase text-[11px] mb-3">
               Connect
             </p>
             {SOCIAL.instagram && (
@@ -138,7 +138,7 @@ const Footer = () => {
           <p className="text-[11px] tracking-wide text-neutral-500">
             &copy; {new Date().getFullYear()} {BRAND.fullName}. All Rights Reserved.
           </p>
-          <p className="mt-2 text-[10px] text-neutral-600">
+          <p className="mt-2 text-[11px] text-neutral-600">
             Secure checkout powered by Stripe. All transactions encrypted.
           </p>
         </div>

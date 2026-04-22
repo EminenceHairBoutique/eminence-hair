@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { Button } from "./ui/button";
 import { safeSessionGet, safeSessionSet, safeLocalGet, safeLocalSet } from "../utils/storage";
-import { requestOpen, close, MODAL_IDS, MODAL_PRIORITIES, SUPPRESSED_PATHS } from "../utils/modalCoordinator";
+import { requestOpen, close, MODAL_IDS, SUPPRESSED_PATHS } from "../utils/modalCoordinator";
 import useFocusTrap from "../hooks/useFocusTrap";
 
 // SMS-only discount modal (Twilio Verify)
@@ -78,7 +78,7 @@ export default function DiscountModal() {
       timer = setTimeout(() => {
         if (!safeSessionGet("eminence_email_popup_shown")) {
           // Braces: use coordinator
-          if (requestOpen(MODAL_IDS.DISCOUNT, MODAL_PRIORITIES[MODAL_IDS.DISCOUNT])) {
+          if (requestOpen(MODAL_IDS.DISCOUNT)) {
             setOpen(true);
             safeSessionSet("eminence_discount_seen", "true");
             safeLocalSet("eminence_discount_last_shown", String(Date.now()));
@@ -250,6 +250,7 @@ export default function DiscountModal() {
                     value={localNumber}
                     onChange={(e) => setLocalNumber(e.target.value)}
                     className="flex-1 border border-neutral-300 rounded-full px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-black"
+                    aria-label="Phone number"
                   />
                 </div>
 
@@ -288,6 +289,7 @@ export default function DiscountModal() {
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
                   className="w-full border border-neutral-300 rounded-full px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-black"
+                  aria-label="Verification code"
                 />
 
                 <div className="flex gap-3">

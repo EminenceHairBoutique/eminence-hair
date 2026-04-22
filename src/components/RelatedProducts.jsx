@@ -83,7 +83,7 @@ export default function RelatedProducts({ currentProduct }) {
                   />
                 </div>
                 <div className="p-4">
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500 mb-1">
+                  <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500 mb-1">
                     {p.type === "bundle"
                       ? "Bundle"
                       : p.type === "closure"

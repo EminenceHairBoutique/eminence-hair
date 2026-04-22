@@ -32,6 +32,7 @@ import { formatMoney } from "../utils/format";
 import RelatedProducts from "../components/RelatedProducts";
 import RecentlyViewed from "../components/RecentlyViewed";
 import { useRecentlyViewed } from "../hooks/useRecentlyViewed";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 /* ---------------- BNPL config ---------------- */
 const BNPL_MINIMUM = 50; // minimum price to show installment messaging
@@ -376,7 +377,7 @@ function RecommendedGrid({ current }) {
               />
             </div>
             <div className="p-5">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+              <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                 {p.type === "bundle" ? "Bundle" : p.type === "closure" ? "Closure" : "Wig"}
                 {p.texture ? ` • ${p.texture}` : ""}
               </p>
@@ -644,30 +645,12 @@ export default function ProductDetail() {
         image={images?.[0]}
       />
 
+      <Breadcrumbs current={product?.name} />
+
       <div className="pt-28 pb-24 bg-[#FBF6ED]">
         <ProductStructuredData product={product} price={price} />
 
         <div className="max-w-7xl mx-auto px-6">
-          {/* Breadcrumb navigation */}
-          <nav className="mb-4 text-[11px] tracking-[0.12em] text-neutral-500" aria-label="Breadcrumb">
-            <ol className="flex flex-wrap items-center gap-1">
-              <li><Link to="/" className="hover:text-neutral-800 transition">Home</Link></li>
-              <li aria-hidden="true">/</li>
-              <li><Link to="/shop" className="hover:text-neutral-800 transition">Shop</Link></li>
-              {product.collectionSlug && (
-                <>
-                  <li aria-hidden="true">/</li>
-                  <li>
-                    <Link to={`/collections/${product.collectionSlug}`} className="hover:text-neutral-800 transition">
-                      {product.collection}
-                    </Link>
-                  </li>
-                </>
-              )}
-              <li aria-hidden="true">/</li>
-              <li className="text-neutral-800">{product.displayName || product.name}</li>
-            </ol>
-          </nav>
 
           <button
             onClick={() => navigate(-1)}
@@ -795,17 +778,17 @@ export default function ProductDetail() {
                   <div className="mt-3 flex flex-wrap items-center gap-2">
                     {isCustomizable && (
                       <>
-                        <span className="inline-flex items-center rounded-full border border-neutral-200 bg-white px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-neutral-700">
+                        <span className="inline-flex items-center rounded-full border border-neutral-200 bg-white px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-neutral-700">
                           Customizable
                         </span>
-                        <span className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">
+                        <span className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">
                           Atelier support available
                         </span>
                       </>
                     )}
 
                     {product.readyToShip && (
-                      <span className="inline-flex items-center rounded-full border border-neutral-900 bg-neutral-900 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-[#F9F7F4]">
+                      <span className="inline-flex items-center rounded-full border border-neutral-900 bg-neutral-900 px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-[#F9F7F4]">
                         Ready to ship
                       </span>
                     )}
@@ -1110,10 +1093,10 @@ export default function ProductDetail() {
                   {product.isPreorder && (
                     <div className="rounded-2xl border border-[#D4AF37]/30 bg-[#D4AF37]/5 p-4 space-y-2 mb-4">
                       <div className="flex items-center gap-2">
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-[0.2em] bg-[#D4AF37] text-[#111] font-medium">
+                        <span className="px-2.5 py-0.5 rounded-full text-[11px] uppercase tracking-[0.2em] bg-[#D4AF37] text-[#111] font-medium">
                           Pre-Order
                         </span>
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-[0.2em] border border-neutral-300 text-neutral-600">
+                        <span className="px-2.5 py-0.5 rounded-full text-[11px] uppercase tracking-[0.2em] border border-neutral-300 text-neutral-600">
                           Factory Drop-Ship
                         </span>
                       </div>
@@ -1156,12 +1139,12 @@ export default function ProductDetail() {
                   {product.isPreorder && (
                     <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 space-y-3">
                       <div className="flex items-center gap-2">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-neutral-900 text-[#F9F7F4] text-[10px] uppercase tracking-[0.22em] px-3 py-1">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-neutral-900 text-[#F9F7F4] text-[11px] uppercase tracking-[0.22em] px-3 py-1">
                           <Truck className="w-3 h-3" />
                           Factory Drop-Ship
                         </span>
                         {product.qualityTier && (
-                          <span className="inline-flex items-center rounded-full border border-neutral-300 bg-white text-[10px] uppercase tracking-[0.16em] px-3 py-1 text-neutral-700">
+                          <span className="inline-flex items-center rounded-full border border-neutral-300 bg-white text-[11px] uppercase tracking-[0.16em] px-3 py-1 text-neutral-700">
                             {product.qualityTier}
                           </span>
                         )}
@@ -1211,14 +1194,14 @@ export default function ProductDetail() {
                     <button
                       type="button"
                       onClick={() => setPreviewOpen(true)}
-                      className="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/50 hover:bg-white transition"
+                      className="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/50 hover:bg-white transition"
                     >
                       Preview on You (Beta)
                     </button>
 
                     <Link
                       to="/custom-atelier"
-                      className="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-900 hover:bg-neutral-900 hover:text-[#F9F7F4] transition"
+                      className="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-900 hover:bg-neutral-900 hover:text-[#F9F7F4] transition"
                     >
                       Custom Atelier
                     </Link>
@@ -1227,14 +1210,14 @@ export default function ProductDetail() {
                   <div className="flex flex-wrap items-center gap-3">
                     <Link
                       to="/private-consult"
-                      className="inline-block px-6 py-2.5 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-900 hover:bg-neutral-900 hover:text-[#F9F7F4] transition"
+                      className="inline-block px-6 py-2.5 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-900 hover:bg-neutral-900 hover:text-[#F9F7F4] transition"
                     >
                       Private Consult
                     </Link>
 
                     <Link
                       to="/care"
-                      className="inline-block px-6 py-2.5 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/50 hover:bg-white transition"
+                      className="inline-block px-6 py-2.5 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-300 bg-white/50 hover:bg-white transition"
                     >
                       Care Guide
                     </Link>
@@ -1374,7 +1357,7 @@ export default function ProductDetail() {
             <div className="mx-auto max-w-7xl px-4 pb-4">
               <div className="rounded-2xl border bg-white/90 backdrop-blur shadow-[0_18px_40px_rgba(15,10,5,0.22)] p-3 flex items-center gap-3">
                 <div className="min-w-0 flex-1">
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-500">Total</p>
+                  <p className="text-[11px] uppercase tracking-[0.22em] text-neutral-500">Total</p>
                   <p className="text-sm font-medium text-neutral-900 truncate">{formatMoney(total)}</p>
                 </div>
 

@@ -12,6 +12,7 @@ import { resolveProductImages } from "../utils/productMedia";
 import { slugify } from "../utils/strings";
 import { formatMoney } from "../utils/format";
 import { getMinLength, getMinDensity, getStartingPrice, matchesColor } from "../utils/productFiltering";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 const prefetchProduct = () => import("./ProductDetail");
 
@@ -112,7 +113,7 @@ function Chip({ active, children, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className={`px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border transition ${
+      className={`px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border transition ${
         active
           ? "bg-black text-white border-black"
           : "border-neutral-800/30 bg-white/60 hover:bg-white"
@@ -216,7 +217,7 @@ export default function CollectionDetail() {
           itemListElement: [
             { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
             { "@type": "ListItem", position: 2, name: "Collections", item: `${siteUrl}/collections` },
-            { "@type": "ListItem", position: 3, name: header?.title || slug },
+            { "@type": "ListItem", position: 3, name: header?.title || slug, item: canonicalUrl },
           ],
         },
         {
@@ -230,8 +231,8 @@ export default function CollectionDetail() {
             itemListElement: collectionProducts.slice(0, 20).map((p, i) => ({
               "@type": "ListItem",
               position: i + 1,
-              url: `${siteUrl}/products/${p.slug}`,
               name: p.displayName || p.name,
+              item: `${siteUrl}/products/${p.slug}`,
             })),
           },
         },
@@ -351,16 +352,10 @@ export default function CollectionDetail() {
         jsonLd={collectionJsonLd}
       />
 
+      <Breadcrumbs current={header?.title || slug} />
+
       <div className="pt-28 pb-24 bg-[radial-gradient(ellipse_at_top,_#FBF5EC,_#F4EBDF,_#F7F1E7)] text-neutral-900">
         <div className="max-w-7xl mx-auto px-6 space-y-10">
-            {/* Breadcrumb */}
-            <nav className="text-[11px] tracking-[0.22em] uppercase text-neutral-500">
-              <Link to="/" className="hover:text-neutral-900">Home</Link>
-              <span className="mx-2">/</span>
-              <Link to="/collections" className="hover:text-neutral-900">Collections</Link>
-              <span className="mx-2">/</span>
-              <span className="text-neutral-700">{header.title}</span>
-            </nav>
 
             {/* HERO */}
             <section className="grid md:grid-cols-[1.35fr,1fr] gap-8 items-center rounded-3xl border border-white/60 bg-gradient-to-r from-[#F6ECE1] via-[#F9F7F4] to-[#F4EBDF] shadow-[0_22px_50px_rgba(17,12,5,0.20)] px-6 md:px-10 py-8 md:py-10 overflow-hidden">
@@ -474,7 +469,7 @@ export default function CollectionDetail() {
                     <button
                       type="button"
                       onClick={clearFilters}
-                      className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800/30 bg-white/60 hover:bg-white transition inline-flex items-center gap-2"
+                      className="px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-800/30 bg-white/60 hover:bg-white transition inline-flex items-center gap-2"
                       title="Clear filters"
                     >
                       Clear <X className="w-3 h-3" />
@@ -652,7 +647,7 @@ export default function CollectionDetail() {
                               />
 
                               {isWig && (
-                                <span className="absolute top-3 left-3 px-3 py-1 text-[9px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
+                                <span className="absolute top-3 left-3 px-3 py-1 text-[11px] tracking-[0.28em] uppercase rounded-full bg-black/80 text-white">
                                   Wig
                                 </span>
                               )}
@@ -688,7 +683,7 @@ export default function CollectionDetail() {
                                   <button
                                     type="button"
                                     onClick={() => setQuickViewProduct(p)}
-                                    className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-white/70 hover:bg-white"
+                                    className="px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-800 bg-white/70 hover:bg-white"
                                   >
                                     View
                                   </button>
@@ -696,7 +691,7 @@ export default function CollectionDetail() {
                                   {isWig ? (
                                     <Link
                                       to={`/products/${p.slug}`}
-                                      className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
+                                      className="px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
                                     >
                                       Select
                                     </Link>
@@ -712,7 +707,7 @@ export default function CollectionDetail() {
                                         }
                                         addToCart(payload);
                                       }}
-                                      className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
+                                      className="px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.22em] border border-neutral-800 bg-black text-white hover:bg-neutral-900"
                                     >
                                       Add
                                     </button>
